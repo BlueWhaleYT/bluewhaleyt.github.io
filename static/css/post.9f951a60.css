@@ -683,8 +683,46 @@ pre[class*=language-] {
 
 .theme-light pre[class*=language-], .theme-light code[class*=language-] {
     line-height: 1.8 !important;
-    background-color: #fafafa !important;
-    color: #546e7a !important;
+    background-color: #f6f8fa !important;
+    color: #90a4ae !important;
+}
+
+.theme-light .token.punctuation, .theme-light .token.punctuation.attr-equals {
+    color: #39adb5 !important;
+}
+
+.theme-light .token.class-name {
+    color: #f6a434 !important;
+}
+
+.theme-light .token.function {
+    color: #6182b8 !important;
+}
+
+.theme-light .token.string, .theme-light .token.attr-value {
+    color: #91b859 !important;
+}
+
+.theme-light .token.keyword, .theme-light .token.operator, .theme-light .token.attr-name {
+    color: #7c4dff !important;
+    background: transparent !important;
+}
+
+.theme-light .token.annotation.punctuation {
+    color: #39adb5 !important;
+}
+
+.theme-light .token.number, .theme-light .token.boolean, .theme-light .token.variable, .theme-light .token.namespace, .theme-light .token.property, .theme-light .token.constant {
+    color: #f76d47 !important;
+    opacity: 1 !important;
+}
+
+.theme-light .token.atrule, .theme-light .token.tag, .theme-light .token.selector {
+    color: #e53935 !important;
+}
+
+.theme-light .token.comment {
+    color: #AABFC9 !important;
 }
 
 /* Custom: Material Palenight Theme */
@@ -725,7 +763,7 @@ pre[class*=language-] {
     opacity: 1 !important;
 }
 
-.theme-dark .token.atrule, .theme-dark .token.tag {
+.theme-dark .token.atrule, .theme-dark .token.tag, .theme-dark .token.selector {
     color: #ff5370 !important;
 }
 

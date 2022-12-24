@@ -1083,8 +1083,8 @@ video {
     border-radius: 9999px;
     height: .25rem;
     position: absolute;
-    /* bottom: 0; */
-    bottom: -5px;
+    bottom: 0;
+    /* bottom: -5px; */
     width: 6rem;
     content: "";
     background: var(--main-gradient)
@@ -1272,7 +1272,7 @@ video {
     left: 0;
     height: 2px;
     width: 76%;
-    background: linear-gradient(90deg, var(--text-accent), var(--background-secondary) 76.05%)
+    /* background: linear-gradient(90deg, var(--text-accent), var(--background-secondary) 76.05%) */
 }
 
 .post-html .custom-quote:after,
@@ -1283,7 +1283,7 @@ video {
     left: 0;
     height: 2px;
     width: 45%;
-    background: linear-gradient(90deg, var(--text-accent), var(--background-primary) 45%)
+    /* background: linear-gradient(90deg, var(--text-accent), var(--background-primary) 45%) */
 }
 
 .post-html .custom-blockquote-svg,
@@ -1366,13 +1366,15 @@ video {
 }
 
 .post-html .custom-details {
-    border-radius: .75rem;
+    /* border-radius: .75rem; */
     padding: 1rem;
-    background: linear-gradient(135deg, var(--background-primary), var(--background-primary) 41.07%, var(--background-secondary) 76.05%, var(--background-secondary))
+    /* background: linear-gradient(135deg, var(--background-primary), var(--background-primary) 41.07%, var(--background-secondary) 76.05%, var(--background-secondary)) */
+    background: linear-gradient(135deg, var(--background-primary), var(--background-primary) 100%, var(--background-secondary) 100%, var(--background-secondary));
+    border-left: 3px solid var(--custom-quote) !important;
 }
 
 .post-html .custom-details summary {
-    border-radius: .5rem;
+    border-radius: .3rem;
     cursor: pointer;
     transition-property: all;
     transition-timing-function: cubic-bezier(.4, 0, .2, 1);
@@ -1383,12 +1385,20 @@ video {
     -ms-user-select: none;
     user-select: none;
     padding: .5rem 1.2rem;
-    background: linear-gradient(135deg, var(--bg-accent-55), transparent 46.07%);
+    /* background: linear-gradient(135deg, var(--bg-accent-55), transparent 46.07%); */
     opacity: 1
+}
+
+.post-html .custom-details > p {
+    padding-left: 20px;
 }
 
 .post-html .custom-details summary:hover {
     opacity: .6
+}
+
+.post-html .custom-details summary::marker {
+    color: var(--custom-quote);
 }
 
 .post-html strong {
@@ -1571,7 +1581,8 @@ video {
 }
 
 .post-header .post-title {
-    margin-top: .5rem;
+    /* margin-top: .5rem; */
+    margin-top: 2rem;
     margin-bottom: 1rem;
     font-size: clamp(1.2rem, calc(1rem + 3.5vw), 4rem);
     text-shadow: 0 2px 2px rgba(0, 0, 0, .5);
