@@ -3319,7 +3319,7 @@
             t["default"] = c
         },
         "9abb": function (e) {
-            e.exports = JSON.parse('{"menu":{"home":"首页","about":"关于","archives":"归档","categories":"分类","tags":"标签","post":"文章","message-board":"留言板","search":"搜索结果","not-found":"无法找到页面"},"home":{"recommended":"推荐文章"},"titles":{"articles":"文章列表","about":"关于我","category_list":"分类目录","tag_list":"标签目录","toc":"文章目录","comment":"评论区","recent_comment":"最近评论"},"settings":{"months":["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],"articles":"文章","categories":"分类","tags":"标签","words":"文字","visitor_count":"总共访客数","visit_count":"总共访问数","button-all":"全部","paginator":{"newer":"新的","older":"以往","prev":"上一篇更回味","next":"下一篇更精彩"},"more-tags":"查看更多","admin-user":"博主","shared-on":"发布于","recently-search":"最近搜索","search-result":"一共找到 [total] 个结果","no-recent-search":"没有最近搜索记录。","no-search-result":"没有找到任何记录。","cmd-to-select":"查看","cmd-to-navigate":"选择","cmd-to-close":"关闭","searched-by":"搜索引擎","tips-back-to-top":"返回顶部","tips-open-menu":"打开菜单","tips-back-to-home":"返回首页","tips-open-search":"打开搜索","default-category":"文章","default-tag":"未分类","empty-tag":"目前没有标签","pinned":"置顶","featured":"推荐"}}')
+            e.exports = JSON.parse('{"menu":{"home":"首頁","about":"關於我","archives":"歸檔","categories":"類別","tags":"標籤","post":"文章","message-board":"留言板","search":"搜索结果","not-found":"无法找到页面"},"home":{"recommended":"推薦文章"},"titles":{"articles":"文章列表","about":"关于我","category_list":"類別目錄","tag_list":"標籤目錄","toc":"文章目錄","comment":"留言區","recent_comment":"最近留言"},"settings":{"months":["Jan","Feb","Mar","Apr","May","Jan","Jul","Aug","Sep","Oct","Nov","Dec"],"articles":"文章總數","categories":"類別","tags":"標籤","words":"總字數","visitor_count":"总共访客数","visit_count":"总共访问数","button-all":"全部","paginator":{"newer":"較新","older":"較舊","prev":"上一篇更回味","next":"下一篇更精彩"},"more-tags":"查看更多","admin-user":"博主","shared-on":"發佈於","recently-search":"最近搜索","search-result":"一共找到 [total] 个结果","no-recent-search":"没有最近搜索记录。","no-search-result":"没有找到任何记录。","cmd-to-select":"查看","cmd-to-navigate":"选择","cmd-to-close":"关闭","searched-by":"搜索引擎","tips-back-to-top":"返回顶部","tips-open-menu":"打开菜单","tips-back-to-home":"返回首页","tips-open-search":"打开搜索","default-category":"文章","default-tag":"未分類","empty-tag":"目前没有标签","pinned":"置顶","featured":"推荐"}}')
         },
         "9e57": function (e, t, n) {},
         a3ed: function (e, t, n) {
@@ -3482,7 +3482,7 @@
                             name: "Home",
                             path: "/",
                             i18n: {
-                                cn: "首页",
+                                cn: "首頁",
                                 en: "Home"
                             }
                         })
@@ -3492,7 +3492,7 @@
                                 name: "About",
                                 path: "/about",
                                 i18n: {
-                                    cn: "关于",
+                                    cn: "關於我",
                                     en: "About"
                                 }
                             },
@@ -3500,7 +3500,7 @@
                                 name: "Archives",
                                 path: "/archives",
                                 i18n: {
-                                    cn: "归档",
+                                    cn: "歸檔",
                                     en: "Archives"
                                 }
                             },
@@ -3508,7 +3508,7 @@
                                 name: "Tags",
                                 path: "/tags",
                                 i18n: {
-                                    cn: "标签",
+                                    cn: "標籤",
                                     en: "Tags"
                                 }
                             }
@@ -4033,7 +4033,7 @@
                     key: 1
                 },
                 N = Object(a["i"])("English"),
-                P = Object(a["i"])("中文"),
+                P = Object(a["i"])("繁體中文（台灣）"),
                 z = {
                     "no-hover-effect": "",
                     class: "ob-drop-shadow",
@@ -4068,7 +4068,7 @@
                     default: D((function () {
                         return [Object(a["j"])("span", I, [Object(a["j"])(c, {
                             "icon-class": "globe"
-                        }), "cn" == e.$i18n.locale ? (Object(a["A"])(), Object(a["g"])("span", E, "中文")) : Object(a["h"])("", !0), "en" == e.$i18n.locale ? (Object(a["A"])(), Object(a["g"])("span", R, "EN")) : Object(a["h"])("", !0)]), Object(a["j"])(l, null, {
+                        }), "cn" == e.$i18n.locale ? (Object(a["A"])(), Object(a["g"])("span", E, "ZH-TW")) : Object(a["h"])("", !0), "en" == e.$i18n.locale ? (Object(a["A"])(), Object(a["g"])("span", R, "EN")) : Object(a["h"])("", !0)]), Object(a["j"])(l, null, {
                             default: D((function () {
                                 return [Object(a["j"])(s, {
                                     name: "en"
@@ -6187,7 +6187,7 @@
                     s = Object(a["I"])("Article");
                 return Object(a["A"])(), Object(a["g"])("div", ua, [Object(a["j"])("div", da, [Object(a["j"])("div", ha, [Object(a["j"])("h2", pa, [Object(a["j"])("p", {
                     style: e.gradientText
-                }, "EDITOR'S SELECTION", 4), Object(a["j"])("span", ba, [Object(a["j"])(c, {
+                }, "HOT!!!", 4), Object(a["j"])("span", ba, [Object(a["j"])(c, {
                     class: "inline-block",
                     "icon-class": "hot"
                 }), Object(a["i"])(" " + Object(a["M"])(e.t("home.recommended")), 1)])])]), Object(a["j"])("span", {
