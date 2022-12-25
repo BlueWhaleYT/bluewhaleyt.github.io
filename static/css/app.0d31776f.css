@@ -62,8 +62,10 @@
     --background-trans: hsla(0, 0%, 100%, 0.15);
     --skeleton-bg: #2e2e2e;
     --skeleton-hl: #363636;
-    --text-bright: #fff;
-    --text-normal: #bebebe;
+    /* --text-bright: #fff; */
+    /* --text-normal: #bebebe; */
+    --text-bright: #c2c7e3;
+    --text-normal: #a6accd;
     --text-accent: #0fb6d6;
     --text-sub-accent: #f4569d;
     --text-dim: #6d6d6d;
@@ -1084,10 +1086,9 @@ video {
     height: .25rem;
     position: absolute;
     bottom: 0;
-    /* bottom: -5px; */
     width: 6rem;
     content: "";
-    background: var(--main-gradient)
+    background: var(--main-gradient);
 }
 
 .post-html h1 {
@@ -1581,8 +1582,7 @@ video {
 }
 
 .post-header .post-title {
-    /* margin-top: .5rem; */
-    margin-top: 2rem;
+    margin-top: .5rem;
     margin-bottom: 1rem;
     font-size: clamp(1.2rem, calc(1rem + 3.5vw), 4rem);
     text-shadow: 0 2px 2px rgba(0, 0, 0, .5);
@@ -4303,4 +4303,93 @@ body {
     to {
         background-position: calc(200px + 100%) 0
     }
+}
+
+.post-html a:not(.headerlink)::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    margin: 0 5px;
+    margin-bottom: -1px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23989b9f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 11L21.2 2.80005'/><path d='M22 6.8V2H17.2'/><path d='M11 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V13'/%3E%3C/svg%3E");
+}
+
+.post-html h1::before {
+    content: 'H1';
+    padding-right: 1px;
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    font-size: 10px;
+    margin-right: 5px;
+    margin-bottom: -10px;
+    vertical-align: bottom;
+}
+.post-html h2::before {
+    content: 'H2';
+    padding-right: 1px;
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    font-size: 10px;
+    margin-right: 5px;
+    margin-bottom: -10px;
+    vertical-align: bottom;
+}
+.post-html h3::before {
+    content: 'H3';
+    padding-right: 1px;
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    font-size: 10px;
+    margin-right: 5px;
+    margin-bottom: -10px;
+    vertical-align: bottom;
+}
+.post-html h4::before {
+    content: 'H4';
+    padding-right: 1px;
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    font-size: 10px;
+    margin-right: 5px;
+    margin-bottom: -10px;
+    vertical-align: bottom;
+}
+.post-html h5::before {
+    content: 'H5';
+    padding-right: 1px;
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    font-size: 10px;
+    margin-right: 5px;
+    margin-bottom: -10px;
+    vertical-align: bottom;
+}
+.post-html h6::before {
+    content: 'H6';
+    padding-right: 1px;
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    font-size: 10px;
+    margin-right: 5px;
+    margin-bottom: -10px;
+    vertical-align: bottom;
 }

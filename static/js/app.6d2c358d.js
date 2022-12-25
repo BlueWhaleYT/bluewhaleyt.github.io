@@ -3319,7 +3319,7 @@
             t["default"] = c
         },
         "9abb": function (e) {
-            e.exports = JSON.parse('{"menu":{"home":"首頁","about":"關於我","archives":"歸檔","categories":"類別","tags":"標籤","post":"文章","message-board":"留言板","search":"搜索结果","not-found":"无法找到页面"},"home":{"recommended":"推薦文章"},"titles":{"articles":"文章列表","about":"关于我","category_list":"類別目錄","tag_list":"標籤目錄","toc":"文章目錄","comment":"留言區","recent_comment":"最近留言"},"settings":{"months":["Jan","Feb","Mar","Apr","May","Jan","Jul","Aug","Sep","Oct","Nov","Dec"],"articles":"文章總數","categories":"類別","tags":"標籤","words":"總字數","visitor_count":"总共访客数","visit_count":"总共访问数","button-all":"全部","paginator":{"newer":"較新","older":"較舊","prev":"上一篇更回味","next":"下一篇更精彩"},"more-tags":"查看更多","admin-user":"博主","shared-on":"發佈於","recently-search":"最近搜索","search-result":"一共找到 [total] 个结果","no-recent-search":"没有最近搜索记录。","no-search-result":"没有找到任何记录。","cmd-to-select":"查看","cmd-to-navigate":"选择","cmd-to-close":"关闭","searched-by":"搜索引擎","tips-back-to-top":"返回顶部","tips-open-menu":"打开菜单","tips-back-to-home":"返回首页","tips-open-search":"打开搜索","default-category":"文章","default-tag":"未分類","empty-tag":"目前没有标签","pinned":"置顶","featured":"推荐"}}')
+            e.exports = JSON.parse('{"menu":{"home":"首頁","about":"關於我","archives":"歸檔","categories":"類別","tags":"標籤","post":"文章","message-board":"留言板","search":"搜索结果","not-found":"无法找到页面"},"home":{"recommended":"推薦文章"},"titles":{"articles":"文章列表","about":"关于我","category_list":"類別目錄","tag_list":"標籤目錄","toc":"文章目錄","comment":"留言區","recent_comment":"最近留言"},"settings":{"months":["Jan","Feb","Mar","Apr","May","Jan","Jul","Aug","Sep","Oct","Nov","Dec"],"articles":"文章總數","categories":"類別","tags":"標籤","words":"總字數","visitor_count":"总共访客数","visit_count":"总共访问数","button-all":"全部","paginator":{"newer":"較新","older":"較舊","prev":"上一篇更回味","next":"下一篇更精彩"},"more-tags":"查看更多","admin-user":"博主","shared-on":"發佈於","recently-search":"最近搜索","search-result":"一共找到 [total] 个结果","no-recent-search":"没有最近搜索记录。","no-search-result":"没有找到任何记录。","cmd-to-select":"查看","cmd-to-navigate":"选择","cmd-to-close":"关闭","searched-by":"搜索引擎","tips-back-to-top":"返回顶部","tips-open-menu":"打开菜单","tips-back-to-home":"返回首页","tips-open-search":"打开搜索","default-category":"文章","default-tag":"未分類","empty-tag":"目前没有标签","pinned":"置顶","featured":"推薦"}}')
         },
         "9e57": function (e, t, n) {},
         a3ed: function (e, t, n) {
@@ -4068,7 +4068,7 @@
                     default: D((function () {
                         return [Object(a["j"])("span", I, [Object(a["j"])(c, {
                             "icon-class": "globe"
-                        }), "cn" == e.$i18n.locale ? (Object(a["A"])(), Object(a["g"])("span", E, "ZH-TW")) : Object(a["h"])("", !0), "en" == e.$i18n.locale ? (Object(a["A"])(), Object(a["g"])("span", R, "EN")) : Object(a["h"])("", !0)]), Object(a["j"])(l, null, {
+                        }), "cn" == e.$i18n.locale ? (Object(a["A"])(), Object(a["g"])("span", E, "TW")) : Object(a["h"])("", !0), "en" == e.$i18n.locale ? (Object(a["A"])(), Object(a["g"])("span", R, "EN")) : Object(a["h"])("", !0)]), Object(a["j"])(l, null, {
                             default: D((function () {
                                 return [Object(a["j"])(s, {
                                     name: "en"
@@ -5067,7 +5067,7 @@
                     id: "footer",
                     class: "relative w-full pt-1",
                     style: e.gradientBackground
-                }, [Object(a["j"])("span", kt, [Object(a["j"])("div", wt, [Object(a["j"])("div", yt, [Object(a["j"])("ul", Mt, [Object(a["j"])("li", null, [Object(a["i"])(" Copyright © 2019 - " + Object(a["M"])(e.currentYear) + " ", 1), Object(a["j"])("b", xt, Object(a["M"])(e.themeConfig.site.author), 1), Ft]), Object(a["j"])("li", null, [Bt, Lt, Zt, Object(a["j"])("a", At, [Object(a["j"])("b", Ht, " Aurora v" + Object(a["M"])(e.themeConfig.version), 1)]), _t]), "" !== e.themeConfig.site.beian.number || "" !== e.themeConfig.site.police_beian.number ? (Object(a["A"])(), Object(a["g"])("li", Tt, ["" !== e.themeConfig.site.police_beian.number ? (Object(a["A"])(), Object(a["g"])("span", Vt, [Object(a["j"])("img", {
+                }, [Object(a["j"])("span", kt, [Object(a["j"])("div", wt, [Object(a["j"])("div", yt, [Object(a["j"])("ul", Mt, [Object(a["j"])("li", null, [Object(a["i"])(" Copyright ©" + Object(a["M"])(e.currentYear) + " ", 1), Object(a["j"])("b", xt, Object(a["M"])(e.themeConfig.site.author), 1), Ft]), Object(a["j"])("li", null, [Bt, Lt, Zt, Object(a["j"])("a", At, [Object(a["j"])("b", Ht, " Aurora v" + Object(a["M"])(e.themeConfig.version), 1)]), _t]), "" !== e.themeConfig.site.beian.number || "" !== e.themeConfig.site.police_beian.number ? (Object(a["A"])(), Object(a["g"])("li", Tt, ["" !== e.themeConfig.site.police_beian.number ? (Object(a["A"])(), Object(a["g"])("span", Vt, [Object(a["j"])("img", {
                     class: "inline-block",
                     src: n("54e7"),
                     alt: "",
@@ -6187,7 +6187,7 @@
                     s = Object(a["I"])("Article");
                 return Object(a["A"])(), Object(a["g"])("div", ua, [Object(a["j"])("div", da, [Object(a["j"])("div", ha, [Object(a["j"])("h2", pa, [Object(a["j"])("p", {
                     style: e.gradientText
-                }, "HOT!!!", 4), Object(a["j"])("span", ba, [Object(a["j"])(c, {
+                }, "EDITOR'S SELECTION", 4), Object(a["j"])("span", ba, [Object(a["j"])(c, {
                     class: "inline-block",
                     "icon-class": "hot"
                 }), Object(a["i"])(" " + Object(a["M"])(e.t("home.recommended")), 1)])])]), Object(a["j"])("span", {

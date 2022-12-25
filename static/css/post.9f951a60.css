@@ -275,7 +275,7 @@ pre::-webkit-scrollbar-track {
 pre::-webkit-scrollbar-thumb {
     background-color: var(--selection);
     border-radius: .5em;
-    box-shadow: inset 2px 2px 2px hsl(0deg 0% 100%/25%), inset -2px -2px 2px rgb(0 0 0/25%)
+    /* box-shadow: inset 2px 2px 2px hsl(0deg 0% 100%/25%), inset -2px -2px 2px rgb(0 0 0/25%) */
 }
 
 code[class*=language-]::-moz-selection,
@@ -306,15 +306,16 @@ pre.line-numbers>code {
 }
 
 .line-numbers .line-numbers-rows {
-    display: none;
+    /* display: none; */
     position: absolute;
     pointer-events: none;
     top: 0;
-    font-size: 100%;
+    /* font-size: 100%; */
     left: -3.8em;
     width: 3em;
     letter-spacing: -1px;
-    border-right: 1px solid #999;
+    /* border-right: 1px solid #999; */
+    border: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -324,7 +325,8 @@ pre.line-numbers>code {
 .line-numbers-rows>span {
     pointer-events: none;
     display: block;
-    counter-increment: linenumber
+    counter-increment: linenumber;
+    /* line-height: 1.8; */
 }
 
 .line-numbers-rows>span:before {
@@ -371,7 +373,7 @@ div.code-toolbar>.toolbar button {
     padding: 0;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none
+    -ms-user-select: none;
 }
 
 div.code-toolbar>.toolbar a,
@@ -381,7 +383,8 @@ div.code-toolbar>.toolbar span {
     font-size: .8em;
     padding: .5em;
     background: var(--comment);
-    border-radius: .5em
+    border-radius: .5em;
+    text-transform: uppercase;
 }
 
 div.code-toolbar>.toolbar a:focus,
@@ -392,8 +395,8 @@ div.code-toolbar>.toolbar span:focus,
 div.code-toolbar>.toolbar span:hover {
     color: #fff;
     text-decoration: none;
-    opacity: .5;
-    background-color: var(--purple)
+    /* opacity: .5; */
+    background-color: var(--text-sub-accent);
 }
 
 @media print {
@@ -651,7 +654,7 @@ pre[class*=language-] {
 }
 
 .highlight-line:empty:before {
-    content: " "
+    content: ""
 }
 
 .highlight-line:not(:last-child) {
@@ -685,6 +688,14 @@ pre[class*=language-] {
     line-height: 1.8 !important;
     background-color: #f6f8fa !important;
     color: #90a4ae !important;
+}
+
+.theme-light .line-numbers-rows > span:before {
+    color: #94a7b0 !important;
+}
+
+.theme-light pre::-webkit-scrollbar-thumb {
+    background: #e7e7e8 !important;
 }
 
 .theme-light .token.punctuation, .theme-light .token.punctuation.attr-equals {
@@ -731,6 +742,10 @@ pre[class*=language-] {
     line-height: 1.8 !important;
     background-color: #292d3e !important;
     color: #a6accd !important;
+}
+
+.theme-dark .line-numbers-rows > span:before {
+    color: #676e95 !important;
 }
 
 .theme-dark .token.punctuation, .theme-dark .token.punctuation.attr-equals {
