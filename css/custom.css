@@ -14,7 +14,7 @@ pre::before {
     position: relative;
     border-radius: 8px !important;
     /* box-shadow: 5px -5px 20px 5px rgba(0, 0, 0, 0.2); */
-    margin-top: 40px !important;
+    margin-top: 60px !important;
     margin: 30px 0px;
 }
 
@@ -24,7 +24,7 @@ pre::before {
     border-radius: 8px 8px 0 0;
     height: 25px;
     line-height: 30px;
-    background: var(--background-primary);
+    background: var(--background-primary-alt);
     font-size: 16px;
     position: absolute;
     top: -20px;
