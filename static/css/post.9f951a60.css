@@ -133,24 +133,35 @@
 }
 
 #gitalk-container .gt-container .gt-btn-preview {
-    background: var(--background-secondary);
+    background: var(--background-primary);
     color: var(--text-bright);
     opacity: .7
+}
+
+.gt-container .gt-header {
+    overflow: auto;
 }
 
 #gitalk-container .gt-container .gt-header-controls-tip {
     color: var(--text-bright);
     opacity: .7;
-    transition: var(--trans-ease)
+    transition: var(--trans-ease);
+    float: right;
 }
 
 #gitalk-container .gt-container .gt-header-controls-tip:hover {
     opacity: .5
 }
 
+.gt-container .gt-header-controls .gt-btn {
+    float: left;
+    margin-left: 0 !important;
+    margin-right: 10px;
+}
+
 #gitalk-container .gt-container .gt-header-preview {
     background: var(--background-primary);
-    color: var(--text-normal)
+    color: var(--text-normal);
 }
 
 #gitalk-container .gt-container .gt-svg svg {
