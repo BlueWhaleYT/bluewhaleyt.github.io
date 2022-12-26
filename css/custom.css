@@ -1,14 +1,21 @@
+@import url(https://db.onlinewebfonts.com/c/63467b9cbd4a4d7eafb5e64946ecaa18?family=Maison+Neue);
+
 #loading-bar-wrapper #nprogress .bar {
     background: linear-gradient(130deg, #84d1f5, #0ca0fc 41.07%, #3e7bf7 76.05%) !important;
 }
 
 /* ==== [MAC WINDOW] ==== */
+code {
+    font-family: "Maison Neue","SFMono-Regular",monospace !important;
+}
+
 pre {
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
     width: 100% !important;
+    font-family: "Maison Neue","SFMono-Regular",monospace !important;
 }
 
 pre::before {
@@ -19,7 +26,6 @@ pre::before {
 .code-toolbar {
     position: relative;
     border-radius: 8px !important;
-    /* box-shadow: 5px -5px 20px 5px rgba(0, 0, 0, 0.2); */
     margin-top: 60px !important;
     margin: 30px 0px;
 }
@@ -28,11 +34,10 @@ pre::before {
     color: rgb(197, 197, 197);
     content: '';
     border-radius: 8px 8px 0 0;
-    height: 25px;
     line-height: 30px;
+    height: 40px;
     background: var(--background-primary);
     font-size: 16px;
-    position: absolute;
     top: -20px;
     left: 0;
     width: 100%;
@@ -49,14 +54,37 @@ pre::before {
     -webkit-border-radius: 50%;
     border-radius: 50%;
     background: #fc625d;
-    width: 11px;
-    height: 11px;
-    top: -17px;
-    left: 10px;
+    width: 12px;
+    height: 12px;
+    top: 13px;
+    left: 20px;
     margin-top: 2px;
     -webkit-box-shadow: 20px 0px #fdbc40, 40px 0px #35cd4b;
     box-shadow: 20px 0px #fdbc40, 40px 0px #35cd4b;
-    z-index: 3;
+}
+
+.code-toolbar .caption {
+    margin-bottom: 20px;
+    margin-left: -50px;
+}
+
+.code-toolbar .caption span {
+    background: var(--background-primary);
+    border-radius: 8px;
+    padding: 10px 20px;
+}
+
+/* ==== [LINE NUMBERS] ==== */
+
+.line-numbers .line-numbers-rows {
+    /* background: var(--background-primary); */
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.line-numbers-rows, .line-numbers-rows > span {
+    all: initial;
+    font-family: "Maison Neue","SFMono-Regular",monospace !important;
+    line-height: 1.49;
 }
 
 /* ==== [THEME CUSTOMIZATION] ==== */
@@ -83,7 +111,7 @@ pre::before {
 }
 
 .theme-light pre[class*=language-], .theme-light code[class*=language-], .theme-light #gitalk-container .gt-container pre {
-    line-height: 1.8 !important;
+    /* line-height: 1.8 !important; */
     background-color: #f6f8fa !important;
     color: #90a4ae !important;
 }
@@ -121,11 +149,11 @@ pre::before {
     background: transparent !important;
 }
 
-.theme-light .token.annotation.punctuation {
+.theme-light .token.annotation.punctuation, .theme-light .token.property{
     color: #39adb5 !important;
 }
 
-.theme-light .token.number, .theme-light .token.boolean, .theme-light .token.variable, .theme-light .token.namespace, .theme-light .token.property, .theme-light .token.constant,
+.theme-light .token.number, .theme-light .token.boolean, .theme-light .token.variable, .theme-light .token.namespace, .theme-light .token.constant,
 .theme-light .pl-c1 {
     color: #f76d47 !important;
     opacity: 1 !important;
@@ -159,7 +187,7 @@ pre::before {
 }
 
 .theme-dark pre[class*=language-], .theme-dark code[class*=language-], .theme-dark #gitalk-container .gt-container pre {
-    line-height: 1.8 !important;
+    /* line-height: 1.8 !important; */
     background-color: #292d3e !important;
     color: #a6accd !important;
 }
@@ -193,11 +221,11 @@ pre::before {
     background: transparent !important;
 }
 
-.theme-dark .token.annotation.punctuation {
+.theme-dark .token.annotation.punctuation, .theme-dark .token.property {
     color: #80cbc4 !important;
 }
 
-.theme-dark .token.number, .theme-dark .token.boolean, .theme-dark .token.variable, .theme-dark .token.namespace, .theme-dark .token.property, .theme-dark .token.constant,
+.theme-dark .token.number, .theme-dark .token.boolean, .theme-dark .token.variable, .theme-dark .token.namespace, .theme-dark .token.constant,
 .theme-dark .pl-c1 {
     color: #f78c6c !important;
     opacity: 1 !important;
