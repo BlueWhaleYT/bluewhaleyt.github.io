@@ -1,8 +1,11 @@
+/* ==== [MAC WINDOW] ==== */
+
 pre {
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
+    width: 100% !important;
 }
 
 pre::before {
@@ -24,7 +27,7 @@ pre::before {
     border-radius: 8px 8px 0 0;
     height: 25px;
     line-height: 30px;
-    background: var(--background-primary-alt);
+    background: var(--background-primary);
     font-size: 16px;
     position: absolute;
     top: -20px;
@@ -51,4 +54,145 @@ pre::before {
     -webkit-box-shadow: 20px 0px #fdbc40, 40px 0px #35cd4b;
     box-shadow: 20px 0px #fdbc40, 40px 0px #35cd4b;
     z-index: 3;
+}
+
+/* ==== [THEME CUSTOMIZATION] ==== */
+/* Custom: Light Theme */
+
+.theme-light .post-html a {
+    color: #3e7bf7 !important;
+    -webkit-text-fill-color: initial !important;
+    background: transparent !important;
+}
+
+.theme-light .post-html a:not(.headerlink)::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    margin: 0 5px;
+    margin-bottom: -1px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aabfc9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 11L21.2 2.80005'/><path d='M22 6.8V2H17.2'/><path d='M11 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V13'/%3E%3C/svg%3E");
+}
+
+.theme-light .post-html code {
+    background: rgba(13, 185, 215, 0.05) !important;
+}
+
+.theme-light pre[class*=language-], .theme-light code[class*=language-] {
+    line-height: 1.8 !important;
+    background-color: #f6f8fa !important;
+    color: #90a4ae !important;
+}
+
+.theme-light .line-numbers-rows > span:before {
+    color: #94a7b0 !important;
+}
+
+.theme-light pre::-webkit-scrollbar-thumb {
+    background: #e7e7e8 !important;
+}
+
+.theme-light .token.punctuation, .theme-light .token.punctuation.attr-equals {
+    color: #39adb5 !important;
+}
+
+.theme-light .token.class-name {
+    color: #f6a434 !important;
+}
+
+.theme-light .token.function {
+    color: #6182b8 !important;
+}
+
+.theme-light .token.string, .theme-light .token.attr-value {
+    color: #91b859 !important;
+}
+
+.theme-light .token.keyword, .theme-light .token.operator, .theme-light .token.attr-name {
+    color: #7c4dff !important;
+    background: transparent !important;
+}
+
+.theme-light .token.annotation.punctuation {
+    color: #39adb5 !important;
+}
+
+.theme-light .token.number, .theme-light .token.boolean, .theme-light .token.variable, .theme-light .token.namespace, .theme-light .token.property, .theme-light .token.constant {
+    color: #f76d47 !important;
+    opacity: 1 !important;
+}
+
+.theme-light .token.atrule, .theme-light .token.tag, .theme-light .token.selector {
+    color: #e53935 !important;
+}
+
+.theme-light .token.comment {
+    color: #AABFC9 !important;
+}
+
+/* Custom: Dark Theme */
+
+.theme-dark .post-html a {
+    color: #4ba4fd !important;
+    -webkit-text-fill-color: initial !important;
+    background: transparent !important;
+}
+
+.theme-dark .post-html a:not(.headerlink)::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    margin: 0 5px;
+    margin-bottom: -1px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23676e95' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 11L21.2 2.80005'/><path d='M22 6.8V2H17.2'/><path d='M11 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V13'/%3E%3C/svg%3E");
+}
+
+.theme-dark pre[class*=language-], .theme-dark code[class*=language-], .theme-dark #gitalk-container .gt-container pre {
+    line-height: 1.8 !important;
+    background-color: #292d3e !important;
+    color: #a6accd !important;
+}
+
+.theme-dark .line-numbers-rows > span:before {
+    color: #676e95 !important;
+}
+
+.theme-dark .token.punctuation, .theme-dark .token.punctuation.attr-equals {
+    color: #89ddff !important;
+}
+
+.theme-dark .token.class-name {
+    color: #ffcb6b !important;
+}
+
+.theme-dark .token.function {
+    color: #82aaff !important;
+}
+
+.theme-dark .token.string, .theme-dark .token.attr-value {
+    color: #c3e88d !important;
+}
+
+.theme-dark .token.keyword, .theme-dark .token.operator, .theme-dark .token.attr-name {
+    color: #c792ea !important;
+    background: transparent !important;
+}
+
+.theme-dark .token.annotation.punctuation {
+    color: #80cbc4 !important;
+}
+
+.theme-dark .token.number, .theme-dark .token.boolean, .theme-dark .token.variable, .theme-dark .token.namespace, .theme-dark .token.property, .theme-dark .token.constant {
+    color: #f78c6c !important;
+    opacity: 1 !important;
+}
+
+.theme-dark .token.atrule, .theme-dark .token.tag, .theme-dark .token.selector {
+    color: #ff5370 !important;
+}
+
+.theme-dark .token.comment {
+    color: #676e95 !important;
 }
