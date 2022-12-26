@@ -1,5 +1,4 @@
 /* ==== [MAC WINDOW] ==== */
-
 pre {
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
@@ -98,22 +97,22 @@ pre::before {
 }
 
 .theme-light .token.class-name,
-.pl-smi {
+.theme-light .pl-smi {
     color: #f6a434 !important;
 }
 
 .theme-light .token.function,
-.pl-en {
+.theme-light .pl-en {
     color: #6182b8 !important;
 }
 
 .theme-light .token.string, .theme-light .token.attr-value,
-.pl-s {
+.theme-light .pl-s {
     color: #91b859 !important;
 }
 
 .theme-light .token.keyword, .theme-light .token.operator, .theme-light .token.attr-name,
-.pl-k {
+.theme-light .pl-k {
     color: #7c4dff !important;
     background: transparent !important;
 }
@@ -123,7 +122,7 @@ pre::before {
 }
 
 .theme-light .token.number, .theme-light .token.boolean, .theme-light .token.variable, .theme-light .token.namespace, .theme-light .token.property, .theme-light .token.constant,
-.pl-c1 {
+.theme-light .pl-c1 {
     color: #f76d47 !important;
     opacity: 1 !important;
 }
@@ -133,7 +132,7 @@ pre::before {
 }
 
 .theme-light .token.comment,
-.pl-c {
+.theme-light .pl-c {
     color: #AABFC9 !important;
 }
 
@@ -170,22 +169,22 @@ pre::before {
 }
 
 .theme-dark .token.class-name,
-.pl-smi {
+.theme-dark .pl-smi {
     color: #ffcb6b !important;
 }
 
 .theme-dark .token.function,
-.pl-en {
+.theme-dark .pl-en {
     color: #82aaff !important;
 }
 
 .theme-dark .token.string, .theme-dark .token.attr-value,
-.pl-s {
+.theme-dark .pl-s {
     color: #c3e88d !important;
 }
 
 .theme-dark .token.keyword, .theme-dark .token.operator, .theme-dark .token.attr-name,
-.pl-k {
+.theme-dark .pl-k {
     color: #c792ea !important;
     background: transparent !important;
 }
@@ -195,7 +194,7 @@ pre::before {
 }
 
 .theme-dark .token.number, .theme-dark .token.boolean, .theme-dark .token.variable, .theme-dark .token.namespace, .theme-dark .token.property, .theme-dark .token.constant,
-.pl-c1 {
+.theme-dark .pl-c1 {
     color: #f78c6c !important;
     opacity: 1 !important;
 }
@@ -205,6 +204,6 @@ pre::before {
 }
 
 .theme-dark .token.comment,
-.pl-c {
+.theme-dark .pl-c {
     color: #676e95 !important;
 }

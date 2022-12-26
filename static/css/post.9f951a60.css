@@ -241,6 +241,14 @@
     border-left: .25em solid var(--bg-sub-accent-55)
 }
 
+#gitalk-container .gt-container pre {
+    border-radius: 8px !important;
+}
+
+#gitalk-container .gt-container .gt-avatar img {
+    border-radius: 2em !important;
+}
+
 :root {
     --background: #1a1a1a;
     --comment: #6c6d72;
