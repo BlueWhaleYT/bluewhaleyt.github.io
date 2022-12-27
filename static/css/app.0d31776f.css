@@ -227,7 +227,7 @@
     box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent), var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow);
     --tw-text-opacity: 1;
     color: rgba(255, 255, 255, var(--tw-text-opacity));
-    text-shadow: 0 2px 2px rgba(0, 0, 0, .5)
+    /* text-shadow: 0 2px 2px rgba(0, 0, 0, .5) */
 }
 
 .tab li span {
@@ -4149,7 +4149,7 @@ body {
 
 .toc {
     list-style: none;
-    counter-reset: li;
+    /* counter-reset: li; */
     padding-left: 1.5rem
 }
 

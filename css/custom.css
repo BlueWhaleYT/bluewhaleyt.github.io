@@ -50,6 +50,10 @@ pre::before {
     box-shadow: 20px 0px white, 40px 0px white; */
 }
 
+.codepen::before {
+    background: #3d3d3e !important;
+}
+
 .code-toolbar {
     position: relative;
     border-radius: 8px !important;
@@ -151,7 +155,8 @@ pre::before {
     background: #e7e7e8 !important;
 }
 
-.theme-light .token.punctuation, .theme-light .token.punctuation.attr-equals {
+.theme-light .token.punctuation, .theme-light .token.punctuation.attr-equals,
+.theme-light .pl-pds {
     color: #39adb5 !important;
 }
 
@@ -186,7 +191,8 @@ pre::before {
     opacity: 1 !important;
 }
 
-.theme-light .token.atrule, .theme-light .token.tag, .theme-light .token.selector {
+.theme-light .token.atrule, .theme-light .token.tag, .theme-light .token.selector,
+.theme-light .pl-ent {
     color: #e53935 !important;
 }
 
@@ -229,7 +235,8 @@ pre::before {
     color: #676e95 !important;
 }
 
-.theme-dark .token.punctuation, .theme-dark .token.punctuation.attr-equals {
+.theme-dark .token.punctuation, .theme-dark .token.punctuation.attr-equals,
+.theme-dark .pl-pds {
     color: #89ddff !important;
 }
 
@@ -264,7 +271,8 @@ pre::before {
     opacity: 1 !important;
 }
 
-.theme-dark .token.atrule, .theme-dark .token.tag, .theme-dark .token.selector {
+.theme-dark .token.atrule, .theme-dark .token.tag, .theme-dark .token.selector,
+.theme-dark .pl-ent {
     color: #f07178 !important;
 }
 
@@ -290,7 +298,7 @@ pre::before {
     background-color: #50717CB4
 }
 
-/* [IMAGE STYLE] */
+/* ==== [IMAGE STYLE] ==== */
 .post-html img {
     border: var(--background-primary) solid 5px;
     transition: all 0.25s linear;
@@ -303,4 +311,17 @@ pre::before {
 .feature-thumbnail span,
 .article-thumbnail span {
     background: linear-gradient(130deg, rgb(67, 160, 253), rgb(41, 165, 242) 41.07%, rgb(27, 95, 230) 76.05%) !important;
+}
+
+/* ==== [SEARCH] ==== */
+.theme-light #search-modal * {
+    border-color: var(--text-sub-accent) !important;
+}
+.theme-light #search-modal mark {
+    background-color: var(--text-sub-accent) !important;
+    color: white;
+}
+.theme-light #search-modal .search-hit-label,
+.theme-light #search-modal .text-ob {
+    color: var(--text-sub-accent) !important;
 }
