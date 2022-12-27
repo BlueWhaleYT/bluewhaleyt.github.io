@@ -153,7 +153,7 @@
     opacity: .5
 }
 
-.gt-container .gt-header-controls .gt-btn {
+#gitalk-container .gt-container .gt-header-controls .gt-btn {
     float: left;
     margin-left: 0 !important;
     margin-right: 10px;
@@ -307,7 +307,7 @@ code[class*=language-] ::-moz-selection,
 pre[class*=language-]::-moz-selection,
 pre[class*=language-] ::-moz-selection {
     text-shadow: none;
-    background-color: var(--selection)
+    /* background-color: var(--selection) */
 }
 
 code[class*=language-]::selection,
@@ -315,7 +315,7 @@ code[class*=language-] ::selection,
 pre[class*=language-]::selection,
 pre[class*=language-] ::selection {
     text-shadow: none;
-    background-color: var(--selection)
+    /* background-color: var(--selection) */
 }
 
 pre.line-numbers {
@@ -380,7 +380,8 @@ div.code-toolbar:hover>.toolbar {
 div.code-toolbar>.toolbar .toolbar-item {
     display: inline-block;
     padding-top: 10px;
-    padding-right: 20px
+    padding-right: 20px;
+    margin-top: -10px;
 }
 
 div.code-toolbar>.toolbar a {

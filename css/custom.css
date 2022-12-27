@@ -31,10 +31,29 @@ pre::before {
     display: none;
 }
 
+.tip .code-toolbar::before {
+    background: var(--custom-quote-tip);
+}
+.warning .code-toolbar::before {
+    background: var(--custom-quote-warning);
+}
+.danger .code-toolbar::before {
+    background: var(--custom-quote-danger);
+}
+.post-html blockquote .code-toolbar::before {
+    background: var(--text-accent);
+}
+
+.post-html blockquote .code-toolbar::after, .custom-quote .code-toolbar::after {
+    /* background: white;
+    -webkit-box-shadow: 20px 0px white, 40px 0px white;
+    box-shadow: 20px 0px white, 40px 0px white; */
+}
+
 .code-toolbar {
     position: relative;
     border-radius: 8px !important;
-    margin-top: 60px !important;
+    /* margin-top: 60px !important; */
     margin: 30px 0px;
 }
 
@@ -157,11 +176,11 @@ pre::before {
     background: transparent !important;
 }
 
-.theme-light .token.annotation.punctuation, .theme-light .token.property{
+.theme-light .token.annotation.punctuation, .theme-light .language-css .token.property {
     color: #39adb5 !important;
 }
 
-.theme-light .token.number, .theme-light .token.boolean, .theme-light .token.variable, .theme-light .token.namespace, .theme-light .token.constant,
+.theme-light .token.number, .theme-light .token.boolean, .theme-light .token.variable, .theme-light .token.namespace, .theme-light .token.constant, .theme-light .token.property,
 .theme-light .pl-c1 {
     color: #f76d47 !important;
     opacity: 1 !important;
@@ -174,6 +193,7 @@ pre::before {
 .theme-light .token.comment,
 .theme-light .pl-c {
     color: #AABFC9 !important;
+    font-style: italic !important;
 }
 
 /* Custom: Dark Theme */
@@ -192,6 +212,11 @@ pre::before {
     margin: 0 5px;
     margin-bottom: -1px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23676e95' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 11L21.2 2.80005'/><path d='M22 6.8V2H17.2'/><path d='M11 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V13'/%3E%3C/svg%3E");
+}
+
+.theme-dark div.code-toolbar>.toolbar button, .theme-dark div.code-toolbar>.toolbar span {
+    background: #292d3e;
+    color: #a6accd;
 }
 
 .theme-dark pre[class*=language-], .theme-dark code[class*=language-], .theme-dark #gitalk-container .gt-container pre {
@@ -229,21 +254,53 @@ pre::before {
     background: transparent !important;
 }
 
-.theme-dark .token.annotation.punctuation, .theme-dark .token.property {
+.theme-dark .token.annotation.punctuation, .theme-dark .language-css .token.property {
     color: #80cbc4 !important;
 }
 
-.theme-dark .token.number, .theme-dark .token.boolean, .theme-dark .token.variable, .theme-dark .token.namespace, .theme-dark .token.constant,
+.theme-dark .token.number, .theme-dark .token.boolean, .theme-dark .token.variable, .theme-dark .token.namespace, .theme-dark .token.constant, .theme-dark .token.property,
 .theme-dark .pl-c1 {
     color: #f78c6c !important;
     opacity: 1 !important;
 }
 
 .theme-dark .token.atrule, .theme-dark .token.tag, .theme-dark .token.selector {
-    color: #ff5370 !important;
+    color: #f07178 !important;
 }
 
 .theme-dark .token.comment,
 .theme-dark .pl-c {
     color: #676e95 !important;
+    font-style: italic !important;
+}
+
+.theme-dark code[class*=language-]::-moz-selection,
+.theme-dark code[class*=language-] ::-moz-selection,
+.theme-dark pre[class*=language-]::-moz-selection,
+.theme-dark pre[class*=language-] ::-moz-selection {
+    text-shadow: none;
+    background-color: #50717CB4
+}
+
+.theme-dark code[class*=language-]::selection,
+.theme-dark code[class*=language-] ::selection,
+.theme-dark pre[class*=language-]::selection,
+.theme-dark pre[class*=language-] ::selection {
+    text-shadow: none;
+    background-color: #50717CB4
+}
+
+/* [IMAGE STYLE] */
+.post-html img {
+    border: var(--background-primary) solid 5px;
+    transition: all 0.25s linear;
+}
+
+.post-html img:hover {
+    border-width: 2px;
+}
+
+.feature-thumbnail span,
+.article-thumbnail span {
+    background: linear-gradient(130deg, rgb(67, 160, 253), rgb(41, 165, 242) 41.07%, rgb(27, 95, 230) 76.05%) !important;
 }
