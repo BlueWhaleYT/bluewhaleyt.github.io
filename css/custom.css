@@ -253,6 +253,7 @@ pre::before {
 .theme-dark .token.string, .theme-dark .token.attr-value,
 .theme-dark .pl-s {
     color: #c3e88d !important;
+    background: transparent !important;
 }
 
 .theme-dark .token.keyword, .theme-dark .token.operator, .theme-dark .token.attr-name,
@@ -324,4 +325,10 @@ pre::before {
 .theme-light #search-modal .search-hit-label,
 .theme-light #search-modal .text-ob {
     color: var(--text-sub-accent) !important;
+}
+
+.post-html iframe {
+    height: 60vh;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
