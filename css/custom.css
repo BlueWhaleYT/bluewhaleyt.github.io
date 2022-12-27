@@ -31,6 +31,10 @@ pre::before {
     display: none;
 }
 
+pre span {
+    background: transparent !important;
+}
+
 .tip .code-toolbar::before {
     background: var(--custom-quote-tip);
 }
