@@ -35,17 +35,28 @@ pre span {
     background: transparent !important;
 }
 
-.tip .code-toolbar::before {
+.post-html .tip .code-toolbar::before {
     background: var(--custom-quote-tip);
 }
-.warning .code-toolbar::before {
+.post-html .warning .code-toolbar::before {
     background: var(--custom-quote-warning);
 }
-.danger .code-toolbar::before {
+.post-html .danger .code-toolbar::before {
     background: var(--custom-quote-danger);
 }
 .post-html blockquote .code-toolbar::before {
     background: var(--text-accent);
+}
+.post-html .custom-quote .code-toolbar::before,
+.post-html .custom-quote .code-toolbar::after,
+.post-html blockquote .code-toolbar::before,
+.post-html blockquote .code-toolbar::after {
+    display: none;
+}
+
+.post-html .custom-quote pre,
+.post-html blockquote pre {
+    border-radius: 8px !important;
 }
 
 .post-html blockquote .code-toolbar::after, .custom-quote .code-toolbar::after {
@@ -119,10 +130,33 @@ pre span {
 .line-numbers-rows, .line-numbers-rows > span {
     all: initial;
     font-family: "Maison Neue Mono","SFMono-Regular",monospace !important;
-    line-height: 1.49;
+    line-height: 1.5;
 }
 
 /* ==== [THEME CUSTOMIZATION] ==== */
+
+.token.prefix.deleted, .token.prefix.inserted {
+    margin-left: -20px;
+}
+
+.token.deleted .token.line, .token.inserted .token.line {
+    display: block;
+    margin-top: -23px;
+    border-radius: 8px;
+}
+
+.line-highlight {
+    width: 55px !important;
+}
+
+.line-highlight:first-of-type {
+    border-top-right-radius: 8px !important;
+}
+
+.line-highlight:last-of-type {
+    border-bottom-right-radius: 8px !important;
+}
+
 /* Custom: Light Theme */
 
 .theme-light .post-html a {
@@ -189,7 +223,7 @@ pre span {
     color: #39adb5 !important;
 }
 
-.theme-light .token.number, .theme-light .token.boolean, .theme-light .token.variable, .theme-light .token.namespace, .theme-light .token.constant, .theme-light .token.property,
+.theme-light .token.number, .theme-light .token.boolean, .theme-light .token.variable, .theme-light .token.namespace, .theme-light .token.constant, .theme-light .token.property, .theme-light .token.important,
 .theme-light .pl-c1 {
     color: #f76d47 !important;
     opacity: 1 !important;
@@ -204,6 +238,26 @@ pre span {
 .theme-light .pl-c {
     color: #AABFC9 !important;
     font-style: italic !important;
+}
+
+.theme-light .line-highlight {
+    background: #f76d4711 !important;
+    border-left: #f76d47 solid 4px;
+}
+
+.theme-light .token.prefix.deleted {
+    color: #ff475766 !important;
+}
+.theme-light .token.prefix.inserted {
+    color: #2ed57366 !important;
+}
+.theme-light .token.deleted .token.line {
+    background: #ff475711 !important;
+    color: #ff4757 !important;
+}
+.theme-light .token.inserted .token.line {
+    background: #2ed57311 !important;
+    color: #2ed573 !important;
 }
 
 /* Custom: Dark Theme */
@@ -270,7 +324,7 @@ pre span {
     color: #80cbc4 !important;
 }
 
-.theme-dark .token.number, .theme-dark .token.boolean, .theme-dark .token.variable, .theme-dark .token.namespace, .theme-dark .token.constant, .theme-dark .token.property,
+.theme-dark .token.number, .theme-dark .token.boolean, .theme-dark .token.variable, .theme-dark .token.namespace, .theme-dark .token.constant, .theme-dark .token.property, .theme-dark .token.important,
 .theme-dark .pl-c1 {
     color: #f78c6c !important;
     opacity: 1 !important;
@@ -302,6 +356,38 @@ pre span {
     text-shadow: none;
     background-color: #50717CB4
 }
+
+.theme-dark .line-highlight {
+    background: #f78c6c11 !important;
+    border-left: #f78c6c solid 4px;
+}
+
+.theme-dark .token.prefix.deleted {
+    color: #ff475766 !important;
+}
+.theme-dark .token.prefix.inserted {
+    color: #2ed57366 !important;
+}
+.theme-dark .token.deleted .token.line {
+    background: #ff475711 !important;
+    color: #f07178 !important;
+}
+.theme-dark .token.inserted .token.line {
+    background: #2ed57311 !important;
+    color: #c3e88d !important;
+}
+
+/* ==== [FILE TREEVIEW] ==== */
+.token.treeview-part .entry-name:before {
+    font-size: 12px !important;
+}
+/* .theme-dark .token.treeview-part .line-v-last:before {
+    border-color: #f78c6c !important;
+}
+.theme-dark .token.entry-name.dir,
+.theme-dark .token.treeview-part .entry-name:before {
+    color: #f78c6c !important;
+} */
 
 /* ==== [IMAGE STYLE] ==== */
 .post-html img {

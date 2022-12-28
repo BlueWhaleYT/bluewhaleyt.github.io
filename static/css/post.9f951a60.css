@@ -350,7 +350,11 @@ pre.line-numbers>code {
     pointer-events: none;
     display: block;
     counter-increment: linenumber;
-    /* line-height: 1.8; */
+}
+
+/* rigid fix line numbers not align */
+.line-numbers-rows > span:first-child {
+    margin-top: -3.5px;
 }
 
 .line-numbers-rows>span:before {
