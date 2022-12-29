@@ -370,11 +370,11 @@ pre span {
 }
 .theme-dark .token.deleted .token.line {
     background: #ff475711 !important;
-    color: #f07178 !important;
+    color: #ff4757 !important;
 }
 .theme-dark .token.inserted .token.line {
     background: #2ed57311 !important;
-    color: #c3e88d !important;
+    color: #2ed573 !important;
 }
 
 /* ==== [FILE TREEVIEW] ==== */
