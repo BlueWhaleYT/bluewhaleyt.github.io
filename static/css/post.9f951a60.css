@@ -362,7 +362,7 @@ pre.line-numbers>code {
     color: #999;
     display: block;
     padding-right: .8em;
-    text-align: right
+    text-align: right;
 }
 
 div.code-toolbar {
