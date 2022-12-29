@@ -1,3 +1,4 @@
+/* Maison Neue Mono */
 @font-face {
     font-family: "Maison Neue Mono";
     src: url("https://db.onlinewebfonts.com/t/63467b9cbd4a4d7eafb5e64946ecaa18.eot"); /* IE9*/
@@ -8,13 +9,27 @@
     url("https://db.onlinewebfonts.com/t/63467b9cbd4a4d7eafb5e64946ecaa18.svg#Maison Neue") format("svg"); /* iOS 4.1- */
 }
 
+:root {
+    --font: "Microsoft YaHei", indivisible;
+    --code-font: "Maison Neue Mono", monospace;
+}
+
+*:not(code, pre, span) {
+    font-family: var(--font) !important;
+}
+
 #loading-bar-wrapper #nprogress .bar {
     background: linear-gradient(130deg, #84d1f5, #0ca0fc 41.07%, #3e7bf7 76.05%) !important;
 }
 
+.post-title {
+    font-weight: bold !important;
+    font-size: clamp(1.2rem, calc(1rem + 3.5vw), 3.5rem) !important;
+}
+
 /* ==== [MAC WINDOW] ==== */
 code {
-    font-family: "Maison Neue Mono","SFMono-Regular",monospace !important;
+    font-family: var(--code-font) !important;
 }
 
 pre {
@@ -23,7 +38,7 @@ pre {
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
     width: 100% !important;
-    font-family: "Maison Neue Mono","SFMono-Regular",monospace !important;
+    font-family: var(--code-font) !important;
 }
 
 pre::before {
@@ -91,7 +106,6 @@ pre span {
     top: -20px;
     left: 0;
     width: 100%;
-    font-family: 'Source Sans Pro', sans-serif;
     font-weight: bold;
     padding: 0 65px;
     text-indent: 15px;
@@ -119,9 +133,10 @@ pre span {
 }
 
 .code-toolbar .caption span {
-    background: var(--background-primary);
+    background: var(--background-primary) !important;
     border-radius: 8px;
     padding: 10px 20px;
+    font-family: var(--code-font);
 }
 
 /* ==== [LINE NUMBERS] ==== */
@@ -151,6 +166,7 @@ pre span {
 
 .line-highlight {
     /* width: 55px !important; */
+    border-left-width: 4px;
 }
 
 /* .line-highlight:first-of-type {
@@ -246,8 +262,8 @@ pre span {
 }
 
 .theme-light .line-highlight {
-    background: #f76d4711 !important;
-    border-left: #f76d47 solid 3px;
+    background: #7c4dff0a !important;
+    border-color: #7c4dffaa;
 }
 
 .theme-light .token.prefix.deleted {
@@ -368,8 +384,8 @@ pre span {
 }
 
 .theme-dark .line-highlight {
-    background: #f78c6c11 !important;
-    border-left: #f78c6c solid 3px;
+    background: #82aaff0a !important;
+    border-color: #82aaffaa;
 }
 
 .theme-dark .token.prefix.deleted {
