@@ -1366,6 +1366,24 @@ video {
     background: linear-gradient(90deg, transparent, transparent)
 }
 
+.post-html .custom-quote.time .custom-quote-svg {
+    color: var(--custom-quote-danger)
+}
+
+.post-html .custom-quote.time {
+    border-left: 3px solid var(--custom-quote-danger) !important
+}
+
+.post-html .custom-quote.time .custom-quote-title {
+    color: var(--custom-quote-danger)
+}
+
+.post-html .custom-quote.time:after,
+.post-html .custom-quote.time:before {
+    /* background: linear-gradient(90deg, var(--custom-quote-danger), var(--background-primary)) */
+    background: linear-gradient(90deg, transparent, transparent)
+}
+
 .post-html .custom-details {
     /* border-radius: .75rem; */
     padding: 1rem;
