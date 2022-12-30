@@ -14,7 +14,7 @@
     --code-font: "Maison Neue Mono", monospace;
 }
 
-*:not(code, pre, span) {
+*:not(code, pre, span, i) {
     font-family: var(--font) !important;
 }
 
