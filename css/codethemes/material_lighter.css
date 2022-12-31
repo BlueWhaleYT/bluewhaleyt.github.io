@@ -19,6 +19,7 @@
 }
 
 .theme-light .token.class-name,
+.theme-light .token.prolog,
 .theme-light .pl-smi {
     color: var(--ml-yellow) !important;
 }
@@ -37,6 +38,7 @@
 .theme-light .token.keyword,
 .theme-light .token.operator,
 .theme-light .token.attr-name,
+.theme-light .token.name,
 .theme-light .pl-k {
     color: var(--ml-purple) !important;
 }
@@ -61,6 +63,7 @@
 .theme-light .token.atrule,
 .theme-light .token.tag,
 .theme-light .token.selector,
+.theme-light .token.doctype-tag,
 .theme-light .pl-ent {
     color: var(--ml-red) !important;
 }
