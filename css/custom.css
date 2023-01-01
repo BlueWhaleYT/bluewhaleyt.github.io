@@ -629,15 +629,15 @@ blockquote {
     /* background: #a5393511 !important; */
 }
 
-.theme-light .tip * :not(p, pre code) {
+.theme-light .tip * :not(p, li, kbd, span, button, pre code) {
     color: var(--custom-quote-tip) !important;
 }
 
-.theme-light .warning * :not(p, pre code) {
+.theme-light .warning * :not(p, li, kbd, span, button, pre code) {
     color: var(--custom-quote-warning) !important;
 }
 
-.theme-light .danger * :not(p, pre code) {
+.theme-light .danger * :not(p, li, kbd, span, button, pre code) {
     color: var(--custom-quote-danger) !important;
 }
 
@@ -718,6 +718,7 @@ details summary::marker {
     box-shadow: var(--shadow);
     border: none !important;
 }
+
 #gitalk-container .gt-container blockquote {
     background: var(--background-secondary) !important;
     box-shadow: var(--shadow) !important;
@@ -727,17 +728,21 @@ details summary::marker {
     margin-top: 10px !important;
     margin-bottom: 20px !important;
 }
+
 #gitalk-container .gt-container .gt-comment-text,
 #gitalk-container .gt-container .gt-comment-date {
     color: var(--text-faint);
 }
+
 #gitalk-container .gt-container .gt-comment-content a.gt-comment-username {
     font-weight: bold;
     text-decoration: none;
 }
+
 #gitalk-container .gt-container .gt-comment-admin .gt-comment-content a.gt-comment-username {
     color: var(--custom-quote-warning) !important;
 }
+
 #gitalk-container .gt-container .gt-comment-admin .gt-comment-content a.gt-comment-username::before {
     /* content: '網誌作者'; */
     content: '\f0ad';
@@ -746,21 +751,25 @@ details summary::marker {
     font-size: 12px;
     font-weight: 900;
 }
+
 #gitalk-container .gt-container .gt-avatar {
-    border-radius: 100% ;
-    border: var(--text-accent) solid 2px;
+    border-radius: 100%;
+    /* border: var(--text-accent) solid 2px; */
     padding: 2px;
 }
+
 #gitalk-container .gt-container .user-mention,
 #gitalk-container .gt-container .user-mention::before {
     color: var(--text-sub-accent) !important;
 }
+
 #gitalk-container .gt-container .user-mention {
     border-radius: 8px;
     font-weight: bold;
     margin-bottom: 10px !important;
     display: inline-block;
 }
+
 #gitalk-container .gt-container .user-mention::before {
     content: '\f3e5';
     font-family: "Font Awesome 5 Free";
@@ -768,6 +777,7 @@ details summary::marker {
     font-size: 12px;
     font-weight: 900;
 }
+
 #gitalk-container .gt-container .user-mention:hover {
     text-decoration: none !important;
 }
@@ -789,19 +799,70 @@ details summary::marker {
     background: var(--background-primary-alt) !important;
     color: #676e95 !important;
 }
+
 .theme-dark #gitalk-container .gt-container .gt-comment-text,
 .theme-dark #gitalk-container .gt-container .gt-comment-date {
     color: #676e95;
 }
 
 @media (max-width: 64em) {
+
     #gitalk-container .gt-container .gt-avatar,
     #gitalk-container .gt-container .gt-avatar-github,
     #gitalk-container .gt-container .gt-comment-text {
         display: none;
     }
+
     #gitalk-container .gt-container .gt-comment-content,
     #gitalk-container .gt-container .gt-header-comment {
         margin-left: 0px;
     }
+}
+
+/* ==== [ Keyboard Key ] ==== */
+kbd {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    color: gray;
+    font-size: 100%;
+    font-family: monospace, sans-serif !important;
+    vertical-align: baseline;
+    border-color: #e6e6e6 #bebebe #bebebe #e6e6e6;
+    border-style: solid;
+    border-width: 1px 3px 4px;
+    padding: 0 5px;
+    background-color: rgba(210, 210, 210, 0.9);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+kbd.menu {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+    color: #333;
+    display: inline-block;
+    font-family: monospace, sans-serif;
+    font-size: 100%;
+    line-height: 1.4;
+    margin: 0 0.1em;
+    padding: 0.1em 0.6em;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.theme-dark kbd {
+    background: #292d3e !important;
+    border-color: #29282c #2f3139 #29282c #2f3139;
+    color: lightgrey !important;
+}
+
+.theme-dark kbd.menu {
+    border: 1px solid #292d3e;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #000 inset;
+    text-shadow: none !important;
 }
