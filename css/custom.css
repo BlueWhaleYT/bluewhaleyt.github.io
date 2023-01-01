@@ -200,7 +200,8 @@ pre span {
     background: transparent !important;
 }
 
-.theme-light .post-html a:not(.headerlink)::after {
+.theme-light .post-html a:not(.headerlink)::after,
+.theme-light #gitalk-container .gt-container .gt-comment-body a::after {
     content: '';
     width: 14px;
     height: 14px;
@@ -240,7 +241,8 @@ pre span {
     background: transparent !important;
 }
 
-.theme-dark .post-html a:not(.headerlink)::after {
+.theme-dark .post-html a:not(.headerlink)::after,
+.theme-dark #gitalk-container .gt-container .gt-comment-body a::after {
     content: '';
     width: 14px;
     height: 14px;
@@ -289,14 +291,16 @@ pre span {
 
 /* ==== [IMAGE STYLE] ==== */
 .post-html img {
-    border: var(--background-primary) solid 5px;
+    /* border: var(--background-primary) solid 5px; */
     transition: all 0.25s linear;
     display: initial !important;
     width: 100%;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
 }
 
 .post-html img:hover {
-    border-width: 2px;
+    transform: scale(1.01);
 }
 
 .feature-thumbnail span,
@@ -610,19 +614,19 @@ blockquote,
 }
 
 blockquote {
-    background: #6182b81a !important;
+    /* background: #6182b81a !important; */
 }
 
 .tip {
-    background: #7c4dff11 !important;
+    /* background: #7c4dff11 !important; */
 }
 
 .warning {
-    background: #f6a43411 !important;
+    /* background: #f6a43411 !important; */
 }
 
 .danger {
-    background: #a5393511 !important;
+    /* background: #a5393511 !important; */
 }
 
 .theme-light .tip * :not(p, pre code) {
@@ -704,4 +708,100 @@ details summary::marker {
 
 .theme-dark details[open] summary::before {
     color: #5dadff;
+}
+
+/* ==== [ Gitalk ] ==== */
+.theme-light #gitalk-container .gt-container .gt-header-textarea,
+.theme-light #gitalk-container .gt-container .gt-comment-content,
+.theme-light #gitalk-container .gt-container .gt-header-preview {
+    background: var(--background-secondary) !important;
+    box-shadow: var(--shadow);
+    border: none !important;
+}
+#gitalk-container .gt-container blockquote {
+    background: var(--background-secondary) !important;
+    box-shadow: var(--shadow) !important;
+    border-left-color: var(--text-sub-accent) !important;
+    color: var(--text-faint) !important;
+    padding: 20px;
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+}
+#gitalk-container .gt-container .gt-comment-text,
+#gitalk-container .gt-container .gt-comment-date {
+    color: var(--text-faint);
+}
+#gitalk-container .gt-container .gt-comment-content a.gt-comment-username {
+    font-weight: bold;
+    text-decoration: none;
+}
+#gitalk-container .gt-container .gt-comment-admin .gt-comment-content a.gt-comment-username {
+    color: var(--custom-quote-warning) !important;
+}
+#gitalk-container .gt-container .gt-comment-admin .gt-comment-content a.gt-comment-username::before {
+    /* content: '網誌作者'; */
+    content: '\f0ad';
+    font-family: "Font Awesome 5 Free";
+    padding: 5px 5px;
+    font-size: 12px;
+    font-weight: 900;
+}
+#gitalk-container .gt-container .gt-avatar {
+    border-radius: 100% ;
+    border: var(--text-accent) solid 2px;
+    padding: 2px;
+}
+#gitalk-container .gt-container .user-mention,
+#gitalk-container .gt-container .user-mention::before {
+    color: var(--text-sub-accent) !important;
+}
+#gitalk-container .gt-container .user-mention {
+    border-radius: 8px;
+    font-weight: bold;
+    margin-bottom: 10px !important;
+    display: inline-block;
+}
+#gitalk-container .gt-container .user-mention::before {
+    content: '\f3e5';
+    font-family: "Font Awesome 5 Free";
+    padding: 5px 5px;
+    font-size: 12px;
+    font-weight: 900;
+}
+#gitalk-container .gt-container .user-mention:hover {
+    text-decoration: none !important;
+}
+
+
+#gitalk-container .gt-container b,
+#gitalk-container .gt-container strong {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 0 0.1rem;
+    color: #7aa2f7;
+    background-color: #7aa2f7;
+    background-image: var(--strong-gradient);
+}
+
+
+.theme-dark #gitalk-container .gt-container blockquote {
+    background: var(--background-primary-alt) !important;
+    color: #676e95 !important;
+}
+.theme-dark #gitalk-container .gt-container .gt-comment-text,
+.theme-dark #gitalk-container .gt-container .gt-comment-date {
+    color: #676e95;
+}
+
+@media (max-width: 64em) {
+    #gitalk-container .gt-container .gt-avatar,
+    #gitalk-container .gt-container .gt-avatar-github,
+    #gitalk-container .gt-container .gt-comment-text {
+        display: none;
+    }
+    #gitalk-container .gt-container .gt-comment-content,
+    #gitalk-container .gt-container .gt-header-comment {
+        margin-left: 0px;
+    }
 }

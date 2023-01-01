@@ -209,7 +209,7 @@
 }
 
 #gitalk-container .gt-container .gt-comment-admin .gt-comment-content a {
-    color: var(--text-accent)
+    color: var(--text-accent);
 }
 
 #gitalk-container .gt-container .gt-comment-admin .gt-comment-content .gt-comment-body.markdown-body blockquote {
