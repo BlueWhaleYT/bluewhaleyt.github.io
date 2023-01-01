@@ -1,4 +1,4 @@
-/* ==== [CodeTheme: Material Palenight] ==== */
+/* ==== [CodeTheme: Material Palenight] ====
 
 /* Color schemes */
 :root {
@@ -16,7 +16,8 @@
 
 .theme-dark .token.punctuation,
 .theme-dark .token.punctuation.attr-equals,
-.theme-dark .pl-pds {
+.theme-dark .pl-pds,
+.theme-dark .pl-kos {
     color: var(--mp-cyan) !important;
 }
 

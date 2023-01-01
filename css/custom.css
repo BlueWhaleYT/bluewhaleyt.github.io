@@ -19,6 +19,10 @@
     --font: "Microsoft YaHei", indivisible;
     --code-font: "Maison Neue Mono", monospace;
     --shadow: 0 5px 35px rgb(0 0 0 / 3%);
+    --gradient-purple: linear-gradient(62deg, #aa8ff4, #8960fa);
+    --gradient-purple-light: linear-gradient(62deg, #d7a7f7, #c06ef6);
+    --gradient-yellow: linear-gradient(62deg, #f2cd46, #f99e0c);
+    --gradient-red: linear-gradient(62deg, #fb619c, #f04141);
 }
 
 *:not(code, pre, span, i) {
@@ -201,7 +205,7 @@ pre span {
 }
 
 .theme-light .post-html a:not(.headerlink)::after,
-.theme-light #gitalk-container .gt-container .gt-comment-body a::after {
+.theme-light #gitalk-container .gt-container .gt-comment-body a:not(.user-mention):after {
     content: '';
     width: 14px;
     height: 14px;
@@ -242,7 +246,7 @@ pre span {
 }
 
 .theme-dark .post-html a:not(.headerlink)::after,
-.theme-dark #gitalk-container .gt-container .gt-comment-body a::after {
+.theme-dark #gitalk-container .gt-container .gt-comment-body a:not(.user-mention):after {
     content: '';
     width: 14px;
     height: 14px;
@@ -301,6 +305,11 @@ pre span {
 
 .post-html img:hover {
     transform: scale(1.01);
+}
+
+.post-html img.noFW {
+    width: initial !important;
+    display: initial !important;
 }
 
 .feature-thumbnail span,
@@ -629,29 +638,52 @@ blockquote {
     /* background: #a5393511 !important; */
 }
 
-.theme-light .tip * :not(p, li, kbd, span, button, pre code) {
+.theme-light .tip * :not(p, li, kbd, span, button, pre code),
+.theme-dark .tip * :not(p, li, kbd, span, button, pre code) {
     color: var(--custom-quote-tip) !important;
 }
 
-.theme-light .warning * :not(p, li, kbd, span, button, pre code) {
+.theme-light .warning * :not(p, li, kbd, span, button, pre code),
+.theme-dark .warning * :not(p, li, kbd, span, button, pre code) {
     color: var(--custom-quote-warning) !important;
 }
 
-.theme-light .danger * :not(p, li, kbd, span, button, pre code) {
+.theme-light .danger * :not(p, li, kbd, span, button, pre code),
+.theme-dark .danger * :not(p, li, kbd, span, button, pre code) {
     color: var(--custom-quote-danger) !important;
 }
 
-.theme-light .warning strong {
-    background-image: linear-gradient(62deg, #ffcd19, #ffae2b) !important;
+.tip strong,
+.tip .custom-quote-title {
+    background-image: var(--gradient-purple) !important;
 }
 
-.theme-light .danger strong {
-    background-image: linear-gradient(62deg, #ff2377, #f30606) !important;
+.theme-dark .tip strong,
+.theme-dark .tip .custom-quote-title {
+    background-image: var(--gradient-purple-light) !important;
+}
+
+.warning strong,
+.warning .custom-quote-title {
+    background-image: var(--gradient-yellow) !important;
+}
+
+.danger strong,
+.danger .custom-quote-title {
+    background-image: var(--gradient-red) !important;
 }
 
 .theme-dark blockquote,
 .theme-dark .custom-quote {
     background: var(--background-primary) !important;
+}
+
+.custom-quote-title {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    background-size: 400%;
 }
 
 .theme-dark .tabs blockquote,
@@ -817,6 +849,58 @@ details summary::marker {
     #gitalk-container .gt-container .gt-header-comment {
         margin-left: 0px;
     }
+}
+
+#gitalk-container .gt-container hr {
+    position: relative !important;
+    -webkit-margin-before: 0 !important;
+    margin-block-start: 0 !important;
+    -webkit-margin-after: 0 !important;
+    margin-block-end: 0 !important;
+    border: none !important;
+    height: 1px !important;
+    padding: 2.5em 0 !important;
+    background: transparent !important;
+}
+#gitalk-container .gt-container hr:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--main-gradient);
+    height: 3px;
+    width: 26%;
+    border-radius: 9999px;
+    opacity: .26;
+    margin: 2.5em auto;
+}
+#gitalk-container .gt-container hr:before {
+    content: "§" !important;
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -44%) rotate(60deg);
+    transform-origin: 50% 50%;
+    padding: 0.25rem;
+    color: var(--text-sub-accent);
+    background-color: var(--background-secondary);
+    z-index: 10;
+    border-radius: 60%;
+}
+#gitalk-container .gt-container h1, 
+#gitalk-container .gt-container h2,
+#gitalk-container .gt-container h3,
+#gitalk-container .gt-container h4,
+#gitalk-container .gt-container h5,
+#gitalk-container .gt-container h6 {
+    border: none !important;
+}
+#gitalk-container .gt-container #comments .theme-light hr::before {
+    background-color: var(--background-primary) !important;
+}
+#gitalk-container .gt-container pre {
+    font-size: 16px;
 }
 
 /* ==== [ Keyboard Key ] ==== */
