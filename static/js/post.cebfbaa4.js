@@ -382,6 +382,7 @@
                                                 id: o,
                                                 language: l.themeConfig.plugins.gitalk.language,
                                                 distractionFreeMode: !0,
+                                                pagerDirection: 'first',
                                                 title: i,
                                                 body: n,
                                                 proxy: s

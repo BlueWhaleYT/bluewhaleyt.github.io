@@ -3644,8 +3644,7 @@
                             language: "en",
                             distractionFreeMode: !1,
                             recentComment: !1,
-                            proxy: "",
-                            pagerDirection: "first"
+                            proxy: ""
                         }, this.valine = {
                             enable: !1,
                             app_id: "",
