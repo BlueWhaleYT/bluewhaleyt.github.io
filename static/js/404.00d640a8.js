@@ -22,9 +22,9 @@
                     class: "inner-content"
                 }, [Object(s["j"])("h1", {
                     class: "heading"
-                }, "404"), Object(s["j"])("p", {
+                }, "404 "), Object(s["j"])("p", {
                     class: "subheading"
-                }, " Looks like the page you were looking for is no longer here. ")])]), Object(s["j"])("div", {
+                }, "真巧，竟然在這裡遇到你！很抱歉，你目前存取的頁面並不存在。預計將在約 5 秒後返回首頁。")])]), Object(s["j"])("div", {
                     class: "right-section"
                 }, [Object(s["j"])("svg", {
                     class: "svgimg",
@@ -116,3 +116,17 @@
         }
     }
 ]);
+
+let countTime = 5;
+
+function count() {
+    countTime -= 1;
+    if (countTime === 0) {
+        location.href = 'https://bluewhaleyt.github.io';
+    }
+    setTimeout(() => {
+        count();
+    }, 1000);
+}
+
+count();
