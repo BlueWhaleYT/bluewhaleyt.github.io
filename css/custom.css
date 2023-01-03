@@ -948,50 +948,48 @@ details summary::marker {
 
 /* ==== [ Keyboard Key ] ==== */
 kbd {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    color: gray;
-    font-size: 100%;
-    font-family: monospace, sans-serif !important;
-    vertical-align: baseline;
-    border-color: #e6e6e6 #bebebe #bebebe #e6e6e6;
-    border-style: solid;
-    border-width: 1px 3px 4px;
-    padding: 0 5px;
-    background-color: rgba(210, 210, 210, 0.9);
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+    border-radius: 0.125rem;
+    align-items: center;
+    justify-content: center;
+    background: var(--search-modal-key-gradient);
+    box-shadow: var(--search-modal-key-shadow);
+    margin-left: 0.4em;
+    margin-right: 0.4em;
+    height: 18px;
+    width: 20px;
+    padding: 5px 10px;
     white-space: nowrap;
+    line-height: 2.5 !important;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 kbd.menu {
-    background-color: #f7f7f7;
+    background: #f7f7f7 !important;
     border: 1px solid #ccc;
     border-radius: 3px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
     color: #333;
-    display: inline-block;
-    font-family: monospace, sans-serif;
+    /* display: inline-block; */
+    font-weight: initial;
     font-size: 100%;
     line-height: 1.4;
-    margin: 0 0.1em;
+    margin-left: 0.4em;
+    margin-right: 0.4em;
     padding: 0.1em 0.6em;
     text-shadow: 0 1px 0 #fff;
 }
 
 .theme-dark kbd {
-    background: #292d3e !important;
-    border-color: #29282c #2f3139 #29282c #2f3139;
-    color: lightgrey !important;
+    color: rgb(219, 212, 212) !important;
 }
 
 .theme-dark kbd.menu {
-    border: 1px solid #292d3e;
+    border: 1px solid #3f3f3e !important;
+    background: var(--search-modal-key-gradient) !important;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #000 inset;
     text-shadow: none !important;
+    color: #a6accd !important;
 }
 
 /* ==== [ Useful Links ] ==== */
