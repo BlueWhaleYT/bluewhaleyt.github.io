@@ -15,8 +15,24 @@
     /* iOS 4.1- */
 }
 
+/* Neo Sans */
+@font-face {
+    font-family: "Neo Sans";
+    src: url("//db.onlinewebfonts.com/t/d1f2099a25acf9dd1d557c498cda679e.eot");
+    src: url("//db.onlinewebfonts.com/t/d1f2099a25acf9dd1d557c498cda679e.eot?#iefix") format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/d1f2099a25acf9dd1d557c498cda679e.woff2") format("woff2"),
+    url("//db.onlinewebfonts.com/t/d1f2099a25acf9dd1d557c498cda679e.woff") format("woff"),
+    url("//db.onlinewebfonts.com/t/d1f2099a25acf9dd1d557c498cda679e.ttf") format("truetype"),
+    url("//db.onlinewebfonts.com/t/d1f2099a25acf9dd1d557c498cda679e.svg#Neo Sans Std") format("svg");
+}
+
+/* Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+
 :root {
-    --font: "Microsoft YaHei", indivisible;
+    /* --content-font: "Microsoft YaHei", indivisible; */
+    --title-font: "Neo Sans", "Helvetica", sans-serif;
+    --content-font: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
     --code-font: "Maison Neue Mono", monospace;
     --shadow: 0 5px 35px rgb(0 0 0 / 3%);
     --gradient-purple: linear-gradient(62deg, #aa8ff4, #8960fa);
@@ -25,8 +41,12 @@
     --gradient-red: linear-gradient(62deg, #fb619c, #f04141);
 }
 
-*:not(code, pre, span, i) {
-    font-family: var(--font) !important;
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--title-font) !important;
+}
+
+*:not(code, pre, span, i, h1, h2, h3, h4, h5, h6) {
+    font-family: var(--content-font) !important;
 }
 
 #loading-bar-wrapper #nprogress .bar {
@@ -164,7 +184,7 @@ pre span {
 .line-numbers-rows,
 .line-numbers-rows>span {
     all: initial;
-    font-family: "Maison Neue Mono", "SFMono-Regular", monospace !important;
+    font-family: var(--code-font) !important;
     line-height: 1.5;
 }
 
@@ -341,6 +361,9 @@ pre span {
 /* ==== [SIDEBAR TOC] ==== */
 .sidebar-box div {
     /* max-height: max-content !important; */
+}
+.toc {
+    white-space: nowrap;
 }
 
 /* ==== [LANGUAGE BASH SETTING] ==== */
@@ -613,9 +636,11 @@ pre span {
         border-bottom-right-radius: 8px;
         padding-left: 30px;
     }
+
     .tabs .single-tab {
         padding: 0;
     }
+
     .tabs .single-tab p {
         padding-left: 20px;
         padding-right: 20px;
@@ -646,17 +671,23 @@ blockquote {
 }
 
 .theme-light .tip * :not(p, li, kbd, span, button, pre code),
-.theme-dark .tip * :not(p, li, kbd, span, button, pre code) {
+.theme-light .tip li:before,
+.theme-dark .tip * :not(p, li, kbd, span, button, pre code),
+.theme-dark .tip li:before {
     color: var(--custom-quote-tip) !important;
 }
 
 .theme-light .warning * :not(p, li, kbd, span, button, pre code),
-.theme-dark .warning * :not(p, li, kbd, span, button, pre code) {
+.theme-light .warning li:before,
+.theme-dark .warning * :not(p, li, kbd, span, button, pre code),
+.theme-dark .warning li:before {
     color: var(--custom-quote-warning) !important;
 }
 
 .theme-light .danger * :not(p, li, kbd, span, button, pre code),
-.theme-dark .danger * :not(p, li, kbd, span, button, pre code) {
+.theme-light .danger li:before,
+.theme-dark .danger * :not(p, li, kbd, span, button, pre code),
+.theme-dark .danger li:before {
     color: var(--custom-quote-danger) !important;
 }
 
@@ -869,6 +900,7 @@ details summary::marker {
     padding: 2.5em 0 !important;
     background: transparent !important;
 }
+
 #gitalk-container .gt-container hr:after {
     position: absolute;
     content: "";
@@ -882,6 +914,7 @@ details summary::marker {
     opacity: .26;
     margin: 2.5em auto;
 }
+
 #gitalk-container .gt-container hr:before {
     content: "§" !important;
     display: inline-block;
@@ -895,7 +928,8 @@ details summary::marker {
     z-index: 10;
     border-radius: 60%;
 }
-#gitalk-container .gt-container h1, 
+
+#gitalk-container .gt-container h1,
 #gitalk-container .gt-container h2,
 #gitalk-container .gt-container h3,
 #gitalk-container .gt-container h4,
@@ -903,9 +937,11 @@ details summary::marker {
 #gitalk-container .gt-container h6 {
     border: none !important;
 }
+
 #gitalk-container .gt-container #comments .theme-light hr::before {
     background-color: var(--background-primary) !important;
 }
+
 #gitalk-container .gt-container pre {
     font-size: 16px;
 }
@@ -956,4 +992,39 @@ kbd.menu {
     border: 1px solid #292d3e;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #000 inset;
     text-shadow: none !important;
+}
+
+/* ==== [ Useful Links ] ==== */
+.useful-links li {
+    background: var(--background-secondary);
+    border-radius: 8px;
+    padding: 24px 40px;
+    margin: 1.7em 0;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    box-shadow: var(--shadow);
+    margin-left: 0 !important;
+    font-weight: bold;
+}
+.useful-links li::before {
+    /* display: none !important; */
+    content: '\f0c1' !important;
+    font-family: "Font Awesome 5 Free";
+    margin-right: 20px;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--text-normal) !important;
+}
+.useful-links li a::after {
+    display: none !important;
+}
+.post-html .useful-links li a {
+    width: 100%;
+    height: 100%;
+    color: var(--text-normal) !important;
+}
+.useful-links li a:hover,
+.useful-links li:hover::before {
+    color: var(--text-accent) !important;
 }
