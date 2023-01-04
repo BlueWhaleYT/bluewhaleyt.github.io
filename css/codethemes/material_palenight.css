@@ -16,6 +16,7 @@
 
 .theme-dark .token.punctuation,
 .theme-dark .token.punctuation.attr-equals,
+.theme-dark .token.builtin,
 .theme-dark .pl-pds,
 .theme-dark .pl-kos {
     color: var(--mp-cyan) !important;

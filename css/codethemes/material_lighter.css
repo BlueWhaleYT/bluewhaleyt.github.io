@@ -14,6 +14,7 @@
 
 .theme-light .token.punctuation,
 .theme-light .token.punctuation.attr-equals,
+.theme-light .token.builtin,
 .theme-light .pl-pds,
 .theme-light .pl-kos {
     color: var(--ml-cyan) !important;
