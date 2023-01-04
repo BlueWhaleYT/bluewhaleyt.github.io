@@ -197,9 +197,14 @@ pre span {
 
 .token.deleted .token.line,
 .token.inserted .token.line {
-    display: block;
-    margin-top: -23px;
+    /* display: block; */
+    /* margin-top: -23px; */
     border-radius: 8px;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin-left: 0.4em;
 }
 
 .line-highlight {
