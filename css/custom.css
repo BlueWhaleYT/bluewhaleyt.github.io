@@ -53,6 +53,11 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 0.05em;
 }
 
+figcaption {
+    text-align: center;
+    font-style: italic;
+}
+
 #loading-bar-wrapper #nprogress .bar {
     background: linear-gradient(130deg, #84d1f5, #0ca0fc 41.07%, #3e7bf7 76.05%) !important;
 }
