@@ -1070,3 +1070,8 @@ kbd.menu {
         grid-template-columns: 1fr !important;
     }
 }
+
+/* ==== [ Article Footer ] ==== */
+.lg\:flex-row {
+    /* flex-direction: column !important; */
+}
