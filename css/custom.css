@@ -126,6 +126,9 @@ pre span {
     -webkit-box-shadow: 20px 0px white, 40px 0px white;
     box-shadow: 20px 0px white, 40px 0px white; */
 }
+.custom-quote-title {
+    display: none;
+}
 
 .codepen::before {
     background: #3d3d3e !important;
