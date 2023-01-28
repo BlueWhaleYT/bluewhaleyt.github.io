@@ -754,8 +754,9 @@ video {
 }
 
 .article .article-thumbnail .thumbnail-screen {
-    height: 120%;
-    opacity: .4;
+    height: 100%;
+    /* opacity: .4; */
+    opacity: 0;
     pointer-events: none;
     position: absolute;
     left: 0;
@@ -784,6 +785,7 @@ video {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
     position: relative;
     z-index: 40;
     grid-row: span 2/span 2
@@ -918,10 +920,10 @@ video {
 }
 
 .feature-article .feature-thumbnail span {
-    height: 120%;
+    /* height: 120%; */
     opacity: .4;
     pointer-events: none;
-    position: absolute;
+    /* position: absolute; */
     left: 0;
     width: 100%;
     z-index: 30
@@ -4141,7 +4143,8 @@ body {
     z-index: 1;
     background-size: cover;
     opacity: 0;
-    transition: opacity .3s ease-in-out
+    transition: opacity .3s ease-in-out;
+    display: none;
 }
 
 .app-banner-screen {
