@@ -3195,7 +3195,7 @@
                 })
         },
         "87d4": function (e, t, n) {
-            e.exports = n.p + "static/img/default-cover.df7c128c.jpg"
+            e.exports = n.p + "static/img/default.jpg"
         },
         "8a43": function (e, t, n) {
             "use strict";
