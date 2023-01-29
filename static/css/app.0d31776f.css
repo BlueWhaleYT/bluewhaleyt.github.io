@@ -737,7 +737,7 @@ video {
 
 .article .article-thumbnail {
     position: relative;
-    grid-row: span 1/span 1
+    grid-row: span 1/span 1;
 }
 
 .article .article-thumbnail img {
@@ -750,7 +750,7 @@ video {
     object-fit: cover;
     position: absolute;
     width: 100%;
-    z-index: 20
+    z-index: 20;
 }
 
 .article .article-thumbnail .thumbnail-screen {
@@ -832,7 +832,7 @@ video {
     font-size: .875rem;
     line-height: 1.25rem;
     margin-bottom: .5rem;
-    padding-bottom: 1rem
+    padding-bottom: 1rem;
 }
 
 @media (min-width:1024px) {
