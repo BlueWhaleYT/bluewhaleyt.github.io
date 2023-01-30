@@ -67,6 +67,11 @@ figcaption {
     font-size: clamp(1.2rem, calc(1rem + 3.5vw), 3.5rem) !important;
 }
 
+/* ==== [FEATURE ARTICLE] ==== */
+#feature .inverted-main-grid, #feature .article-container, #article-list {
+    display: none;
+}
+
 /* ==== [MAC WINDOW] ==== */
 code {
     font-family: var(--code-font) !important;
