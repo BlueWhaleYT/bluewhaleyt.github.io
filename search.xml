@@ -2358,6 +2358,92 @@
       </tags>
   </entry>
   <entry>
+    <title>編寫 Python 並建立 Discord 機器人</title>
+    <url>//post/discord_bot_dev_create_bot.html</url>
+    <content><![CDATA[<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>此文案是從我的 Gitbook 搬運過來的，現在它不再被使用。</p>
+</div>
+
+<p>Discord 機器人的功能繁多，往往能夠令到伺服器變得多元化。人家能夠做出如此強大的機器人，你有沒有想到，你也可以編寫自己的 Discord 機器人！</p>
+<p>在本教學，你將會學會怎樣使用手機，編寫 Python 以完成建立簡單 Discord 機器人程序。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>電腦用戶亦可以此作參考，因為其實做法差不多（只是在另一操作系統而已）。</p>
+</div>
+
+<hr>
+<h1 id="第-1-部分：建立機器人"><a href="#第-1-部分：建立機器人" class="headerlink" title="第 1 部分：建立機器人"></a>第 1 部分：建立機器人</h1><p>首先，先到 <a class="link" href="https://discord.com/developers/applications">開發傳送門 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 從左欄的選單中前往 <code>Applications</code> 頁面中，點擊右上方的 <code>New Application</code> 按鈕以建立機器人，為機器人命名，再按 <code>Create</code>。</p>
+<p>前往所建立機器人的頁面後，點擊於左欄的 <code>Bot</code>，找出 <code>Build-A-Bot</code> 標題之部分內的 <code>TOKEN</code> ，並點擊 <code>Copy</code> 按鈕把它複製，並保存於稍後 第 2 部分 使用。</p>
+<div class="note note-danger icon-padding"><i class="note-icon fa-solid fa-times-circle"></i><p>如果你遺失了原來的 <code>TOKEN</code>，可以點擊 <code>Reset Token</code> 以獲取全新的 TOKEN。</p>
+</div>
+
+<p>接着，你要預備新建一個資料夾，用以貯存機器人的程序檔案，如命名檔案為 <code>bot.py</code>，並把其放置於 <code>/storage/emulated/0/Test/</code> 內，當然，你亦可選擇其他路徑和現有資料夾並把它貯存。</p>
+<hr>
+<h1 id="第-2-部分：編寫程序"><a href="#第-2-部分：編寫程序" class="headerlink" title="第 2 部分：編寫程序"></a>第 2 部分：編寫程序</h1><p>要考慮機器人的實際運作，全都倚賴我們怎樣為它編程，在這個教學，我們會利用 <code>Python</code> 作為用於編寫機器人的程式語言。</p>
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>編寫程序需要使用文字編輯軟件或整合開發環境軟件（IDE），請先自行預備，方能繼續完成本部分之教學。</p>
+</div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>電腦用戶可使用 Atom、Visual Studio Code 等軟件； 手機用戶可使用 Acode、QuickEdit 等應用程序。</p>
+</div>
+
+<p>首先，你需要 <code>import</code> 一些的資源庫，用以讓電腦能夠通過所匯入的資源庫，根據程式，執行機器人。 現在要做的是 Discord 機器人，所以我們必先要匯入 <code>discord</code> 庫。</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> discord</span><br></pre></td></tr></table></figure></div>
+
+<p>另外，亦需要匯入 <code>asyncio</code> 庫，這是利用 <code>Python</code> 較新版本的語法使用。</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br></pre></td></tr></table></figure></div>
+
+<p>好了，當我們成功匯入了 <code>discord</code> 庫後，便可藉這個資源庫匯入與 <code>discord</code> 相關的次資源庫了，例如我們經常性使用機器人執行指令，就要匯入 <code>commands</code> 庫。</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> discord.ext <span class="keyword">import</span> commands</span><br></pre></td></tr></table></figure></div>
+
+<p>完成基礎的匯入程序後，是時候為機器人編寫一些初始化的變量了，如定義 <code>token</code>、<code>client</code> 這些基本設定。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>變量名稱只是名稱，可以隨意修改的，不一定是沿用這些名稱，如 <code>client</code> 可修改成 <code>bot</code>。</p>
+</div>
+
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>請謹記先完成 第 1 部分 之教學，再繼續完成本部分教學。</p>
+</div>
+
+<hr>
+<h2 id="準備事件"><a href="#準備事件" class="headerlink" title="準備事件"></a>準備事件</h2><p>準備事件就是啟動機器人時，它準備所執行的事件，在 Python，我們可以使用 <code>discord</code> 設有的 <code>on_ready()</code> 函數完成，例如，我們想機器人一旦準備時，便會輸出「Hello World」字句。</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@client.event</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">on_ready</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello World&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>print()</code> 是 Python 的內置函數，用以輸出字符或字串。</p>
+</div>
+
+<hr>
+<h2 id="指令執行事件"><a href="#指令執行事件" class="headerlink" title="指令執行事件"></a>指令執行事件</h2><p>單單只是準備事件是不足夠的，因為這還沒有發揮機器人最核心的功能，這亦反映出為何機器人往往多麼的強大，就是因為實現指令的所在。剛剛我們匯入了 <code>commands</code> 庫，現在它大派用場了！</p>
+<p>可是，在編寫指令的程序前，我們必先要考慮輸入指令時的前綴，如輸入 <code>/exit</code> 是一個執行離開的指令，而當中的「&#x2F;」便是指令的前綴。</p>
+<p>那麼，若然我們想實現前綴呢，便要修改以下剛才定義 <code>client</code> 的編碼，例如我們就以「&#x2F;」為例吧，當然，你喜歡裏面的前綴是什麼，都是可以的。</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">client = commands.Bot(command_prefix = <span class="string">&quot;/&quot;</span>, intents = intents)</span><br></pre></td></tr></table></figure></div>
+
+<p>那麼，弄好指令的前綴了，我們可以編寫指令了嗎？基本上是可以的，但是，我們必先瞭解一下指令內的預設參數，因為 Python 的 Discord 機器人所實現的指令，是必需至少擁有一個參數，而這個參數就是 <code>ctx</code>。</p>
+<p>好了，所以如果我們輸入 <code>/hello</code> 指令後，機器人便傳回「Hello!」訊息，應該怎麼辦呢。</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@client.command()</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">ctx</span>):</span><br><span class="line">    <span class="keyword">await</span> ctx.send(<span class="string">&quot;Hello!&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p><code>async</code> 和 <code>await</code> 均是 Python 較新版本的語法，請確定所安裝的 Python 版本為 3.5 或以上。</p>
+</div>
+
+<hr>
+<h2 id="啟動機器人"><a href="#啟動機器人" class="headerlink" title="啟動機器人"></a>啟動機器人</h2><p>當你發現，你已經編寫好準備事件和指令執行事件，卻發現到機器人沒有順利把程序運行完善，或許你正在愁思程序上編寫的錯誤，但事實上，你還沒有為機器人編寫啟動的程序。要解決這問題，很簡單，只需要編寫 <code>run()</code> 函數便可以了。</p>
+<hr>
+<h1 id="第-3-部分：執行機器人"><a href="#第-3-部分：執行機器人" class="headerlink" title="第 3 部分：執行機器人"></a>第 3 部分：執行機器人</h1><p>我們會使用 Termux 作為啟動機器人的終端機。 若使用從 Play 商店下載的 Termux 版本，或許會因為版本過舊，而發生匯入上的錯誤，以導致無法順利依照本部分之教學來完成執行機器人。我們建議你從 fdroid 網頁下載 Termux 的較新版本。</p>
+<p>首先，因為安裝 <code>discord</code> 的 <code>pip</code> 是受到 SSL 加密協定的阻撓，所以我們必先要安裝 <code>openssl</code>，方可安裝 <code>python</code> 和 <code>discord</code>。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">pkg install openssl</span><br><span class="line">pkg install python</span><br><span class="line">pip install discord</span><br></pre></td></tr></table></figure></div>
+
+<p>最後，便可以根據機器人的檔案路徑來啟動它了，例如檔案路徑為 <code>/storage/emulated/0/Test/bot.py</code>，所需要做的是：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> storage/shared/Test/</span><br><span class="line">python bot.py</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>cd</code> 為 change directory，改變現時路徑，即前往哪裏。<br><code>shared</code> 為內部貯存空間，簡化了 <code>/emulated/0</code>。<br><code>python</code> 用以執行 Python 程序。</p>
+</div>
+
+<hr>
+<p>教學到這了，再見。</p>
+]]></content>
+      <categories>
+        <category>Discord 開發</category>
+      </categories>
+      <tags>
+        <tag>終端機指令</tag>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VSCode 自訂程式碼片段</title>
     <url>//post/dev_vscode_snippet_tutorial.html</url>
     <content><![CDATA[<p>哈囉，歡迎來到我的網誌。</p>
@@ -2477,92 +2563,6 @@
 <p>更多關於使用程式碼片段詳見 <a href="https://code.visualstudio.com/docs/editor/userdefinedsnippets" target="_blank">官方文案</a>。</p>
 <p>好了，就是這樣了，相信你們能夠透過使用自訂程式碼片段把編程的效率提升，這篇是今年最後一篇文章了，我們下年再見。</p>
 </kbd></p>]]></content>
-  </entry>
-  <entry>
-    <title>編寫 Python 並建立 Discord 機器人</title>
-    <url>//post/discord_bot_dev_create_bot.html</url>
-    <content><![CDATA[<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>此文案是從我的 Gitbook 搬運過來的，現在它不再被使用。</p>
-</div>
-
-<p>Discord 機器人的功能繁多，往往能夠令到伺服器變得多元化。人家能夠做出如此強大的機器人，你有沒有想到，你也可以編寫自己的 Discord 機器人！</p>
-<p>在本教學，你將會學會怎樣使用手機，編寫 Python 以完成建立簡單 Discord 機器人程序。</p>
-<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>電腦用戶亦可以此作參考，因為其實做法差不多（只是在另一操作系統而已）。</p>
-</div>
-
-<hr>
-<h1 id="第-1-部分：建立機器人"><a href="#第-1-部分：建立機器人" class="headerlink" title="第 1 部分：建立機器人"></a>第 1 部分：建立機器人</h1><p>首先，先到 <a class="link" href="https://discord.com/developers/applications">開發傳送門 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 從左欄的選單中前往 <code>Applications</code> 頁面中，點擊右上方的 <code>New Application</code> 按鈕以建立機器人，為機器人命名，再按 <code>Create</code>。</p>
-<p>前往所建立機器人的頁面後，點擊於左欄的 <code>Bot</code>，找出 <code>Build-A-Bot</code> 標題之部分內的 <code>TOKEN</code> ，並點擊 <code>Copy</code> 按鈕把它複製，並保存於稍後 第 2 部分 使用。</p>
-<div class="note note-danger icon-padding"><i class="note-icon fa-solid fa-times-circle"></i><p>如果你遺失了原來的 <code>TOKEN</code>，可以點擊 <code>Reset Token</code> 以獲取全新的 TOKEN。</p>
-</div>
-
-<p>接着，你要預備新建一個資料夾，用以貯存機器人的程序檔案，如命名檔案為 <code>bot.py</code>，並把其放置於 <code>/storage/emulated/0/Test/</code> 內，當然，你亦可選擇其他路徑和現有資料夾並把它貯存。</p>
-<hr>
-<h1 id="第-2-部分：編寫程序"><a href="#第-2-部分：編寫程序" class="headerlink" title="第 2 部分：編寫程序"></a>第 2 部分：編寫程序</h1><p>要考慮機器人的實際運作，全都倚賴我們怎樣為它編程，在這個教學，我們會利用 <code>Python</code> 作為用於編寫機器人的程式語言。</p>
-<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>編寫程序需要使用文字編輯軟件或整合開發環境軟件（IDE），請先自行預備，方能繼續完成本部分之教學。</p>
-</div>
-
-<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>電腦用戶可使用 Atom、Visual Studio Code 等軟件； 手機用戶可使用 Acode、QuickEdit 等應用程序。</p>
-</div>
-
-<p>首先，你需要 <code>import</code> 一些的資源庫，用以讓電腦能夠通過所匯入的資源庫，根據程式，執行機器人。 現在要做的是 Discord 機器人，所以我們必先要匯入 <code>discord</code> 庫。</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> discord</span><br></pre></td></tr></table></figure></div>
-
-<p>另外，亦需要匯入 <code>asyncio</code> 庫，這是利用 <code>Python</code> 較新版本的語法使用。</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br></pre></td></tr></table></figure></div>
-
-<p>好了，當我們成功匯入了 <code>discord</code> 庫後，便可藉這個資源庫匯入與 <code>discord</code> 相關的次資源庫了，例如我們經常性使用機器人執行指令，就要匯入 <code>commands</code> 庫。</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> discord.ext <span class="keyword">import</span> commands</span><br></pre></td></tr></table></figure></div>
-
-<p>完成基礎的匯入程序後，是時候為機器人編寫一些初始化的變量了，如定義 <code>token</code>、<code>client</code> 這些基本設定。</p>
-<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>變量名稱只是名稱，可以隨意修改的，不一定是沿用這些名稱，如 <code>client</code> 可修改成 <code>bot</code>。</p>
-</div>
-
-<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>請謹記先完成 第 1 部分 之教學，再繼續完成本部分教學。</p>
-</div>
-
-<hr>
-<h2 id="準備事件"><a href="#準備事件" class="headerlink" title="準備事件"></a>準備事件</h2><p>準備事件就是啟動機器人時，它準備所執行的事件，在 Python，我們可以使用 <code>discord</code> 設有的 <code>on_ready()</code> 函數完成，例如，我們想機器人一旦準備時，便會輸出「Hello World」字句。</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@client.event</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">on_ready</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello World&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>print()</code> 是 Python 的內置函數，用以輸出字符或字串。</p>
-</div>
-
-<hr>
-<h2 id="指令執行事件"><a href="#指令執行事件" class="headerlink" title="指令執行事件"></a>指令執行事件</h2><p>單單只是準備事件是不足夠的，因為這還沒有發揮機器人最核心的功能，這亦反映出為何機器人往往多麼的強大，就是因為實現指令的所在。剛剛我們匯入了 <code>commands</code> 庫，現在它大派用場了！</p>
-<p>可是，在編寫指令的程序前，我們必先要考慮輸入指令時的前綴，如輸入 <code>/exit</code> 是一個執行離開的指令，而當中的「&#x2F;」便是指令的前綴。</p>
-<p>那麼，若然我們想實現前綴呢，便要修改以下剛才定義 <code>client</code> 的編碼，例如我們就以「&#x2F;」為例吧，當然，你喜歡裏面的前綴是什麼，都是可以的。</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">client = commands.Bot(command_prefix = <span class="string">&quot;/&quot;</span>, intents = intents)</span><br></pre></td></tr></table></figure></div>
-
-<p>那麼，弄好指令的前綴了，我們可以編寫指令了嗎？基本上是可以的，但是，我們必先瞭解一下指令內的預設參數，因為 Python 的 Discord 機器人所實現的指令，是必需至少擁有一個參數，而這個參數就是 <code>ctx</code>。</p>
-<p>好了，所以如果我們輸入 <code>/hello</code> 指令後，機器人便傳回「Hello!」訊息，應該怎麼辦呢。</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@client.command()</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">ctx</span>):</span><br><span class="line">    <span class="keyword">await</span> ctx.send(<span class="string">&quot;Hello!&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p><code>async</code> 和 <code>await</code> 均是 Python 較新版本的語法，請確定所安裝的 Python 版本為 3.5 或以上。</p>
-</div>
-
-<hr>
-<h2 id="啟動機器人"><a href="#啟動機器人" class="headerlink" title="啟動機器人"></a>啟動機器人</h2><p>當你發現，你已經編寫好準備事件和指令執行事件，卻發現到機器人沒有順利把程序運行完善，或許你正在愁思程序上編寫的錯誤，但事實上，你還沒有為機器人編寫啟動的程序。要解決這問題，很簡單，只需要編寫 <code>run()</code> 函數便可以了。</p>
-<hr>
-<h1 id="第-3-部分：執行機器人"><a href="#第-3-部分：執行機器人" class="headerlink" title="第 3 部分：執行機器人"></a>第 3 部分：執行機器人</h1><p>我們會使用 Termux 作為啟動機器人的終端機。 若使用從 Play 商店下載的 Termux 版本，或許會因為版本過舊，而發生匯入上的錯誤，以導致無法順利依照本部分之教學來完成執行機器人。我們建議你從 fdroid 網頁下載 Termux 的較新版本。</p>
-<p>首先，因為安裝 <code>discord</code> 的 <code>pip</code> 是受到 SSL 加密協定的阻撓，所以我們必先要安裝 <code>openssl</code>，方可安裝 <code>python</code> 和 <code>discord</code>。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">pkg install openssl</span><br><span class="line">pkg install python</span><br><span class="line">pip install discord</span><br></pre></td></tr></table></figure></div>
-
-<p>最後，便可以根據機器人的檔案路徑來啟動它了，例如檔案路徑為 <code>/storage/emulated/0/Test/bot.py</code>，所需要做的是：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> storage/shared/Test/</span><br><span class="line">python bot.py</span><br></pre></td></tr></table></figure></div>
-
-<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>cd</code> 為 change directory，改變現時路徑，即前往哪裏。<br><code>shared</code> 為內部貯存空間，簡化了 <code>/emulated/0</code>。<br><code>python</code> 用以執行 Python 程序。</p>
-</div>
-
-<hr>
-<p>教學到這了，再見。</p>
-]]></content>
-      <categories>
-        <category>Discord 開發</category>
-      </categories>
-      <tags>
-        <tag>終端機指令</tag>
-        <tag>Python</tag>
-      </tags>
   </entry>
   <entry>
     <title>Discord 互動式按鈕</title>
