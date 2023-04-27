@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="BlueWhaleYT">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://bluewhaleyt.github.io/post/android_dev_online-compiler.html"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="Wanna type and compile code in your app on your own device? In this article, we will learn how to create an online Java compiler application using CodeX API, a powerful API which provides functions t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Create online compiler android app">
+<meta property="og:url" content="https://bluewhaleyt.github.io/post/android_dev_online-compiler.html">
+<meta property="og:site_name" content="BlueWhaleYT 個人網誌">
+<meta property="og:description" content="Wanna type and compile code in your app on your own device? In this article, we will learn how to create an online Java compiler application using CodeX API, a powerful API which provides functions t">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2023-01-03T16:12:00.000Z">
+<meta property="article:modified_time" content="2023-04-27T08:52:14.713Z">
+<meta property="article:author" content="BlueWhaleYT">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Xml">
+<meta name="twitter:card" content="summary">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <meta name="theme-color" content="#6190e8">
+    <link rel="shortcut icon" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Create online compiler android app -
+        
+        BlueWhaleYT 個人網誌
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'" rel="stylesheet">
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"bluewhaleyt.github.io","root":"/","language":"zh-TW","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":true,"family":"JetBrains Mono","url":"https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'"}},"toc":{"enable":true,"max_depth":6,"number":true,"expand":true,"init_open":true},"copyright":false,"lazyload":false,"recommendation":{"enable":false,"title":"Recommendation","limit":3,"placeholder":"https://i.imgur.com/tyHG03D.jpg","skip_dirs":[]}},"colors":{"primary":"#6190e8","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"2000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":false,"image":{"light":null,"dark":null},"title":"BlueWhaleYT 個人網誌","subtitle":{"text":[],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#6190e8","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Status":{"path":"https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages","icon":"fa-regular fa-chart-bar"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/BlueWhaleYT/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"歡迎來到「BlueWhaleYT 個人網誌」。","links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s 秒前","minute":"%s 分鐘前","hour":"%s 小時前","day":"%s 天前","week":"%s 週前","month":"%s 個月前","year":"%s 年前"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/fontawesome/duotone.min.css">
+
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                BlueWhaleYT 個人網誌
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首頁
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        歸檔
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-chart-bar"></i>
+                                        
+                                        狀態
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首頁
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                歸檔
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                             
+                                
+                                    <i class="fa-regular fa-chart-bar"></i>
+                                
+                                狀態
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">Create online compiler android app</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">BlueWhaleYT</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-01-04 00:12</span>
+        <span class="mobile">2023-01-04 00:12</span>
+        <span class="hover-info">撰寫</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-04-27 16:52:14</span>
+            <span class="mobile">2023-04-27 16:52</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Android-%E9%96%8B%E7%99%BC/">Android 開發</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Java/">Java</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Xml/">Xml</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <hr>
+<p>Wanna type and compile code in your app on your own device? In this article, we will learn how to create an online Java compiler application using CodeX API, <strong>a powerful API which provides functions to compile and execute program codes</strong>.</p>
+<p>Here is the documentaion of <a href="https://github.com/Jaagrav/CodeX-API" target="_blank">CodeX API</a> .</p>
+<div class="note note-danger icon-padding"><i class="note-icon fa-solid fa-times-circle"></i><p>CodeX API is <strong>still in early stages development</strong> and <strong>not recommended to be used in production</strong> since it’s deployed in a Free tier on <a target="_blank" href="https://render.com">render</a>, which <strong>slows down the API sometimes</strong>. Plus, this is a simple online compiler application using CodeX API only. Therefore, there won’t be advanced features of compilation.</p>
+</div>
+
+<blockquote>
+<p>However, a good news is that CodeX API <strong>supports standard inputs</strong> e.g. <code>Scanner</code> in Java, which helps us write simple programs with inputs on mobile.</p>
+</blockquote>
+<hr>
+<h1 id="Manifest-Configuration"><a href="#Manifest-Configuration" class="headerlink" title="Manifest Configuration"></a>Manifest Configuration</h1><hr>
+<h2 id="Set-permission"><a href="#Set-permission" class="headerlink" title="Set permission"></a>Set permission</h2><p>Since we are gonna build online compiler application, it <strong>requires Internet and network access</strong>. Therefore, we have to add these codes in <code>AndroidManifest.xml</code> to grant permissions for the application.</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="Allow-HTTP-URLs-access"><a href="#Allow-HTTP-URLs-access" class="headerlink" title="Allow HTTP URLs access"></a>Allow HTTP URLs access</h2><p>Starting from <strong>Android 9 (API level 28) and above</strong>, it disallows HTTP URLs by default. It will throw error messages informing that <strong>cleartext HTTP traffic is not permitted</strong> if there are programs accessing HTTP URLs.</p>
+<p>If the URL can’t be really changed and connected from HTTP to HTTPS, while you want to use the HTTP URL to continue building your project.</p>
+<p>Here are two popular solutions of resolving HTTP traffic errors:</p>
+<hr>
+<h3 id="Solution-1-Cleartext-Traffic"><a href="#Solution-1-Cleartext-Traffic" class="headerlink" title="Solution 1 - Cleartext Traffic"></a>Solution 1 - Cleartext Traffic</h3><p>In <code>AndroidManifest.xml</code>, set <code>android:usesCleartextTraffic</code> property to <code>true</code>.</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:usesCleartextTraffic</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="Solution-2-Allow-connections-to-specific-site"><a href="#Solution-2-Allow-connections-to-specific-site" class="headerlink" title="Solution 2 - Allow connections to specific site"></a>Solution 2 - Allow connections to specific site</h3><p>I used this method before, and I still recommend using it. The second way is to allow connections to specific sites.</p>
+<p>Unlike Solution 1, we need to create a new XML file named <code>network_security_config.xml </code> in <code>/res/xml/</code>.</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">network-security-config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">domain-config</span> <span class="attr">cleartextTrafficPermitted</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">domain</span> <span class="attr">includeSubdomains</span>=<span class="string">&quot;true&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">domain</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">domain-config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">network-security-config</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<p>The <code>...</code> to be replaced is <strong>your desired HTTP URL</strong>. Once you put it inside the <code>&lt;domain&gt;</code>, it can be permitted and be accessed.</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>For example, if I want to enable this HTTP URL: <code>bluewhaleyt.ddns.net</code>, then I will do the following like this.</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">network-security-config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">domain-config</span> <span class="attr">cleartextTrafficPermitted</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">domain</span> <span class="attr">includeSubdomains</span>=<span class="string">&quot;true&quot;</span>&gt;</span>bluewhaleyt.ddns.net<span class="tag">&lt;/<span class="name">domain</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">domain-config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">network-security-config</span>&gt;</span></span><br></pre></td></tr></table></figure></div></div>
+
+<p>After doing this, you need to set <code>android:networkSecurityConfig</code> in the <code>AndroidManifest.xml</code>.</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:networkSecurityConfig</span>=<span class="string">&quot;@xml/network_security_config&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>Done, it’s now ready to be accessed.</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>Both solutions are great. To make it simple, I prefer Solution 1, which is much easier.</p>
+</div>
+
+<hr>
+<h1 id="Create-Layout"><a href="#Create-Layout" class="headerlink" title="Create Layout"></a>Create Layout</h1><p>In this project, we will use Sora Editor as a code editor instead of using EditText. With this, we can type codes with syntax highlighting. However, the guide of using Sora Editor will not be written here. You can read this related <a target="_blank" href="using-sora-editor-with-textmate-0-18-1">article</a> for more info.</p>
+<p>Here are dependencies of Sora Editor and the layout in case you are familiar with them.</p>
+<div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">implementation(platform(<span class="string">&quot;io.github.Rosemoe.sora-editor:bom:0.20.2&quot;</span>))</span><br><span class="line">implementation(<span class="string">&quot;io.github.Rosemoe.sora-editor:editor&quot;</span>)</span><br><span class="line">implementation(<span class="string">&quot;io.github.Rosemoe.sora-editor:language-textmate&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">&quot;vertical&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">io.github.rosemoe.sora.widget.CodeEditor</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">&quot;@+id/editor&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h1 id="RequestNetwork-Java-Files"><a href="#RequestNetwork-Java-Files" class="headerlink" title="RequestNetwork Java Files"></a>RequestNetwork Java Files</h1><p>Sketchware Pro provides the utils of network request components, <code>RequestNetwork.java</code> and <code>RequestNetworkController.java</code>. These are the useful utility program files helping us <strong>fetch data from URL easily</strong>.</p>
+<p>We can simply bring these files to our project in case you don’t have them.</p>
+<blockquote>
+<p>Of course, you can use others like <code>HttpURLConnection</code> to do the same job.</p>
+</blockquote>
+<a class="button " target="_blank" rel="noopener" href="https://www.mediafire.com/file/te1fpek885qhrl2/RequestNetwork.java/file" title="RequestNetwork.java"><i class="fa-solid fa-download"></i> RequestNetwork.java</a>
+
+<a class="button " target="_blank" rel="noopener" href="https://www.mediafire.com/file/df6c6k61zuobs0j/RequestNetworkController.java/file" title="RequestNetworkController.java"><i class="fa-solid fa-download"></i> RequestNetworkController.java</a>
+
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>These files were simplified with <code>lambda</code> expressions.</p>
+</div>
+
+<p>Besides, we need to add <code>okhttp</code> dependency.</p>
+<div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation(platform(<span class="string">&quot;com.squareup.okhttp3:okhttp-bom:4.10.0&quot;</span>))</span><br><span class="line">implementation(<span class="string">&quot;com.squareup.okhttp3:okhttp&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="Why-RequestNetwork-files"><a href="#Why-RequestNetwork-files" class="headerlink" title="Why RequestNetwork files?"></a>Why RequestNetwork files?</h2><p>We will use <code>POST</code> endpoint to execute the program script and fetch the compilation output later.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">requestNetwork.startRequestNetwork(RequestNetworkController.POST, url, <span class="string">&quot;api&quot;</span>, requestListener);</span><br></pre></td></tr></table></figure></div>
+
+<p>These files help us do network data api fetching stuffs, which is efficient for us.</p>
+<hr>
+<h1 id="Use-CodeX-API"><a href="#Use-CodeX-API" class="headerlink" title="Use CodeX API"></a>Use CodeX API</h1><p>As aforementioned, we will build an online compiler application with CodeX API.</p>
+<p>This is the URL that the API is located in: </p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://api.codex.jaagrav.in</span><br></pre></td></tr></table></figure></div>
+
+<p>This URL <strong>is supposed not to be and unable to be directed</strong> but we will use this API to compile and execute program codes.</p>
+<hr>
+<h2 id="Create-a-Compiler-class"><a href="#Create-a-Compiler-class" class="headerlink" title="Create a Compiler class"></a>Create a Compiler class</h2><p>In order to make our project be clean, we will create a new Java class <code>Compiler.java</code> to do it so.</p>
+<p>Your <code>Compiler.java</code> should be like this:</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Compiler</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>In this class, there will be two methods, <code>init()</code> and <code>compile()</code>, <strong>both of them must be <code>public</code></strong> since they will be called in <code>MainActivity.java</code> later.</p>
+<h2 id="Define-Variables"><a href="#Define-Variables" class="headerlink" title="Define Variables"></a>Define Variables</h2><p>Now, initialize the following variables.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;https://api.codex.jaagrav.in&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;String, Object&gt; data = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> RequestNetwork requestNetwork;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> RequestNetwork.RequestListener requestListener;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> ModernDialog.Builder dialog;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> AlertDialog progressDialog;</span><br></pre></td></tr></table></figure></div>
+
+<p><code>ModernDialog.Builder</code> belongs to <code>ModernDialog</code> library which is created by myself. If you want to use this library, you can read this <a target="_blank" href="modern-dialog-tutorial">article</a>.</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>Instead of using <code>ModernDialog</code>, you can either use <code>AlertDialog</code> or <code>MaterialAlertDialogBuilder</code>.</p>
+</div>
+
+<hr>
+<h2 id="Initialize-RequestNetwork"><a href="#Initialize-RequestNetwork" class="headerlink" title="Initialize RequestNetwork"></a>Initialize RequestNetwork</h2><p>To start a new instance of <code>RequestNetwork</code>, add the code below.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RequestNetwork</span> <span class="variable">requestNetwork</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RequestNetwork</span>(<span class="built_in">this</span>);</span><br></pre></td></tr></table></figure></div>
+
+<p>We will create a new method <code>init()</code> to do the initialization stuffs.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(Activity activity)</span> &#123;</span><br><span class="line">    requestNetwork = <span class="keyword">new</span> <span class="title class_">RequestNetwork</span>(activity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="Use-RequestListener"><a href="#Use-RequestListener" class="headerlink" title="Use RequestListener"></a>Use RequestListener</h2><p>This is the basic start of <code>RequestListener</code>.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RequestListener</span> <span class="variable">requestListener</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RequestNetwork</span>.RequestListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onResponse</span><span class="params">(String tag, String response, HashMap&lt;String, Object&gt; responseHeaders)</span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onErrorResponse</span><span class="params">(String tag, String message)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>onResponse()</code> is to <strong>fetch data from URLs</strong> if there’s no errors occuring.<br><code>onErrorResponse()</code> is to <strong>throw errors</strong> during the issues of fetching data from URLs.</p>
+</div>
+
+<hr>
+<h2 id="Loading-dialog"><a href="#Loading-dialog" class="headerlink" title="Loading dialog"></a>Loading dialog</h2><p>In both <code>onResponse()</code> and <code>onErrorResponse()</code> methods, we need to define a progress dialog to tell users that <strong>the data from URLs is fetching, since it would take time to fetch</strong>.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">compile</span><span class="params">(Activity activity)</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>Create a new method <code>compile()</code> and add the progress dialog.</p>
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>In this article, progress dialog will not be detailed, see <a target="_blank" href="implement-android-custom-progress-dialog">article</a>.</p>
+</div>
+
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:orientation</span>=<span class="string">&quot;horizontal&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:padding</span>=<span class="string">&quot;20dp&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ProgressBar</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@+id/pbLoading&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">style</span>=<span class="string">&quot;?android:attr/progressBarStyle&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_marginLeft</span>=<span class="string">&quot;10dp&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_marginRight</span>=<span class="string">&quot;20dp&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@+id/tvText&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_gravity</span>=<span class="string">&quot;center&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:text</span>=<span class="string">&quot;TextView&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">compile</span><span class="params">(Activity activity)</span> &#123;</span><br><span class="line">    <span class="type">View</span> <span class="variable">view</span> <span class="operator">=</span> activity.getLayoutInflater().inflate(R.layout.dialog_progress, <span class="literal">null</span>);</span><br><span class="line">    <span class="type">TextView</span> <span class="variable">tv</span> <span class="operator">=</span> view.findViewById(R.id.tvText);</span><br><span class="line">    tv.setText(<span class="string">&quot;Compiling, please wait ...&quot;</span>);</span><br><span class="line"></span><br><span class="line">    progressDialog = <span class="keyword">new</span> <span class="title class_">MaterialAlertDialogBuilder</span>(activity).create();</span><br><span class="line">    progressDialog.setView(view);</span><br><span class="line">    progressDialog.setCancelable(<span class="literal">false</span>);</span><br><span class="line">    progressDialog.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>When there are responses, dismiss the progress dialog.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onResponse</span><span class="params">(String tag, String response, HashMap&lt;String, Object&gt; responseHeaders)</span> &#123;</span><br><span class="line">    progressDialog.dismiss();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onErrorResponse</span><span class="params">(String tag, String message)</span> &#123;</span><br><span class="line">    progressDialog.dismiss();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="Connection-Error-Alert"><a href="#Connection-Error-Alert" class="headerlink" title="Connection Error Alert"></a>Connection Error Alert</h2><p>Once again, this is an online compiler which requires Internet connection. We need to alert users activating it before starting to code.</p>
+<p>To do this, we need to use <code>onErrorResponse()</code> method.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onErrorResponse</span><span class="params">(String tag, String message)</span> &#123;</span><br><span class="line">    progressDialog.dismiss();</span><br><span class="line"></span><br><span class="line">    dialog.setTitle(<span class="string">&quot;No Internet&quot;</span>);</span><br><span class="line">    dialog.setMessage(message);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="Fetch-data"><a href="#Fetch-data" class="headerlink" title="Fetch data"></a>Fetch data</h2><p>We will use <code>Gson</code> to stringify JSON, add dependency:</p>
+<div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">&#x27;com.google.code.gson:gson:2.10&#x27;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>To put <code>response</code> as a part of JSON to <code>data</code> using <code>Gson</code>:</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = <span class="keyword">new</span> <span class="title class_">Gson</span>().fromJson(response, <span class="keyword">new</span> <span class="title class_">TypeToken</span>&lt;HashMap&lt;String, Object&gt;&gt;()&#123;&#125;.getType());</span><br></pre></td></tr></table></figure></div>
+
+<p>Therefore, we have the following code.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onResponse</span><span class="params">(String tag, String response, HashMap&lt;String, Object&gt; responseHeaders)</span> &#123;</span><br><span class="line">    progressDialog.dismiss();</span><br><span class="line"></span><br><span class="line">    data = <span class="keyword">new</span> <span class="title class_">Gson</span>().fromJson(response, <span class="keyword">new</span> <span class="title class_">TypeToken</span>&lt;HashMap&lt;String, Object&gt;&gt;()&#123;&#125;.getType());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h3><p>In the <a target="_blank" href="https://github.com/Jaagrav/CodeX-API">docs</a> of CodeX API, we can see there is a sample output of a NodeJS Program.</p>
+<div class="highlight-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;timeStamp&quot;</span>: <span class="number">1672439982964</span>,</span><br><span class="line">  <span class="string">&quot;status&quot;</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="string">&quot;output&quot;</span>: <span class="string">&quot;Enter your value: 12\n&quot;</span>,</span><br><span class="line">  <span class="string">&quot;error&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">  <span class="string">&quot;language&quot;</span>: <span class="string">&quot;py&quot;</span>,</span><br><span class="line">  <span class="string">&quot;info&quot;</span>: <span class="string">&quot;Python 3.6.9\n&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>This code is exactly to get the output:</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = <span class="keyword">new</span> <span class="title class_">Gson</span>().fromJson(response, <span class="keyword">new</span> <span class="title class_">TypeToken</span>&lt;HashMap&lt;String, Object&gt;&gt;()&#123;&#125;.getType());</span><br></pre></td></tr></table></figure></div>
+
+<p>You can simply inspect its content via <code>Log</code>.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Log.d(TAG, String.valueOf(data));</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>TAG</code> is your Java class. Usually, if we define <code>TAG</code>, we will use the code like this below:</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> MainActivity.class.getName();</span><br></pre></td></tr></table></figure></div>
+
+<p>the <code>TAG</code>‘s value will be defined as <code>MainActivity</code>.</p>
+</div>
+
+<p>This is an example output from Android Studio’s Logcat:</p>
+<div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;timeStamp&quot;</span><span class="punctuation">:</span> <span class="number">1.672711656435E12</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hello World!\nScanner input: 43&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;language&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;error&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">200.0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span> <span class="string">&quot;openjdk 11.0.17 2022-10-18 OpenJDK Runtime Environment (build 11.0.17+8-post-Ubuntu-1ubuntu218.04) OpenJDK 64-Bit Server VM (build 11.0.17+8-post-Ubuntu-1ubuntu218.04, mixed mode, sharing)&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="Compilation"><a href="#Compilation" class="headerlink" title="Compilation"></a>Compilation</h2><p>CodeX API compilation needs requirement below:</p>
+<ol>
+<li><code>code</code>     - the code to be compiled</li>
+<li><code>language</code> - the programming language to be used</li>
+<li><code>input</code>    - the execution of program input</li>
+</ol>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>Here’s the programming languages available for CodeX API:</p>
+<ul>
+<li><code>js</code> - NodeJS (JavaScript)</li>
+<li><code>java</code> - Java</li>
+<li><code>c</code> - C</li>
+<li><code>cpp</code> - C++</li>
+<li><code>cs</code> - C#</li>
+<li><code>py</code> - Python</li>
+<li><code>go</code> - GoLang</li>
+</ul>
+<p>The inline code is the <strong>language as a payload</strong>. For instance, if you want to compile C++, the compilation shouldn’t be loaded as <code>c++</code>. Instead, it should be <code>cpp</code>.</p>
+</div>
+
+<p>Here’s how to set the configuration.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">map.put(<span class="string">&quot;code&quot;</span>, strCode);</span><br><span class="line">map.put(<span class="string">&quot;language&quot;</span>, strLang);</span><br><span class="line">map.put(<span class="string">&quot;input&quot;</span>, strInput);</span><br><span class="line"></span><br><span class="line">requestNetwork.setParams(map, RequestNetworkController.REQUEST_BODY);</span><br></pre></td></tr></table></figure></div>
+
+<p>We are going to extend the <code>compile()</code> method with three more parameters: <code>text</code>, <code>lang</code>, and <code>input</code>.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">compile</span><span class="params">(Activity activity, String text, String lang, String input)</span> &#123;</span><br><span class="line"></span><br><span class="line">    map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    map.put(<span class="string">&quot;code&quot;</span>, text);</span><br><span class="line">    map.put(<span class="string">&quot;language&quot;</span>, lang);</span><br><span class="line">    map.put(<span class="string">&quot;input&quot;</span>, input);</span><br><span class="line"></span><br><span class="line">    requestNetwork.setParams(map, RequestNetworkController.REQUEST_BODY);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>After the setting is done, starts the <code>RequestNetwork</code>.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">requestNetwork.startRequestNetwork(RequestNetworkController.POST, url, <span class="string">&quot;api&quot;</span>, requestListener);</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>url</code> is <code>&quot;https://api.codex.jaagrav.in&quot;</code>, which has already been defined. If you do not, add this code.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;https://api.codex.jaagrav.in&quot;</span>;</span><br></pre></td></tr></table></figure></div></div>
+
+<p>During the compilation, there will be one of two results, <strong>Compilation Success</strong> and <strong>Compilation Failed</strong>.</p>
+<hr>
+<h3 id="Compilation-Success"><a href="#Compilation-Success" class="headerlink" title="Compilation Success"></a>Compilation Success</h3><p>We will declare it as a success situation if there’s no error response. Then, display the compilation output.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (data.get(<span class="string">&quot;error&quot;</span>).toString().equals(<span class="string">&quot;&quot;</span>)) &#123;</span><br><span class="line">    dialog.setTitle(<span class="string">&quot;Compilation output&quot;</span>);</span><br><span class="line">    dialog.setMessage(data.get(<span class="string">&quot;output&quot;</span>).toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>data.get(&quot;error&quot;)</code> is to fetch error responses if there’s any.<br><code>data.get(&quot;output&quot;)</code> is to fetch the output of compilation if there’s no error responses.</p>
+<p>In order to check and display as a <code>String</code>, we need to set <code>toString()</code> for them.</p>
+</div>
+
+<hr>
+<h3 id="Compilation-Failed"><a href="#Compilation-Failed" class="headerlink" title="Compilation Failed"></a>Compilation Failed</h3><p>The compilation failed means there’s error response during the compilation. If there are errors, display them.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    dialog.setTitle(<span class="string">&quot;Compilation error&quot;</span>);</span><br><span class="line">    dialog.setMessage(data.get(<span class="string">&quot;error&quot;</span>).toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>Don’t forget to show the <code>dialog</code> after the <code>if</code> statement.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dialog.show();</span><br></pre></td></tr></table></figure></div></div>
+
+<p>Following instructions above, your code should be like below:</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onResponse</span><span class="params">(String tag, String response, HashMap&lt;String, Object&gt; responseHeaders)</span> &#123;</span><br><span class="line">    progressDialog.dismiss();</span><br><span class="line">    data = <span class="keyword">new</span> <span class="title class_">Gson</span>().fromJson(response, <span class="keyword">new</span> <span class="title class_">TypeToken</span>&lt;HashMap&lt;String, Object&gt;&gt;()&#123;&#125;.getType());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (data.get(<span class="string">&quot;error&quot;</span>).toString().equals(<span class="string">&quot;&quot;</span>)) &#123;</span><br><span class="line">        dialog.setTitle(<span class="string">&quot;Compilation output&quot;</span>);</span><br><span class="line">        dialog.setMessage(data.get(<span class="string">&quot;output&quot;</span>).toString());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        dialog.setTitle(<span class="string">&quot;Compilation error&quot;</span>);</span><br><span class="line">        dialog.setMessage(data.get(<span class="string">&quot;error&quot;</span>).toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dialog.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="Call-Compiler-class"><a href="#Call-Compiler-class" class="headerlink" title="Call Compiler class"></a>Call Compiler class</h2><p>We’re almost there, we’re now in the step of calling methods from <code>Compiler</code> class.</p>
+<p>Your <code>MainActivity.java</code> should be like this.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> ActivityMainBinding binding;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        binding = ActivityMainBinding.inflate(getLayoutInflater());</span><br><span class="line">        setContentView(binding.getRoot());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>View Binding - <code>binding</code> is not required to be used in this project. However, it is a good way to get rid of using <code>findViewById()</code>.</p>
+<p>For instance:</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// get TextView&#x27;s text using findViewById()</span></span><br><span class="line"><span class="type">String</span> <span class="variable">tv</span> <span class="operator">=</span> findViewById(R.id.tv);</span><br><span class="line"><span class="type">String</span> <span class="variable">text</span> <span class="operator">=</span> tv.getText().toString();</span><br><span class="line"></span><br><span class="line"><span class="comment">// get TextView&#x27;s text using view binding</span></span><br><span class="line"><span class="type">String</span> <span class="variable">text</span> <span class="operator">=</span> binding.tv.getText().toString();</span><br></pre></td></tr></table></figure></div>
+
+<p>Therefore, using view binding has several advantages:</p>
+<ol>
+<li>Supports null safety. There won’t be <code>Attempt to invoke virtual method on a null object reference</code> errors since the components are binded in view binding. It also prevents non-existent views or components being called.</li>
+<li>Reduces boileplate code, since <code>findViewById()</code> requires to be defined again if it is being used again, which takes too many places of the entire program and wastes on the operations. If it comes to view binding, it literally eliminates these problems.</li>
+<li>Facilitates type safety, since the binding class that’s generated matches the views declared in the layout file.</li>
+</ol>
+</div>
+
+<p>To compile, call <code>compile()</code> from the <code>Compiler</code> class.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Compiler.compile(<span class="built_in">this</span>, strCode, strLang, strInput);</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="Handle-input-execution"><a href="#Handle-input-execution" class="headerlink" title="Handle input execution"></a>Handle input execution</h3><p>Now, we need to implement the compilation of input. We will make a new dialog with its custom view in <code>MainActivity.java</code>. Again, <code>ModernDialog</code> is used, you can use others.</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">&quot;vertical&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:paddingLeft</span>=<span class="string">&quot;10dp&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:paddingRight</span>=<span class="string">&quot;10dp&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">com.google.android.material.textfield.TextInputLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">EditText</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@+id/et&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:hint</span>=<span class="string">&quot;Input&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">com.google.android.material.textfield.TextInputLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    dialog = <span class="keyword">new</span> <span class="title class_">ModernDialog</span>.Builder(<span class="built_in">this</span>)</span><br><span class="line">            .setDialogStyle(ModernDialog.DIALOG_STYLE_BOTTOM_SHEET)</span><br><span class="line">            .setView(R.layout.dialog_edittext)</span><br><span class="line">            .setTitle(<span class="string">&quot;Leave it empty if no inputs is needed.&quot;</span>)</span><br><span class="line">            .setPositiveButton(<span class="literal">null</span>, v -&gt; &#123;</span><br><span class="line">                <span class="type">EditText</span> <span class="variable">et</span> <span class="operator">=</span> dialog.dialogBS.findViewById(R.id.et);</span><br><span class="line">                <span class="type">String</span> <span class="variable">input</span> <span class="operator">=</span> et.getText().toString();</span><br><span class="line">                Compiler.compile(<span class="built_in">this</span>, binding.editor.getText().toString(), <span class="string">&quot;java&quot;</span>, input);</span><br><span class="line">            &#125;)</span><br><span class="line">            .show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<p>Lastly, call <code>init()</code> from the <code>Compiler</code> class to initialize the <code>RequestNetwork</code>.</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Compiler.init(<span class="built_in">this</span>);</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-danger icon-padding"><i class="note-icon fa-solid fa-times-circle"></i><p>The initialization - <code>init()</code> should be executed before the compilation <code>compile()</code>. Otherwise, the program will never work and show <code>onResponse()</code> or <code>onErrorResponse()</code> with <code>Attempt to invoke interface method on a null object reference</code>.</p>
+</div>
+
+<p>To make sure you don’t get lost, here’s the code:</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> ActivityMainBinding binding;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        binding = ActivityMainBinding.inflate(getLayoutInflater());</span><br><span class="line">        setContentView(binding.getRoot());</span><br><span class="line"></span><br><span class="line">        Compiler.init(<span class="built_in">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>You may ask, where does <code>compile()</code> code? It should be executed on a button click or else.</p>
+<p>Here’s an example of defining a <code>Button</code> and executing its click event.</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">&quot;@+id/btn&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:text</span>=<span class="string">&quot;Compile&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">binding.btn.setOnClickListener(v -&gt; &#123;</span><br><span class="line">    dialog = <span class="keyword">new</span> <span class="title class_">ModernDialog</span>.Builder(<span class="built_in">this</span>)</span><br><span class="line">            .setDialogStyle(ModernDialog.DIALOG_STYLE_BOTTOM_SHEET)</span><br><span class="line">            .setView(R.layout.dialog_edittext)</span><br><span class="line">            .setTitle(<span class="string">&quot;Leave it empty if no inputs is needed.&quot;</span>)</span><br><span class="line">            .setPositiveButton(<span class="literal">null</span>, v -&gt; &#123;</span><br><span class="line">                <span class="type">EditText</span> <span class="variable">et</span> <span class="operator">=</span> dialog.dialogBS.findViewById(R.id.et);</span><br><span class="line">                <span class="type">String</span> <span class="variable">input</span> <span class="operator">=</span> et.getText().toString();</span><br><span class="line">                Compiler.compile(<span class="built_in">this</span>, binding.editor.getText().toString(), <span class="string">&quot;java&quot;</span>, input);</span><br><span class="line">            &#125;)</span><br><span class="line">            .show();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h1 id="Full-source-code"><a href="#Full-source-code" class="headerlink" title="Full source code"></a>Full source code</h1><p>Here’s the full source code.</p>
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>Due to the source code below was written before this article is created, some of the code may not match with this article’s content codes. Plus, <strong>replace the package name to yours</strong>.</p>
+</div>
+
+<div class="tabs" id="tab-source_code"><ul class="nav-tabs"><li class="tab active"><a class="#source_code-1">Libraries</a></li><li class="tab"><a class="#source_code-2">Manifest</a></li><li class="tab"><a class="#source_code-3">Layouts</a></li><li class="tab"><a class="#source_code-4">Packages</a></li><li class="tab"><a class="#source_code-5">Compiler.java</a></li><li class="tab"><a class="#source_code-6">MainActivity.java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="source_code-1"><div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ==== [ Gson ] ====</span></span><br><span class="line">implementation <span class="string">&#x27;com.google.code.gson:gson:2.10&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ==== [ Okhttp ] ====</span></span><br><span class="line">implementation(platform(<span class="string">&quot;com.squareup.okhttp3:okhttp-bom:4.10.0&quot;</span>))</span><br><span class="line">implementation(<span class="string">&quot;com.squareup.okhttp3:okhttp&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ==== [ Sora Editor ] =====</span></span><br><span class="line">implementation(platform(<span class="string">&quot;io.github.Rosemoe.sora-editor:bom:0.20.2&quot;</span>))</span><br><span class="line">implementation(<span class="string">&quot;io.github.Rosemoe.sora-editor:editor&quot;</span>)</span><br><span class="line">implementation(<span class="string">&quot;io.github.Rosemoe.sora-editor:language-textmate&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// === [ Modern Dialog ] ====</span></span><br><span class="line">implementation <span class="string">&#x27;com.github.BlueWhaleYT:ModernDialog:1.0.2&#x27;</span></span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="source_code-2"><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- required permissions --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- cleartext traffic --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:usesCleartextTraffic</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="source_code-3"><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><figcaption><span>activity_main.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">&quot;.MainActivity&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">&quot;vertical&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">io.github.rosemoe.sora.widget.CodeEditor</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">&quot;@+id/editor&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><figcaption><span>dialog_progress.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:orientation</span>=<span class="string">&quot;horizontal&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:padding</span>=<span class="string">&quot;20dp&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ProgressBar</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@+id/pbLoading&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">style</span>=<span class="string">&quot;?android:attr/progressBarStyle&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_marginLeft</span>=<span class="string">&quot;10dp&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_marginRight</span>=<span class="string">&quot;20dp&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@+id/tvText&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_gravity</span>=<span class="string">&quot;center&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:text</span>=<span class="string">&quot;TextView&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><figcaption><span>dialog_edittext.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">&quot;vertical&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:paddingLeft</span>=<span class="string">&quot;10dp&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:paddingRight</span>=<span class="string">&quot;10dp&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">com.google.android.material.textfield.TextInputLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">EditText</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@+id/et&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:hint</span>=<span class="string">&quot;Input&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">com.google.android.material.textfield.TextInputLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="source_code-4"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Compiler (Compiler.java)</span></span><br><span class="line"><span class="keyword">import</span> com.xxx.yyy.Compiler;</span><br><span class="line"></span><br><span class="line"><span class="comment">// RequestNetwork</span></span><br><span class="line"><span class="keyword">import</span> com.bluewhaleyt.javaide.util.network.RequestNetwork;</span><br><span class="line"><span class="keyword">import</span> com.bluewhaleyt.javaide.util.network.RequestNetworkController;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Gson</span></span><br><span class="line"><span class="keyword">import</span> com.google.gson.Gson;</span><br><span class="line"><span class="keyword">import</span> com.google.gson.reflect.TypeToken;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Modern Dialog</span></span><br><span class="line"><span class="keyword">import</span> com.bluewhaleyt.moderndialog.ModernDialog;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MaterialAlertDialog</span></span><br><span class="line"><span class="keyword">import</span> com.google.android.material.dialog.MaterialAlertDialogBuilder;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="source_code-5"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Compiler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// declare constants</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> Compiler.class.getName();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// declare variables</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;https://api.codex.jaagrav.in&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;String, Object&gt; data = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> RequestNetwork requestNetwork;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> RequestNetwork.RequestListener requestListener;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ModernDialog.Builder dialog;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AlertDialog progressDialog;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(Activity activity)</span> &#123;</span><br><span class="line">        requestNetwork = <span class="keyword">new</span> <span class="title class_">RequestNetwork</span>(activity);</span><br><span class="line"></span><br><span class="line">        <span class="type">RequestListener</span> <span class="variable">requestListener</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RequestNetwork</span>.RequestListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onResponse</span><span class="params">(String tag, String response, HashMap&lt;String, Object&gt; responseHeaders)</span> &#123;</span><br><span class="line">                progressDialog.dismiss();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// get the output and print it to Logcat</span></span><br><span class="line">                data = <span class="keyword">new</span> <span class="title class_">Gson</span>().fromJson(response, <span class="keyword">new</span> <span class="title class_">TypeToken</span>&lt;HashMap&lt;String, Object&gt;&gt;()&#123;&#125;.getType());</span><br><span class="line">                Log.d(TAG, data);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// compilation success</span></span><br><span class="line">                <span class="keyword">if</span> (data.get(<span class="string">&quot;error&quot;</span>).toString().equals(<span class="string">&quot;&quot;</span>)) &#123;</span><br><span class="line">                    dialog.setTitle(<span class="string">&quot;Compilation output&quot;</span>);</span><br><span class="line">                    dialog.setMessage(data.get(<span class="string">&quot;output&quot;</span>).toString());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// compilation failed</span></span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    dialog.setTitle(<span class="string">&quot;Compilation error&quot;</span>);</span><br><span class="line">                    dialog.setMessage(data.get(<span class="string">&quot;error&quot;</span>).toString());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// display the dialog</span></span><br><span class="line">                dialog.show();</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onErrorResponse</span><span class="params">(String tag, String message)</span> &#123;</span><br><span class="line">                progressDialog.dismiss();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// check if no internet connection</span></span><br><span class="line">                dialog.setTitle(<span class="string">&quot;No Internet&quot;</span>);</span><br><span class="line">                dialog.setMessage(message);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">compile</span><span class="params">(Activity activity, String code, String lang, String input)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// configuration</span></span><br><span class="line">        map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">&quot;code&quot;</span>, text);</span><br><span class="line">        map.put(<span class="string">&quot;language&quot;</span>, lang);</span><br><span class="line">        map.put(<span class="string">&quot;input&quot;</span>, input);</span><br><span class="line">        requestNetwork.setParams(map, RequestNetworkController.REQUEST_BODY);</span><br><span class="line">        requestNetwork.startRequestNetwork(RequestNetworkController.POST, url, <span class="string">&quot;api&quot;</span>, requestListener);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// progress dialog</span></span><br><span class="line">        <span class="type">View</span> <span class="variable">view</span> <span class="operator">=</span> activity.getLayoutInflater().inflate(R.layout.dialog_progress, <span class="literal">null</span>);</span><br><span class="line">        <span class="type">TextView</span> <span class="variable">tv</span> <span class="operator">=</span> view.findViewById(R.id.tvText);</span><br><span class="line">        tv.setText(<span class="string">&quot;Compiling, please wait ...&quot;</span>);</span><br><span class="line">        progressDialog = <span class="keyword">new</span> <span class="title class_">MaterialAlertDialogBuilder</span>(activity).create();</span><br><span class="line">        progressDialog.setView(view);</span><br><span class="line">        progressDialog.setCancelable(<span class="literal">false</span>);</span><br><span class="line">        progressDialog.show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="source_code-6"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// declare variables</span></span><br><span class="line">    <span class="keyword">private</span> ActivityMainBinding binding;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        binding = ActivityMainBinding.inflate(getLayoutInflater());</span><br><span class="line">        setContentView(binding.getRoot());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// initialize the compiler</span></span><br><span class="line">        Compiler.init(<span class="built_in">this</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// compile program code</span></span><br><span class="line">        binding.btn.setOnClickListener(v -&gt; compile(binding.editor.getText().toString()));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">compile</span><span class="params">(String input)</span> &#123;</span><br><span class="line">        dialog = <span class="keyword">new</span> <span class="title class_">ModernDialog</span>.Builder(<span class="built_in">this</span>)</span><br><span class="line">                .setDialogStyle(ModernDialog.DIALOG_STYLE_BOTTOM_SHEET)</span><br><span class="line">                .setView(R.layout.dialog_edittext)</span><br><span class="line">                .setTitle(<span class="string">&quot;Leave it empty if no inputs is needed.&quot;</span>)</span><br><span class="line">                .setPositiveButton(<span class="literal">null</span>, v -&gt; &#123;</span><br><span class="line">                    <span class="type">EditText</span> <span class="variable">et</span> <span class="operator">=</span> dialog.dialogBS.findViewById(R.id.et);</span><br><span class="line">                    <span class="type">String</span> <span class="variable">input</span> <span class="operator">=</span> et.getText().toString();</span><br><span class="line">                    Compiler.compile(<span class="built_in">this</span>, binding.editor.getText().toString(), <span class="string">&quot;java&quot;</span>, input);</span><br><span class="line">                &#125;)</span><br><span class="line">                .show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h1 id="Useful-Links"><a href="#Useful-Links" class="headerlink" title="Useful Links"></a>Useful Links</h1><ul class="useful-links">
+    <a target="_blank" href="https://github.com/Jaagrav/CodeX-API"><li>CodeX API</li></a>
+    <a target="_blank" href="using-sora-editor-with-textmate-0-18-1"><li>Using Sora Editor with TextMate 0.18.1</li></a>
+    <a target="_blank" href="implement-android-custom-progress-dialog"><li>建立自訂載入對話框</li></a>
+</ul>
+
+<hr>
+<p>That’s all for this article. According to the <a target="_blank" href="https://github.com/Jaagrav/CodeX-API/releases/tag/v1-alpha">latest announcement</a>:</p>
+<blockquote>
+<p>Sorry for the long downtime but <strong>CodeX API is now back</strong>. I worked on some major refactoring and cleanup to make the codebase more neat and make it easier to add support for new languages in the future.</p>
+</blockquote>
+<p>With its revive, we are now able to use this API to make an online compiler for different programming languages.</p>
+<p>However, as I mentioned early this article, this API is still <strong>unstable and will be renovated with breaking changes</strong>. Thus, <strong>this article’s content will be deprecated or even no longer worked as expected</strong>.</p>
+<p>Anyways, I hope you guys enjoy this article, See ya.</p>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Java/">#Java</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Xml/">#Xml</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/post/dev_terminal_beautify_tutorial.html"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">打造並美化終端機和 Vim 編輯器</span>
+                                    <span class="post-nav-item">上一篇</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/post/dev_vscode_snippet_tutorial.html"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">VSCode 自訂程式碼片段</span>
+                                    <span class="post-nav-item">下一篇</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;留言
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script data-pjax
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script data-pjax>
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '548e3371016b4d8243f2',
+                    clientSecret: 'cfcf19408aacef6c9613469bd924d8fe6a96a5b2',
+                    repo: 'bluewhaleyt.github.io',
+                    owner: 'BlueWhaleYT',
+                    admin: ['BlueWhaleYT'],
+                    id: __gitalk__pathname,
+                    language: 'zh-TW'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('true') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此頁目錄</div>
+        <div class="page-title">Create online compiler android app</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Manifest-Configuration"><span class="nav-number">1.</span> <span class="nav-text">Manifest Configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Set-permission"><span class="nav-number">1.1.</span> <span class="nav-text">Set permission</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Allow-HTTP-URLs-access"><span class="nav-number">1.2.</span> <span class="nav-text">Allow HTTP URLs access</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-1-Cleartext-Traffic"><span class="nav-number">1.2.1.</span> <span class="nav-text">Solution 1 - Cleartext Traffic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-2-Allow-connections-to-specific-site"><span class="nav-number">1.2.2.</span> <span class="nav-text">Solution 2 - Allow connections to specific site</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Create-Layout"><span class="nav-number">2.</span> <span class="nav-text">Create Layout</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RequestNetwork-Java-Files"><span class="nav-number">3.</span> <span class="nav-text">RequestNetwork Java Files</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-RequestNetwork-files"><span class="nav-number">3.1.</span> <span class="nav-text">Why RequestNetwork files?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Use-CodeX-API"><span class="nav-number">4.</span> <span class="nav-text">Use CodeX API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-a-Compiler-class"><span class="nav-number">4.1.</span> <span class="nav-text">Create a Compiler class</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Define-Variables"><span class="nav-number">4.2.</span> <span class="nav-text">Define Variables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Initialize-RequestNetwork"><span class="nav-number">4.3.</span> <span class="nav-text">Initialize RequestNetwork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Use-RequestListener"><span class="nav-number">4.4.</span> <span class="nav-text">Use RequestListener</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Loading-dialog"><span class="nav-number">4.5.</span> <span class="nav-text">Loading dialog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Connection-Error-Alert"><span class="nav-number">4.6.</span> <span class="nav-text">Connection Error Alert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fetch-data"><span class="nav-number">4.7.</span> <span class="nav-text">Fetch data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Output"><span class="nav-number">4.7.1.</span> <span class="nav-text">Output</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compilation"><span class="nav-number">4.8.</span> <span class="nav-text">Compilation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Compilation-Success"><span class="nav-number">4.8.1.</span> <span class="nav-text">Compilation Success</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compilation-Failed"><span class="nav-number">4.8.2.</span> <span class="nav-text">Compilation Failed</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Call-Compiler-class"><span class="nav-number">4.9.</span> <span class="nav-text">Call Compiler class</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Handle-input-execution"><span class="nav-number">4.9.1.</span> <span class="nav-text">Handle input execution</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Full-source-code"><span class="nav-number">5.</span> <span class="nav-text">Full source code</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Useful-Links"><span class="nav-number">6.</span> <span class="nav-text">Useful Links</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">BlueWhaleYT</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        讀者&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        閱覽&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container"><?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a> 框架</span>
+                <br>
+            <span class="theme-version-container">主題&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                博客已運行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小時 <span class="odometer" id="runtime_minutes"></span> 分鐘 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <div class="customize-info info-item">Credits: <a target="_blank" rel="noopener" href='https://www.freepik.com/'>Freepik</a>.</div>
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜尋..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

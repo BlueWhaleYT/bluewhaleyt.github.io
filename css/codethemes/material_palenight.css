@@ -1,0 +1,118 @@
+/* ==== [CodeTheme: Material Palenight] ====
+
+/* Color schemes */
+:root {
+    --mp-green: #c3e88d !important;
+    --mp-yellow: #ffcb6b !important;
+    --mp-blue: #82aaff !important;
+    --mp-red: #f07178 !important;
+    --mp-red-alt: #ff5370 !important;
+    --mp-purple: #c792ea !important;
+    --mp-orange: #f78c6c !important;
+    --mp-cyan: #89ddff !important;
+    --mp-cyan-alt: #80cbc4 !important;
+    --mp-gray: #676e95 !important;
+}
+
+.theme-dark .token.punctuation,
+.theme-dark .token.punctuation.attr-equals,
+.theme-dark .token.builtin,
+.theme-dark .pl-pds,
+.theme-dark .pl-kos {
+    color: var(--mp-cyan) !important;
+}
+
+.theme-dark .token.class-name,
+.theme-dark .token.prolog,
+.theme-dark .pl-smi {
+    color: var(--mp-yellow) !important;
+}
+
+.theme-dark .token.function,
+.theme-dark .pl-en {
+    color: var(--mp-blue) !important;
+}
+
+.theme-dark .token.string,
+.theme-dark .token.attr-value,
+.theme-dark .pl-s {
+    color: var(--mp-green) !important;
+}
+
+.theme-dark .token.keyword,
+.theme-dark .token.operator,
+.theme-dark .token.attr-name,
+.theme-dark .token.name,
+.theme-dark .pl-k {
+    color: var(--mp-purple) !important;
+}
+
+.theme-dark .token.annotation.punctuation,
+.theme-dark .language-css .token.property {
+    color: var(--mp-cyan-alt) !important;
+}
+
+.theme-dark .token.number,
+.theme-dark .token.boolean,
+.theme-dark .token.variable,
+.theme-dark .token.namespace,
+.theme-dark .token.constant,
+.theme-dark .token.property,
+.theme-dark .token.important,
+.theme-dark .pl-c1 {
+    color: var(--mp-orange) !important;
+    opacity: 1 !important;
+}
+
+.theme-dark .token.atrule,
+.theme-dark .token.tag,
+.theme-dark .token.selector,
+.theme-dark .token.doctype-tag,
+.theme-dark .pl-ent {
+    color: var(--mp-red) !important;
+}
+
+.theme-dark .token.comment,
+.theme-dark .pl-c {
+    color: var(--mp-gray) !important;
+    font-style: italic !important;
+}
+
+.theme-dark code[class*=language-]::-moz-selection,
+.theme-dark code[class*=language-] ::-moz-selection,
+.theme-dark pre[class*=language-]::-moz-selection,
+.theme-dark pre[class*=language-] ::-moz-selection {
+    text-shadow: none;
+    background-color: #50717CB4
+}
+
+.theme-dark code[class*=language-]::selection,
+.theme-dark code[class*=language-] ::selection,
+.theme-dark pre[class*=language-]::selection,
+.theme-dark pre[class*=language-] ::selection {
+    text-shadow: none;
+    background-color: #50717CB4
+}
+
+.theme-dark .line-highlight {
+    background: #f78c6c11 !important;
+    border-color: #f78c6c;
+}
+
+.theme-dark .token.prefix.deleted {
+    color: #ff475766 !important;
+}
+
+.theme-dark .token.prefix.inserted {
+    color: #2ed57366 !important;
+}
+
+.theme-dark .token.deleted .token.line {
+    background: #ff475711 !important;
+    color: #ff4757 !important;
+}
+
+.theme-dark .token.inserted .token.line {
+    background: #2ed57311 !important;
+    color: #2ed573 !important;
+}

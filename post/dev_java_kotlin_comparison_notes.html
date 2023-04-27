@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="BlueWhaleYT">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://bluewhaleyt.github.io/post/dev_java_kotlin_comparison_notes.html"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="這篇筆記會持續更新。   筆記主要撰寫 Java 程式碼和 Kotlin 程式碼對照及轉換，事先聲明，可能會涉及 Kotlin 語法的資訊，而且我對 Kotlin 編程知識很淺薄，因此就寫這個筆記，要用就隨時看。   基本概要整體差異                           差異項目             Java             Kotlin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 與 Kotlin 語言對照筆記">
+<meta property="og:url" content="https://bluewhaleyt.github.io/post/dev_java_kotlin_comparison_notes.html">
+<meta property="og:site_name" content="BlueWhaleYT 個人網誌">
+<meta property="og:description" content="這篇筆記會持續更新。   筆記主要撰寫 Java 程式碼和 Kotlin 程式碼對照及轉換，事先聲明，可能會涉及 Kotlin 語法的資訊，而且我對 Kotlin 編程知識很淺薄，因此就寫這個筆記，要用就隨時看。   基本概要整體差異                           差異項目             Java             Kotlin">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-12-21T04:00:50.000Z">
+<meta property="article:modified_time" content="2023-04-27T08:53:10.232Z">
+<meta property="article:author" content="BlueWhaleYT">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Kotlin">
+<meta name="twitter:card" content="summary">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <meta name="theme-color" content="#6190e8">
+    <link rel="shortcut icon" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Java 與 Kotlin 語言對照筆記 -
+        
+        BlueWhaleYT 個人網誌
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'" rel="stylesheet">
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"bluewhaleyt.github.io","root":"/","language":"zh-TW","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":true,"family":"JetBrains Mono","url":"https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'"}},"toc":{"enable":true,"max_depth":6,"number":true,"expand":true,"init_open":true},"copyright":false,"lazyload":false,"recommendation":{"enable":false,"title":"Recommendation","limit":3,"placeholder":"https://i.imgur.com/tyHG03D.jpg","skip_dirs":[]}},"colors":{"primary":"#6190e8","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"2000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":false,"image":{"light":null,"dark":null},"title":"BlueWhaleYT 個人網誌","subtitle":{"text":[],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#6190e8","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Status":{"path":"https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages","icon":"fa-regular fa-chart-bar"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/BlueWhaleYT/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"歡迎來到「BlueWhaleYT 個人網誌」。","links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s 秒前","minute":"%s 分鐘前","hour":"%s 小時前","day":"%s 天前","week":"%s 週前","month":"%s 個月前","year":"%s 年前"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/fontawesome/duotone.min.css">
+
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                BlueWhaleYT 個人網誌
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首頁
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        歸檔
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-chart-bar"></i>
+                                        
+                                        狀態
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首頁
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                歸檔
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                             
+                                
+                                    <i class="fa-regular fa-chart-bar"></i>
+                                
+                                狀態
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+             
+                <div class="article-title">         
+                    <img src="https://i.imgur.com/osnUtWh.png" alt="Java 與 Kotlin 語言對照筆記" />
+                    <h1 class="article-title-cover">Java 與 Kotlin 語言對照筆記</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">BlueWhaleYT</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2022-12-21 12:50</span>
+        <span class="mobile">2022-12-21 12</span>
+        <span class="hover-info">撰寫</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-04-27 16:53:10</span>
+            <span class="mobile">2023-04-27 16:53</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Java/">Java</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Kotlin/">Kotlin</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <div class="note note-primary icon-padding"><i class="note-icon fa-solid fa-circle-arrow-right"></i><p>這篇筆記會持續更新。</p>
+<br>
+
+<p>筆記主要撰寫 Java 程式碼和 Kotlin 程式碼對照及轉換，事先聲明，可能會涉及 Kotlin 語法的資訊，而且我對 Kotlin 編程知識很淺薄，因此就寫這個筆記，要用就隨時看。</p>
+</div>
+
+<h1 id="基本概要"><a href="#基本概要" class="headerlink" title="基本概要"></a>基本概要</h1><h2 id="整體差異"><a href="#整體差異" class="headerlink" title="整體差異"></a>整體差異</h2><table width="100%" align="center">
+    <thead>
+        <tr>
+            <th>差異項目</th>
+            <th>Java</th>
+            <th>Kotlin</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center">語法</td>
+            <td align="center">有冗長的語法和大量的分號，需要額外的代碼來處理 <code>null</code> 值</td>
+            <td align="center">傾向於簡潔的語法和函數式編程風格，提供了更好的 <code>null</code> 安全支持</td>
+        </tr>
+        <tr>
+            <td align="center">特性</td>
+            <td align="center">是一種面向對象的語言，支持多繼承和接口</td>
+            <td align="center">支持面向對象和函數式編程，提供了許多有用的特性，例如擴展函數、屬性、類型推斷和協程</td>
+        </tr>
+        <tr>
+            <td align="center">互操作性</td>
+            <td align="center">能夠輕鬆與其他 Java 代碼集成，但與 Kotlin 代碼集成時需要一些額外的設置</td>
+            <td align="center">能夠輕鬆與 Java 代碼集成，但需要注意一些 Java 語法和庫不支持 Kotlin 的特定特性</td>
+        </tr>
+        <tr>
+            <td align="center">工具和生態系統</td>
+            <td align="center">擁有龐大的工具和生態系統，例如 Maven 和 Gradle</td>
+            <td align="center">在 Android 平台上有前所未有的成功，並擁有許多優秀的庫和框架，例如 Ktor 和 Anko</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+<h2 id="存取修飾子"><a href="#存取修飾子" class="headerlink" title="存取修飾子"></a>存取修飾子</h2><table width="100%" align="center">
+    <thead>
+        <tr>
+            <th>修飾子</th>
+            <th>Java</th>
+            <th>Kotlin</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center"><code>public</code></td>
+            <td align="center">所有類可存取</td>
+            <td align="center">所有類可存取（預設）</td>
+        </tr>
+        <tr>
+            <td align="center"><code>private</code></td>
+            <td align="center">當前類可存取</td>
+            <td align="center">無</td>
+        </tr>
+        <tr>
+            <td align="center"><code>protected</code></td>
+            <td align="center">當前類、子類、同一套件路徑下的類可存取</td>
+            <td align="center">當前類、子類可存取</td>
+        </tr>
+        <tr>
+            <td align="center"><code>default</code></td>
+            <td align="center">同一套件路徑下的類可存取（預設）</td>
+            <td align="center">無</td>
+        </tr>
+        <tr>
+            <td align="center"><code>internal</code></td>
+            <td align="center">無</td>
+            <td align="center">同一模組中的類可存取</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+<h1 id="入口點"><a href="#入口點" class="headerlink" title="入口點"></a>入口點</h1><div class="tabs" id="tab-code_entry_point"><ul class="nav-tabs"><li class="tab active"><a class="#code_entry_point-1">Kotlin</a></li><li class="tab"><a class="#code_entry_point-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_entry_point-1"><p>在 Kotlin 中，你可以直接定義一個頂級函數並將其作為程式的入口點。</p>
+<div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 程式將由此處開始執行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>更多資訊 </summary>
+              <div class="content">
+              <div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>在 Kotlin 1.3 版本前，<code>main()</code> 方法需要跟 Java 一樣要定義參數。</p><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 程式將由此處開始執行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><p>但是，如果你想在一個類中定義入口點函數，你可以這樣寫：</p><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="meta">@JvmStatic</span></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">            <span class="comment">// 在這裡編寫程式邏輯</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><p>在這種情況下，你需要將 <code>main()</code> 函數聲明為一個類的伴生對象的一部分，並使用 <code>@JvmStatic</code> 註解將其標記為 Java 靜態方法。這樣做是為了兼容 Java 的語法，讓 Kotlin 代碼可以像 Java 一樣被編譯和調用。</p>
+              </div>
+            </details></div><div class="tab-pane" id="code_entry_point-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 程式將由此處開始執行</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<h1 id="程式結構"><a href="#程式結構" class="headerlink" title="程式結構"></a>程式結構</h1><h2 id="選擇"><a href="#選擇" class="headerlink" title="選擇"></a>選擇</h2><h3 id="決策邏輯-if-else"><a href="#決策邏輯-if-else" class="headerlink" title="決策邏輯 if else"></a>決策邏輯 <code>if</code> <code>else</code></h3><div class="tabs" id="tab-code_logic_if"><ul class="nav-tabs"><li class="tab active"><a class="#code_logic_if-1">Kotlin</a></li><li class="tab"><a class="#code_logic_if-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_logic_if-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">z = <span class="keyword">if</span> (x &gt; y) x <span class="keyword">else</span> y</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_logic_if-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (x &gt; y) z = x;</span><br><span class="line"><span class="keyword">else</span> z = y;</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h3 id="情況邏輯-switch-case"><a href="#情況邏輯-switch-case" class="headerlink" title="情況邏輯 switch case"></a>情況邏輯 <code>switch</code> <code>case</code></h3><div class="tabs" id="tab-code_logic_case"><ul class="nav-tabs"><li class="tab active"><a class="#code_logic_case-1">Kotlin</a></li><li class="tab"><a class="#code_logic_case-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_logic_case-1"><p>在 Kotlin，<code>when</code> 是用來進行判斷個別情況，就與 <code>switch</code> 相似。</p>
+<div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> grade = <span class="keyword">when</span> (score) &#123;</span><br><span class="line">    <span class="number">9</span>, <span class="number">10</span> -&gt; <span class="string">&quot;Excellent&quot;</span></span><br><span class="line">    <span class="keyword">in</span> <span class="number">6.</span><span class="number">.8</span> -&gt; <span class="string">&quot;Good&quot;</span></span><br><span class="line">    <span class="number">4</span>, <span class="number">5</span> -&gt; <span class="string">&quot;OK&quot;</span></span><br><span class="line">    <span class="keyword">else</span> -&gt; <span class="string">&quot;Fail&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_logic_case-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (score) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">10</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">9</span>:</span><br><span class="line">        grade = <span class="string">&quot;Excellent&quot;</span>;</span><br><span class="line">	    <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">        grade = <span class="string">&quot;Good&quot;</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        grade = <span class="string">&quot;OK&quot;</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        grade = <span class="string">&quot;Fail&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h2 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h2><h3 id="for-循環"><a href="#for-循環" class="headerlink" title="for 循環"></a><code>for</code> 循環</h3><div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>Java 中的 <code>for</code> 循環使用分號 <code>;</code> 分隔三個部分：初始值、條件和遞增值。；而 Kotlin 則使用 range 或集合來定義迭代範圍。</p>
+</div>
+
+<div class="tabs" id="tab-code_iteration_for_loop"><ul class="nav-tabs"><li class="tab active"><a class="#code_iteration_for_loop-1">Kotlin</a></li><li class="tab"><a class="#code_iteration_for_loop-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_iteration_for_loop-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span> until <span class="number">10</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">10</span> downTo <span class="number">0</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10</span> step <span class="number">2</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">10</span> downTo <span class="number">0</span> step <span class="number">2</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (item <span class="keyword">in</span> collection) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ((key, value) <span class="keyword">in</span> map) &#123;&#125;</span><br></pre></td></tr></table></figure></div>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>更多資訊 </summary>
+              <div class="content">
+              <div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>在 Kotlin 中，可以使用解構聲明（Destructuring Declarations）來將 <code>Map</code> 中的鍵值對分別賦值給已定義的變量。因此，</p><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ((key, value) <span class="keyword">in</span> map)</span><br></pre></td></tr></table></figure></div><p>中的 <code>key</code> 和 <code>value</code> 可以被視為已經定義好的變量。</p><p>這種語法簡化了對 <code>Map</code> 中鍵值對的訪問和操作。同時，Kotlin 還支持解構聲明用於其他數據類型，例如 <code>Pair</code>、<code>Triple</code> 等等。</p></div>
+              </div>
+            </details></div><div class="tab-pane" id="code_iteration_for_loop-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= <span class="number">10</span> ; i++) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; <span class="number">10</span> ; i++) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span>; i &gt;= <span class="number">0</span> ; i--) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= <span class="number">10</span> ; i+=<span class="number">2</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span>; i &gt;= <span class="number">0</span> ; i-=<span class="number">2</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (String item : collection) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;String, String&gt; entry: map.entrySet()) &#123;&#125;</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<h1 id="Kotlin-語法"><a href="#Kotlin-語法" class="headerlink" title="Kotlin 語法"></a>Kotlin 語法</h1><p>Kotlin 才有的語法，但 Java 可以透過其他編程方式把其實現。</p>
+<h2 id="關鍵字"><a href="#關鍵字" class="headerlink" title="關鍵字"></a>關鍵字</h2><h3 id="companion"><a href="#companion" class="headerlink" title="companion"></a><code>companion</code></h3><p>使用 <code>companion object</code> 關鍵字定義一個單例對象，該對象的屬性和方法可以直接使用類名訪問，就像 Java 中的靜態方法和屬性一樣。</p>
+<div class="tabs" id="tab-code_keyword_companion"><ul class="nav-tabs"><li class="tab active"><a class="#code_keyword_companion-1">Kotlin</a></li><li class="tab"><a class="#code_keyword_companion-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_keyword_companion-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">staticMethod</span><span class="params">()</span></span> &#123;</span><br><span class="line">            <span class="comment">// 靜態方法內容</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_keyword_companion-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">staticMethod</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 靜態方法內容</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h3 id="data"><a href="#data" class="headerlink" title="data"></a><code>data</code></h3><p>要是實現<strong>冗長的數據類</strong>的話，我高度建議使用 Kotlin 語法的數據類結構 <code>data class</code> ，因為它<strong>簡化並內置了</strong> Java 變異子與存取子方法： </p>
+<p><code>getXXX()</code>, <code>setXXX()</code>, <code>toString()</code>, <code>hashCode()</code> 及 <code>equals()</code></p>
+<div class="tabs" id="tab-code_keyword_data"><ul class="nav-tabs"><li class="tab active"><a class="#code_keyword_data-1">數據類 (Kotlin)</a></li><li class="tab"><a class="#code_keyword_data-2">變異子與存取子 (Java)</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_keyword_data-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Person</span> (</span><br><span class="line">    <span class="keyword">var</span> name: String, </span><br><span class="line">    <span class="keyword">var</span> age: <span class="built_in">Int</span>, </span><br><span class="line">    <span class="keyword">var</span> isMarried: <span class="built_in">Boolean</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></div>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>使用示例 </summary>
+              <div class="content">
+              <div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> person = Person(<span class="string">&quot;Steve&quot;</span>)</span><br><span class="line">println(person.name)</span><br></pre></td></tr></table></figure></div>
+              </div>
+            </details></div><div class="tab-pane" id="code_keyword_data-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isMarried;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 存取子 (Getter)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123; <span class="keyword">return</span> name; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getAge</span><span class="params">()</span> &#123; <span class="keyword">return</span> age; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isMarried</span><span class="params">()</span> &#123; <span class="keyword">return</span> isMarried; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 變異子 (Setter)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123; <span class="built_in">this</span>.name = name; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAge</span><span class="params">(<span class="type">int</span> age)</span> &#123; <span class="built_in">this</span>.age = age; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setMarried</span><span class="params">(<span class="type">boolean</span> isMarried)</span> &#123; <span class="built_in">this</span>.isMarried = isMarried; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>使用示例 </summary>
+              <div class="content">
+              <div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;Steve&quot;</span>);</span><br><span class="line">System.out.println(person.getName());</span><br></pre></td></tr></table></figure></div>
+              </div>
+            </details></div></div></div>
+
+<hr>
+<h3 id="lateinit"><a href="#lateinit" class="headerlink" title="lateinit"></a><code>lateinit</code></h3><p><code>lateinit</code> 關鍵字來表示這是一個<strong>延遲初始化</strong>的屬性。這意味著我們可以在後面的代碼中設置這個屬性的值，而不需要在對象創建時立即指定初始值。</p>
+<div class="tabs" id="tab-code_keyword_lateinit"><ul class="nav-tabs"><li class="tab active"><a class="#code_keyword_lateinit-1">Kotlin</a></li><li class="tab"><a class="#code_keyword_lateinit-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_keyword_lateinit-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> name: String</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_keyword_lateinit-2"><p>Java 中的 <code>Optional</code> 類來實現延遲初始化，具體來說，你可以將屬性的類型設置為 <code>Optional</code> 類型，然後在需要的時候再進行初始化。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Optional&lt;String&gt; name = Optional.empty();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = Optional.of(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name.orElse(<span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h2 id="運算符"><a href="#運算符" class="headerlink" title="運算符"></a>運算符</h2><h3 id="安全呼叫運算符"><a href="#安全呼叫運算符" class="headerlink" title="安全呼叫運算符 ?."></a>安全呼叫運算符 <code>?.</code></h3><p>使用 <code>?.</code> 安全呼叫運算子存取可為空值變數的方法或屬性。<code>?.</code> 安全呼叫運算子可讓您安全存取可為空值變數，因為 Kotlin 編譯器會阻止變數成員存取 <code>null</code> 參照，並對存取的成員傳回 <code>null</code>。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>當變數不為空時，我們就可以得到預期的數值；反之，如果是空的時候，不管呼叫什麼，都只會回傳 <code>null</code> 。</p>
+</div>
+
+<div class="tabs" id="tab-code_operator_safe_call_operator"><ul class="nav-tabs"><li class="tab active"><a class="#code_operator_safe_call_operator-1">Kotlin</a></li><li class="tab"><a class="#code_operator_safe_call_operator-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_operator_safe_call_operator-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="string">&quot;John&quot;</span></span><br><span class="line"><span class="keyword">val</span> length = name?.length ?: <span class="number">0</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>?</code> 是可為空值類型變量的聲明符，用以聲明該變量的類型為可空值。</p>
+<div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="string">&quot;John&quot;</span></span><br></pre></td></tr></table></figure></div></div></div><div class="tab-pane" id="code_operator_safe_call_operator-2"><p>Java 沒有安全呼叫運算符，但可以用 <code>object != null</code> 來實現類似的情況。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> <span class="string">&quot;John&quot;</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> name != <span class="literal">null</span> ? name.length() : <span class="number">0</span>;</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h3 id="空合併運算符"><a href="#空合併運算符" class="headerlink" title="空合併運算符 ?:"></a>空合併運算符 <code>?:</code></h3><p>空合併運算符 (Elvis 運算符) <code>?:</code> 作用是在表達式為空 <code>null</code> 時提供一個默認值。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>如果左側 (<code>?</code>) 的值為空，就取右側 (<code>:</code>) 的值。</p>
+</div>
+
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>空合併運算符只能用於可空型別。</p>
+<br>
+
+<p>如果強制將一個非空型別的變量轉換為可空型別，也不能使用空合併運算符。</p>
+</div>
+
+<div class="tabs" id="tab-code_operator_null_coalescing_operator"><ul class="nav-tabs"><li class="tab active"><a class="#code_operator_null_coalescing_operator-1">Kotlin</a></li><li class="tab"><a class="#code_operator_null_coalescing_operator-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_operator_null_coalescing_operator-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> nullableString: String? = <span class="literal">null</span></span><br><span class="line"><span class="keyword">val</span> result = nullableString ?: <span class="string">&quot;default value&quot;</span></span><br><span class="line">println(result) <span class="comment">// 輸出 &quot;default value&quot;</span></span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_operator_null_coalescing_operator-2"><p>Java 可以使用<strong>三目運算符</strong>來達到相同的效果。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">nullableString</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> nullableString != <span class="literal">null</span> ? nullableString : <span class="string">&quot;default value&quot;</span>;</span><br><span class="line">System.out.println(result); <span class="comment">// 輸出 &quot;default value&quot;</span></span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h3 id="非空斷言運算符"><a href="#非空斷言運算符" class="headerlink" title="非空斷言運算符 !!"></a>非空斷言運算符 <code>!!</code></h3><p>非空斷言 <code>!!</code> 可以用來告訴編譯器一個變數一定不為空，從而允許在該變數為空時抛出異常。</p>
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>使用非空斷言時需要非常小心，因為如果該變數實際上是空的，那麼會出現空指針異常（NullPointerException）。因此，建議只在確定該變數不為空時使用非空斷言。</p>
+</div>
+
+<div class="tabs" id="tab-code_operator_not_null_assertion_operator"><ul class="nav-tabs"><li class="tab active"><a class="#code_operator_not_null_assertion_operator-1">Kotlin</a></li><li class="tab"><a class="#code_operator_not_null_assertion_operator-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_operator_not_null_assertion_operator-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> nullableString: String? = <span class="string">&quot;Hello&quot;</span></span><br><span class="line"><span class="keyword">val</span> nonNullString: String = nullableString!!</span><br><span class="line">println(nonNullString)</span><br></pre></td></tr></table></figure></div>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>更多資訊 </summary>
+              <div class="content">
+              <div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>!!.</code> 是一種組合用法，用於對可空變數進行非空斷言的同時，同時也對該變數進行安全調用運算。<br>具體來說，<code>!!.</code> 的作用是在對一個可空變數進行非空斷言的同時，如果該變數為空，則不會抛出空指針異常，而是直接返回 <code>null</code>。因此，使用 <code>!!.</code> 可以讓程序在遇到空值時不會崩潰，而是能夠繼續執行下去。</p><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> nullableString: String? = <span class="literal">null</span></span><br><span class="line"><span class="keyword">val</span> nonNullString: String = nullableString!!.toUpperCase()</span><br><span class="line">println(nonNullString)</span><br></pre></td></tr></table></figure></div></div>
+              </div>
+            </details></div><div class="tab-pane" id="code_operator_not_null_assertion_operator-2"><p>Java 可以使用 Java 8 引入的 <code>Optional</code> 類型來達到相似的效果。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">nullableString</span> <span class="operator">=</span> <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">nonNullString</span> <span class="operator">=</span> Optional.ofNullable(nullableString)</span><br><span class="line">                               .orElseThrow(NoSuchElementException::<span class="keyword">new</span>);</span><br><span class="line">System.out.println(nonNullString);</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h2 id="高階函數-x2F-函數式編程"><a href="#高階函數-x2F-函數式編程" class="headerlink" title="高階函數 &#x2F; 函數式編程"></a>高階函數 &#x2F; 函數式編程</h2><p>高階函數是指接受一個或多個函數作為參數，或者返回一個函數作為結果的函數。</p>
+<h3 id="單子-x2F-單表達式函數簡化語法"><a href="#單子-x2F-單表達式函數簡化語法" class="headerlink" title="單子 &#x2F; 單表達式函數簡化語法"></a>單子 &#x2F; 單表達式函數簡化語法</h3><h4 id="情況一：定義函數"><a href="#情況一：定義函數" class="headerlink" title="情況一：定義函數"></a>情況一：定義函數</h4><div class="tabs" id="tab-code_advanced_func_single_expr_cond1"><ul class="nav-tabs"><li class="tab active"><a class="#code_advanced_func_single_expr_cond1-1">Kotlin</a></li><li class="tab"><a class="#code_advanced_func_single_expr_cond1-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_advanced_func_single_expr_cond1-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">isACoolFeature</span><span class="params">()</span></span> = <span class="literal">true</span>;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getNum</span><span class="params">()</span></span> = <span class="number">10</span>;</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>不必使用花括號和 <code>return</code> 關鍵字。</p>
+</div></div><div class="tab-pane" id="code_advanced_func_single_expr_cond1-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isACoolFeature</span><span class="params">()</span> &#123; <span class="keyword">return</span> <span class="literal">true</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getNum</span><span class="params">()</span> &#123; <span class="keyword">return</span> <span class="number">10</span>; &#125;</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<h4 id="情況二：單子混合函數接口"><a href="#情況二：單子混合函數接口" class="headerlink" title="情況二：單子混合函數接口"></a>情況二：單子混合函數接口</h4><div class="tabs" id="tab-code_advanced_func_single_expr_cond2"><ul class="nav-tabs"><li class="tab active"><a class="#code_advanced_func_single_expr_cond2-1">Kotlin</a></li><li class="tab"><a class="#code_advanced_func_single_expr_cond2-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_advanced_func_single_expr_cond2-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doSomething</span><span class="params">()</span></span> = println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line"></span><br><span class="line">doSomething()</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_advanced_func_single_expr_cond2-2"><p>在 Java 中也可以通過使用<strong>函數接口</strong>（Functional Interface）的 <code>Runnable</code> 來實現。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">doSomething</span><span class="params">(Runnable runnable)</span> &#123;</span><br><span class="line">    runnable.run();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">doSomething(() -&gt; System.out.println(<span class="string">&quot;Hello World&quot;</span>));</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h3 id="作用域函數"><a href="#作用域函數" class="headerlink" title="作用域函數"></a>作用域函數</h3><p>這些函數都是用於簡化代碼，可以根據具體的使用場景選擇不同的函數。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>作用域函數是語法糖，主要是簡化代碼，不影響程式的整個語法。</p>
+</div>
+
+<table>
+<thead>
+<tr>
+<th align="center">函數</th>
+<th align="center">作用</th>
+<th align="center">對象參考</th>
+<th align="center">傳回值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>let</code></td>
+<td align="center">將對象作為參數傳遞進去，然後返回函數塊的返回值。</td>
+<td align="center"><code>it</code></td>
+<td align="center">Lambda 表達式</td>
+</tr>
+<tr>
+<td align="center"><code>apply</code></td>
+<td align="center">將對象作為接收者傳遞進去，然後返回對象本身。</td>
+<td align="center"><code>this</code></td>
+<td align="center">Lambda 表達式</td>
+</tr>
+<tr>
+<td align="center"><code>with</code></td>
+<td align="center">將對象作為參數傳遞進去，然後返回函數塊的返回值。</td>
+<td align="center"><code>this</code></td>
+<td align="center">Lambda 表達式</td>
+</tr>
+<tr>
+<td align="center"><code>run</code></td>
+<td align="center">將對象作為接收者傳遞進去，然後返回函數塊的返回值。</td>
+<td align="center"><code>this</code></td>
+<td align="center">Context 物件</td>
+</tr>
+<tr>
+<td align="center"><code>also</code></td>
+<td align="center">將對象作為參數傳遞進去，然後返回對象本身。</td>
+<td align="center"><code>it</code></td>
+<td align="center">Context 物件</td>
+</tr>
+</tbody></table>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>it</code> 是一個默認的單參數名稱，用於簡化 Lambda 表達式中的參數命名。當一個 Lambda 表達式只有一個參數時，可以使用 <code>it</code> 來代替參數名稱，從而使代碼更加簡潔。</p>
+</div>
+
+<hr>
+<h4 id="also-函數"><a href="#also-函數" class="headerlink" title="also 函數"></a><code>also</code> 函數</h4><p><code>also</code> 函數可以將對象作為參數傳遞給一個函數塊，然後返回對象本身。在函數塊內，可以使用 <code>it</code> 來引用傳遞進來的對象。常用於對對象進行一些輔助操作，例如打印日誌或者執行一些副作用操作。</p>
+<div class="tabs" id="tab-code_inline_func_also"><ul class="nav-tabs"><li class="tab active"><a class="#code_inline_func_also-1">Kotlin</a></li><li class="tab"><a class="#code_inline_func_also-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_inline_func_also-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> person = Person(name = <span class="string">&quot;Steve&quot;</span>, age = <span class="number">17</span>)</span><br><span class="line"></span><br><span class="line">person.also &#123;</span><br><span class="line">    it.age = <span class="number">18</span></span><br><span class="line">    punch(it)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_inline_func_also-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;Steve&quot;</span>, <span class="number">17</span>);</span><br><span class="line"></span><br><span class="line">person.setAge(<span class="number">18</span>);</span><br><span class="line">punch(person);</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h4 id="apply-函數"><a href="#apply-函數" class="headerlink" title="apply 函數"></a><code>apply</code> 函數</h4><p><code>apply</code> 函數可以將對象作為接收者傳遞給一個函數塊，然後返回對象本身。在函數塊內，可以使用 <code>this</code> 或者省略的 <code>it</code> 來引用接收者對象。常用於對對象進行屬性設置。</p>
+<div class="tabs" id="tab-code_inline_func_apply"><ul class="nav-tabs"><li class="tab active"><a class="#code_inline_func_apply-1">Kotlin</a></li><li class="tab"><a class="#code_inline_func_apply-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_inline_func_apply-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> person = Person(name = <span class="string">&quot;Steve&quot;</span>, age = <span class="number">17</span>)</span><br><span class="line"></span><br><span class="line">person.apply &#123;</span><br><span class="line">    age = <span class="number">18</span> <span class="comment">// 等於 this.age = 18</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_inline_func_apply-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;Steve&quot;</span>, <span class="number">17</span>);</span><br><span class="line"></span><br><span class="line">person.setAge(<span class="number">18</span>);</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h4 id="let-函數"><a href="#let-函數" class="headerlink" title="let 函數"></a><code>let</code> 函數</h4><p><code>let</code> 函數可以將對象作為參數傳遞給一個函數塊，然後返回函數塊的返回值。在函數塊內，可以使用 <code>it</code> 來引用傳遞進來的對象。常用於對對象進行非空判斷，或者對對象進行一些比較複雜的處理。</p>
+<div class="tabs" id="tab-code_inline_func_let"><ul class="nav-tabs"><li class="tab active"><a class="#code_inline_func_let-1">Kotlin</a></li><li class="tab"><a class="#code_inline_func_let-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_inline_func_let-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Person(<span class="string">&quot;Steve&quot;</span>, <span class="number">17</span>).let &#123;</span><br><span class="line">    it.rename(<span class="string">&quot;Steven&quot;</span>)</span><br><span class="line">    it.incrementAge()</span><br><span class="line">    println(it)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_inline_func_let-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;Steve&quot;</span>, <span class="number">17</span>);</span><br><span class="line">person.rename(<span class="string">&quot;Steven&quot;</span>);</span><br><span class="line">person.incrementAge();</span><br><span class="line">System.out.println(person);</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h4 id="run-函數"><a href="#run-函數" class="headerlink" title="run 函數"></a><code>run</code> 函數</h4><p><code>run</code> 函數可以將對象作為接收者傳遞給一個函數塊，然後返回函數塊的返回值。在函數塊內，可以使用 <code>this</code> 或者省略的 <code>it</code> 來引用接收者對象。常用於對對象進行一些比較複雜的處理。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>run</code> 可以直接為獨立變量進行複雜的計算程序。</p>
+</div>
+
+<div class="tabs" id="tab-code_inline_func_run"><ul class="nav-tabs"><li class="tab active"><a class="#code_inline_func_run-1">Kotlin</a></li><li class="tab"><a class="#code_inline_func_run-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_inline_func_run-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> result = run &#123;</span><br><span class="line">    <span class="keyword">val</span> a = <span class="number">10</span></span><br><span class="line">    <span class="keyword">val</span> b = <span class="number">20</span></span><br><span class="line">    <span class="keyword">val</span> c = <span class="number">30</span></span><br><span class="line">    <span class="keyword">val</span> d = <span class="number">40</span></span><br><span class="line">    <span class="keyword">val</span> e = <span class="number">50</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 複雜的計算程序</span></span><br><span class="line">    (a + b) * c - (d / e)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_inline_func_run-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> <span class="number">30</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">40</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">e</span> <span class="operator">=</span> <span class="number">50</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 複雜的計算程序</span></span><br><span class="line"><span class="type">double</span> <span class="variable">result</span> <span class="operator">=</span> (a + b) * c - (d / e);</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h4 id="with-函數"><a href="#with-函數" class="headerlink" title="with 函數"></a><code>with</code> 函數</h4><p><code>with</code> 函數可以將對象作為參數傳遞給一個函數塊，然後返回函數塊的返回值。在函數塊內，可以直接使用對象的屬性或方法。常用於對對象進行一些比較複雜的處理。</p>
+<div class="tabs" id="tab-code_inline_func_with"><ul class="nav-tabs"><li class="tab active"><a class="#code_inline_func_with-1">Kotlin</a></li><li class="tab"><a class="#code_inline_func_with-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_inline_func_with-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> person = Person(name = <span class="string">&quot;Steve&quot;</span>, age = <span class="number">17</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> personInfo = with(person) &#123;</span><br><span class="line">    age = <span class="number">18</span></span><br><span class="line">    PersonInfo(name, age, isAdult)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_inline_func_with-2"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;Steve&quot;</span>, <span class="number">17</span>);</span><br><span class="line"></span><br><span class="line">person.setAge(<span class="number">18</span>);</span><br><span class="line"><span class="type">PersonInfo</span> <span class="variable">personInfo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PersonInfo</span>(person.getName(), person.getAge(), person.isAdult());</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h2 id="特殊符號"><a href="#特殊符號" class="headerlink" title="特殊符號"></a>特殊符號</h2><h3 id="底線符號"><a href="#底線符號" class="headerlink" title="底線符號 _"></a>底線符號 <code>_</code></h3><p>底線符號 <code>_</code> 有以下作用：</p>
+<div class="tabs" id="tab-code_special_symbol_underline"><ul class="nav-tabs"><li class="tab active"><a class="#code_special_symbol_underline-1">通配符</a></li><li class="tab"><a class="#code_special_symbol_underline-2">解構聲明中的未使用變數</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_special_symbol_underline-1"><p><font size="6"><strong>作為通配符</strong></font></p>
+<p>底線符號 <code>_</code> 可以用作函數或 lambda 表達式中未使用參數的佔位符。例如，一個函數的參數列表中可能存在一個參數，但是在函數體中不需要使用該參數的值。在這種情況下，可以使用 _ 作為佔位符來表示未使用的參數。例如：</p>
+<div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.forEach &#123; _, value -&gt; println(value) &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>這裡的 <code>_</code> 佔位符表示不使用第一個參數。</p></div><div class="tab-pane" id="code_special_symbol_underline-2"><p><font size="6"><strong>用於解構聲明中的未使用變數</strong></font></p>
+<p>在 Kotlin 中，我們可以使用解構聲明來將一個對象的多個屬性解構到多個變數中。如果我們只需要其中的某些屬性，而其他屬性不需要使用，可以使用 <code>_</code> 作為佔位符來表示未使用的變數。例如：</p>
+<div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> (x, _, z) = arrayOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>這裡的 <code>_</code> 佔位符表示不使用第二個元素。</p>
+<p>在 Java 中，你可以使用<strong>陣列解構</strong>的方式來實現類似的功能，示例如下：</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] array = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> array[<span class="number">0</span>];</span><br><span class="line"><span class="type">int</span> <span class="variable">z</span> <span class="operator">=</span> array[<span class="number">2</span>];</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h2 id="鏈式呼叫"><a href="#鏈式呼叫" class="headerlink" title="鏈式呼叫"></a>鏈式呼叫</h2><p>鏈式呼叫（Chain Call）是一種方便且可讀性高的語法，可以讓我們將多個方法調用鏈接在一起，使代碼更加簡潔和易讀。鏈式呼叫使用 <code>.</code> 運算符 . 來將多個方法調用鏈接在一起。</p>
+<div class="tabs" id="tab-code_chain_call"><ul class="nav-tabs"><li class="tab active"><a class="#code_chain_call-1">Kotlin</a></li><li class="tab"><a class="#code_chain_call-2">Java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_chain_call-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list = listOf(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> result = list.filter &#123; it &gt; <span class="number">0</span> &#125;</span><br><span class="line">                 .sortedByDescending &#123; it &#125;</span><br><span class="line">                 .map &#123; it * <span class="number">2</span> &#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="code_chain_call-2"><p>在 Java 中，也可以使用類似鏈式呼叫的方法，使用方法是將多個方法調用鏈接在一起，使代碼更加簡潔和易讀。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>可以使用 <code>stream()</code> 方法和方法鏈。</p>
+</div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = Arrays.asList(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>);</span><br><span class="line">List&lt;String&gt; result = list.stream()</span><br><span class="line">                          .filter(s -&gt; s.length() &gt; <span class="number">0</span>)</span><br><span class="line">                          .sorted((s1, s2) -&gt; s2.compareTo(s1))</span><br><span class="line">                          .map(s -&gt; s + s)</span><br><span class="line">                          .collect(Collectors.toList());</span><br></pre></td></tr></table></figure></div></div></div></div>
+
+<hr>
+<h1 id="程式語言穿梭"><a href="#程式語言穿梭" class="headerlink" title="程式語言穿梭"></a>程式語言穿梭</h1><h2 id="在-Android-Java-項目新增-Kotlin-文件"><a href="#在-Android-Java-項目新增-Kotlin-文件" class="headerlink" title="在 Android Java 項目新增 Kotlin 文件"></a>在 Android Java 項目新增 Kotlin 文件</h2><div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">&#x27;kotlin-android&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="comment">// 包含 Kotlin 協程的核心功能</span></span><br><span class="line">    implementation <span class="string">&#x27;org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 包含了在 Android 平台上使用 Kotlin 協程所需的額外功能</span></span><br><span class="line">    implementation <span class="string">&#x27;org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>檢視例子 </summary>
+              <div class="content">
+              <div class="tabs" id="tab-code_java_w_kotlin"><ul class="nav-tabs"><li class="tab active"><a class="#code_java_w_kotlin-1">數據類</a></li></ul><div class="tab-content"><div class="tab-pane active" id="code_java_w_kotlin-1"><div class="highlight-container" data-rel="Kotlin"><figure class="iseeu highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.myapplication</span><br><span class="line"></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">UserData</span>(<span class="keyword">val</span> name: String, <span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.example.myapplication.UserData;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 創建一個新的 UserData 對象</span></span><br><span class="line"><span class="type">UserData</span> <span class="variable">userData</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserData</span>(<span class="string">&quot;John&quot;</span>, <span class="number">30</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 訪問 UserData 對象的 name 和 age 屬性</span></span><br><span class="line"><span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> userData.getName();</span><br><span class="line"><span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> userData.getAge();</span><br></pre></td></tr></table></figure></div></div></div></div>
+              </div>
+            </details>
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Java/">#Java</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Kotlin/">#Kotlin</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/post/dev_hexo_blog_tutorial.html"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">利用 Hexo 建立 GitHub 寄存網誌</span>
+                                    <span class="post-nav-item">上一篇</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/post/android_dev_push_project_to_github.html"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">如何把 Android Studio 項目上載至 GitHub</span>
+                                    <span class="post-nav-item">下一篇</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;留言
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script data-pjax
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script data-pjax>
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '548e3371016b4d8243f2',
+                    clientSecret: 'cfcf19408aacef6c9613469bd924d8fe6a96a5b2',
+                    repo: 'bluewhaleyt.github.io',
+                    owner: 'BlueWhaleYT',
+                    admin: ['BlueWhaleYT'],
+                    id: __gitalk__pathname,
+                    language: 'zh-TW'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('true') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此頁目錄</div>
+        <div class="page-title">Java 與 Kotlin 語言對照筆記</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">基本概要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E9%AB%94%E5%B7%AE%E7%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">整體差異</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%8F%96%E4%BF%AE%E9%A3%BE%E5%AD%90"><span class="nav-number">1.2.</span> <span class="nav-text">存取修飾子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%A5%E5%8F%A3%E9%BB%9E"><span class="nav-number">2.</span> <span class="nav-text">入口點</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E7%B5%90%E6%A7%8B"><span class="nav-number">3.</span> <span class="nav-text">程式結構</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%B8%E6%93%87"><span class="nav-number">3.1.</span> <span class="nav-text">選擇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%BA%E7%AD%96%E9%82%8F%E8%BC%AF-if-else"><span class="nav-number">3.1.1.</span> <span class="nav-text">決策邏輯 if else</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%83%85%E6%B3%81%E9%82%8F%E8%BC%AF-switch-case"><span class="nav-number">3.1.2.</span> <span class="nav-text">情況邏輯 switch case</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3"><span class="nav-number">3.2.</span> <span class="nav-text">迭代</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for-%E5%BE%AA%E7%92%B0"><span class="nav-number">3.2.1.</span> <span class="nav-text">for 循環</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kotlin-%E8%AA%9E%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">Kotlin 語法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%9C%E9%8D%B5%E5%AD%97"><span class="nav-number">4.1.</span> <span class="nav-text">關鍵字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#companion"><span class="nav-number">4.1.1.</span> <span class="nav-text">companion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data"><span class="nav-number">4.1.2.</span> <span class="nav-text">data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lateinit"><span class="nav-number">4.1.3.</span> <span class="nav-text">lateinit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%8B%E7%AE%97%E7%AC%A6"><span class="nav-number">4.2.</span> <span class="nav-text">運算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E5%91%BC%E5%8F%AB%E9%81%8B%E7%AE%97%E7%AC%A6"><span class="nav-number">4.2.1.</span> <span class="nav-text">安全呼叫運算符 ?.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E5%90%88%E4%BD%B5%E9%81%8B%E7%AE%97%E7%AC%A6"><span class="nav-number">4.2.2.</span> <span class="nav-text">空合併運算符 ?:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E7%A9%BA%E6%96%B7%E8%A8%80%E9%81%8B%E7%AE%97%E7%AC%A6"><span class="nav-number">4.2.3.</span> <span class="nav-text">非空斷言運算符 !!</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E9%9A%8E%E5%87%BD%E6%95%B8-x2F-%E5%87%BD%E6%95%B8%E5%BC%8F%E7%B7%A8%E7%A8%8B"><span class="nav-number">4.3.</span> <span class="nav-text">高階函數 &#x2F; 函數式編程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%96%AE%E5%AD%90-x2F-%E5%96%AE%E8%A1%A8%E9%81%94%E5%BC%8F%E5%87%BD%E6%95%B8%E7%B0%A1%E5%8C%96%E8%AA%9E%E6%B3%95"><span class="nav-number">4.3.1.</span> <span class="nav-text">單子 &#x2F; 單表達式函數簡化語法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%83%85%E6%B3%81%E4%B8%80%EF%BC%9A%E5%AE%9A%E7%BE%A9%E5%87%BD%E6%95%B8"><span class="nav-number">4.3.1.1.</span> <span class="nav-text">情況一：定義函數</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%83%85%E6%B3%81%E4%BA%8C%EF%BC%9A%E5%96%AE%E5%AD%90%E6%B7%B7%E5%90%88%E5%87%BD%E6%95%B8%E6%8E%A5%E5%8F%A3"><span class="nav-number">4.3.1.2.</span> <span class="nav-text">情況二：單子混合函數接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B8"><span class="nav-number">4.3.2.</span> <span class="nav-text">作用域函數</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#also-%E5%87%BD%E6%95%B8"><span class="nav-number">4.3.2.1.</span> <span class="nav-text">also 函數</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apply-%E5%87%BD%E6%95%B8"><span class="nav-number">4.3.2.2.</span> <span class="nav-text">apply 函數</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#let-%E5%87%BD%E6%95%B8"><span class="nav-number">4.3.2.3.</span> <span class="nav-text">let 函數</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#run-%E5%87%BD%E6%95%B8"><span class="nav-number">4.3.2.4.</span> <span class="nav-text">run 函數</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#with-%E5%87%BD%E6%95%B8"><span class="nav-number">4.3.2.5.</span> <span class="nav-text">with 函數</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%AC%A6%E8%99%9F"><span class="nav-number">4.4.</span> <span class="nav-text">特殊符號</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E7%B7%9A%E7%AC%A6%E8%99%9F"><span class="nav-number">4.4.1.</span> <span class="nav-text">底線符號 _</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%8F%88%E5%BC%8F%E5%91%BC%E5%8F%AB"><span class="nav-number">4.5.</span> <span class="nav-text">鏈式呼叫</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80%E7%A9%BF%E6%A2%AD"><span class="nav-number">5.</span> <span class="nav-text">程式語言穿梭</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-Android-Java-%E9%A0%85%E7%9B%AE%E6%96%B0%E5%A2%9E-Kotlin-%E6%96%87%E4%BB%B6"><span class="nav-number">5.1.</span> <span class="nav-text">在 Android Java 項目新增 Kotlin 文件</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">BlueWhaleYT</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        讀者&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        閱覽&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container"><?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a> 框架</span>
+                <br>
+            <span class="theme-version-container">主題&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                博客已運行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小時 <span class="odometer" id="runtime_minutes"></span> 分鐘 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <div class="customize-info info-item">Credits: <a target="_blank" rel="noopener" href='https://www.freepik.com/'>Freepik</a>.</div>
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜尋..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

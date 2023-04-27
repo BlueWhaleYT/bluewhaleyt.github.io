@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="BlueWhaleYT">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://bluewhaleyt.github.io/post/android_dev_get_dynamic_color.html"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="前言我們平常要獲取 Material 樣式的色彩來設定元件的文本顏色等，都會在 xml 佈局文件中使用 ?attr&#x2F; 這個前綴，例如套用 ?attr&#x2F;colorPrimary 或 ?colorPrimary ，可以把指定元件的特性用至主要顏色（primary）。 例如： 12345&lt;TextView    android:layout_width&#x3D;&quot;wrap_content&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="動態獲取 Material You 樣式色彩值">
+<meta property="og:url" content="https://bluewhaleyt.github.io/post/android_dev_get_dynamic_color.html">
+<meta property="og:site_name" content="BlueWhaleYT 個人網誌">
+<meta property="og:description" content="前言我們平常要獲取 Material 樣式的色彩來設定元件的文本顏色等，都會在 xml 佈局文件中使用 ?attr&#x2F; 這個前綴，例如套用 ?attr&#x2F;colorPrimary 或 ?colorPrimary ，可以把指定元件的特性用至主要顏色（primary）。 例如： 12345&lt;TextView    android:layout_width&#x3D;&quot;wrap_content&amp;quo">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2023-02-03T09:55:00.000Z">
+<meta property="article:modified_time" content="2023-04-27T08:54:31.455Z">
+<meta property="article:author" content="BlueWhaleYT">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <meta name="theme-color" content="#6190e8">
+    <link rel="shortcut icon" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            動態獲取 Material You 樣式色彩值 -
+        
+        BlueWhaleYT 個人網誌
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'" rel="stylesheet">
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"bluewhaleyt.github.io","root":"/","language":"zh-TW","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":true,"family":"JetBrains Mono","url":"https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'"}},"toc":{"enable":true,"max_depth":6,"number":true,"expand":true,"init_open":true},"copyright":false,"lazyload":false,"recommendation":{"enable":false,"title":"Recommendation","limit":3,"placeholder":"https://i.imgur.com/tyHG03D.jpg","skip_dirs":[]}},"colors":{"primary":"#6190e8","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"2000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":false,"image":{"light":null,"dark":null},"title":"BlueWhaleYT 個人網誌","subtitle":{"text":[],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#6190e8","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Status":{"path":"https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages","icon":"fa-regular fa-chart-bar"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/BlueWhaleYT/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"歡迎來到「BlueWhaleYT 個人網誌」。","links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s 秒前","minute":"%s 分鐘前","hour":"%s 小時前","day":"%s 天前","week":"%s 週前","month":"%s 個月前","year":"%s 年前"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/fontawesome/duotone.min.css">
+
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                BlueWhaleYT 個人網誌
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首頁
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        歸檔
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-chart-bar"></i>
+                                        
+                                        狀態
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首頁
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                歸檔
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                             
+                                
+                                    <i class="fa-regular fa-chart-bar"></i>
+                                
+                                狀態
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+             
+                <div class="article-title">         
+                    <img src="https://i.imgur.com/t4uNqGe.png" alt="動態獲取 Material You 樣式色彩值" />
+                    <h1 class="article-title-cover">動態獲取 Material You 樣式色彩值</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">BlueWhaleYT</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-02-03 17:55</span>
+        <span class="mobile">2023-02-03 17:55</span>
+        <span class="hover-info">撰寫</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-04-27 16:54:31</span>
+            <span class="mobile">2023-04-27 16:54</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Android-%E9%96%8B%E7%99%BC/">Android 開發</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Java/">Java</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我們平常要獲取 Material 樣式的色彩來設定元件的文本顏色等，都會在 xml 佈局文件中使用 <code>?attr/</code> 這個前綴，例如套用 <code>?attr/colorPrimary</code> 或 <code>?colorPrimary</code> ，可以把指定元件的特性用至<strong>主要顏色</strong>（primary）。</p>
+<p>例如：</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:text</span>=<span class="string">&quot;Hello World&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:textColor</span>=<span class="string">&quot;?attr/colorPrimary&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>可是，如果我們要以 Java 編碼<strong>程式化獲取</strong>這些顏色呢？那就要用 Material 3 的 Dynamic Color 工具。</p>
+<hr>
+<h1 id="運作原理"><a href="#運作原理" class="headerlink" title="運作原理"></a>運作原理</h1><p>把 <code>R.attr</code> （即是 <code>?attr/</code>）所貯存的色彩值轉換為<strong>二進位陣列</strong> <code>TypedArray</code>，再<strong>從這個陣列獲取相應的顏色</strong>。</p>
+<p>在獲取顏色前，我們會有這樣的結構：</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (DynamicColors.isDynamicColorAvailable()) &#123;</span><br><span class="line">    <span class="type">Context</span> <span class="variable">dynamicColorContext</span> <span class="operator">=</span> DynamicColors.wrapContextIfAvailable(context);</span><br><span class="line">    <span class="type">int</span>[] attrsToResolve = &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p><code>attrsToResolve</code> 是一個以 <code>int</code> <strong>整數數據類型的陣列</strong>，例如我們要獲取 <code>colorPrimary</code> 的顏色值，如下：</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] attrsToResolve = &#123;</span><br><span class="line">    R.attr.colorPrimary,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">var</span> <span class="variable">typedArray</span> <span class="operator">=</span> dynamicColorContext.obtainStyledAttributes(attrsToResolve);</span><br><span class="line"><span class="type">var</span> <span class="variable">primary</span> <span class="operator">=</span> typedArray.getColor(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">typedArray.recycle();</span><br></pre></td></tr></table></figure></div>
+
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>要注意的是 <code>typedArray.getColor(0, 0)</code> 第一個參數的值是<strong>根據 <code>attrsToResolve</code> 的次序來判斷</strong>。</p>
+</div>
+
+<p>即是如果我要獲取另一個值，如新增 <code>R.attr.colorSecondary</code> 獲取次要顏色，就會是 <code>typedArray.getColor(1, 0)</code>。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] attrsToResolve = &#123;</span><br><span class="line">    R.attr.colorPrimary,</span><br><span class="line marked">    R.attr.colorSecondary</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">var</span> <span class="variable">typedArray</span> <span class="operator">=</span> dynamicColorContext.obtainStyledAttributes(attrsToResolve);</span><br><span class="line"><span class="type">var</span> <span class="variable">primary</span> <span class="operator">=</span> typedArray.getColor(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line marked"><span class="type">var</span> <span class="variable">secondary</span> <span class="operator">=</span> typedArray.getColor(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">typedArray.recycle();</span><br></pre></td></tr></table></figure></div>
+
+<p>當然，如果你把 <code>R.attr.colorSecondary</code> 新增在 <code>R.attr colorPrimary</code> <strong>之上</strong>，程式<strong>便會先解釋 <code>R.attr.colorSecondary</code></strong> ，就是 <code>typedArray.getColor(0, 0)</code>。簡而言之，就是<strong>先後次序問題</strong>。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] attrsToResolve = &#123;</span><br><span class="line marked">    R.attr.colorSecondary,</span><br><span class="line">    R.attr.colorPrimary</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">var</span> <span class="variable">typedArray</span> <span class="operator">=</span> dynamicColorContext.obtainStyledAttributes(attrsToResolve);</span><br><span class="line marked"><span class="type">var</span> <span class="variable">secondary</span> <span class="operator">=</span> typedArray.getColor(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"><span class="type">var</span> <span class="variable">primary</span> <span class="operator">=</span> typedArray.getColor(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">typedArray.recycle();</span><br></pre></td></tr></table></figure></div>
+
+<p>好了，那 <code>primary</code> 和 <code>secondary</code> 就是我們要獲取的顏色，現在可以使用，如下：</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">textView.setTextColor(primary);</span><br><span class="line">button.setBackgroundTint(ColorStateList.valueOf(secondary));</span><br></pre></td></tr></table></figure></div>
+
+<p>如是者，Material You 的 24 種色彩就是這樣獲取：</p>
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>點我看代碼 </summary>
+              <div class="content">
+              <div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">TypedArray typedArray;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> primary, onPrimary, primaryContainer, onPrimaryContainer,</span><br><span class="line">    secondary, onSecondary, secondaryContainer, onSecondaryContainer,</span><br><span class="line">    tertiary, onTertiary, tertiaryContainer, onTertiaryContainer,</span><br><span class="line">    error, onError, errorContainer, onErrorContainer,</span><br><span class="line">    background, onBackground,</span><br><span class="line">    surface, onSurface,</span><br><span class="line">    surfaceVariant, onSurfaceVariant,</span><br><span class="line">    outline, outlineVariant;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SuppressLint(&quot;ResourceType&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">DynamicColorsUtil</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (DynamicColors.isDynamicColorAvailable()) &#123;</span><br><span class="line">        <span class="type">Context</span> <span class="variable">dynamicColorContext</span> <span class="operator">=</span> DynamicColors.wrapContextIfAvailable(context);</span><br><span class="line">        <span class="type">int</span>[] attrsToResolve = &#123;</span><br><span class="line">            R.attr.colorPrimary,</span><br><span class="line">            R.attr.colorOnPrimary,</span><br><span class="line">            R.attr.colorPrimaryContainer,</span><br><span class="line">            R.attr.colorOnPrimaryContainer,</span><br><span class="line"></span><br><span class="line">            R.attr.colorSecondary,</span><br><span class="line">            R.attr.colorOnSecondary,</span><br><span class="line">            R.attr.colorSecondaryContainer,</span><br><span class="line">            R.attr.colorOnSecondaryContainer,</span><br><span class="line"></span><br><span class="line">            R.attr.colorTertiary,</span><br><span class="line">            R.attr.colorOnTertiary,</span><br><span class="line">            R.attr.colorTertiaryContainer,</span><br><span class="line">            R.attr.colorOnTertiaryContainer,</span><br><span class="line"></span><br><span class="line">            R.attr.colorError,</span><br><span class="line">            R.attr.colorOnError,</span><br><span class="line">            R.attr.colorErrorContainer,</span><br><span class="line">            R.attr.colorOnErrorContainer,</span><br><span class="line"></span><br><span class="line">            R.attr.backgroundColor,</span><br><span class="line">            R.attr.colorOnBackground,</span><br><span class="line">            R.attr.colorSurface,</span><br><span class="line">            R.attr.colorOnSurface,</span><br><span class="line">            R.attr.colorSurfaceVariant,</span><br><span class="line">            R.attr.colorOnSurfaceVariant,</span><br><span class="line">            R.attr.colorOutline,</span><br><span class="line">            R.attr.colorOutlineVariant,</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        typedArray = dynamicColorContext.obtainStyledAttributes(attrsToResolve);</span><br><span class="line"></span><br><span class="line">        primary = typedArray.getColor(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        onPrimary = typedArray.getColor(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">        primaryContainer = typedArray.getColor(<span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">        onPrimaryContainer = typedArray.getColor(<span class="number">3</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        secondary = typedArray.getColor(<span class="number">4</span>, <span class="number">0</span>);</span><br><span class="line">        onSecondary = typedArray.getColor(<span class="number">5</span>, <span class="number">0</span>);</span><br><span class="line">        secondaryContainer = typedArray.getColor(<span class="number">6</span>, <span class="number">0</span>);</span><br><span class="line">        onSecondaryContainer = typedArray.getColor(<span class="number">7</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        tertiary = typedArray.getColor(<span class="number">8</span>, <span class="number">0</span>);</span><br><span class="line">        onTertiary = typedArray.getColor(<span class="number">9</span>, <span class="number">0</span>);</span><br><span class="line">        tertiaryContainer = typedArray.getColor(<span class="number">10</span>, <span class="number">0</span>);</span><br><span class="line">        onTertiaryContainer = typedArray.getColor(<span class="number">11</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        error = typedArray.getColor(<span class="number">12</span>, <span class="number">0</span>);</span><br><span class="line">        onError = typedArray.getColor(<span class="number">13</span>, <span class="number">0</span>);</span><br><span class="line">        errorContainer = typedArray.getColor(<span class="number">14</span>, <span class="number">0</span>);</span><br><span class="line">        onErrorContainer = typedArray.getColor(<span class="number">15</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        background = typedArray.getColor(<span class="number">16</span>, <span class="number">0</span>);</span><br><span class="line">        onBackground = typedArray.getColor(<span class="number">17</span>, <span class="number">0</span>);</span><br><span class="line">        surface = typedArray.getColor(<span class="number">18</span>, <span class="number">0</span>);</span><br><span class="line">        onSurface = typedArray.getColor(<span class="number">19</span>, <span class="number">0</span>);</span><br><span class="line">        surfaceVariant = typedArray.getColor(<span class="number">20</span>, <span class="number">0</span>);</span><br><span class="line">        onSurfaceVariant = typedArray.getColor(<span class="number">21</span>, <span class="number">0</span>);</span><br><span class="line">        outline = typedArray.getColor(<span class="number">22</span>, <span class="number">0</span>);</span><br><span class="line">        outlineVariant = typedArray.getColor(<span class="number">23</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        typedArray.recycle();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+              </div>
+            </details>
+
+<hr>
+<h1 id="透過函式庫-WhaleUtils"><a href="#透過函式庫-WhaleUtils" class="headerlink" title="透過函式庫 - WhaleUtils"></a>透過函式庫 - WhaleUtils</h1><p>的確，要編寫這樣才能解釋 24 種顏色，實在費時，你可以用 WhaleUtils 函式庫裏的 <code>DynamicColorsUtil</code> 助你一把。</p>
+<p>首先你要初始化 <code>DynamicColorsUtil</code>。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">DynamicColorsUtil</span> <span class="variable">dynamicColors</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DynamicColorsUtil</span>(context);</span><br></pre></td></tr></table></figure></div>
+
+<p>例如你要獲取 <code>colorPrimary</code>，如下：</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dynamicColors.getColorPrimary();</span><br><span class="line">dynamicColors.getColorOnError();</span><br><span class="line"></span><br><span class="line"><span class="comment">// example</span></span><br><span class="line">textView.setTextColor(dynamicColors.getColorPrimary());</span><br><span class="line">button.setBackgroundTint(ColorStateList.valueOf(dynamicColors.getColorTertiary()));</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<p>就是這樣，再見。</p>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Java/">#Java</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/post/web_dev_monaco_editor.html"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">嵌入 Monaco Editor 至網頁</span>
+                                    <span class="post-nav-item">上一篇</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/post/android_dev_vscode_settings_system.html"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">實現 VSCode 的 JSON 結構式設定</span>
+                                    <span class="post-nav-item">下一篇</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;留言
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script data-pjax
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script data-pjax>
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '548e3371016b4d8243f2',
+                    clientSecret: 'cfcf19408aacef6c9613469bd924d8fe6a96a5b2',
+                    repo: 'bluewhaleyt.github.io',
+                    owner: 'BlueWhaleYT',
+                    admin: ['BlueWhaleYT'],
+                    id: __gitalk__pathname,
+                    language: 'zh-TW'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('true') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此頁目錄</div>
+        <div class="page-title">動態獲取 Material You 樣式色彩值</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%81%8B%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">運作原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%8F%E9%81%8E%E5%87%BD%E5%BC%8F%E5%BA%AB-WhaleUtils"><span class="nav-number">3.</span> <span class="nav-text">透過函式庫 - WhaleUtils</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">BlueWhaleYT</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        讀者&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        閱覽&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container"><?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a> 框架</span>
+                <br>
+            <span class="theme-version-container">主題&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                博客已運行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小時 <span class="odometer" id="runtime_minutes"></span> 分鐘 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <div class="customize-info info-item">Credits: <a target="_blank" rel="noopener" href='https://www.freepik.com/'>Freepik</a>.</div>
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜尋..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

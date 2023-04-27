@@ -1,0 +1,100 @@
+/* ==== [CodeTheme: Material Lighter] ==== */
+
+/* Color schemes */
+:root {
+    --ml-green: #91b859;
+    --ml-yellow: #f6a434;
+    --ml-blue: #6182b8;
+    --ml-red: #e53935;
+    --ml-purple: #7c4dff;
+    --ml-orange: #f76d47;
+    --ml-cyan: #39adb5;
+    --ml-gray: #aabfc9;
+}
+
+.theme-light .token.punctuation,
+.theme-light .token.punctuation.attr-equals,
+.theme-light .token.builtin,
+.theme-light .pl-pds,
+.theme-light .pl-kos {
+    color: var(--ml-cyan) !important;
+}
+
+.theme-light .token.class-name,
+.theme-light .token.prolog,
+.theme-light .pl-smi {
+    color: var(--ml-yellow) !important;
+}
+
+.theme-light .token.function,
+.theme-light .pl-en {
+    color: var(--ml-blue) !important;
+}
+
+.theme-light .token.string,
+.theme-light .token.attr-value,
+.theme-light .pl-s {
+    color: var(--ml-green) !important;
+}
+
+.theme-light .token.keyword,
+.theme-light .token.operator,
+.theme-light .token.attr-name,
+.theme-light .token.name,
+.theme-light .pl-k {
+    color: var(--ml-purple) !important;
+}
+
+.theme-light .token.annotation.punctuation,
+.theme-light .language-css .token.property {
+    color: var(--ml-cyan) !important;
+}
+
+.theme-light .token.number,
+.theme-light .token.boolean,
+.theme-light .token.variable,
+.theme-light .token.namespace,
+.theme-light .token.constant,
+.theme-light .token.property,
+.theme-light .token.important,
+.theme-light .pl-c1 {
+    color: var(--ml-orange) !important;
+    opacity: 1 !important;
+}
+
+.theme-light .token.atrule,
+.theme-light .token.tag,
+.theme-light .token.selector,
+.theme-light .token.doctype-tag,
+.theme-light .pl-ent {
+    color: var(--ml-red) !important;
+}
+
+.theme-light .token.comment,
+.theme-light .pl-c {
+    color: var(--ml-gray) !important;
+    font-style: italic !important;
+}
+
+.theme-light .line-highlight {
+    background: #7c4dff0a !important;
+    border-color: #7c4dffaa;
+}
+
+.theme-light .token.prefix.deleted {
+    color: #ff475766 !important;
+}
+
+.theme-light .token.prefix.inserted {
+    color: #2ed57366 !important;
+}
+
+.theme-light .token.deleted .token.line {
+    background: #ff475711 !important;
+    color: #ff4757 !important;
+}
+
+.theme-light .token.inserted .token.line {
+    background: #2ed57311 !important;
+    color: #2ed573 !important;
+}

@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="BlueWhaleYT">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://bluewhaleyt.github.io/post/android_dev_basic_tutorial.html"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="大家好，歡迎來到閱讀「Android 開發入門基礎」。在這裏，你將會學習 Android 開發的基礎入門知識。 基本概要什麼是 Android 開發？Android 開發是指開發應用程序或系統軟件，以運行在 Android 操作系統上的軟件開發過程。開發人員可以使用 Java、Kotlin 等高階程式語言，使用 Android 的軟體開發工具包（Software Development Kit，簡">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 開發入門基礎">
+<meta property="og:url" content="https://bluewhaleyt.github.io/post/android_dev_basic_tutorial.html">
+<meta property="og:site_name" content="BlueWhaleYT 個人網誌">
+<meta property="og:description" content="大家好，歡迎來到閱讀「Android 開發入門基礎」。在這裏，你將會學習 Android 開發的基礎入門知識。 基本概要什麼是 Android 開發？Android 開發是指開發應用程序或系統軟件，以運行在 Android 操作系統上的軟件開發過程。開發人員可以使用 Java、Kotlin 等高階程式語言，使用 Android 的軟體開發工具包（Software Development Kit，簡">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://bluewhaleyt.github.io/post/android_dev_basic_tutorial/img1.png">
+<meta property="article:published_time" content="2023-04-26T15:30:00.000Z">
+<meta property="article:modified_time" content="2023-04-27T08:59:34.650Z">
+<meta property="article:author" content="BlueWhaleYT">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Xml">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bluewhaleyt.github.io/post/android_dev_basic_tutorial/img1.png">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <meta name="theme-color" content="#6190e8">
+    <link rel="shortcut icon" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Android 開發入門基礎 -
+        
+        BlueWhaleYT 個人網誌
+    </title><meta name="robots" content="noindex">
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'" rel="stylesheet">
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"bluewhaleyt.github.io","root":"/","language":"zh-TW","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":true,"family":"JetBrains Mono","url":"https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'"}},"toc":{"enable":true,"max_depth":6,"number":true,"expand":true,"init_open":true},"copyright":false,"lazyload":false,"recommendation":{"enable":false,"title":"Recommendation","limit":3,"placeholder":"https://i.imgur.com/tyHG03D.jpg","skip_dirs":[]}},"colors":{"primary":"#6190e8","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"2000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":false,"image":{"light":null,"dark":null},"title":"BlueWhaleYT 個人網誌","subtitle":{"text":[],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#6190e8","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Status":{"path":"https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages","icon":"fa-regular fa-chart-bar"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/BlueWhaleYT/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"歡迎來到「BlueWhaleYT 個人網誌」。","links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s 秒前","minute":"%s 分鐘前","hour":"%s 小時前","day":"%s 天前","week":"%s 週前","month":"%s 個月前","year":"%s 年前"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/fontawesome/duotone.min.css">
+
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                BlueWhaleYT 個人網誌
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首頁
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        歸檔
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-chart-bar"></i>
+                                        
+                                        狀態
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首頁
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                歸檔
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                             
+                                
+                                    <i class="fa-regular fa-chart-bar"></i>
+                                
+                                狀態
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+             
+                <div class="article-title">         
+                    <img src="https://i.imgur.com/wvGcKIe.jpg" alt="Android 開發入門基礎" />
+                    <h1 class="article-title-cover">Android 開發入門基礎</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">BlueWhaleYT</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-04-26 23:30</span>
+        <span class="mobile">2023-04-26 23:30</span>
+        <span class="hover-info">撰寫</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-04-27 16:59:34</span>
+            <span class="mobile">2023-04-27 16:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Android-%E9%96%8B%E7%99%BC/">Android 開發</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Java/">Java</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Xml/">Xml</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <p>大家好，歡迎來到閱讀「Android 開發入門基礎」。在這裏，你將會學習 Android 開發的基礎入門知識。</p>
+<h1 id="基本概要"><a href="#基本概要" class="headerlink" title="基本概要"></a>基本概要</h1><h2 id="什麼是-Android-開發？"><a href="#什麼是-Android-開發？" class="headerlink" title="什麼是 Android 開發？"></a>什麼是 Android 開發？</h2><p>Android 開發是指開發應用程序或系統軟件，以運行在 Android 操作系統上的軟件開發過程。開發人員可以使用 Java、Kotlin 等高階程式語言，使用 Android 的軟體開發工具包（Software Development Kit，簡稱：SDK）以及其他開發工具，如 Android Studio 等，來建立 Android 應用程序。</p>
+<p>Android 開發包括設計和開發用戶界面、編寫應用邏輯、使用 Android SDK 提供的 API 來實現功能、測試和調試 (Debug) 應用程序，以及最終將應用程序部署到 Android 設備上。Android 開發人員需要了解 Android 操作系統的基礎知識和 API，以及最佳實踐，以創建優秀的 Android 應用程序如創建各種應用程序，包括遊戲、社交媒體應用程序、商業應用程序、生產力工具、健身和健康應用程序等等。由於 Android 設備的普及和開發彈性，Android 開發成為了一個非常熱門的軟件開發領域。</p>
+<h2 id="什麼是-Android-Studio？"><a href="#什麼是-Android-Studio？" class="headerlink" title="什麼是 Android Studio？"></a>什麼是 Android Studio？</h2><p>Android Studio 是一個由 Google 開發的 Android 應用程序開發環境（Integrated Development Environment，簡稱：IDE），它是開發 Android 應用程序的主要工具之一。Android Studio 提供了一個統一的開發環境，可以讓開發人員在同一個地方進行編寫、調試和部署 Android 應用程序。</p>
+<p>Android Studio 基於 <a class="link" target="_blank" rel="noopener" href="https://www.jetbrains.com/idea/">IntelliJ IDEA <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 開發，並且集成了 Android 開發所需的各種工具和功能，包括：</p>
+<ol>
+<li>Android SDK 管理器：用於下載和管理 Android SDK。</li>
+<li>設計工具：包括布局編輯器，可以幫助開發人員創建用戶界面。</li>
+<li>編輯器：提供了代碼編輯、語法高亮、代碼自動完成、代碼重構等功能。</li>
+<li>調試器：可以幫助開發人員調試應用程序，包括如虛擬設備、物理設備等多種測試方式。</li>
+<li>Gradle 建置系統：用於構建和管理 Android 應用程序的構建過程。</li>
+<li>模擬器：可以模擬不同的 Android 設備，方便開發人員進行測試。</li>
+</ol>
+<h3 id="下載-Android-Studio"><a href="#下載-Android-Studio" class="headerlink" title="下載 Android Studio"></a>下載 Android Studio</h3><p>目前的最新穩定版本是由 2022 年推出的 Android Studio Flamingo。請按自己的電腦配置和需求進行下載。</p>
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>目前我還在使用 2021 年推出的 Android Studio Dolphin。</p>
+</div>
+
+<a class="button  center large" target="_blank" rel="noopener" href="https://developer.android.com/studio" title="下載 Android Studio"><i class="fa-solid fa-download"></i> 下載 Android Studio</a>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>我沒有電腦，沒有 Android Studio 怎麼辦？ </summary>
+              <div class="content">
+              <p>如果你沒有電腦和 Android Studio，但是你有手機，想接觸並嘗試簡單 Android 開發編程的話，你可以選擇使用以下的 Android 程式：</p><ul><li><a class="link" target="_blank" rel="noopener" href="https://androidide.com/">AndroidIDE <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>：支援全面的 Gradle 建置系統，提供強大的編輯器功能、終端機及 AAB (Android App Bundle) 支援，可編寫大型的開發程序。</li><li><a class="link" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.tyron.code">CodeAssist <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>：支援基本的函式庫和依賴 (dependencies) 匯入，但沒有完整的 Gradle 建置系統，適合編寫簡單的開發程序。</li><li><a class="link" target="_blank" rel="noopener" href="https://play.google.com/store/apps/dev?id=4781469509290200915&hl=en_US&gl=US">Sketchware <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>：以拖曳編碼塊為編程的核心開發模式 - Block-based programming，可嵌入自訂 Java 代碼，並支援基本的函式庫和依賴 (dependencies) 匯入，但沒有完整的 Gradle 建置系統，適合編寫簡單的開發程序。</li></ul><div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>但此文章教學主要圍繞 Android Studio 的使用，部分功能或許在上述提及的 Android 程式未能支援。</p></div>
+              </div>
+            </details>
+
+<h2 id="什麼是-Android-SDK？"><a href="#什麼是-Android-SDK？" class="headerlink" title="什麼是 Android SDK？"></a>什麼是 Android SDK？</h2><p>Android SDK（Software Development Kit）是一個由Google提供的軟體開發工具包，開發人員可以使用該工具包來開發 Android 應用程式。 Android SDK 包含一系列的開發工具，例如 Android Studio 集成開發環境（IDE）、Android 調試橋 Debug Bridge（ADB）和 Android Emulator 等，同時也包含一個豐富的 API 庫，開發人員可以使用這些 API 來訪問設備的硬體和軟體功能，例如相機、存儲、網絡連接等。開發人員還可以使用 Android SDK 來創建自己的自定義組件和擴展，以滿足其應用程式的需求。 Android SDK 是Android 應用程式開發的重要工具，使得開發人員可以輕鬆地創建高品質的 Android 應用程式。</p>
+<h3 id="安裝-Android-SDK"><a href="#安裝-Android-SDK" class="headerlink" title="安裝 Android SDK"></a>安裝 Android SDK</h3><p>啟動 Android Studio 後，您需要在 “Welcome to Android Studio” 窗口中選擇 “Configure”，然後選擇 “SDK Manager”。在 SDK Manager 中，您可以選擇要下載和安裝的 Android SDK 版本和其他必要的工具。</p>
+<p>在 Android Studio 中，選擇 “Start a new Android Studio project”，然後按照向導的指示進行操作。在建立項目的過程中，您可以選擇要使用的 Android SDK 版本。</p>
+<h3 id="認識-SDK-版本"><a href="#認識-SDK-版本" class="headerlink" title="認識 SDK 版本"></a>認識 SDK 版本</h3><p>Android SDK 版本是指 Android 操作系統的軟體開發工具包（SDK）的版本號。它確定了開發人員可以使用哪些 API 和功能，以及他們可以在哪些設備上運行應用程序。每個 Android 版本都有一個特定的SDK版本號。例如，Android 11 的SDK 版本號是 <code>30</code>，Android 10 的SDK版本號是 <code>29</code>，以此類推。開發人員在開發 Android 應用程序時需要選擇他們要針對的 SDK 版本，並使用該版本的 API 和功能進行開發。這有助於確保應用程序能夠在特定版本的 Android 操作系統上正常運行。</p>
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>檢視圖像 </summary>
+              <div class="content">
+              <div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>左面，例如 <code>4.4</code> 是 Android 版本號；<br>接著旁邊的 <code>KitKat</code> 是 Android 版本名稱；<br>右面，例如 <code>19</code> 是 Android SDK 號</p></div><img width="100%" src="/post/android_dev_basic_tutorial/img1.png">
+              </div>
+            </details>
+
+<h1 id="正式開始"><a href="#正式開始" class="headerlink" title="正式開始"></a>正式開始</h1><h2 id="認識-build-gradle-檔案"><a href="#認識-build-gradle-檔案" class="headerlink" title="認識 build.gradle 檔案"></a>認識 <code>build.gradle</code> 檔案</h2><p><code>build.gradle</code> 是一個重要的檔案，它是使用 Gradle 自動化構建系統來構建、編譯和打包 Android 應用程式的腳本 (script) 檔案。一個 Android 項目通常會有多個 <code>build.gradle</code> 檔案，分別位於<strong>根目錄</strong>和<strong>模塊目錄</strong>下。</p>
+<p>在<strong>根目錄</strong>下的 <code>build.gradle</code> 檔案用於<strong>配置整個項目的全局設置</strong>，例如 Gradle 版本、Android 插件版本、所有子模塊的共同依賴庫、簽名配置等等。</p>
+<p>在每個<strong>模塊目錄</strong>下的 <code>build.gradle</code> 檔案則用於<strong>定義這個模塊的具體設置</strong>，例如應用程式的最小 SDK 版本、目標 SDK 版本、依賴庫、資源檔等等。在這個檔案中還可以定義自定義的 Gradle 任務，按照開發人員的需求來進行自動化處理。</p>
+<p>它是 Android 開發中不可或缺的一部分，通過設置這個檔案，開發人員可以對 Android 項目進行高度的自定義和掌控。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>根目錄 <code>build.gradle</code> 是在你 Android 項目資料夾內的；而<br>模塊目錄 <code>build.gradle</code> 是在根目錄內的 <code>app</code> 資料夾內的。</p>
+<br>
+
+<p>以例子來說，假設你的 Android 項目名稱為 “DemoApp”：</p>
+<div class="highlight-container" data-rel="Yml"><figure class="iseeu highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">根目錄</span> <span class="attr">build.gradle:</span> <span class="string">DemoApp/build.gradle</span></span><br><span class="line"><span class="string">模塊目錄</span> <span class="attr">build.gradle:</span> <span class="string">DemoApp/app/build.gradle</span></span><br></pre></td></tr></table></figure></div>
+</div>
+
+<h3 id="暸解模塊目錄內-build-gradle"><a href="#暸解模塊目錄內-build-gradle" class="headerlink" title="暸解模塊目錄內 build.gradle"></a>暸解模塊目錄內 <code>build.gradle</code></h3><p>在這個基礎教學中，我們不太需要理會根目錄的 <code>build.gradle</code> 裏面的內容是什麼，反而更需要我們去知道的是模塊目錄內的 <code>build.gradle</code>。</p>
+<p>當你創建項目後，通常都會自動生成了一個命名 <code>app</code> 的模塊目錄，這個目錄是應用程式的核心，因為它用來存放資源、佈局及功能代碼。</p>
+<h4 id="plugins-區塊"><a href="#plugins-區塊" class="headerlink" title="plugins 區塊"></a><code>plugins</code> 區塊</h4><p>打開你的 <code>build.gradle</code>， 你會看到 <code>plugins</code> 區塊中有這樣的代碼：</p>
+<div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    id <span class="string">&#x27;com.android.application&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>這個插件 <code>com.android.application</code> 是用來編寫 Android 程式的，如果沒有了這個插件，你的項目就不再被認定為一個 Android 程式項目。</p>
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>更多資訊 </summary>
+              <div class="content">
+              <p>若是要編寫 Android 使用的依賴庫 (dependencies)，就要用 <code>com.android.library</code>，這個插件就是用來編寫依賴庫的。</p><div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p><code>com.android.application</code> 與 <code>com.android.library</code> 不能共存。</p></div><div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    id <span class="string">&#x27;com.android.library&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+              </div>
+            </details>
+
+<h4 id="android-區塊"><a href="#android-區塊" class="headerlink" title="android 區塊"></a><code>android</code> 區塊</h4><p>在你的 <code>build.gradle</code>，你大概會看到 <code>android</code> 區塊中有這樣的代碼：</p>
+<div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    namespace <span class="string">&#x27;你的套件名稱&#x27;</span></span><br><span class="line">    compileSdk <span class="number">33</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId <span class="string">&quot;你的套件名稱&quot;</span></span><br><span class="line">        minSdk <span class="number">23</span></span><br><span class="line">        targetSdk <span class="number">33</span></span><br><span class="line">        versionCode <span class="number">1</span></span><br><span class="line">        versionName <span class="string">&quot;1.0&quot;</span></span><br><span class="line"></span><br><span class="line">        testInstrumentationRunner <span class="string">&quot;androidx.test.runner.AndroidJUnitRunner&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="keyword">false</span></span><br><span class="line">            proguardFiles getDefaultProguardFile(<span class="string">&#x27;proguard-android-optimize.txt&#x27;</span>), <span class="string">&#x27;proguard-rules.pro&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    compileOptions &#123;</span><br><span class="line">        <span class="keyword">sourceCompatibility</span> JavaVersion.VERSION_1_8</span><br><span class="line">        <span class="keyword">targetCompatibility</span> JavaVersion.VERSION_1_8</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>有幾項我們需要留意：</p>
+<ul>
+<li><code>compileSdk</code>：是要編譯的 SDK 版本，這個 <code>compileSdk</code> 只會<strong>與編譯時有關</strong>，例如 Android 推出了新的 API 予最新版本的 SDK <code>33</code> (Android 13)，而我們想把這些功能能在項目上使用，就可以更新。</li>
+</ul>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>通常最理想的做法就是把 <code>compileSdk</code> 設置到最高版本，因為它不會影響 Android 程式的運作，只會更新編譯的「資料庫」，獲取更多最新的 API，而且可以避免使用了官方已棄用 (deprecated) 的 API。</p>
+</div>
+
+<ul>
+<li><code>minSdk</code>：是要支援最低的 SDK 版本，這值必然是低於 <code>targetSdk</code> 或 <code>compileSdk</code> 的，當你設置了指定的 <code>minSdk</code> 後，你的應用程式就能兼容指定的最低版本，例如最低版本 <code>minSdk</code> 設置了 <code>23</code>，就代表你的應用程式可以在 Android 6.0 或以上的設備運作。</li>
+</ul>
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>對使用指定 SDK 版本進行判斷 </summary>
+              <div class="content">
+              <p>雖然設置 <code>minSdk</code> 能在指定的最低版本設備運行應用程式，但這不保證這會在其他程式的執行上出錯，因為始終是 API 兼容問題，可能會發生運行時錯誤 (Runtime error) 和閃退。</p><p>為此，我們可以為 SDK 版本進行判斷，為該 SDK 版本處理最適合的解決方案，從而為用戶獲得最佳使用體驗。</p><p>我們可以用 <code>Build.VERSION.SDK_INT</code> 常量來判斷該設備的 SDK 版本：</p><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.KITKAT)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK19</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.LOLLIPOP)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK21</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.LOLLIPOP_MR1)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK22</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP_MR1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.M)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK23</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK24</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N_MR1)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK25</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N_MR1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK26</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O_MR1)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK27</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O_MR1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK28</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK29</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.Q;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK30</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.R;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK31</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S_V2)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK32</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S_V2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAtLeastSDK33</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.TIRAMISU;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+              </div>
+            </details>
+
+<ul>
+<li><code>targetSdk</code>：是目標支援的 SDK 版本，通常這 <code>targetSdk</code> 的值會跟 <code>compileSdk</code> 的值一樣，</li>
+<li><code>versionCode</code>：是 Android 程式的版本號，通常只會在 <code>release</code> 構建方式後發佈至 Play 商店的情況，才會重點更新這個版本號。</li>
+<li><code>versionName</code>：是 Android 程式的版本名稱。</li>
+</ul>
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>更多資訊 </summary>
+              <div class="content">
+              <ul><li><code>compileOptions</code>：有兩個設定 <code>sourceCompatibility</code> 和 <code>targetCompatibility</code>。</li></ul><div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sourceCompatibility</span> JavaVersion.VERSION_1_8</span><br><span class="line"><span class="keyword">targetCompatibility</span> JavaVersion.VERSION_1_8</span><br></pre></td></tr></table></figure></div><p>如果你想設置 JDK 11 (Java 11) 版本，就要更改為：<code>JavaVersion.VERSION_11</code></p><div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><code>sourceCompatibility</code> 是與編譯環境有關；而<br><code>targetCompatibility</code> 是與運行環境有關，這兩個設的值要一樣。</p></div>
+              </div>
+            </details>
+
+<h4 id="dependencies-區塊"><a href="#dependencies-區塊" class="headerlink" title="dependencies 區塊"></a><code>dependencies</code> 區塊</h4><p>接著再看 <code>dependencies</code> 區塊，大概會有這樣的代碼：</p>
+<div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    implementation <span class="string">&#x27;androidx.appcompat:appcompat:1.6.1&#x27;</span></span><br><span class="line">    implementation <span class="string">&#x27;com.google.android.material:material:1.8.0&#x27;</span></span><br><span class="line">    implementation <span class="string">&#x27;androidx.constraintlayout:constraintlayout:2.1.4&#x27;</span></span><br><span class="line"></span><br><span class="line">    testImplementation <span class="string">&#x27;junit:junit:4.13.2&#x27;</span></span><br><span class="line">    androidTestImplementation <span class="string">&#x27;androidx.test.ext:junit:1.1.5&#x27;</span></span><br><span class="line">    androidTestImplementation <span class="string">&#x27;androidx.test.espresso:espresso-core:3.5.1&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>implementation</code>：這表示該依賴關係將被編譯並打包到應用程序中，但不會對應用程序的公共 API 可見。如果您正在開發應用程序，則建議使用此配置來減少應用程序的依賴性，因為這樣可以使應用程序更加輕量級，並且不會將庫的私有 API 暴露給其他開發人員。</li>
+</ul>
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>更多資訊 </summary>
+              <div class="content">
+              <ul><li><code>compile</code>：這是 Gradle 4.10 及以下版本中使用的關鍵字，它表示該依賴關係將被編譯並打包到應用程序中，並且可以在運行時使用。<strong>（不再建議使用，取而代之的是 <code>implementation</code>）</strong></li><li><code>api</code>：這是 Gradle 4.10 及以上版本中使用的關鍵字，它表示該依賴關係將對應用程序的公共 API 可見，並且會被編譯並打包到應用程序中與該 API 一起分發。如果您正在開發一個庫或模塊，則應使用此配置來公開您的API。</li><li><code>testImplementation</code>：這表示該依賴關係僅用於測試代碼，並且不會在應用程序運行時使用。</li><li><code>androidTestImplementation</code>：這表示該依賴關係僅用於 Android 儀器化測試代碼，並且不會在應用程序運行時使用。</li><li><code>annotationProcessor</code>：這是一個特殊的依賴關係配置，它表示該依賴關係是用於處理注解的。這些依賴關係在編譯時間使用，以生成代碼或其他資源。</li></ul>
+              </div>
+            </details>
+
+<h2 id="認識-AndroidManifest-xml"><a href="#認識-AndroidManifest-xml" class="headerlink" title="認識 AndroidManifest.xml"></a>認識 <code>AndroidManifest.xml</code></h2><p><code>AndroidManifest.xml</code> 是 Android 應用程式中的一個重要檔案，它描述了應用程式的基本資訊，包括應用程式的套件名稱、版本號、應用程式圖示、應用程式的主要元件（如活動、服務、廣播接收器和內容提供者）以及這些元件與其他應用程式的互動方式等等。Android 系統會在安裝應用程式時解析這個檔案，以了解應用程式的基本資訊和元件，從而為應用程式提供必要的資源和權限。</p>
+<p>在 <code>AndroidManifest.xml</code> 檔案中，還可以宣告應用程式需要的權限，以及應用程式在不同的設備上所需要的特定功能和硬體要求（例如相機、加速度計等）。此外，<code>AndroidManifest.xml</code> 檔案還可以定義應用程式的啟動方式和預設配置，以及其他與應用程式相關的元數據。</p>
+<p>它提供了應用程式的基本資訊和元件，並為應用程式提供了必要的資源和權限。開發者需要充分理解和正確編寫 <code>AndroidManifest.xml</code> 檔案，以確保應用程式能夠正常運行並與其他應用程式正確互動。</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:dataExtractionRules</span>=<span class="string">&quot;@xml/data_extraction_rules&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:fullBackupContent</span>=<span class="string">&quot;@xml/backup_rules&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">&quot;@mipmap/ic_launcher&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">&quot;@string/app_name&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">&quot;@style/Theme.ChatGPT&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">tools:targetApi</span>=<span class="string">&quot;31&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;MainActivity&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">meta-data</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:name</span>=<span class="string">&quot;android.app.lib_name&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:value</span>=<span class="string">&quot;&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>在這個 <code>AndroidManifest.xml</code> 檔案內容中，有幾個標示我們要注意：</p>
+<ul>
+<li><code>application</code>：是設置整個應用程式的設定</li>
+</ul>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>當中 <code>application</code> 預設有的設定：</p>
+<ul>
+<li><code>android:icon</code>：是設置應用程式使用的圖標</li>
+<li><code>android:label</code>：是設置應用程式的標籤，這個標籤會以應用程式的名稱展示</li>
+<li><code>android:theme</code>：是設置應用程式使用的主題配置</li>
+</ul>
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>更多資訊 </summary>
+              <div class="content">
+              <p>屬性的 <code>android</code> 前綴是來自 <code>manifest</code> 標示定義的，如果沒有了這個聲明，就不能使用 <code>android</code> 前綴的屬性。</p><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure></div><p><code>tools:targetApi=&quot;31&quot;</code> 是一個用來指定應用程式所使用的目標 API 版本的屬性，例如這裏是使用 <code>31</code>，即是 Android 12。</p><p><font size="6"><b><code>tools:targetApi</code> 與 <code>compileSdk</code> 的分別</b></font></p><p>其實，<code>tools:targetApi</code> 屬性和 <code>compileSdk</code> 版本在設定上有些微小的不同點，但兩者都是用來指定應用程式所使用的目標 API 版本，以確保應用程式能夠正常運作並使用最新的功能。</p><ol><li><code>tools:targetApi</code> 是在 <code>AndroidManifest.xml</code> 檔案中設定的，在應用程式的清單檔案中直接指定目標 API 版本，而 <code>compileSdk</code> 是在 <code>build.gradle</code> 檔案中設定的，在 Gradle 構建腳本中指定編譯時所使用的 API 版本。</li><li><code>tools:targetApi</code> 主要是用來控制報告非 API 行為所產生的警告，而 <code>compileSdk</code> 則是用來控制編譯時所使用的 API 版本。</li></ol>
+              </div>
+            </details>
+</div>
+
+<ul>
+<li><code>activity</code>：是設置這個 <code>Activity</code> 的設定和屬性</li>
+<li><code>intent-filter</code>：設置該 <code>Activity</code> 可接收的 <code>Intent</code> 類型</li>
+</ul>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>定義了活動可以處理的 <code>android.intent.action.MAIN</code> <code>Intent</code>，這個 <code>Intent</code> 通常用於啟動應用程式的主要 UI。</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>定義了 <code>Intent</code> 的類別，也就是啟動器（Launcher）。<code>android.intent.category.LAUNCHER</code> 是一個標準的類別，它表示應用程式可以顯示在裝置的啟動器中。</p>
+<h2 id="認識-activity-main-xml"><a href="#認識-activity-main-xml" class="headerlink" title="認識 activity_main.xml"></a>認識 <code>activity_main.xml</code></h2><p><code>activity_main.xml</code> 是 <code>res/layout</code> 目錄內的其中一個佈局文件，用於定義主活動（MainActivity）的佈局文件。它使用 XML 格式描述了在應用程序啟動時顯示的用戶界面元素，例如按鈕 <code>Button</code>、文本視圖 <code>TextView</code>、圖片 <code>ImageView</code> 和其他視圖組件。</p>
+<p>在 Android 應用程序中，每個活動都需要一個佈局文件，以定義其用戶界面。這些佈局文件通常位於 <code>res/layout</code> 目錄下，並且可以使用 Android Studio 中的佈局編輯器進行視覺化設計。</p>
+<p>在 <code>activity_main.xml</code> 中，您可以定義用戶界面元素的佈局、樣式、屬性和行為。這些元素可以使用 Android SDK 提供的預定義視圖組件，也可以使用自定義視圖組件來構建。通過設置元素的屬性和監聽器，您可以為應用程序創建交互式和響應式的用戶體驗。</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">&quot;.MainActivity&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">&quot;Hello World!&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">&quot;parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintEnd_toEndOf</span>=<span class="string">&quot;parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintStart_toStartOf</span>=<span class="string">&quot;parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">&quot;parent&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>對於初學而言，<code>ConstraintLayout</code> 的功能比較繁複，我們先暫時學習使用比較簡單的 <code>LinearLayout</code> 學習基本的屬性設定操作，但是，亦歡迎使用 <code>ConstraintLayout</code>，以下是其優點。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><ul>
+<li><p>靈活性：<code>ConstraintLayout</code> 允許您使用水平和垂直約束來對視圖進行定位，這使得它可以更靈活地定位和調整視圖位置和大小。</p>
+</li>
+<li><p>性能：相對於 <code>LinearLayout</code>，<code>ConstraintLayout</code> 可以更好地優化視圖的佈局和繪製，因為它可以減少不必要的視圖層次和計算。</p>
+</li>
+<li><p>適應性：<code>ConstraintLayout</code> 可以輕鬆地設計適應不同設備屏幕尺寸和方向的用戶界面。</p>
+</li>
+<li><p>交互性：<code>ConstraintLayout</code> 允許您簡單地添加動畫和過渡效果，以創建更具交互性和吸引力的用戶體驗。</p>
+</li>
+</ul>
+</div>
+
+<p>複製以下代碼並貼到你的項目上：</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">&quot;.MainActivity&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">&quot;Hello World!&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="組件元素"><a href="#組件元素" class="headerlink" title="組件元素"></a>組件元素</h3><p><code>LinearLayout</code> 是一種 Android 布局 (layout) ，用於在屏幕上將視圖 (views) 水平或垂直排列。LinearLayout 將其子視圖 (views) 放置在一個線性方向上，可以是水平方向 (horizontal) 或垂直方向 (vertical)。它可以通過設置重量 (weight) 屬性來控制子視圖在佔用空間方面的比例。<code>LinearLayout</code> 是 Android 中最基本的布局之一，可以在設計 Android 應用程序時使用。</p>
+<div class="note note-warning icon-padding"><i class="note-icon fa-solid fa-exclamation-circle"></i><p>妹個組件都一定要這兩個屬性！</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android:layout_width=&quot;...&quot;</span><br><span class="line">android:layout_height=&quot;...&quot;</span><br></pre></td></tr></table></figure></div></div>
+
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>LinearLayout 的 <code>orientation</code> 是用來設定佈局線性方向，如果你沒有特定設置，預設會是水平方向 (horizontal)。</p>
+<p>所以，如果你要這個佈局是垂直方向 (vertical)，就要為 <code>LinearLayout</code> 設定：</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:orientation=&quot;vertical&quot;</span><br></pre></td></tr></table></figure></div>
+</div>
+
+<h4 id="layout-width-和-layout-height"><a href="#layout-width-和-layout-height" class="headerlink" title="layout_width 和 layout_height"></a><code>layout_width</code> 和 <code>layout_height</code></h4><p>顧名思義，<code>layout_width</code> 就是設定視圖的寬度，而 <code>layout_height</code> 則設定其高度，這兩個屬性接受的值類型是：</p>
+<ul>
+<li><code>wrap_content</code>：<code>wrap_content</code> 是一種 Android 布局 (layout) 屬性，用於將視圖 (views) 的大小設置為其內容所需的最小大小。當視圖的寬度或高度設置為 <code>wrap_content</code> 時，該視圖將根據其內容的大小自動調整大小，以便能夠完整顯示其內容。</li>
+</ul>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>例如，如果一個 <code>TextView</code> 的寬度設置為 <code>wrap_content</code>，那麼該 <code>TextView</code> 的寬度會根據其文本的長度自動調整大小，以便能夠完整顯示其文本內容。使用 <code>wrap_content</code> 屬性可以使視圖的大小根據其內容自動調整，從而避免了視圖過大或過小的問題，同時也可以提高應用程序的性能和效率。</p>
+</div>
+
+<ul>
+<li><code>match_parent</code>：<code>match_parent</code> 是一種 Android 布局 (layout) 屬性，用於將視圖 (views) 的大小設置為其父視圖 (parent view) 的大小。它會將視圖的寬度或高度設置為與其父視圖相同的大小，具體取決於視圖在布局中的位置。</li>
+</ul>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>例如，如果一個視圖的寬度設置為 <code>match_parent</code>，那麼該視圖的寬度會填滿其父視圖的整個寬度，而不管父視圖的大小是多少。同樣，如果一個視圖的高度設置為 <code>match_parent</code>，那麼該視圖的高度會填滿其父視圖的整個高度。使用 <code>match_parent</code> 屬性可以讓視圖的大小根據其父視圖的大小自動調整，從而使應用程序的界面更加靈活和可擴展。</p>
+</div>
+
+<ul>
+<li><code>dp</code> 值：dp (density-independent pixel) 是一種 Android 像素 (pixel) 單位，被用於定義應用程式中的元素尺寸和距離，以使這些元素在不同的設備上顯示相同的大小和比例。dp 是一種相對於屏幕密度的單位，因此不同密度的設備上，dp 會有不同的實際像素值。在 Android 中，不同的設備有不同的屏幕密度，因此使用像素作為尺寸和距離的單位會導致在不同設備上顯示的元素大小和比例不同。為了解決這個問題，Android 引入了 dp 單位，以便在不同密度的屏幕上顯示相同大小的元素。通常，Android 的設計指南建議使用 dp 來定義應用程式中的元素尺寸和距離，以確保在不同的設備上顯示一致的外觀和感覺。</li>
+</ul>
+<!-- flag of hidden posts -->
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Java/">#Java</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Xml/">#Xml</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;留言
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script data-pjax
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script data-pjax>
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '548e3371016b4d8243f2',
+                    clientSecret: 'cfcf19408aacef6c9613469bd924d8fe6a96a5b2',
+                    repo: 'bluewhaleyt.github.io',
+                    owner: 'BlueWhaleYT',
+                    admin: ['BlueWhaleYT'],
+                    id: __gitalk__pathname,
+                    language: 'zh-TW'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('true') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此頁目錄</div>
+        <div class="page-title">Android 開發入門基礎</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">基本概要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Android-%E9%96%8B%E7%99%BC%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什麼是 Android 開發？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Android-Studio%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">什麼是 Android Studio？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BC%89-Android-Studio"><span class="nav-number">1.2.1.</span> <span class="nav-text">下載 Android Studio</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Android-SDK%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">什麼是 Android SDK？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Android-SDK"><span class="nav-number">1.3.1.</span> <span class="nav-text">安裝 Android SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AA%8D%E8%AD%98-SDK-%E7%89%88%E6%9C%AC"><span class="nav-number">1.3.2.</span> <span class="nav-text">認識 SDK 版本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E5%BC%8F%E9%96%8B%E5%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">正式開始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AA%8D%E8%AD%98-build-gradle-%E6%AA%94%E6%A1%88"><span class="nav-number">2.1.</span> <span class="nav-text">認識 build.gradle 檔案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9A%B8%E8%A7%A3%E6%A8%A1%E5%A1%8A%E7%9B%AE%E9%8C%84%E5%85%A7-build-gradle"><span class="nav-number">2.1.1.</span> <span class="nav-text">暸解模塊目錄內 build.gradle</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#plugins-%E5%8D%80%E5%A1%8A"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">plugins 區塊</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#android-%E5%8D%80%E5%A1%8A"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">android 區塊</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dependencies-%E5%8D%80%E5%A1%8A"><span class="nav-number">2.1.1.3.</span> <span class="nav-text">dependencies 區塊</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AA%8D%E8%AD%98-AndroidManifest-xml"><span class="nav-number">2.2.</span> <span class="nav-text">認識 AndroidManifest.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AA%8D%E8%AD%98-activity-main-xml"><span class="nav-number">2.3.</span> <span class="nav-text">認識 activity_main.xml</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B5%84%E4%BB%B6%E5%85%83%E7%B4%A0"><span class="nav-number">2.3.1.</span> <span class="nav-text">組件元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#layout-width-%E5%92%8C-layout-height"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">layout_width 和 layout_height</span></a></li></ol></li></ol></li></ol></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">BlueWhaleYT</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        讀者&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        閱覽&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container"><?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a> 框架</span>
+                <br>
+            <span class="theme-version-container">主題&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                博客已運行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小時 <span class="odometer" id="runtime_minutes"></span> 分鐘 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <div class="customize-info info-item">Credits: <a target="_blank" rel="noopener" href='https://www.freepik.com/'>Freepik</a>.</div>
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜尋..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

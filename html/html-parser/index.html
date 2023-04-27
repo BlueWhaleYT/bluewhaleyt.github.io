@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/material-palenight.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/hint/show-hint.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/lint/lint.min.css" />
+
+    <link href="/static/css/app.0d31776f.css" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/selection/active-line.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cm-show-invisibles@3.1.0/lib/show-invisibles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/lint/lint.min.js"></script>
+    <script src="https://bluewhaleyt.netlify.app/assets/js/codemirror/htmlmixed-lint.js"></script>
+
+    <script src="/static/js/chunk-libs.dc6146cd.js"></script>
+    <script src="/static/js/app.6d2c358d.js"></script>
+
+    <style>
+        textarea {
+            font-family: var(--codeFont) !important;
+
+        }
+
+        @media only screen and (min-width: 0px) and (max-width: 480px) {
+            .btnF {
+                position: fixed !important;
+                bottom: 4%;
+                !important;
+                padding-top: 2%;
+                padding-bottom: 2%;
+                padding-left: 20px;
+                padding-right: 20px;
+                z-index: 3;
+                background: #fffdfc !important;
+            }
+
+            .drK .btnF {
+                background: #2a2d3e !important;
+            }
+        }
+
+        .button {
+            display: block !important;
+            max-width: initial !important;
+            text-align: center !important;
+        }
+
+        .button:not(.button.ln) {
+            width: 100% !important;
+        }
+
+        .drK .button:not(.button.ln) {
+            color: white !important;
+        }
+
+        .CodeMirror {
+            border-radius: var(--rounded) !important;
+            background: #fafafa !important;
+        }
+
+        .drK .CodeMirror {
+            background: #2a2d3e !important;
+        }
+
+        .CodeMirror-gutter {
+            padding-right: 10px !important;
+            background: #fafafa !important;
+        }
+
+        .drK .CodeMirror-gutter {
+            background: #2a2d3e !important;
+        }
+
+        .CodeMirror-activeline-background,
+        .CodeMirror-activeline-gutter {
+            background: #e7e7e8 !important;
+        }
+
+        .drK .CodeMirror-activeline-background,
+        .drK .CodeMirror-activeline-gutter {
+            background: #1b1f2b !important;
+        }
+
+        .CodeMirror-linenumber {
+            font-family: var(--codeFont) !important;
+        }
+
+        /* CodeMirror Theme settings */
+        .cm-attribute,
+        .cm-property,
+        .cm-comment {
+            font-style: italic !important;
+        }
+
+        /* Dropdown Menu */
+        form {
+            margin-bottom: 2%;
+        }
+
+        select {
+            padding: 10px;
+            border: none;
+            border-radius: var(--rounded);
+        }
+
+        .drK select {
+            background: #2a2d3e;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <p>
+        此工具用以把 HTML 特別字符過濾到
+        <code>pre</code>及<code>code</code>，編輯器使用
+        <a href="https://codemirror.net/" target="_blank">CodeMirror</a> 建成。
+    </p>
+
+    <!-- Language Menu -->
+    <form name="form" id="form1" method="GET">
+        <select name="language" id="language" onchange="getResult();">
+            <option value="htmlmixed">HTML</option>
+            <option value="css">CSS</option>
+            <option value="javascript">JavaScript</option>
+        </select>
+    </form>
+
+    <!-- CodeMirror -->
+    <div class="code-container">
+        <textarea id="code" onfocus="code_check()"></textarea>
+    </div>
+
+    <!-- Buttons set -->
+    <div class="btnF">
+        <a class="button ln" onclick="code_save()"><i class="fas fa-save"></i></a>
+        <a class="button ln" onclick="code_copy()"><i class="fas fa-copy"></i></a>
+        <a class="button" onclick="code_convert()">轉換</a>
+        <a class="button ln" onclick="code_clear()"><i class="fas fa-trash"></i></a>
+        <a class="button ln" onclick="code_revert()"><i class="fas fa-undo"></i></a>
+    </div>
+
+    <script>
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: language,
+            theme: 'material-palenight',
+            lineNumbers: true,
+            indentUnit: 4,
+            smartIndent: true,
+            indentWithTabs: true,
+            styleActiveLine: true,
+            styleActiveSelected: true,
+            showInvisibles: true,
+            /*gutters: ["CodeMirror-lint-markers"],
+            lint: true*/
+
+        });
+        setDefaultLang();
+        editor.setSize(null, 400);
+        code_retrieve();
+
+        function code_convert() {
+            try {
+                let text = editor.getValue();
+                //text = text.replace(/&/g, '&amp;');
+                text = text.replace(/'/g, "&#039;");
+                text = text.replace(/"/g, "&quot;");
+                text = text.replace(/</g, "&lt;");
+                text = text.replace(/>/g, "&gt;");
+                editor.setValue(text);
+
+            } catch (e) {
+                alert(e);
+            }
+
+            // change mode to htmlmixed
+            setDefaultLang()
+
+        }
+
+        function code_revert() {
+            try {
+                let text = editor.getValue();
+                //text = text.replace('&amp;', '&');
+                text = text.replace(/&#039;/g, "'");
+                text = text.replace(/&quot;/g, '"');
+                text = text.replace(/&lt;/g, '<');
+                text = text.replace(/&gt;/g, '>');
+                editor.setValue(text);
+
+            } catch (e) {
+                alert(e);
+            }
+
+            // switch mode to lang selected
+            editor.setOption("mode", document.querySelector("#language").value);
+
+        }
+
+        function code_copy() {
+            try {
+                navigator.clipboard.writeText(editor.getValue());
+            } catch (e) {
+                alert(e);
+            }
+        }
+
+        function code_clear() {
+            editor.setValue("");
+        }
+
+        function code_save() {
+            lsSave("codeData", editor.getValue());
+        }
+
+        function code_retrieve() {
+            lsRead("codeData", editor);
+            //lsRead("selectedLang", )
+        }
+
+        function setDefaultLang() {
+            editor.setOption("mode", "htmlmixed");
+        }
+
+        function getResult() {
+            let language = document.querySelector("#language").value;
+            editor.setOption("mode", language);
+
+            // save result as lang last selected
+            //lsSave("selectedLang", language);
+
+        }
+
+        function lsSave(data, target) {
+            if (typeof (Storage) !== "undefined") {
+                try {
+                    localStorage.setItem(data, target);
+                } catch (e) {
+                    alert(e);
+                }
+            }
+        }
+
+        function lsRead(data, target) {
+            if (typeof (Storage) !== "undefined") {
+                target.setValue(localStorage.getItem(data));
+            }
+        }
+
+    </script>
+
+
+</body>
+
+</html>

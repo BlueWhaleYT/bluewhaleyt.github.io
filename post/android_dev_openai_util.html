@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="BlueWhaleYT">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://bluewhaleyt.github.io/post/android_dev_openai_util.html"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="大家好，歡迎閱讀本篇文章：「編寫 OpenAIUtil 實用程式類」。今天會說一下如何編寫一個實用程式 (Util)，進行往後簡易使用 OpenAI 所提供的 API (全稱：Application Programming Interface) 來實現和開發相關的另類學習程式。  前往 OpenAI 官網   準備工作在急不及待編寫程式之前，我們需要準備一些東西。  要求執行網絡作業因為我們即將要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="編寫 OpenAIUtil 實用程式類">
+<meta property="og:url" content="https://bluewhaleyt.github.io/post/android_dev_openai_util.html">
+<meta property="og:site_name" content="BlueWhaleYT 個人網誌">
+<meta property="og:description" content="大家好，歡迎閱讀本篇文章：「編寫 OpenAIUtil 實用程式類」。今天會說一下如何編寫一個實用程式 (Util)，進行往後簡易使用 OpenAI 所提供的 API (全稱：Application Programming Interface) 來實現和開發相關的另類學習程式。  前往 OpenAI 官網   準備工作在急不及待編寫程式之前，我們需要準備一些東西。  要求執行網絡作業因為我們即將要">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2023-03-04T15:30:00.000Z">
+<meta property="article:modified_time" content="2023-04-27T08:57:37.532Z">
+<meta property="article:author" content="BlueWhaleYT">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Xml">
+<meta property="article:tag" content="Javascript">
+<meta property="article:tag" content="Json">
+<meta name="twitter:card" content="summary">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <meta name="theme-color" content="#6190e8">
+    <link rel="shortcut icon" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            編寫 OpenAIUtil 實用程式類 -
+        
+        BlueWhaleYT 個人網誌
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'" rel="stylesheet">
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"bluewhaleyt.github.io","root":"/","language":"zh-TW","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":true,"family":"JetBrains Mono","url":"https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'"}},"toc":{"enable":true,"max_depth":6,"number":true,"expand":true,"init_open":true},"copyright":false,"lazyload":false,"recommendation":{"enable":false,"title":"Recommendation","limit":3,"placeholder":"https://i.imgur.com/tyHG03D.jpg","skip_dirs":[]}},"colors":{"primary":"#6190e8","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"2000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":false,"image":{"light":null,"dark":null},"title":"BlueWhaleYT 個人網誌","subtitle":{"text":[],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#6190e8","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Status":{"path":"https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages","icon":"fa-regular fa-chart-bar"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/BlueWhaleYT/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"歡迎來到「BlueWhaleYT 個人網誌」。","links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s 秒前","minute":"%s 分鐘前","hour":"%s 小時前","day":"%s 天前","week":"%s 週前","month":"%s 個月前","year":"%s 年前"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/fontawesome/duotone.min.css">
+
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                BlueWhaleYT 個人網誌
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首頁
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        歸檔
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-chart-bar"></i>
+                                        
+                                        狀態
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首頁
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                歸檔
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/bluewhaleyt.github.io/deployments/activity_log?environment=github-pages"  >
+                             
+                                
+                                    <i class="fa-regular fa-chart-bar"></i>
+                                
+                                狀態
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                關於&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT/">GITHUB</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+             
+                <div class="article-title">         
+                    <img src="https://i.imgur.com/YDNfYET.jpg" alt="編寫 OpenAIUtil 實用程式類" />
+                    <h1 class="article-title-cover">編寫 OpenAIUtil 實用程式類</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://i.ibb.co/zRvn96K/20210718-233824.jpg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">BlueWhaleYT</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-03-04 23:30</span>
+        <span class="mobile">2023-03-04 23:30</span>
+        <span class="hover-info">撰寫</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-04-27 16:57:37</span>
+            <span class="mobile">2023-04-27 16:57</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Android-%E9%96%8B%E7%99%BC/">Android 開發</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/Android-%E9%96%8B%E7%99%BC/Utils-%E5%AF%A6%E7%94%A8%E7%A8%8B%E5%BC%8F/">Utils 實用程式</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Java/">Java</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Xml/">Xml</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Javascript/">Javascript</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Json/">Json</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <p>大家好，歡迎閱讀本篇文章：「編寫 <code>OpenAIUtil</code> 實用程式類」。今天會說一下如何編寫一個實用程式 (Util)，進行往後簡易使用 OpenAI 所提供的 API (全稱：Application Programming Interface) 來實現和開發相關的另類學習程式。</p>
+<a class="button " target="_blank" rel="noopener" href="https://openai.com/" title="前往 OpenAI 官網"><i class="fa-solid fa-play-circle"></i> 前往 OpenAI 官網</a>
+
+<hr>
+<h1 id="準備工作"><a href="#準備工作" class="headerlink" title="準備工作"></a>準備工作</h1><p>在急不及待編寫程式之前，我們需要準備一些東西。</p>
+<hr>
+<h2 id="要求執行網絡作業"><a href="#要求執行網絡作業" class="headerlink" title="要求執行網絡作業"></a>要求執行網絡作業</h2><p>因為我們即將要使用 OpenAI 所提供的 API，而使用 API 的前提是，我們需要<strong>連線網絡的許可權</strong>，在 Android 開發中，我們可以在 <code>AndroidManifest.xml</code> 設置相關權限。</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="INTERNET-與-ACCESS-NETWORK-STATE-分別"><a href="#INTERNET-與-ACCESS-NETWORK-STATE-分別" class="headerlink" title="INTERNET 與 ACCESS_NETWORK_STATE 分別"></a><code>INTERNET</code> 與 <code>ACCESS_NETWORK_STATE</code> 分別</h3><ul>
+<li><code>INTERNET</code>: 為應用程式啟用網絡插槽 (Network Socket)，簡而言之就是用於連接網絡。</li>
+<li><code>ACCESS_NETWORK_STATE</code>: 為應用程式執行相關網絡作業，如經網絡獲取資訊等。</li>
+</ul>
+<p>實際上，在絕大多數的情況下，只需要啟用 <code>INTERNET</code> 權限便可以。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p><a target="_blank" href="https://developer.android.com/reference/android/Manifest.permission#INTERNET"><code>INTERNET</code></a> 和 <a target="_blank" href="https://developer.android.com/reference/android/Manifest.permission#ACCESS_NETWORK_STATE"><code>ACCESS_NETWORK_STATE</code></a> 權限都是一般權限，代表系統會在<strong>安裝時授予權限</strong>，因此不需要在執行階段請求授予。</p>
+</div>
+
+<hr>
+<h3 id="判斷已經連線網絡"><a href="#判斷已經連線網絡" class="headerlink" title="判斷已經連線網絡"></a>判斷已經連線網絡</h3><p>因為我們即將寫的程式，基本上其處理和輸出是依賴網絡的，如果你想判斷目前該設備是否已經啟用網絡，可以編寫一個簡單的模塊，例傳回布爾值的 <code>isNetworkAvailable()</code>。</p>
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>檢視代碼: <code>isNetworkAvailable()</code> </summary>
+              <div class="content">
+              <div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.net.ConnectivityManager;</span><br><span class="line"><span class="keyword">import</span> android.net.NetworkInfo;</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isNetworkAvailable</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">    <span class="type">ConnectivityManager</span> <span class="variable">connectivityManager</span> <span class="operator">=</span> (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (connectivityManager != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="type">NetworkInfo</span> <span class="variable">activeNetwork</span> <span class="operator">=</span> connectivityManager.getActiveNetworkInfo();</span><br><span class="line">        <span class="keyword">return</span> (activeNetwork != <span class="literal">null</span> &amp;&amp; activeNetwork.isConnectedOrConnecting());</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><p>使用方法：</p><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (isNetworkAvailable()) Log.d(TAG, <span class="string">&quot;Network is available&quot;</span>);</span><br><span class="line"><span class="keyword">else</span> Log.e(TAG, <span class="string">&quot;Network is not available&quot;</span>);</span><br></pre></td></tr></table></figure></div>
+              </div>
+            </details>
+
+<hr>
+<h2 id="匯入-Okhttp-依賴"><a href="#匯入-Okhttp-依賴" class="headerlink" title="匯入 Okhttp 依賴"></a>匯入 Okhttp 依賴</h2><p>什麼是依賴 (Dependency) ？，其實就是相當於函式庫 (Library)，我們可以在 <code>build.gradle</code> 文件中手動匯入依賴。</p>
+<div class="note note-info icon-padding"><i class="note-icon fa-solid fa-info-circle"></i><p>這個 <code>build.gradle</code> 檔案是 <code>app/</code> 目錄那一個，你會找到有 <code>dependencies</code> 那部分，就是加入依賴的。</p>
+</div>
+
+<div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">&#x27;com.squareup.okhttp3:okhttp:4.10.0&#x27;</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="什麼是-Okhttp？"><a href="#什麼是-Okhttp？" class="headerlink" title="什麼是 Okhttp？"></a>什麼是 Okhttp？</h3><p><a target="_blank" href="https://square.github.io/okhttp/">Okhttp</a> 是一個用於<strong>處理網絡請求的框架</strong>，在較早之前。我們是用 <a target="_blank" href="https://google.github.io/volley/">Volley</a> 的，這個函式庫是由 Google 開發的，但值得留意的是，Volley 是用 <code>HttpClient</code> 的，而這個類在 <strong>Android 6.0 (SDK 23) 起不再支援</strong>，而使得 Volley 鮮少再被使用，現在的替代品就是 Okhttp。</p>
+<hr>
+<h1 id="程式實現"><a href="#程式實現" class="headerlink" title="程式實現"></a>程式實現</h1><p>完成好準備作業後，就可以編寫代碼。</p>
+<hr>
+<h2 id="建立-OpenAIUtil-類"><a href="#建立-OpenAIUtil-類" class="headerlink" title="建立 OpenAIUtil 類"></a>建立 <code>OpenAIUtil</code> 類</h2><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OpenAIUtil</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="Okhttp-初始化程序"><a href="#Okhttp-初始化程序" class="headerlink" title="Okhttp 初始化程序"></a>Okhttp 初始化程序</h3><p>聲明 <code>OkHttpClient</code> 類的變量 <code>client</code>，用於稍後初始化。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> OkHttpClient client;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h4 id="構建-OpenAIUtil"><a href="#構建-OpenAIUtil" class="headerlink" title="構建 OpenAIUtil"></a>構建 <code>OpenAIUtil</code></h4><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">OpenAIUtil</span><span class="params">()</span> &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h5 id="設置逾時作業"><a href="#設置逾時作業" class="headerlink" title="設置逾時作業"></a>設置逾時作業</h5><p>由於 OpenAI 的請求會有<strong>可能超出預設的逾時</strong>，導致因為<strong>逾時而未能得到完整的請求</strong>，因此我們需要處理逾時作業。</p>
+<p>我們會用這三個設定：<code>readTimeout</code>、<code>writeTimeout</code> 及 <code>connectTimeout</code>。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">long</span> readTimeout, writeTimeout, connectTimeout;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h6 id="編寫存取子與變異子"><a href="#編寫存取子與變異子" class="headerlink" title="編寫存取子與變異子"></a>編寫存取子與變異子</h6><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><figcaption><span>存取子 (Getter)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getReadTimeout</span><span class="params">()</span> &#123; <span class="keyword">return</span> readTimeout; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getWriteTimeout</span><span class="params">()</span> &#123; <span class="keyword">return</span> writeTimeout; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getConnectTimeout</span><span class="params">()</span> &#123; <span class="keyword">return</span> connectTimeout; &#125;</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><figcaption><span>變異子 (Setter)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setReadTimeout</span><span class="params">()</span> &#123; <span class="built_in">this</span>.readTimeout = readTimeout; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setWriteTimeout</span><span class="params">()</span> &#123; <span class="built_in">this</span>.writeTimeout = writeTimeout; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setConnectTimeout</span><span class="params">()</span> &#123; <span class="built_in">this</span>.connectTimeout = connectTimeout; &#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h6 id="為-client-設置逾時"><a href="#為-client-設置逾時" class="headerlink" title="為 client 設置逾時"></a>為 <code>client</code> 設置逾時</h6><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">client = <span class="keyword">new</span> <span class="title class_">OkHttpClient</span>.Builder()</span><br><span class="line">        .connectTimeout(connectTimeout, TimeUnit.SECONDS)</span><br><span class="line">        .readTimeout(readTimeout, TimeUnit.SECONDS)</span><br><span class="line">        .writeTimeout(writeTimeout, TimeUnit.SECONDS)</span><br><span class="line">        .build();</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="OpenAI-參數設定"><a href="#OpenAI-參數設定" class="headerlink" title="OpenAI 參數設定"></a>OpenAI 參數設定</h3><p>OpenAI 提供的 API 的參數設定 (Parameter)，常用的有：</p>
+<ul>
+<li><code>model</code>: 要應用的 AI 模型。</li>
+<li><code>prompt</code>: 要輸入的文本。</li>
+<li><code>max_tokens</code>: 可支援的最大 Token 數目。</li>
+<li><code>temperature</code>: 生成文本的多樣性、創造性。</li>
+</ul>
+<hr>
+<h4 id="聲明變量"><a href="#聲明變量" class="headerlink" title="聲明變量"></a>聲明變量</h4><p>稍後我們會編寫<strong>存取子與變異子</strong> (Getter &amp; Setter)，所以我們要先定義全域變量。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">double</span> maxTokens,</span><br><span class="line">               temperature;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> String apiKey,</span><br><span class="line">               apiUrl,</span><br><span class="line">               model,</span><br><span class="line">               prompt;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h4 id="編寫存取子與變異子-1"><a href="#編寫存取子與變異子-1" class="headerlink" title="編寫存取子與變異子"></a>編寫存取子與變異子</h4><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><figcaption><span>存取子 (Getter)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getMaxTokens</span><span class="params">()</span> &#123; <span class="keyword">return</span> maxTokens; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getTemperature</span><span class="params">()</span> &#123; <span class="keyword">return</span> temperature; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">getAPIKey</span><span class="params">()</span> &#123; <span class="keyword">return</span> apiKey; &#125;</span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">getAPIUrl</span><span class="params">()</span> &#123; <span class="keyword">return</span> apiUrl; &#125;</span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">getModel</span><span class="params">()</span> &#123; <span class="keyword">return</span> model; &#125;</span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">getPrompt</span><span class="params">()</span> &#123; <span class="keyword">return</span> prompt; &#125;</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><figcaption><span>變異子 (Setter)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setMaxTokens</span><span class="params">(<span class="type">double</span> maxTokens)</span> &#123; <span class="built_in">this</span>.maxTokens = maxTokens; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTemperature</span><span class="params">(<span class="type">double</span> temperature)</span> &#123; <span class="built_in">this</span>.temperature = temperature; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAPIUrl</span><span class="params">(String apiUrl)</span> &#123; <span class="built_in">this</span>.apiUrl = apiUrl; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAPIKey</span><span class="params">(String apiKey)</span> &#123; <span class="built_in">this</span>.apiKey = apiKey; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setModel</span><span class="params">(String model)</span> &#123; <span class="built_in">this</span>.model = model; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPrompt</span><span class="params">(String prompt)</span> &#123; <span class="built_in">this</span>.prompt = prompt; &#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h4 id="設置參數"><a href="#設置參數" class="headerlink" title="設置參數"></a>設置參數</h4><hr>
+<h5 id="使用哪一個模型？"><a href="#使用哪一個模型？" class="headerlink" title="使用哪一個模型？"></a>使用哪一個模型？</h5><p>現今 OpenAI 強大的模型有兩個：</p>
+<ul>
+<li><code>text-davinci-003</code>: 一個簡單的自動補全的模型，不建議用於聊天對話。</li>
+<li><code>gpt-3.5-turbo</code>: GPT 3.5 模型，ChatGPT 現時在使用的模型，尤其是如果要與機器人進行聊天對話，保留持續的對話脈絡或上下文 (Context)，就可以用這個模型，因為這模型是接受一系列的訊息作為 Prompt 的傳遞。</li>
+</ul>
+<p>在 <a target="_blank" href="https://platform.openai.com/docs/api-reference/completions/create?lang=node.js">OpenAI 官方開發文案</a> 所見，我們需要設置參數，當中 <code>model</code> 和 <code>prompt</code> 是必要的參數。</p>
+<hr>
+<h6 id="text-davinci-003-參數設定"><a href="#text-davinci-003-參數設定" class="headerlink" title="text-davinci-003 參數設定"></a><code>text-davinci-003</code> 參數設定</h6><div class="highlight-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> response = <span class="keyword">await</span> openai.<span class="title function_">createCompletion</span>(&#123;</span><br><span class="line">    <span class="attr">model</span>: <span class="string">&quot;text-davinci-003&quot;</span>,</span><br><span class="line">    <span class="attr">prompt</span>: <span class="string">&quot;Say this is a test&quot;</span>,</span><br><span class="line">    <span class="attr">max_tokens</span>: <span class="number">7</span>,</span><br><span class="line">    <span class="attr">temperature</span>: <span class="number">0</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div>
+
+<p>即是我們需要編寫以下編碼，用以為 <code>text-davinci-003</code> 設置參數。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> JSONObject <span class="title function_">getSettings</span><span class="params">()</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">    <span class="type">JSONObject</span> <span class="variable">json</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>();</span><br><span class="line"></span><br><span class="line">    json.put(<span class="string">&quot;model&quot;</span>, model);</span><br><span class="line">    json.put(<span class="string">&quot;prompt&quot;</span>, prompt);</span><br><span class="line">    json.put(<span class="string">&quot;temperature&quot;</span>, temperature);</span><br><span class="line">    json.put(<span class="string">&quot;max_tokens&quot;</span>, maxTokens);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> json;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h6 id="gpt-3-5-turbo-參數設定"><a href="#gpt-3-5-turbo-參數設定" class="headerlink" title="gpt-3.5-turbo 參數設定"></a><code>gpt-3.5-turbo</code> 參數設定</h6><p><code>gpt-3.5-turbo</code> 的參數設定有些不同，特別是 <code>prompt</code>，在 GPT 3.5 模型中，<code>prompt</code> 已被 <code>messages</code> 取代了，但是 <code>messages</code> 的值是陣列 (Array)：</p>
+<div class="highlight-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> completion = <span class="keyword">await</span> openai.<span class="title function_">createChatCompletion</span>(&#123;</span><br><span class="line">    <span class="attr">model</span>: <span class="string">&quot;gpt-3.5-turbo&quot;</span>,</span><br><span class="line">    <span class="attr">messages</span>: [&#123;<span class="attr">role</span>: <span class="string">&quot;user&quot;</span>, <span class="attr">content</span>: <span class="string">&quot;Hello world&quot;</span>&#125;],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> JSONObject <span class="title function_">getSettings</span><span class="params">()</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">    <span class="type">JSONObject</span> <span class="variable">json</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>();</span><br><span class="line">    <span class="type">JSONArray</span> <span class="variable">jsonArray</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONArray</span>();</span><br><span class="line">    <span class="type">JSONObject</span> <span class="variable">jsonMessageObj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>();</span><br><span class="line"></span><br><span class="line">    jsonMessageObj.put(<span class="string">&quot;role&quot;</span>, <span class="string">&quot;user&quot;</span>);</span><br><span class="line">    jsonMessageObj.put(<span class="string">&quot;content&quot;</span>, prompt);</span><br><span class="line">    jsonArray.put(jsonMessageObj);</span><br><span class="line"></span><br><span class="line">    json.put(<span class="string">&quot;model&quot;</span>, model);</span><br><span class="line">    json.put(<span class="string">&quot;messages&quot;</span>, jsonArray);</span><br><span class="line">    json.put(<span class="string">&quot;temperature&quot;</span>, temperature);</span><br><span class="line">    json.put(<span class="string">&quot;max_tokens&quot;</span>, maxTokens);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> json;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="OpenAI-創建請求"><a href="#OpenAI-創建請求" class="headerlink" title="OpenAI 創建請求"></a>OpenAI 創建請求</h3><div class="highlight-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> configuration = <span class="keyword">new</span> <span class="title class_">Configuration</span>(&#123;</span><br><span class="line">    <span class="attr">apiKey</span>: process.<span class="property">env</span>.<span class="property">OPENAI_API_KEY</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div>
+
+<p>我們要編寫的代碼如下：</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">MediaType</span> <span class="variable">mediaType</span> <span class="operator">=</span> MediaType.parse(<span class="string">&quot;application/json; charset=utf-8&quot;</span>);</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">generateResponse</span><span class="params">(Callback callback)</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">    <span class="type">JSONObject</span> <span class="variable">json</span> <span class="operator">=</span> getSettings();</span><br><span class="line">    <span class="type">Request</span> <span class="variable">request</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Request</span>.Builder()</span><br><span class="line">            .url(apiUrl)</span><br><span class="line">            .header(<span class="string">&quot;Authorization&quot;</span>, <span class="string">&quot;Bearer &quot;</span> + apiKey)</span><br><span class="line">            .header(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/json&quot;</span>)</span><br><span class="line">            .post(RequestBody.create(json.toString(), mediaType))</span><br><span class="line">            .build();</span><br><span class="line">    client.newCall(request).enqueue(callback);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="OpenAI-獲取回應"><a href="#OpenAI-獲取回應" class="headerlink" title="OpenAI 獲取回應"></a>OpenAI 獲取回應</h3><hr>
+<h4 id="text-davinci-003-回應輸出"><a href="#text-davinci-003-回應輸出" class="headerlink" title="text-davinci-003 回應輸出"></a><code>text-davinci-003</code> 回應輸出</h4><div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><figcaption><span><code>text-davinci-003</code> 回應輸出 (部分經省略)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="attr">&quot;object&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text_completion&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text-davinci-003&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;choices&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;\n\nThis is indeed a test&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;logprobs&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;finish_reason&quot;</span><span class="punctuation">:</span> <span class="string">&quot;length&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    ...</span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">getResponse</span><span class="params">(String responseBody)</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">resultText</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">JSONObject</span> <span class="variable">jsonObject</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>(responseBody);</span><br><span class="line">    <span class="type">JSONArray</span> <span class="variable">jsonArray</span> <span class="operator">=</span> jsonObject.getJSONArray(<span class="string">&quot;choices&quot;</span>);</span><br><span class="line"></span><br><span class="line">    resultText = jsonArray.getJSONObject(<span class="number">0</span>).getString(<span class="string">&quot;text&quot;</span>);</span><br><span class="line">    resultText.trim();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> resultText;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h4 id="gpt-3-5-turbo-回應輸出"><a href="#gpt-3-5-turbo-回應輸出" class="headerlink" title="gpt-3.5-turbo 回應輸出"></a><code>gpt-3.5-turbo</code> 回應輸出</h4><div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><figcaption><span><code>gpt-3.5-turbo</code> 回應輸出 (部分經省略)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="attr">&quot;object&quot;</span><span class="punctuation">:</span> <span class="string">&quot;chat.completion&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;choices&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;role&quot;</span><span class="punctuation">:</span> <span class="string">&quot;assistant&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;\n\nHello there, how may I assist you today?&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;finish_reason&quot;</span><span class="punctuation">:</span> <span class="string">&quot;stop&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    ...</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">getResponse</span><span class="params">(String responseBody)</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">resultText</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">JSONObject</span> <span class="variable">jsonObject</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>(responseBody);</span><br><span class="line">    <span class="type">JSONArray</span> <span class="variable">jsonArray</span> <span class="operator">=</span> jsonObject.getJSONArray(<span class="string">&quot;choices&quot;</span>);</span><br><span class="line">    <span class="type">JSONObject</span> <span class="variable">jsonMessageObj</span> <span class="operator">=</span> jsonArray.getJSONObject(<span class="number">0</span>).getJSONObject(<span class="string">&quot;message&quot;</span>);</span><br><span class="line"></span><br><span class="line">    resultText = jsonMessageObj.getString(<span class="string">&quot;content&quot;</span>);</span><br><span class="line">    resultText.trim();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> resultText;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="OpenAI-獲取報錯訊息"><a href="#OpenAI-獲取報錯訊息" class="headerlink" title="OpenAI 獲取報錯訊息"></a>OpenAI 獲取報錯訊息</h3><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">getErrorResponse</span><span class="params">(String responseBody)</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">    <span class="type">JSONObject</span> <span class="variable">jsonObject</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>(responseBody);</span><br><span class="line">    <span class="type">JSONObject</span> <span class="variable">errorObj</span> <span class="operator">=</span> jsonObject.getJSONObject(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">resultText</span> <span class="operator">=</span> errorObj.getString(<span class="string">&quot;message&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> resultText;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="實戰應用-OpenAIUtil"><a href="#實戰應用-OpenAIUtil" class="headerlink" title="實戰應用 OpenAIUtil"></a>實戰應用 <code>OpenAIUtil</code></h2><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> OpenAIUtil client;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="設置-OpenAIUtil"><a href="#設置-OpenAIUtil" class="headerlink" title="設置 OpenAIUtil"></a>設置 <code>OpenAIUtil</code></h3><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">client = <span class="keyword">new</span> <span class="title class_">OpenAIUtil</span>();</span><br><span class="line">client.setAPIKey(apiKey);</span><br><span class="line">client.setAPIUrl(apiUrl);</span><br><span class="line">client.setModel(model);</span><br><span class="line">client.setTemperature(temperature);</span><br><span class="line">client.setMaxTokens(maxTokens);</span><br></pre></td></tr></table></figure></div>
+
+<p>你可能會問，那 <code>setPrompt()</code> 呢？我們會在另一個區塊設置。</p>
+<hr>
+<h3 id="發送請求"><a href="#發送請求" class="headerlink" title="發送請求"></a>發送請求</h3><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">sendRequest</span><span class="params">(String prompt)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        client.setPrompt(prompt);</span><br><span class="line">        client.generateResponse(<span class="keyword">new</span> <span class="title class_">Callback</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onFailure</span><span class="params">(<span class="meta">@NonNull</span> Call call, <span class="meta">@NonNull</span> IOException e)</span> &#123;</span><br><span class="line">                <span class="comment">// 顯示報錯訊息</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onResponse</span><span class="params">(<span class="meta">@NonNull</span> Call call, <span class="meta">@NonNull</span> Response response)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">                <span class="type">String</span> <span class="variable">responseBody</span> <span class="operator">=</span> response.body().string();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">// 獲取回應結果</span></span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    <span class="comment">// 顯示報錯訊息</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="comment">// 顯示報錯訊息</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="獲取回應"><a href="#獲取回應" class="headerlink" title="獲取回應"></a>獲取回應</h3><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> String <span class="title function_">getResponse</span><span class="params">(String responseBody)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> client.getResponse(responseBody);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h1 id="附加資訊"><a href="#附加資訊" class="headerlink" title="附加資訊"></a>附加資訊</h1><hr>
+<h2 id="OpenAI-參數說明"><a href="#OpenAI-參數說明" class="headerlink" title="OpenAI 參數說明"></a>OpenAI 參數說明</h2><ul>
+<li><code>max_tokens</code>: 是機器人<strong>最大可補全的權標數目</strong>，預設是 <code>16</code>。如果<strong>設定較小</strong>，會<strong>限制機器人對所輸入文本的理解能力</strong>，反之，則讓它<strong>更好理解文本內容</strong>。</li>
+</ul>
+<div class="note-large notel-info"><div class="notel-title"><p>如何數出Tokens數目</p>
+</div><div class="notel-content"><p>詳見官方支援服務：<a class="link" target="_blank" rel="noopener" href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them">https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<br>
+
+<p>1 個權標 ≃ 4 個英文字符<br>1 個權標 ≃ ¾ (四分之三) 個字詞<br>100 個權標 ≃ 75 個字詞</p>
+<br>
+
+<p>1-2 個句子 ≃ 30 個權標<br>1 個句子 ≃ 100 個權標</p>
+<br>
+1,500 字詞 ≃ 2048 個權標 </div></div>
+
+<ul>
+<li><code>temperature</code> 是用以控制機器人<strong>創造文本的多樣性及創造性</strong>，範圍為 <code>0-2</code>，預設是 <code>1</code>，不用設置 <code>top_p</code>。</li>
+<li><code>top_p</code>: 功能主要與 <code>temperature</code> 相同，不用 <code>temperature</code>。</li>
+<li><code>echo</code>: 是用於輸出補全後文本前傳回 <code>prompt</code> 所設定的文本。</li>
+</ul>
+<div class="note-large notel-info"><div class="notel-title"><p>Echo示例結果展示</p>
+</div><div class="notel-content"><div class="highlight-container" data-rel="Yml"><figure class="iseeu highlight yml"><figcaption><span>沒有設置<code>echo</code></span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Prompt:</span> <span class="string">Hello.</span></span><br><span class="line"><span class="attr">Completion:</span> <span class="string">Hi!</span> <span class="string">how</span> <span class="string">can</span> <span class="string">I</span> <span class="string">assist</span> <span class="string">you</span> <span class="string">today?</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Yml"><figure class="iseeu highlight yml"><figcaption><span>有設置<code>echo</code></span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Prompt:</span> <span class="string">Hello.</span></span><br><span class="line"><span class="attr">Completion:</span> <span class="string">Hello.</span></span><br><span class="line">            <span class="string">Hi!</span> <span class="string">how</span> <span class="string">can</span> <span class="string">I</span> <span class="string">assist</span> <span class="string">you</span> <span class="string">today?</span></span><br></pre></td></tr></table></figure></div>
+ </div></div>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>檢視代碼: 建立請求 </summary>
+              <div class="content">
+              <div class="highlight-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><figcaption><span>建立請求 - text-davinci-003</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">Configuration</span>, <span class="title class_">OpenAIApi</span> &#125; = <span class="built_in">require</span>(<span class="string">&quot;openai&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> configuration = <span class="keyword">new</span> <span class="title class_">Configuration</span>(&#123;</span><br><span class="line">    <span class="attr">apiKey</span>: process.<span class="property">env</span>.<span class="property">OPENAI_API_KEY</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> openai = <span class="keyword">new</span> <span class="title class_">OpenAIApi</span>(configuration);</span><br><span class="line"><span class="keyword">const</span> response = <span class="keyword">await</span> openai.<span class="title function_">createCompletion</span>(&#123;</span><br><span class="line">    <span class="attr">model</span>: <span class="string">&quot;text-davinci-003&quot;</span>,</span><br><span class="line">    <span class="attr">prompt</span>: <span class="string">&quot;Say this is a test&quot;</span>,</span><br><span class="line">    <span class="attr">max_tokens</span>: <span class="number">7</span>,</span><br><span class="line">    <span class="attr">temperature</span>: <span class="number">0</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><figcaption><span>建立請求 - gpt-3.5-turbo</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">Configuration</span>, <span class="title class_">OpenAIApi</span> &#125; = <span class="built_in">require</span>(<span class="string">&quot;openai&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> configuration = <span class="keyword">new</span> <span class="title class_">Configuration</span>(&#123;</span><br><span class="line">  <span class="attr">apiKey</span>: process.<span class="property">env</span>.<span class="property">OPENAI_API_KEY</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> openai = <span class="keyword">new</span> <span class="title class_">OpenAIApi</span>(configuration);</span><br><span class="line"><span class="keyword">const</span> completion = <span class="keyword">await</span> openai.<span class="title function_">createChatCompletion</span>(&#123;</span><br><span class="line">  <span class="attr">model</span>: <span class="string">&quot;gpt-3.5-turbo&quot;</span>,</span><br><span class="line">  <span class="attr">messages</span>: [&#123;<span class="attr">role</span>: <span class="string">&quot;user&quot;</span>, <span class="attr">content</span>: <span class="string">&quot;Hello world&quot;</span>&#125;],</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(completion.<span class="property">data</span>.<span class="property">choices</span>[<span class="number">0</span>].<span class="property">message</span>);</span><br></pre></td></tr></table></figure></div>
+              </div>
+            </details>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>檢視代碼: 參數設定 </summary>
+              <div class="content">
+              <div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><figcaption><span>參數設定 - text-davinci-003</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text-davinci-003&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;prompt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Say this is a test&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;max_tokens&quot;</span><span class="punctuation">:</span> <span class="number">7</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;temperature&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;top_p&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;n&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;stream&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;logprobs&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;stop&quot;</span><span class="punctuation">:</span> <span class="string">&quot;\n&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><figcaption><span>參數設定 - gpt-3.5-turbo</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gpt-3.5-turbo&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;messages&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span><span class="attr">&quot;role&quot;</span><span class="punctuation">:</span> <span class="string">&quot;user&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hello!&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div>
+              </div>
+            </details>
+
+<details class="blue" data-header-exclude><summary><i class="fa-solid fa-chevron-right"></i>檢視代碼: 回應結果 </summary>
+              <div class="content">
+              <div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><figcaption><span>回應結果 - text-davinci-003</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;object&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text_completion&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;created&quot;</span><span class="punctuation">:</span> <span class="number">1589478378</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text-davinci-003&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;choices&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;\n\nThis is indeed a test&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;logprobs&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;finish_reason&quot;</span><span class="punctuation">:</span> <span class="string">&quot;length&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;usage&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;prompt_tokens&quot;</span><span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;completion_tokens&quot;</span><span class="punctuation">:</span> <span class="number">7</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;total_tokens&quot;</span><span class="punctuation">:</span> <span class="number">12</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><figcaption><span>回應結果 - gpt-3.5-turbo</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;chatcmpl-123&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;object&quot;</span><span class="punctuation">:</span> <span class="string">&quot;chat.completion&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;created&quot;</span><span class="punctuation">:</span> <span class="number">1677652288</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;choices&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;role&quot;</span><span class="punctuation">:</span> <span class="string">&quot;assistant&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;\n\nHello there, how may I assist you today?&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;finish_reason&quot;</span><span class="punctuation">:</span> <span class="string">&quot;stop&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;usage&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;prompt_tokens&quot;</span><span class="punctuation">:</span> <span class="number">9</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;completion_tokens&quot;</span><span class="punctuation">:</span> <span class="number">12</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;total_tokens&quot;</span><span class="punctuation">:</span> <span class="number">21</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div>
+              </div>
+            </details>
+
+<hr>
+<h1 id="源代碼"><a href="#源代碼" class="headerlink" title="源代碼"></a>源代碼</h1><div class="tabs" id="tab-source_code"><ul class="nav-tabs"><li class="tab active"><a class="#source_code-1">AndroidManifest.xml</a></li><li class="tab"><a class="#source_code-2">build.gradle</a></li><li class="tab"><a class="#source_code-3">OpenAIUtil.java</a></li><li class="tab"><a class="#source_code-4">MainActivity.java</a></li></ul><div class="tab-content"><div class="tab-pane active" id="source_code-1"><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><figcaption><span>AndroidManifest.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="source_code-2"><div class="highlight-container" data-rel="Gradle"><figure class="iseeu highlight gradle"><figcaption><span>build.gradle (app/)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    id <span class="string">&#x27;com.android.application&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    implementation <span class="string">&#x27;com.squareup.okhttp3:okhttp:4.10.0&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="source_code-3"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><figcaption><span>OpenAIUtil.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OpenAIUtil</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">MediaType</span> <span class="variable">mediaType</span> <span class="operator">=</span> MediaType.parse(<span class="string">&quot;application/json; charset=utf-8&quot;</span>);</span><br><span class="line">    <span class="keyword">private</span> OkHttpClient client;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> readTimeout, writeTimeout, connectTimeout;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> maxTokens, temperature;</span><br><span class="line">    <span class="keyword">private</span> String apiKey, apiUrl, model, prompt;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TEXT_DAVINCI_003</span> <span class="operator">=</span> <span class="string">&quot;text-davinci-003&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">GPT_3_5_TURBO</span> <span class="operator">=</span> <span class="string">&quot;gpt-3.5-turbo&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">COMPLETION_URL</span> <span class="operator">=</span> <span class="string">&quot;https://api.openai.com/v1/completions&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">CHAT_COMPLETION_URL</span> <span class="operator">=</span> <span class="string">&quot;https://api.openai.com/v1/chat/completions&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">OpenAIUtil</span><span class="params">()</span> &#123;</span><br><span class="line">        client = <span class="keyword">new</span> <span class="title class_">OkHttpClient</span>.Builder()</span><br><span class="line">                .connectTimeout(connectTimeout, TimeUnit.SECONDS)</span><br><span class="line">                .readTimeout(readTimeout, TimeUnit.SECONDS)</span><br><span class="line">                .writeTimeout(writeTimeout, TimeUnit.SECONDS)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getReadTimeout</span><span class="params">()</span> &#123; <span class="keyword">return</span> readTimeout; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getWriteTimeout</span><span class="params">()</span> &#123; <span class="keyword">return</span> writeTimeout; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getConnectTimeout</span><span class="params">()</span> &#123; <span class="keyword">return</span> connectTimeout; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getMaxTokens</span><span class="params">()</span> &#123; <span class="keyword">return</span> maxTokens; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getTemperature</span><span class="params">()</span> &#123; <span class="keyword">return</span> temperature; &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getAPIKey</span><span class="params">()</span> &#123; <span class="keyword">return</span> apiKey; &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getAPIUrl</span><span class="params">()</span> &#123; <span class="keyword">return</span> apiUrl; &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getModel</span><span class="params">()</span> &#123; <span class="keyword">return</span> model; &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPrompt</span><span class="params">()</span> &#123; <span class="keyword">return</span> prompt; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setReadTimeout</span><span class="params">()</span> &#123; <span class="built_in">this</span>.readTimeout = readTimeout; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setWriteTimeout</span><span class="params">()</span> &#123; <span class="built_in">this</span>.writeTimeout = writeTimeout; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setConnectTimeout</span><span class="params">()</span> &#123; <span class="built_in">this</span>.connectTimeout = connectTimeout; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setMaxTokens</span><span class="params">(<span class="type">double</span> maxTokens)</span> &#123; <span class="built_in">this</span>.maxTokens = maxTokens; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTemperature</span><span class="params">(<span class="type">double</span> temperature)</span> &#123; <span class="built_in">this</span>.temperature = temperature; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAPIUrl</span><span class="params">(String apiUrl)</span> &#123; <span class="built_in">this</span>.apiUrl = apiUrl; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAPIKey</span><span class="params">(String apiKey)</span> &#123; <span class="built_in">this</span>.apiKey = apiKey; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setModel</span><span class="params">(String model)</span> &#123; <span class="built_in">this</span>.model = model; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPrompt</span><span class="params">(String prompt)</span> &#123; <span class="built_in">this</span>.prompt = prompt; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> JSONObject <span class="title function_">getSettings</span><span class="params">()</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">        <span class="type">JSONObject</span> <span class="variable">json</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>();</span><br><span class="line"></span><br><span class="line">        json.put(<span class="string">&quot;model&quot;</span>, model);</span><br><span class="line">        json.put(<span class="string">&quot;temperature&quot;</span>, temperature);</span><br><span class="line">        json.put(<span class="string">&quot;max_tokens&quot;</span>, maxTokens);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (model.equals(TEXT_DAVINCI_003)) &#123;</span><br><span class="line">            json.put(<span class="string">&quot;prompt&quot;</span>, prompt);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (model.equals(GPT_3_5_TURBO)) &#123;</span><br><span class="line">            <span class="type">JSONArray</span> <span class="variable">jsonArray</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONArray</span>();</span><br><span class="line">            <span class="type">JSONObject</span> <span class="variable">jsonMessageObj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>();</span><br><span class="line">            jsonMessageObj.put(<span class="string">&quot;role&quot;</span>, <span class="string">&quot;user&quot;</span>);</span><br><span class="line">            jsonMessageObj.put(<span class="string">&quot;content&quot;</span>, prompt);</span><br><span class="line">            jsonArray.put(jsonMessageObj);</span><br><span class="line"></span><br><span class="line">            json.put(<span class="string">&quot;messages&quot;</span>, jsonArray);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> json;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">generateResponse</span><span class="params">(Callback callback)</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">        <span class="type">JSONObject</span> <span class="variable">json</span> <span class="operator">=</span> getSettings();</span><br><span class="line">        <span class="type">Request</span> <span class="variable">request</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Request</span>.Builder()</span><br><span class="line">                .url(apiUrl)</span><br><span class="line">                .header(<span class="string">&quot;Authorization&quot;</span>, <span class="string">&quot;Bearer &quot;</span> + apiKey)</span><br><span class="line">                .header(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/json&quot;</span>)</span><br><span class="line">                .post(RequestBody.create(json.toString(), mediaType))</span><br><span class="line">                .build();</span><br><span class="line">        client.newCall(request).enqueue(callback);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getResponse</span><span class="params">(String responseBody)</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">resultText</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">JSONObject</span> <span class="variable">jsonObject</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>(responseBody);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (model.equals(TEXT_DAVINCI_003)) &#123;</span><br><span class="line">            <span class="type">JSONArray</span> <span class="variable">jsonArray</span> <span class="operator">=</span> jsonObject.getJSONArray(<span class="string">&quot;choices&quot;</span>);</span><br><span class="line">            resultText = jsonArray.getJSONObject(<span class="number">0</span>).getString(<span class="string">&quot;text&quot;</span>);</span><br><span class="line">            resultText.trim();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (model.equals(GPT_3_5_TURBO)) &#123;</span><br><span class="line">            <span class="type">JSONArray</span> <span class="variable">jsonArray</span> <span class="operator">=</span> jsonObject.getJSONArray(<span class="string">&quot;choices&quot;</span>);</span><br><span class="line">            <span class="type">JSONObject</span> <span class="variable">jsonMessageObj</span> <span class="operator">=</span> jsonArray.getJSONObject(<span class="number">0</span>).getJSONObject(<span class="string">&quot;message&quot;</span>);</span><br><span class="line">            resultText = jsonMessageObj.getString(<span class="string">&quot;content&quot;</span>);</span><br><span class="line">            resultText.trim();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> resultText;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getErrorResponse</span><span class="params">(String responseBody)</span> <span class="keyword">throws</span> JSONException &#123;</span><br><span class="line">        <span class="type">JSONObject</span> <span class="variable">jsonObject</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>(responseBody);</span><br><span class="line">        <span class="type">JSONObject</span> <span class="variable">errorObj</span> <span class="operator">=</span> jsonObject.getJSONObject(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">resultText</span> <span class="operator">=</span> errorObj.getString(<span class="string">&quot;message&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> resultText;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-pane" id="source_code-4"><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><figcaption><span>MainActivity.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> MainActivity.class.getSimpleName();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> OpenAIUtil client;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ActivityMainBinding binding;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        binding = ActivityMainBinding.inflate(getLayoutInflater());</span><br><span class="line">        setContentView(binding.getRoot());</span><br><span class="line"></span><br><span class="line">        setupOpenAIUtil();</span><br><span class="line"></span><br><span class="line">        <span class="type">Button</span> <span class="variable">btnSend</span> <span class="operator">=</span> binding.btnSend;</span><br><span class="line">        <span class="type">EditText</span> <span class="variable">etPrompt</span> <span class="operator">=</span> binding.etPrompt;</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">prompt</span> <span class="operator">=</span> etPrompt.getText().toString();</span><br><span class="line">        btnSend.setOnClickListener(v -&gt; sendRequest(prompt));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">setupOpenAIUtil</span><span class="params">()</span> &#123;</span><br><span class="line">        client = <span class="keyword">new</span> <span class="title class_">OpenAIUtil</span>();</span><br><span class="line"></span><br><span class="line">        client.setAPIKey(apiKey);</span><br><span class="line">        client.setAPIUrl(apiUrl);</span><br><span class="line">        client.setModel(model);</span><br><span class="line">        client.setTemperature(temperature);</span><br><span class="line">        client.setMaxTokens(maxTokens);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">sendRequest</span><span class="params">(String prompt)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            client.setPrompt(prompt);</span><br><span class="line">            client.generateResponse(<span class="keyword">new</span> <span class="title class_">Callback</span>() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onFailure</span><span class="params">(<span class="meta">@NonNull</span> Call call, <span class="meta">@NonNull</span> IOException e)</span> &#123;</span><br><span class="line">                    <span class="comment">// 顯示報錯訊息</span></span><br><span class="line"></span><br><span class="line">                    Log.e(TAG, e.toString())</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onResponse</span><span class="params">(<span class="meta">@NonNull</span> Call call, <span class="meta">@NonNull</span> Response response)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">                    <span class="type">String</span> <span class="variable">responseBody</span> <span class="operator">=</span> response.body().string();</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="comment">// 獲取回應結果</span></span><br><span class="line"></span><br><span class="line">                        <span class="type">String</span> <span class="variable">resultText</span> <span class="operator">=</span> client.getResponse(responseBody);</span><br><span class="line">                        <span class="type">TextView</span> <span class="variable">tvResult</span> <span class="operator">=</span> binding.tvResult;</span><br><span class="line">                        tvResult.setText(resultText);</span><br><span class="line"></span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                        <span class="comment">// 顯示報錯訊息</span></span><br><span class="line"></span><br><span class="line">                        Log.e(TAG, client.getErrorResponse(responseBody))</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="comment">// 顯示報錯訊息</span></span><br><span class="line"></span><br><span class="line">            Log.e(TAG, e.toString())</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div></div>
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Java/">#Java</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Xml/">#Xml</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Javascript/">#Javascript</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Json/">#Json</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/post/android_dev_chatgpt_app.html"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">構建類似 ChatGPT 聊天機器人 Android 程式</span>
+                                    <span class="post-nav-item">上一篇</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/post/web_dev_monaco_editor.html"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">嵌入 Monaco Editor 至網頁</span>
+                                    <span class="post-nav-item">下一篇</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;留言
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script data-pjax
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script data-pjax>
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '548e3371016b4d8243f2',
+                    clientSecret: 'cfcf19408aacef6c9613469bd924d8fe6a96a5b2',
+                    repo: 'bluewhaleyt.github.io',
+                    owner: 'BlueWhaleYT',
+                    admin: ['BlueWhaleYT'],
+                    id: __gitalk__pathname,
+                    language: 'zh-TW'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('true') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此頁目錄</div>
+        <div class="page-title">編寫 OpenAIUtil 實用程式類</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%96%E5%82%99%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">準備工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A6%81%E6%B1%82%E5%9F%B7%E8%A1%8C%E7%B6%B2%E7%B5%A1%E4%BD%9C%E6%A5%AD"><span class="nav-number">1.1.</span> <span class="nav-text">要求執行網絡作業</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#INTERNET-%E8%88%87-ACCESS-NETWORK-STATE-%E5%88%86%E5%88%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text">INTERNET 與 ACCESS_NETWORK_STATE 分別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A4%E6%96%B7%E5%B7%B2%E7%B6%93%E9%80%A3%E7%B7%9A%E7%B6%B2%E7%B5%A1"><span class="nav-number">1.1.2.</span> <span class="nav-text">判斷已經連線網絡</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%AF%E5%85%A5-Okhttp-%E4%BE%9D%E8%B3%B4"><span class="nav-number">1.2.</span> <span class="nav-text">匯入 Okhttp 依賴</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Okhttp%EF%BC%9F"><span class="nav-number">1.2.1.</span> <span class="nav-text">什麼是 Okhttp？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E5%AF%A6%E7%8F%BE"><span class="nav-number">2.</span> <span class="nav-text">程式實現</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-OpenAIUtil-%E9%A1%9E"><span class="nav-number">2.1.</span> <span class="nav-text">建立 OpenAIUtil 類</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Okhttp-%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A8%8B%E5%BA%8F"><span class="nav-number">2.1.1.</span> <span class="nav-text">Okhttp 初始化程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A7%8B%E5%BB%BA-OpenAIUtil"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">構建 OpenAIUtil</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A8%AD%E7%BD%AE%E9%80%BE%E6%99%82%E4%BD%9C%E6%A5%AD"><span class="nav-number">2.1.1.1.1.</span> <span class="nav-text">設置逾時作業</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%B7%A8%E5%AF%AB%E5%AD%98%E5%8F%96%E5%AD%90%E8%88%87%E8%AE%8A%E7%95%B0%E5%AD%90"><span class="nav-number">2.1.1.1.1.1.</span> <span class="nav-text">編寫存取子與變異子</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%82%BA-client-%E8%A8%AD%E7%BD%AE%E9%80%BE%E6%99%82"><span class="nav-number">2.1.1.1.1.2.</span> <span class="nav-text">為 client 設置逾時</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenAI-%E5%8F%83%E6%95%B8%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.1.2.</span> <span class="nav-text">OpenAI 參數設定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%81%B2%E6%98%8E%E8%AE%8A%E9%87%8F"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">聲明變量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B7%A8%E5%AF%AB%E5%AD%98%E5%8F%96%E5%AD%90%E8%88%87%E8%AE%8A%E7%95%B0%E5%AD%90-1"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">編寫存取子與變異子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A8%AD%E7%BD%AE%E5%8F%83%E6%95%B8"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">設置參數</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%93%AA%E4%B8%80%E5%80%8B%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="nav-number">2.1.2.3.1.</span> <span class="nav-text">使用哪一個模型？</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#text-davinci-003-%E5%8F%83%E6%95%B8%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.1.2.3.1.1.</span> <span class="nav-text">text-davinci-003 參數設定</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#gpt-3-5-turbo-%E5%8F%83%E6%95%B8%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.1.2.3.1.2.</span> <span class="nav-text">gpt-3.5-turbo 參數設定</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenAI-%E5%89%B5%E5%BB%BA%E8%AB%8B%E6%B1%82"><span class="nav-number">2.1.3.</span> <span class="nav-text">OpenAI 創建請求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenAI-%E7%8D%B2%E5%8F%96%E5%9B%9E%E6%87%89"><span class="nav-number">2.1.4.</span> <span class="nav-text">OpenAI 獲取回應</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#text-davinci-003-%E5%9B%9E%E6%87%89%E8%BC%B8%E5%87%BA"><span class="nav-number">2.1.4.1.</span> <span class="nav-text">text-davinci-003 回應輸出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gpt-3-5-turbo-%E5%9B%9E%E6%87%89%E8%BC%B8%E5%87%BA"><span class="nav-number">2.1.4.2.</span> <span class="nav-text">gpt-3.5-turbo 回應輸出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenAI-%E7%8D%B2%E5%8F%96%E5%A0%B1%E9%8C%AF%E8%A8%8A%E6%81%AF"><span class="nav-number">2.1.5.</span> <span class="nav-text">OpenAI 獲取報錯訊息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E6%88%B0%E6%87%89%E7%94%A8-OpenAIUtil"><span class="nav-number">2.2.</span> <span class="nav-text">實戰應用 OpenAIUtil</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E7%BD%AE-OpenAIUtil"><span class="nav-number">2.2.1.</span> <span class="nav-text">設置 OpenAIUtil</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BC%E9%80%81%E8%AB%8B%E6%B1%82"><span class="nav-number">2.2.2.</span> <span class="nav-text">發送請求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8D%B2%E5%8F%96%E5%9B%9E%E6%87%89"><span class="nav-number">2.2.3.</span> <span class="nav-text">獲取回應</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E5%8A%A0%E8%B3%87%E8%A8%8A"><span class="nav-number">3.</span> <span class="nav-text">附加資訊</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenAI-%E5%8F%83%E6%95%B8%E8%AA%AA%E6%98%8E"><span class="nav-number">3.1.</span> <span class="nav-text">OpenAI 參數說明</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A2%BC"><span class="nav-number">4.</span> <span class="nav-text">源代碼</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">BlueWhaleYT</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        讀者&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        閱覽&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container"><?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a> 框架</span>
+                <br>
+            <span class="theme-version-container">主題&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                博客已運行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小時 <span class="odometer" id="runtime_minutes"></span> 分鐘 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <div class="customize-info info-item">Credits: <a target="_blank" rel="noopener" href='https://www.freepik.com/'>Freepik</a>.</div>
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜尋..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
