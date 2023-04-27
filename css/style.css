@@ -6914,6 +6914,24 @@ pre .deletion {
   -webkit-filter: brightness(0.8);
   transition: filter 0.3s ease;
 }
+.dark-mode .home-article-thumbnail img:hover {
+  filter: brightness(1) !important;
+  -webkit-filter: brightness(1) !important;
+  transition: filter 0.3s ease;
+}
+.home-article-thumbnail {
+  height: 60vh !important;
+}
+@media (max-width: 780px) {
+  .home-article-thumbnail {
+    height: 30vh !important;
+  }
+}
+@media (max-width: 500px) {
+  .home-article-thumbnail {
+    height: 25vh !important;
+  }
+}
 :root {
   --background-color: #fff;
   --background-color-transparent: rgba(255,255,255,0.6);
