@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>人工智能的圖像生成 - Stable Diffusion</title>
-    <url>/post/ai-image-generation-stable-diffusion/</url>
+    <url>/post/ai-image-generation-stable-diffusion.html</url>
     <content><![CDATA[<p>在現今世代，人們除了善用 ChatGPT 的即時對話生成工具，還會藉著咒語 (Prompt) 生成圖像，，而要用到這個強大的圖像生成技術，便可使用 Stable Diffusion。</p>
 <hr>
 <h1 id="神奇的文轉圖黑魔法"><a href="#神奇的文轉圖黑魔法" class="headerlink" title="神奇的文轉圖黑魔法"></a>神奇的文轉圖黑魔法</h1><p>這個黑魔法就是剛才略略提及的 Stable Diffusion，它是一款深度學習文字到圖像的圖像生成模型，簡而言之，一個<strong>藉著所提供的文字敍述轉換所得的圖像</strong>，不但如此，它還支援進階特性操作，使其有別具一樹的實用價值。</p>
@@ -270,7 +270,7 @@ watermark, username, artist name, (worst quality, low quality:1.4), bad anatomy<
   </entry>
   <entry>
     <title>Android 開發入門基礎</title>
-    <url>/post/android-dev-basic-tutorial/</url>
+    <url>/post/android-dev-basic-tutorial.html</url>
     <content><![CDATA[<p>大家好，歡迎來到閱讀「Android 開發入門基礎」。在這裏，你將會學習 Android 開發的基礎入門知識。</p>
 <hr>
 <h1 id="基本概要"><a href="#基本概要" class="headerlink" title="基本概要"></a>基本概要</h1><h2 id="什麼是-Android-開發？"><a href="#什麼是-Android-開發？" class="headerlink" title="什麼是 Android 開發？"></a>什麼是 Android 開發？</h2><p>Android 開發是指開發應用程序或系統軟件，以運行在 Android 操作系統上的軟件開發過程。開發人員可以使用 Java、Kotlin 等高階程式語言，使用 Android 的<strong>軟體開發工具包</strong>（Software Development Kit，簡稱：SDK）以及其他開發工具，如 Android Studio 等，來建立 Android 應用程序。</p>
@@ -315,7 +315,7 @@ watermark, username, artist name, (worst quality, low quality:1.4), bad anatomy<
 <h3 id="認識-SDK-版本"><a href="#認識-SDK-版本" class="headerlink" title="認識 SDK 版本"></a>認識 SDK 版本</h3><p>Android SDK 版本是指 Android 操作系統的軟體開發工具包（SDK）的版本號。它確定了開發人員可以使用哪些 API 和功能，以及他們可以在哪些設備上運行應用程序。每個 Android 版本都有一個特定的SDK版本號。例如，Android 11 的SDK 版本號是 <code>30</code>，Android 10 的SDK版本號是 <code>29</code>，以此類推。開發人員在開發 Android 應用程序時需要選擇他們要針對的 SDK 版本，並使用該版本的 API 和功能進行開發。這有助於確保應用程序能夠在特定版本的 Android 操作系統上正常運行。</p>
 <details class="folding-tag"><summary> 檢視圖像 </summary>
               <div class="content">
-              <div class="note info simple"><p>左面，例如 <code>4.4</code> 是 Android 版本號；<br>接著旁邊的 <code>KitKat</code> 是 Android 版本名稱；<br>右面，例如 <code>19</code> 是 Android SDK 號</p></div><img width="100%" src="/.io//img1.png">
+              <div class="note info simple"><p>左面，例如 <code>4.4</code> 是 Android 版本號；<br>接著旁邊的 <code>KitKat</code> 是 Android 版本名稱；<br>右面，例如 <code>19</code> 是 Android SDK 號</p></div><img width="100%" src="/post/android-dev-basic-tutorial/img1.png">
               </div>
             </details>
 
@@ -703,600 +703,8 @@ android:layout_height&#x3D;&quot;...&quot;</code></pre></div>
       </tags>
   </entry>
   <entry>
-    <title>實作類似 ChatGPT 的機器人聊天 Android 程式</title>
-    <url>/post/android-dev-develop-chatgpt-android-app-tutorial/</url>
-    <content><![CDATA[<p>今天會跟大家編寫並開發一個類似 ChatGPT 的 OpenAI 聊天機器人 Android 程式。但在開發前，建議先看以下文章再續。</p>
-<div class="note warning simple"><p>這篇教學會使用 <a href="/post/android-dev-openai-utils">這篇文章</a> 所實現的 OpenAIUtils 程式實現。</p>
-</div>
-
-<hr>
-<h1 id="什麼是-ChatGPT？"><a href="#什麼是-ChatGPT？" class="headerlink" title="什麼是 ChatGPT？"></a>什麼是 ChatGPT？</h1><p><a href="https://chat.openai.com/">ChatGPT</a> 是現今發展最大的一個聊天機器人技術，它透過 OpenAI 所研發的 API 權杖，利用自然語言生成 （Natural Language Generation，簡稱 NLG）， 用戶可以透過輸入字詞與機器人進行對話，在這裏，稱為 <code>Prompt</code>，意思是用戶所傳達的訊息，而機器人的回應 <code>Completion</code> 就是補全的意思，機器人會根據所傳達的訊息來作相應輸出。</p>
-<p><a href="https://openai.com/">OpenAI</a> 利用深度學習的方式訓練機器人，從而能夠理解用戶所傳達訊息，再作相應輸出。</p>
-<div class="note info simple"><p>直到目前，ChatGPT 現時所使用的模型 <code>Model</code> 是 <code>gpt-3.5-turbo</code>，但是這個模型不是完全免費提供使用，花費 0.002 美元的價格可獲得 1000 個權標 <code>Token</code>，或大約 750 個單字。 推薦使用 <code>text-davinci-003</code>，支援最大權標量為 <code>4097</code>，其中 <code>Prompt Token</code> 和 <code>Completion Token</code> 均計算在內。</p>
-</div>
-
-<hr>
-<h1 id="OpenAI-或-ChatGPT-地區限制"><a href="#OpenAI-或-ChatGPT-地區限制" class="headerlink" title="OpenAI 或 ChatGPT 地區限制"></a>OpenAI 或 ChatGPT 地區限制</h1><p>可惜的是，OpenAI <strong>還未廣泛開放地區使用</strong>，例如：<strong>香港地區暫時無法使用</strong>，即使透過使用虛擬私有網絡（Virtual Personal Network，簡稱 VPN），都無法完成用戶身份驗證的步驟。</p>
-<hr>
-<h1 id="構建-Android-程式"><a href="#構建-Android-程式" class="headerlink" title="構建 Android 程式"></a>構建 Android 程式</h1><p>雖然 ChatGPT 暫時開放免費使用，但我們可以用 OpenAI 開發類似的聊天機器人程式，進行其他自然語言處理（Natural Language Processing，簡稱 NLP）。在編程的時候。我們只需要透過個人帳戶的權杖 <code>API Key</code>，並運用網絡傳輸，把 OpenAI 的回應記錄獲取出來。</p>
-<div class="note warning simple"><p>要注意的是，網絡不能夠長時間被呼喚，所以它有一定的連接時間總長，過了這個時間，就會<strong>逾時</strong> (Timeout)，這個操作是<strong>阻止詢問網絡時間過長而導致程式無反應</strong>等崩潰情況。</p>
-</div>
-
-<h2 id="預備-XML-佈局"><a href="#預備-XML-佈局" class="headerlink" title="預備 XML 佈局"></a>預備 XML 佈局</h2><details class="folding-tag"><summary> 檢視代碼 </summary>
-              <div class="content">
-              <div class="tabs" id="layout_codes"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="layout_codes-1">activity_main.xml</button><button type="button" class="tab " data-href="layout_codes-2">layout_message_list_item.xml</button></ul><div class="tab-contents"><div class="tab-item-content active" id="layout_codes-1"><h3 id="聊天界面的佈局"><a href="#聊天界面的佈局" class="headerlink" title="聊天界面的佈局"></a>聊天界面的佈局</h3><p>我們會利用 XML 構建聊天界面的佈局，當中每一個的聊天對話泡泡會用 <code>RecyclerView</code> 實現。</p><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
-    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;
-    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;match_parent&quot;
-    android:orientation&#x3D;&quot;vertical&quot;&gt;
-
-    &lt;com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id&#x3D;&quot;@+id&#x2F;progressBar&quot;
-        android:layout_width&#x3D;&quot;match_parent&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:indeterminate&#x3D;&quot;true&quot;
-        android:visibility&#x3D;&quot;gone&quot;&#x2F;&gt;
-
-    &lt;androidx.recyclerview.widget.RecyclerView
-        android:id&#x3D;&quot;@+id&#x2F;rvChatList&quot;
-        android:layout_width&#x3D;&quot;match_parent&quot;
-        android:layout_height&#x3D;&quot;0dp&quot;
-        android:layout_weight&#x3D;&quot;1&quot;
-        android:layout_marginBottom&#x3D;&quot;20dp&quot;
-        android:paddingStart&#x3D;&quot;20dp&quot;
-        android:paddingEnd&#x3D;&quot;20dp&quot;
-        android:paddingTop&#x3D;&quot;10dp&quot;&#x2F;&gt;
-
-    &lt;LinearLayout
-        android:layout_width&#x3D;&quot;match_parent&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:orientation&#x3D;&quot;horizontal&quot;
-        android:paddingBottom&#x3D;&quot;20dp&quot;
-        android:paddingStart&#x3D;&quot;20dp&quot;
-        android:paddingEnd&#x3D;&quot;20dp&quot;&gt;
-
-        &lt;com.google.android.material.textfield.TextInputLayout
-            android:id&#x3D;&quot;@+id&#x2F;inputLayoutMessage&quot;
-            android:layout_width&#x3D;&quot;match_parent&quot;
-            android:layout_height&#x3D;&quot;wrap_content&quot;
-            android:hint&#x3D;&quot;@string&#x2F;enter_message&quot;
-            app:endIconMode&#x3D;&quot;custom&quot;
-            app:endIconDrawable&#x3D;&quot;@drawable&#x2F;ic_baseline_send_24&quot;&gt;
-
-            &lt;EditText
-                android:id&#x3D;&quot;@+id&#x2F;etMessage&quot;
-                android:layout_width&#x3D;&quot;match_parent&quot;
-                android:layout_height&#x3D;&quot;match_parent&quot;
-                android:padding&#x3D;&quot;10dp&quot;&#x2F;&gt;
-
-        &lt;&#x2F;com.google.android.material.textfield.TextInputLayout&gt;
-
-    &lt;&#x2F;LinearLayout&gt;
-
-&lt;&#x2F;LinearLayout&gt;</code></pre></div><div class="tab-item-content" id="layout_codes-2"><h3 id="聊天對話泡泡的佈局"><a href="#聊天對話泡泡的佈局" class="headerlink" title="聊天對話泡泡的佈局"></a>聊天對話泡泡的佈局</h3><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
-    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;wrap_content&quot;
-    android:orientation&#x3D;&quot;vertical&quot;
-    android:animateLayoutChanges&#x3D;&quot;true&quot;&gt;
-
-    &lt;LinearLayout
-        android:id&#x3D;&quot;@+id&#x2F;layoutBotMessage&quot;
-        android:layout_width&#x3D;&quot;wrap_content&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:orientation&#x3D;&quot;horizontal&quot;
-        android:layout_marginEnd&#x3D;&quot;40dp&quot;
-        android:layout_marginBottom&#x3D;&quot;10dp&quot;&gt;
-
-        &lt;TextView
-            android:id&#x3D;&quot;@+id&#x2F;tvBotMessage&quot;
-            android:layout_width&#x3D;&quot;wrap_content&quot;
-            android:layout_height&#x3D;&quot;wrap_content&quot;
-            android:background&#x3D;&quot;@drawable&#x2F;speech_bubble_bot&quot;
-            android:lineSpacingExtra&#x3D;&quot;10dp&quot;
-            android:padding&#x3D;&quot;15dp&quot;
-            android:text&#x3D;&quot;bot message&quot;
-            android:textSize&#x3D;&quot;16sp&quot;&#x2F;&gt;
-
-    &lt;&#x2F;LinearLayout&gt;
-
-    &lt;LinearLayout
-        android:id&#x3D;&quot;@+id&#x2F;layoutUserMessage&quot;
-        android:layout_width&#x3D;&quot;wrap_content&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:orientation&#x3D;&quot;horizontal&quot;
-        android:layout_gravity&#x3D;&quot;end&quot;
-        android:layout_marginStart&#x3D;&quot;40dp&quot;
-        android:layout_marginBottom&#x3D;&quot;10dp&quot;&gt;
-
-        &lt;TextView
-            android:id&#x3D;&quot;@+id&#x2F;tvUserMessage&quot;
-            android:layout_width&#x3D;&quot;wrap_content&quot;
-            android:layout_height&#x3D;&quot;wrap_content&quot;
-            android:background&#x3D;&quot;@drawable&#x2F;speech_bubble_user&quot;
-            android:lineSpacingExtra&#x3D;&quot;10dp&quot;
-            android:padding&#x3D;&quot;15dp&quot;
-            android:text&#x3D;&quot;my message&quot;
-            android:textSize&#x3D;&quot;16sp&quot;&#x2F;&gt;
-
-    &lt;&#x2F;LinearLayout&gt;
-
-&lt;&#x2F;LinearLayout&gt;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
-              </div>
-            </details>
-
-<h2 id="預備對話訊息模型"><a href="#預備對話訊息模型" class="headerlink" title="預備對話訊息模型"></a>預備對話訊息模型</h2><p>預備一個類別 <code>MessageModel</code> 作對話訊息模型。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MessageModel &#123;
-
-&#125;</code></pre>
-
-<h3 id="定義常量和變量"><a href="#定義常量和變量" class="headerlink" title="定義常量和變量"></a>定義常量和變量</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public static final String SENT_BY_USER &#x3D; &quot;me&quot;;
-public static final String SENT_BY_BOT &#x3D; &quot;bot&quot;;
-
-private String message, sender;</code></pre>
-
-<h3 id="編寫存取子及變異子"><a href="#編寫存取子及變異子" class="headerlink" title="編寫存取子及變異子"></a>編寫存取子及變異子</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public String getMessage() &#123; return message; &#125;
-public String getSender() &#123; return sender; &#125;</code></pre>
-
-<div class="note info simple"><p>當然你可以弄類似以下的判斷，並進行編寫存取子及變異子（但這篇教學沒有為它改良）：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public boolean isSentByBot;
-isSentByBot &#x3D; getSender().equals(SENT_BY_BOT);
-
-public boolean isSentByBot() &#123; return isSentByBot; &#125;</code></pre></div>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public void setMessage(String message) &#123; this.message &#x3D; message; &#125;
-public void setSender(String sender) &#123; this.sender &#x3D; sender; &#125;</code></pre>
-
-<h3 id="編寫建構子"><a href="#編寫建構子" class="headerlink" title="編寫建構子"></a>編寫建構子</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public MessageModel(String message, String sender) &#123;
-    this.message &#x3D; message;
-    this.sender &#x3D; sender;
-&#125;</code></pre>
-
-<h2 id="預備配接器"><a href="#預備配接器" class="headerlink" title="預備配接器"></a>預備配接器</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MessageListAdapter extends RecyclerView.Adapter&lt;MessageListAdapter.ViewHolder&gt; &#123;
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) &#123;
-        return null;
-    &#125;
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) &#123;
-
-    &#125;
-
-    @Override
-    public int getItemCount() &#123;
-        return 0;
-    &#125;
-
-&#125;</code></pre>
-
-<h3 id="編寫-ViewHolder"><a href="#編寫-ViewHolder" class="headerlink" title="編寫 ViewHolder"></a>編寫 <code>ViewHolder</code></h3><div class="note warning simple"><p>這個 <code>ViewHolder</code> 要放在 <code>MessageListAdapter</code> 裏面：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">class MessageListAdapter &#123;
-    class ViewHolder &#123;
-
-    &#125;
-&#125;</code></pre></div>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public static class ViewHolder extends RecyclerView.ViewHolder &#123;
-
-&#125;</code></pre>
-
-<h3 id="定義視圖變量"><a href="#定義視圖變量" class="headerlink" title="定義視圖變量"></a>定義視圖變量</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public final LinearLayout layoutBotMessage, layoutUserMessage;
-public final TextView tvBotMessage, tvUserMessage;</code></pre>
-
-<h3 id="編寫建構子，獲取視圖"><a href="#編寫建構子，獲取視圖" class="headerlink" title="編寫建構子，獲取視圖"></a>編寫建構子，獲取視圖</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public ViewHolder(@NonNull LayoutMessageListItemBinding binding) &#123;
-    super(binding.getRoot());
-    
-    layoutBotMessage &#x3D; binding.layoutBotMessage;
-    layoutUserMessage &#x3D; binding.layoutUserMessage;
-    tvBotMessage &#x3D; binding.tvBotMessage;
-    tvUserMessage &#x3D; binding.tvUserMessage;
-&#125;</code></pre>
-
-<h2 id="構建主活動頁"><a href="#構建主活動頁" class="headerlink" title="構建主活動頁"></a>構建主活動頁</h2><h3 id="初始化變量"><a href="#初始化變量" class="headerlink" title="初始化變量"></a>初始化變量</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">private List&lt;MessageModel&gt; listMessage;
-private MessageListAdapter adapterMessageList;
-
-private OpenAIUtils client;</code></pre>
-
-<h3 id="配置對話聊天紀錄"><a href="#配置對話聊天紀錄" class="headerlink" title="配置對話聊天紀錄"></a>配置對話聊天紀錄</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">@Override
-protected void onCreate(Bundle savedInstanceState) &#123;
-    super.onCreate(savedInstanceState);
-    setupChatList();
-&#125;
-
-private void setupChatList() &#123;
-    client &#x3D; new OpenAIUtils();
-    client.setAPIKey(apiKey);
-    client.setAPIUrl(apiUrl);
-    client.setModel(OpenAIUtils.TEXT_DAVINCI_003)
-    client.setTemperature(0.9);
-
-
-    listMessage &#x3D; new ArrayList&lt;&gt;();
-    adapterMessageList &#x3D; new MessageListAdapter(listMessage);
-    binding.rvChatList.setAdapter(adapterMessageList);
-
-    var layoutManager &#x3D; new LinearLayoutManager(this);
-    layoutManager.setStackFromEnd(true);
-    binding.rvChatList.setLayoutManager(layoutManager);
-&#125;</code></pre>
-
-<h3 id="獲取回應"><a href="#獲取回應" class="headerlink" title="獲取回應"></a>獲取回應</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public void callResponse(String message) &#123;
-    try &#123;
-        client.setPrompt(prompt);
-        client.generateResponse(new Callback() &#123;
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) &#123;
-                &#x2F;&#x2F; 顯示報錯訊息
-
-                Log.e(TAG, e.toString())
-            &#125;
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException &#123;
-                String responseBody &#x3D; response.body().string();
-                try &#123;
-                    &#x2F;&#x2F; 獲取回應結果
-
-                    String resultText &#x3D; client.getResponse(responseBody);
-                    TextView tvResult &#x3D; binding.tvResult;
-                    tvResult.setText(resultText);
-
-                &#125; catch (Exception e) &#123;
-                    &#x2F;&#x2F; 顯示報錯訊息
-
-                    Log.e(TAG, client.getErrorResponse(responseBody))
-                &#125;
-            &#125;
-        &#125;);
-    &#125; catch (Exception e) &#123;
-        &#x2F;&#x2F; 顯示報錯訊息
-
-        Log.e(TAG, e.toString())
-    &#125;
-&#125;</code></pre>
-
-<h3 id="新增訊息至訊息模型"><a href="#新增訊息至訊息模型" class="headerlink" title="新增訊息至訊息模型"></a>新增訊息至訊息模型</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">private void addMessage(String message, String sender) &#123;
-    runOnUiThread(() -&gt; &#123;
-        listMessage.add(new MessageModel(message,sender));
-        adapterMessageList.notifyDataSetChanged();
-        binding.rvChatList.smoothScrollToPosition(adapterMessageList.getItemCount());
-    &#125;);
-&#125;</code></pre>
-
-<h3 id="新增機器人回應"><a href="#新增機器人回應" class="headerlink" title="新增機器人回應"></a>新增機器人回應</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">private void addResponse(String response) &#123;
-    addMessage(response, MessageModel.SENT_BY_BOT);
-&#125;</code></pre>
-
-<h3 id="發送已輸入訊息"><a href="#發送已輸入訊息" class="headerlink" title="發送已輸入訊息"></a>發送已輸入訊息</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">private void sendMessage(String message) &#123;
-    if (TextUtils.isEmpty(message)) &#123;
-        Log.e(TAG, &quot;The message is empty&quot;);
-    &#125; else &#123;
-        addMessage(message, MessageModel.SENT_BY_USER);
-        binding.etMessage.setText(&quot;&quot;);
-        try &#123;
-            callResponse(message);
-        &#125; catch (Exception e) &#123;
-            Log.e(TAG, e.toString());
-        &#125;
-    &#125;
-&#125;</code></pre>
-
-<h3 id="點擊按鈕發送訊息"><a href="#點擊按鈕發送訊息" class="headerlink" title="點擊按鈕發送訊息"></a>點擊按鈕發送訊息</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">binding.inputLayoutMessage.setEndIconOnClickListener(v -&gt; &#123;
-    sendMessage(binding.etMessage.getText().toString().trim())
-&#125;);</code></pre>
-
-<hr>
-<h1 id="源代碼"><a href="#源代碼" class="headerlink" title="源代碼"></a>源代碼</h1><div class="note warning simple"><p>這篇教學會使用 <a href="/post/android-dev-openai-utils">這篇文章</a> 所實現的 OpenAIUtils 程式實現。</p>
-</div>
-
-<details class="folding-tag"><summary> 點我看代碼 </summary>
-              <div class="content">
-              <div class="tabs" id="app_source_code"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="app_source_code-1">Layouts</button><button type="button" class="tab " data-href="app_source_code-2">MessageModel.java</button><button type="button" class="tab " data-href="app_source_code-3">MessageListAdapter.java</button><button type="button" class="tab " data-href="app_source_code-4">MainActivity.java</button></ul><div class="tab-contents"><div class="tab-item-content active" id="app_source_code-1"><pre class="line-numbers language-markup" data-language="markup"><div class="caption"><span>activity_main.xml</span></div><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
-    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;
-    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;match_parent&quot;
-    android:orientation&#x3D;&quot;vertical&quot;&gt;
-
-    &lt;com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id&#x3D;&quot;@+id&#x2F;progressBar&quot;
-        android:layout_width&#x3D;&quot;match_parent&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:indeterminate&#x3D;&quot;true&quot;
-        android:visibility&#x3D;&quot;gone&quot;&#x2F;&gt;
-
-    &lt;androidx.recyclerview.widget.RecyclerView
-        android:id&#x3D;&quot;@+id&#x2F;rvChatList&quot;
-        android:layout_width&#x3D;&quot;match_parent&quot;
-        android:layout_height&#x3D;&quot;0dp&quot;
-        android:layout_weight&#x3D;&quot;1&quot;
-        android:layout_marginBottom&#x3D;&quot;20dp&quot;
-        android:paddingStart&#x3D;&quot;20dp&quot;
-        android:paddingEnd&#x3D;&quot;20dp&quot;
-        android:paddingTop&#x3D;&quot;10dp&quot;&#x2F;&gt;
-
-    &lt;LinearLayout
-        android:layout_width&#x3D;&quot;match_parent&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:orientation&#x3D;&quot;horizontal&quot;
-        android:paddingBottom&#x3D;&quot;20dp&quot;
-        android:paddingStart&#x3D;&quot;20dp&quot;
-        android:paddingEnd&#x3D;&quot;20dp&quot;&gt;
-
-        &lt;com.google.android.material.textfield.TextInputLayout
-            android:id&#x3D;&quot;@+id&#x2F;inputLayoutMessage&quot;
-            android:layout_width&#x3D;&quot;match_parent&quot;
-            android:layout_height&#x3D;&quot;wrap_content&quot;
-            android:hint&#x3D;&quot;@string&#x2F;enter_message&quot;
-            app:endIconMode&#x3D;&quot;custom&quot;
-            app:endIconDrawable&#x3D;&quot;@drawable&#x2F;ic_baseline_send_24&quot;&gt;
-
-            &lt;EditText
-                android:id&#x3D;&quot;@+id&#x2F;etMessage&quot;
-                android:layout_width&#x3D;&quot;match_parent&quot;
-                android:layout_height&#x3D;&quot;match_parent&quot;
-                android:padding&#x3D;&quot;10dp&quot;&#x2F;&gt;
-
-        &lt;&#x2F;com.google.android.material.textfield.TextInputLayout&gt;
-
-    &lt;&#x2F;LinearLayout&gt;
-
-&lt;&#x2F;LinearLayout&gt;</code></pre><pre class="line-numbers language-markup" data-language="markup"><div class="caption"><span>layout_message_list_item.xml</span></div><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
-    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;wrap_content&quot;
-    android:orientation&#x3D;&quot;vertical&quot;
-    android:animateLayoutChanges&#x3D;&quot;true&quot;&gt;
-
-    &lt;LinearLayout
-        android:id&#x3D;&quot;@+id&#x2F;layoutBotMessage&quot;
-        android:layout_width&#x3D;&quot;wrap_content&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:orientation&#x3D;&quot;horizontal&quot;
-        android:layout_marginEnd&#x3D;&quot;40dp&quot;
-        android:layout_marginBottom&#x3D;&quot;10dp&quot;&gt;
-
-        &lt;TextView
-            android:id&#x3D;&quot;@+id&#x2F;tvBotMessage&quot;
-            android:layout_width&#x3D;&quot;wrap_content&quot;
-            android:layout_height&#x3D;&quot;wrap_content&quot;
-            android:background&#x3D;&quot;@drawable&#x2F;speech_bubble_bot&quot;
-            android:lineSpacingExtra&#x3D;&quot;10dp&quot;
-            android:padding&#x3D;&quot;15dp&quot;
-            android:text&#x3D;&quot;bot message&quot;
-            android:textSize&#x3D;&quot;16sp&quot;&#x2F;&gt;
-
-    &lt;&#x2F;LinearLayout&gt;
-
-    &lt;LinearLayout
-        android:id&#x3D;&quot;@+id&#x2F;layoutUserMessage&quot;
-        android:layout_width&#x3D;&quot;wrap_content&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:orientation&#x3D;&quot;horizontal&quot;
-        android:layout_gravity&#x3D;&quot;end&quot;
-        android:layout_marginStart&#x3D;&quot;40dp&quot;
-        android:layout_marginBottom&#x3D;&quot;10dp&quot;&gt;
-
-        &lt;TextView
-            android:id&#x3D;&quot;@+id&#x2F;tvUserMessage&quot;
-            android:layout_width&#x3D;&quot;wrap_content&quot;
-            android:layout_height&#x3D;&quot;wrap_content&quot;
-            android:background&#x3D;&quot;@drawable&#x2F;speech_bubble_user&quot;
-            android:lineSpacingExtra&#x3D;&quot;10dp&quot;
-            android:padding&#x3D;&quot;15dp&quot;
-            android:text&#x3D;&quot;my message&quot;
-            android:textSize&#x3D;&quot;16sp&quot;&#x2F;&gt;
-
-    &lt;&#x2F;LinearLayout&gt;
-
-&lt;&#x2F;LinearLayout&gt;</code></pre></div><div class="tab-item-content" id="app_source_code-2"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MessageModel &#123;
-
-    public static final String SENT_BY_USER &#x3D; &quot;me&quot;;
-    public static final String SENT_BY_BOT &#x3D; &quot;bot&quot;;
-
-    private String message, sender;
-
-    public MessageModel(String message, String sender) &#123;
-        this.message &#x3D; message;
-        this.sender &#x3D; sender;
-    &#125;
-
-    public void setMessage(String message) &#123;
-        this.message &#x3D; message;
-    &#125;
-
-    public String getMessage() &#123;
-        return message;
-    &#125;
-
-    public void setSender(String sender) &#123;
-        this.sender &#x3D; sender;
-    &#125;
-
-    public String getSender() &#123;
-        return sender;
-    &#125;
-
-&#125;</code></pre></div><div class="tab-item-content" id="app_source_code-3"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MessageListAdapter extends RecyclerView.Adapter&lt;MessageListAdapter.ViewHolder&gt; &#123;
-
-    private List&lt;MessageModel&gt; listMessage;
-
-    public MessageListAdapter(List&lt;MessageModel&gt; listMessage) &#123;
-        this.listMessage &#x3D; listMessage;
-    &#125;
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) &#123;
-        var context &#x3D; parent.getContext();
-        var inflater &#x3D; LayoutInflater.from(context);
-        var binding &#x3D; LayoutMessageListItemBinding.inflate(inflater, parent, false);
-        return new ViewHolder(binding);
-    &#125;
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) &#123;
-        var message &#x3D; listMessage.get(position);
-        var context &#x3D; holder.itemView.getContext();
-
-        if (message.getSender().equals(MessageModel.SENT_BY_USER)) &#123;
-            holder.layoutBotMessage.setVisibility(View.GONE);
-            holder.layoutUserMessage.setVisibility(View.VISIBLE);
-            holder.tvUserMessage.setText(message.toString());
-        &#125; else &#123;
-            holder.layoutUserMessage.setVisibility(View.GONE);
-            holder.layoutBotMessage.setVisibility(View.VISIBLE);
-            holder.tvBotMessage.setText(message.toString());
-        &#125;
-    &#125;
-
-    @Override
-    public int getItemCount() &#123;
-        return listMessage.size();
-    &#125;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder &#123;
-
-        LinearLayout layoutBotMessage, layoutUserMessage;
-        TextView tvBotMessage, tvUserMessage;
-
-        public ViewHolder(@NonNull LayoutMessageListItemBinding binding) &#123;
-            super(binding.getRoot());
-            layoutBotMessage &#x3D; binding.layoutBotMessage;
-            layoutUserMessage &#x3D; binding.layoutUserMessage;
-            tvBotMessage &#x3D; binding.tvBotMessage;
-            tvUserMessage &#x3D; binding.tvUserMessage;
-        &#125;
-    &#125;
-
-&#125;</code></pre></div><div class="tab-item-content" id="app_source_code-4"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MainActivity extends AppCompatActivity &#123;
-
-    private final String OPENAI_URL &#x3D; &quot;https:&#x2F;&#x2F;api.openai.com&#x2F;v1&#x2F;completions&quot;;
-    private final String OPENAI_MODEL &#x3D; &quot;text-davinci-003&quot;;
-    private final String OPENAI_APIKEY &#x3D; &quot;...&quot;; &#x2F;&#x2F; your API Key
-
-    private ActivityMainBinding binding;
-
-    private List&lt;MessageModel&gt; listMessage;
-    private MessageListAdapter adapterMessageList;
-
-    private OpenAIUtils client;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) &#123;
-        super.onCreate(savedInstanceState);
-        binding &#x3D; ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        initialize();
-    &#125;
-
-    private void initialize() &#123;
-        setupChatList();
-
-        binding.inputLayoutMessage.setEndIconOnClickListener(v -&gt; sendMessage(binding.etMessage.getText().toString().trim()));
-    &#125;
-
-    private void setupChatList() &#123;
-        client &#x3D; new OpenAIUtils();
-        client.setAPIKey(apiKey);
-        client.setAPIUrl(apiUrl);
-        client.setModel(OpenAIUtils.TEXT_DAVINCI_003)
-        client.setTemperature(0.9);
-
-        listMessage &#x3D; new ArrayList&lt;&gt;();
-        adapterMessageList &#x3D; new MessageListAdapter(listMessage);
-        binding.rvChatList.setAdapter(adapterMessageList);
-
-        var layoutManager &#x3D; new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true);
-        binding.rvChatList.setLayoutManager(layoutManager);
-    &#125;
-
-    private void sendMessage(String message) &#123;
-        if (TextUtils.isEmpty(message)) &#123;
-            showError(&quot;The message is empty&quot;);
-        &#125; else &#123;
-            addMessage(message, MessageModel.SENT_BY_USER);
-            binding.etMessage.setText(&quot;&quot;);
-            try &#123;
-                callResponse(message);
-            &#125; catch (Exception e) &#123;
-                showError(e.getMessage());
-            &#125;
-        &#125;
-    &#125;
-
-    private void addMessage(String message, String sender) &#123;
-        runOnUiThread(() -&gt; &#123;
-            listMessage.add(new MessageModel(message,sender));
-            adapterMessageList.notifyDataSetChanged();
-            binding.rvChatList.smoothScrollToPosition(adapterMessageList.getItemCount());
-            updateTypingStatus(false);
-        &#125;);
-    &#125;
-
-    private void addResponse(String response) &#123;
-        addMessage(response, MessageModel.SENT_BY_BOT);
-    &#125;
-
-    public void callResponse(String message) &#123;
-        try &#123;
-            client.setPrompt(prompt);
-            client.generateResponse(new Callback() &#123;
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) &#123;
-                    showError(e.getMessage());
-                &#125;
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException &#123;
-                    var jsonObject &#x3D; new JSONObject(response.body().string());
-                    if (response.isSuccessful()) &#123;
-                        var messageResponse &#x3D; client.getResponse(jsonObject);
-                        addResponse(messageResponse);
-                    &#125; else &#123;
-                        var error &#x3D; client.getErrorResponse(jsonObject);
-                        addResponse(error);
-                    &#125;
-                &#125;
-            &#125;);
-        &#125; catch (Exception e) &#123;
-            showError(e.getMessage());
-        &#125;
-    &#125;
-
-    private void updateTypingStatus(boolean bool) &#123;
-        binding.progressBar.setVisibility(bool ? View.VISIBLE : View.GONE);
-    &#125;
-
-    private void showError(String message) &#123;
-        SnackbarUtil.makeErrorSnackbar(this, message);
-    &#125;
-
-&#125;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
-              </div>
-            </details>
-]]></content>
-      <categories>
-        <category>人工智能</category>
-        <category>程式編寫</category>
-        <category>Android 開發</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Java</tag>
-        <tag>XML</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>GitHub Android CI 開源程式流程部署</title>
-    <url>/post/android-dev-github-workflow-android-ci/</url>
+    <url>/post/android-dev-github-workflow-android-ci.html</url>
     <content><![CDATA[<p>大家好，有沒有想過在開源 Android 程式的時候，除了想開放源代碼供開發人員檢視，都想讓他們先睹為快，率先透過調試 (debug) 試用這個 Android 程式，再考慮進入發佈 (release) 階段。</p>
 <p><font size="6"><strong>但原來，是真的可以做到，而且做法很簡單！</strong></font></p>
 <p>我們會透過使用 Github 官方所開發的「工作流程系統」（即是 Workflow ）進行相關操作。</p>
@@ -1319,7 +727,7 @@ private void setupChatList() &#123;
 </div>
 
 <p>在你的 Repository，點擊 Actions 分頁，會大概有這樣的界面：</p>
-<p><img src="/.io//img1.png" alt="img1"></p>
+<p><img src="/post/android-dev-github-workflow-android-ci/img1.png" alt="img1"></p>
 <p>它會要你選擇一個工作流程體系，而我們這回要做的是 Android 程式開發調試，所以我們會選擇使用「Android CI」。</p>
 <p>決定好就按 Configure 會有這樣的模版代碼：</p>
 <pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">name: Android CI
@@ -1356,7 +764,7 @@ jobs:
             </details>
 
 <h1 id="做到了，然後呢？"><a href="#做到了，然後呢？" class="headerlink" title="做到了，然後呢？"></a>做到了，然後呢？</h1><p>如果成功了，你會發現你 commit push 更新檔案的話，就會開始工作流程，但是…</p>
-<p><img src="/.io//img2.png" alt="img2"></p>
+<p><img src="/post/android-dev-github-workflow-android-ci/img2.png" alt="img2"></p>
 <p><font size="5"><strong>所說的調試使用呢？</strong></font><font size="6"><strong>在哪？</strong></font></p>
 <p>原來，Android CI 預設的模板代碼是不提供這功能，但我們可以修改代碼附加額外的操作。</p>
 <p>只要在 <code>jobs</code> &gt; <code>build</code> 部分加上代碼就可以了：</p>
@@ -1368,7 +776,7 @@ jobs:
     path: app&#x2F;build&#x2F;outputs&#x2F;apk&#x2F;debug&#x2F;app-debug.apk</code></pre>
 
 <p>現在你點擊個別流程，就會看到新加入的 Artifacts 部分，只要點擊那個 apk-debug 的文字就可以下載調試版的 Android 程式。</p>
-<p><img src="/.io//img3.png" alt="img3"></p>
+<p><img src="/post/android-dev-github-workflow-android-ci/img3.png" alt="img3"></p>
 <h1 id="完整-android-yml-代碼"><a href="#完整-android-yml-代碼" class="headerlink" title="完整 android.yml 代碼"></a>完整 <code>android.yml</code> 代碼</h1><p>啊！！！很複雜，不知道在說什麼，只想要代碼，對不？</p>
 <p>複製貼上就可以了！</p>
 <pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">name: Android CI
@@ -1432,133 +840,8 @@ jobs:
       </tags>
   </entry>
   <entry>
-    <title>JetBrains 開發的 Dokka API 文檔系統</title>
-    <url>/post/android-dev-kotlin-dokka-api-docs/</url>
-    <content><![CDATA[<p>有沒想過，編寫函式庫 (library) 時候，往往有點很彆扭的，就是…</p>
-<p><font size="30"><b>不想寫文案！</b></font>一來花時間，二來太麻煩。</p>
-<p>不過有時我們都會吐嘈開發者不寫文案就是了，嗯很矛盾。</p>
-<p>有見於此，親愛的 JetBrains 團隊開發了 Dokka，這個自動生成 API 文檔的系統，<strong>可以姑且解決</strong>「不想寫文案」的煩惱。</p>
-<hr>
-<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://github.com/Kotlin/dokka">
-    <div class="tag-link-tips">引用站外地址</div>
-    <div class="tag-link-bottom">
-        <div class="tag-link-left" style>
-          <i class="anzhiyufont anzhiyu-icon-link" style></i>
-        </div>
-        <div class="tag-link-right">
-            <div class="tag-link-title">Dokka 官方存儲庫</div>
-            <div class="tag-link-sitename"> 自動生成 API 文檔的系統</div>
-        </div>
-        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
-    </div>
-    </a></div>
-
-<hr>
-<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><h2 id="引入-Dokka-配置檔"><a href="#引入-Dokka-配置檔" class="headerlink" title="引入 Dokka 配置檔"></a>引入 Dokka 配置檔</h2><p>在根目錄的 <code>build.gradle.kts</code> 中的 <code>buildscript</code> 區塊引入 <code>classpath</code> 配置檔。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">buildscript &#123;
-    dependencies &#123;
-        classpath(&quot;org.jetbrains.dokka:dokka-gradle-plugin:1.8.20&quot;)
-        classpath(&quot;org.jetbrains.dokka:dokka-base:1.8.20&quot;)
-    &#125;
-&#125;</code></pre>
-
-<h2 id="引入-Dokka-插件"><a href="#引入-Dokka-插件" class="headerlink" title="引入 Dokka 插件"></a>引入 Dokka 插件</h2><p>在根目錄的 <code>build.gradle.kts</code> 中的 <code>plugins</code> 區塊引入 <code>org.jetbrains.dokka</code> 插件。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;&#x2F; Top-level build file where you can add configuration options common to all sub-projects&#x2F;modules.
-@Suppress(&quot;DSL_SCOPE_VIOLATION&quot;) &#x2F;&#x2F; TODO: Remove once KTIJ-19369 is fixed
-plugins &#123;
-    ...
-    id(&quot;org.jetbrains.dokka&quot;) version &quot;1.8.20&quot;
-&#125;
-true &#x2F;&#x2F; Needed to make the Suppress annotation work for the plugins block</code></pre>
-
-<p>在模塊，如 <code>app</code> 的 <code>build.gradle.kts</code> 引入插件。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Suppress(&quot;DSL_SCOPE_VIOLATION&quot;) &#x2F;&#x2F; TODO: Remove once KTIJ-19369 is fixed
-plugins &#123;
-    ...
-    id(&quot;org.jetbrains.dokka&quot;)
-&#125;</code></pre>
-
-<hr>
-<h1 id="編寫文檔"><a href="#編寫文檔" class="headerlink" title="編寫文檔"></a>編寫文檔</h1><p>要寫的文檔會在程式的 Javadoc 或 Kdoc 註解標記編寫，例如現在寫一個 <code>Person</code> 類：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;**
- * Person
- *
- * @constructor Create empty Person
- *&#x2F;
-class Person &#123;
-
-    &#x2F;**
-     * Set age
-     *
-     * @param age
-     *&#x2F;
-    fun setAge(age: Int) &#123;
-        &#x2F;&#x2F; ...
-    &#125;
-
-    &#x2F;**
-     * Set name
-     *
-     * @param name
-     *&#x2F;
-    fun setName(name: String) &#123;
-        &#x2F;&#x2F; ...
-    &#125;
-&#125;</code></pre>
-
-<hr>
-<h1 id="執行-Dokka"><a href="#執行-Dokka" class="headerlink" title="執行 Dokka"></a>執行 Dokka</h1><ul>
-<li><code>./gradlew dokkaHtml</code> - 執行單個模塊的文檔</li>
-<li><code>./gradlew dokkaHtmlMultiModule</code> - 執行所有模塊的文檔</li>
-</ul>
-<p>效果是這樣：</p>
-<p><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Ff4m8VSJNHmGDSaB9ZWsh%2Fuploads%2FPcCCo1ubbvMZvEprj6kN%2F%E8%9E%A2%E5%B9%95%E6%88%AA%E5%9C%96%202023-07-09%20%E4%B8%8B%E5%8D%8810.26.01.png?alt=media&token=e99fb47a-b8e7-431b-9fb8-513f40bc604d"></p>
-<hr>
-<h1 id="Dokka-附加插件"><a href="#Dokka-附加插件" class="headerlink" title="Dokka 附加插件"></a>Dokka 附加插件</h1><p>Dokka 官方提供了一些插件：</p>
-<ul>
-<li>dokka-base</li>
-<li>gfm-plugin</li>
-<li>jekyll-plugin</li>
-<li>javadoc-plugin</li>
-<li>kotlin-as-java-plugin</li>
-<li>android-documentation-plugin</li>
-</ul>
-<h2 id="kotlin-as-java-plugin-插件"><a href="#kotlin-as-java-plugin-插件" class="headerlink" title="kotlin-as-java-plugin 插件"></a><code>kotlin-as-java-plugin</code> 插件</h2><p><code>kotlin-as-java-plugin</code> 是主要把 Kotlin 的語法轉換為 Java 語法，即是把整個文檔以 Java 語法形式表示。</p>
-<p>在根目錄的 <code>build.gradle.kts</code> 中的 <code>buildscript</code> 區塊引入 <code>classpath</code> 配置檔：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">classpath(&quot;org.jetbrains.dokka:kotlin-as-java-plugin:1.8.20&quot;)</code></pre>
-
-<p>在模塊的 <code>build.gradle.kts</code> 引入依賴：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">dependencies &#123;
-    dokkaPlugin(&quot;org.jetbrains.dokka:kotlin-as-java-plugin:1.8.20&quot;)
-&#125;</code></pre>
-
-<p>這裏有個例子，左方是 Java，右方是 Kotlin。</p>
-<table>
-<thead>
-<tr>
-<th>Java</th>
-<th>Kotlin</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Ff4m8VSJNHmGDSaB9ZWsh%2Fuploads%2F66HFnDOtw6HsZ6Bg0RXd%2F%E8%9E%A2%E5%B9%95%E6%88%AA%E5%9C%96%202023-07-10%20%E4%B8%8B%E5%8D%8810.36.38.png?alt=media&token=b7c02ed4-dcbc-4696-a879-734cd4350ac8" alt="java" style="border-radius: 8px; width: 100%;"></td>
-<td><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Ff4m8VSJNHmGDSaB9ZWsh%2Fuploads%2FeiiWd0IEH8042E5wTX2a%2F%E8%9E%A2%E5%B9%95%E6%88%AA%E5%9C%96%202023-07-10%20%E4%B8%8B%E5%8D%8810.41.52.png?alt=media&token=d6f519b5-0a5f-4754-ab4e-3e72111bae50" alt="kotlin" style="border-radius: 8px; width: 100%;"></td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>程式編寫</category>
-        <category>Android 開發</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Gradle</tag>
-        <tag>Kotlin</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>編寫 OpenAIUtils 輕鬆使用 OpenAI API</title>
-    <url>/post/android-dev-openai-utils/</url>
+    <url>/post/android-dev-openai-utils.html</url>
     <content><![CDATA[<p>大家好，歡迎閱讀本篇文章：「編寫 <code>OpenAIUtils</code> 實用程式類」。今天會說一下如何編寫一個實用程式 (Utils)，進行往後簡易使用 OpenAI 所提供的 API (全稱：Application Programming Interface) 來實現和開發相關的另類學習程式。</p>
 <div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://openai.com/">
     <div class="tag-link-tips">引用站外地址</div>
@@ -2158,7 +1441,7 @@ dependencies &#123;
   </entry>
   <entry>
     <title>Sora Editor 編輯器依賴庫使用筆記</title>
-    <url>/post/android-dev-sora-editor-lib-notes/</url>
+    <url>/post/android-dev-sora-editor-lib-notes.html</url>
     <content><![CDATA[<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://github.com/Rosemoe/sora-editor">
     <div class="tag-link-tips">引用站外地址</div>
     <div class="tag-link-bottom">
@@ -2771,7 +2054,7 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
   </entry>
   <entry>
     <title>編寫 GoogleScript 程式實現 Youtube 影片動態標題</title>
-    <url>/post/dev-google-script-youtube-dynamic-title/</url>
+    <url>/post/dev-google-script-youtube-dynamic-title.html</url>
     <content><![CDATA[<p>這個是我兩年前接觸和學到的技術，今天心血來潮想在這裏簡單做一下筆記。</p>
 <div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://www.youtube.com/watch?v=T_cdYoWD4Jo">
     <div class="tag-link-tips">引用站外地址</div>
@@ -2794,9 +2077,9 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
 <h1 id="什麼是-Google-Apps-Script-？"><a href="#什麼是-Google-Apps-Script-？" class="headerlink" title="什麼是 Google Apps Script ？"></a>什麼是 Google Apps Script ？</h1><p>Google Apps Script，又稱 Google Script (副檔名 <code>.gs</code>)，就是<strong>建基於 JavaScript 的擴充語言</strong>，用以編寫 Google Apps 建構類似巨集的效果，達到工作流程自動化的目標，也可以建立 Web 應用程式，整合 Google 協作工具。</p>
 <hr>
 <h1 id="加入-YouTube-Data-API-v3-服務"><a href="#加入-YouTube-Data-API-v3-服務" class="headerlink" title="加入 YouTube Data API v3 服務"></a>加入 <code>YouTube Data API v3</code> 服務</h1><p>在左側選單會有「服務」，按「+」號打開新增服務視窗。</p>
-<p><img src="/.io//img1.png" alt="img1"></p>
+<p><img src="/post/dev-google-script-youtube-dynamic-title/img1.png" alt="img1"></p>
 <p>選擇 <code>YouTube Data API v3</code> 服務，再按「新增」。</p>
-<p><img src="/.io//img2.png" alt="img2"></p>
+<p><img src="/post/dev-google-script-youtube-dynamic-title/img2.png" alt="img2"></p>
 <hr>
 <h1 id="編寫程式碼"><a href="#編寫程式碼" class="headerlink" title="編寫程式碼"></a>編寫程式碼</h1><p>我們會用 Google Script (gs) 程式語言進行編寫。</p>
 <pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function updateTitle() &#123;
@@ -2825,7 +2108,7 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
 
 <hr>
 <h1 id="執行程式碼"><a href="#執行程式碼" class="headerlink" title="執行程式碼"></a>執行程式碼</h1><p>編寫好就按「執行」，如果在「輸出記錄」沒有輸出錯誤訊息，程式碼就成功運作。</p>
-<p><img src="/.io//img3.png" alt="img3"></p>
+<p><img src="/post/dev-google-script-youtube-dynamic-title/img3.png" alt="img3"></p>
 <hr>
 <h1 id="API-參考"><a href="#API-參考" class="headerlink" title="API 參考"></a>API 參考</h1><div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://developers.google.com/youtube/v3/docs/videos?hl=zh-tw">
     <div class="tag-link-tips">引用站外地址</div>
@@ -2849,7 +2132,7 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
   </entry>
   <entry>
     <title>正則表達式：學極都唔識</title>
-    <url>/post/dev-regex-notes/</url>
+    <url>/post/dev-regex-notes.html</url>
     <content><![CDATA[<p>正則表達式，在編寫程式的時候會用到，但真的很討厭。</p>
 <hr>
 <h1 id="正則表達式"><a href="#正則表達式" class="headerlink" title="正則表達式"></a>正則表達式</h1><p>正則表達式 (Regular Expressions，簡稱 Regex) 是對字符串操作的一種邏輯公式，就是用事先定義好的一些特定字符、及這些特定字符的組合，組成一個「規則字符串」，這個「規則字符串」用來表達對字符串的一種過濾邏輯。</p>
@@ -3198,7 +2481,7 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
   </entry>
   <entry>
     <title>打造及美化終端機和 Vim 編輯器</title>
-    <url>/post/dev-terminal-beautify-tutorial/</url>
+    <url>/post/dev-terminal-beautify-tutorial.html</url>
     <content><![CDATA[<div class="note warning simple"><p>本文章需要使用 <a target="_blank" href="https://brew.sh/index_zh-tw">Homebrew</a>，請先把其安裝。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&#x2F;bin&#x2F;bash -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;HEAD&#x2F;install.sh)&quot;</code></pre></div>
 
@@ -3210,17 +2493,17 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
 <h1 id="為終端機設定真實色"><a href="#為終端機設定真實色" class="headerlink" title="為終端機設定真實色"></a>為終端機設定真實色</h1><p>安裝 iTerm2 原因其中之一，是能夠支援真實色（全彩 - 256色），真實色可以<strong>使終端機顯示更漂亮的色彩配置</strong>。</p>
 <p>點擊 <kbd class="menu">iTerm2</kbd> 選單 &gt; <kbd class="menu">Settings</kbd> &gt; <kbd class="menu">Profiles</kbd> &gt; <kbd class="menu">Terminal</kbd></p>
 <p>把 <kbd class="menu">Report terminal type</kbd> 並設定為 <code>xterm-256color</code>。</p>
-<p><img src="/.io//img1.png" alt="img1"></p>
+<p><img src="/post/dev-terminal-beautify-tutorial/img1.png" alt="img1"></p>
 <hr>
 <h1 id="為終端機設定色彩主題"><a href="#為終端機設定色彩主題" class="headerlink" title="為終端機設定色彩主題"></a>為終端機設定色彩主題</h1><p><strong>你的終端機不是黑白就是像駭客</strong>，想要得到這個終端機的外觀？那就繼續看下去！</p>
-<p><img src="/.io//img2.png" alt="img2"></p>
+<p><img src="/post/dev-terminal-beautify-tutorial/img2.png" alt="img2"></p>
 <div class="note info simple"><p>這個輸出是 <code>neofetch</code> 指令生成的。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">brew install neofetch</code></pre>
 </div>
 
 
 <hr>
-<h2 id="基本主題配置"><a href="#基本主題配置" class="headerlink" title="基本主題配置"></a>基本主題配置</h2><p><img src="/.io//img3.png" alt="img3"></p>
+<h2 id="基本主題配置"><a href="#基本主題配置" class="headerlink" title="基本主題配置"></a>基本主題配置</h2><p><img src="/post/dev-terminal-beautify-tutorial/img3.png" alt="img3"></p>
 <p>Terminal 或 ITerm2 提供了一些內建主題，在 <kbd class="menu">Profiles</kbd> &gt; <kbd class="menu">Colors</kbd> &gt; <kbd class="menu">Color Preset</kbd> 那裏可以選擇主題，如果還想發掘其他更美的主題，可到 <a target="_blank" href="https://github.com/mbadolato/iTerm2-Color-Schemes">iTerm2-Color-Schemes</a> 下載其他主題。</p>
 <div class="note info simple"><ol>
 <li>前往 <a target="_blank" href="https://github.com/mbadolato/iTerm2-Color-Schemes">iTerm2-Color-Schemes</a> 後，點擊 <kbd class="menu">Code</kbd> &gt; <kbd class="menu">Download ZIP</kbd> 把所有檔案以壓縮檔下載至你的電腦。</li>
@@ -3349,7 +2632,7 @@ sudo sh -c &quot;echo $(which zsh) &gt;&gt; &#x2F;etc&#x2F;shells&quot;</code></
 
 <hr>
 <h1 id="Vim-編輯器外觀設定"><a href="#Vim-編輯器外觀設定" class="headerlink" title="Vim 編輯器外觀設定"></a>Vim 編輯器外觀設定</h1><p>把終端機弄美後，是不是都很想有股衝動美化 Vim 編輯器呢？這部分就是教大家怎樣將 Vim 編輯器像我的一樣美。</p>
-<p><img src="/.io//img4.png" alt="img4"></p>
+<p><img src="/post/dev-terminal-beautify-tutorial/img4.png" alt="img4"></p>
 <div class="note warning simple"><p>如果你沒有安裝 <code>vim</code>，可以用 Homebrew 安裝：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">brew install vim</code></pre>
 
@@ -3394,7 +2677,7 @@ call plug#end()</code></pre>
 Plug &#39;...&#39;
 call plug#end()</code></pre>
 
-<p><img src="/.io//img10.png" alt="img10"></p>
+<p><img src="/post/dev-terminal-beautify-tutorial/img10.png" alt="img10"></p>
 <div class="note danger simple"><p><code>Plug &#39;...&#39;</code> 只是樣板，<strong>別把它運行，會報錯</strong>，接下來會使用插件。</p>
 <p>把插件加入後要做的步驟：</p>
 <ol>
@@ -3405,12 +2688,12 @@ call plug#end()</code></pre>
 </div>
 
 <p>當你輸入了 <code>:PlugInstall</code> 後，會在左側另外開啟了安裝插件的畫面：</p>
-<p><img src="/.io//img11.png" alt="img11"></p>
+<p><img src="/post/dev-terminal-beautify-tutorial/img11.png" alt="img11"></p>
 <div class="note info simple"><p><code>:q</code> - <kbd>ESC</kbd> + <kbd>:</kbd> + <kbd>Q</kbd> 退出安裝插件的畫面。</p>
 </div>
 
 <hr>
-<h3 id="airline-amp-airline-themes"><a href="#airline-amp-airline-themes" class="headerlink" title="airline &amp; airline-themes"></a>airline &amp; airline-themes</h3><p><img src="/.io//img5.png" alt="img5"><br><img src="/.io//img6.png" alt="img6"><br><img src="/.io//img7.png" alt="img7"><br><img src="/.io//img8.png" alt="img8"><br><img src="/.io//img9.png" alt="img9"></p>
+<h3 id="airline-amp-airline-themes"><a href="#airline-amp-airline-themes" class="headerlink" title="airline &amp; airline-themes"></a>airline &amp; airline-themes</h3><p><img src="/post/dev-terminal-beautify-tutorial/img5.png" alt="img5"><br><img src="/post/dev-terminal-beautify-tutorial/img6.png" alt="img6"><br><img src="/post/dev-terminal-beautify-tutorial/img7.png" alt="img7"><br><img src="/post/dev-terminal-beautify-tutorial/img8.png" alt="img8"><br><img src="/post/dev-terminal-beautify-tutorial/img9.png" alt="img9"></p>
 <pre class="line-numbers language-vim" data-language="vim"><code class="language-vim">call plug#begin(&#39;~&#x2F;.vim&#x2F;plugged&#39;)
 Plug &#39;vim-airline&#x2F;vim-airline&#39;
 Plug &#39;vim-airline&#x2F;vim-airline-themes&#39;
@@ -3664,8 +2947,64 @@ endif</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>「盤古之白」- 中文排版的重要</title>
+    <url>/post/general-spacing-of-pangu.html</url>
+    <content><![CDATA[<p>你是不是經常都看到網頁上的中文字和英文、數字、符號<strong>擠在一塊，就會坐立難安</strong>，忍不住想在它們之間加個空格？</p>
+<p>我實在不明白為什麼<strong>就是不情願加空格</strong>，我強調，這個不是強迫症！</p>
+<hr>
+<h1 id="什麼是「盤古之白」"><a href="#什麼是「盤古之白」" class="headerlink" title="什麼是「盤古之白」?"></a>什麼是「盤古之白」?</h1><p>這個名字命名的相當優秀，在中國神話，古時流傳有盤古開闢天地的傳說：</p>
+<blockquote>
+<p>盤古開天地，說的是在天地開闢之前，宇宙是混混沌沌的一團氣，裏面沒有光，沒有聲音。這時候，出了一個盤古氏，用大斧把這一團混沌劈了開來。</p>
+</blockquote>
+<h2 id="與不加空格有什麼關聯？"><a href="#與不加空格有什麼關聯？" class="headerlink" title="與不加空格有什麼關聯？"></a>與不加空格有什麼關聯？</h2><p>還不懂？「用大斧把這一團<strong>混沌</strong>劈了開來。」需知不加空格，不但是一團糟，更是一團混沌！</p>
+<h2 id="有理有據"><a href="#有理有據" class="headerlink" title="有理有據"></a>有理有據</h2><div class="note primary simple"><p>漢學家稱這個空白字元為「盤古之白」，因為它<strong>劈開了全形字和半形字之間的混沌</strong>。另有研究顯示，打字的時候不喜歡在中文和英文之間加空格的人，感情路都走得很辛苦，有七成的比例會在 34 歲的時候跟自己不愛的人結婚，而其餘三成的人最後只能把遺產留給自己的貓。畢竟愛情跟書寫都需要適時地留白。與大家共勉之。</p>
+<p>節錄自<a href="https://github.com/vinta/pangu.js">這裏</a>。</p>
+</div>
+
+<hr>
+<h1 id="不加空格，到底什麼居心"><a href="#不加空格，到底什麼居心" class="headerlink" title="不加空格，到底什麼居心"></a>不加空格，到底什麼居心</h1><p>我明白，有時候打字慵懶起來，不打空格，只是人知常情，但絕不縱容！</p>
+<h2 id="暫時解決所謂的「強迫症」"><a href="#暫時解決所謂的「強迫症」" class="headerlink" title="暫時解決所謂的「強迫症」"></a>暫時解決所謂的「強迫症」</h2><p>我再三強調，這不是強迫症，我思疑：<strong>不加空格才有強迫症</strong>。</p>
+<p>在方間我們可以暫時文字擠在一起的問題，就是安裝插件至 Google Chrome 或其他瀏覽器。</p>
+<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://github.com/vinta/pangu.js">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">pangu.js</div>
+            <div class="tag-link-sitename"> </div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>
+
+<p>但希望大家可以<strong>改過自新，享受瀏覽網頁的樂趣</strong>。</p>
+<hr>
+<h1 id="加空格的好處"><a href="#加空格的好處" class="headerlink" title="加空格的好處"></a>加空格的好處</h1><ol>
+<li>養成良好的寫作習慣</li>
+<li>易於閱讀：文章排版不會因為太多文字而都擠在一起</li>
+<li>幫助網站整體搜尋引擎最佳化 (SEO)</li>
+</ol>
+<hr>
+<h1 id="最終防線"><a href="#最終防線" class="headerlink" title="最終防線"></a>最終防線</h1><p>我明白，有時候打字慵懶起來，不打空格，只是一時方便。這網誌已經內置安裝了「盤古之白」的插件，所以不會有任何差池！呵呵~</p>
+<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://notioner.notion.site/832221430f754a7395a18aea98fd3b78">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">中文排版原則｜範例</div>
+            <div class="tag-link-sitename"> </div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>]]></content>
+  </entry>
+  <entry>
     <title>VSCode 自訂程式碼片段</title>
-    <url>/post/dev-vscode-snippet-notes/</url>
+    <url>/post/dev-vscode-snippet-notes.html</url>
     <content><![CDATA[<p>哈囉，歡迎來到我的網誌。</p>
 <p>有沒有想過自己在編寫程式碼時，能夠借助自動完成選單來完成一整塊的程式碼？在 VSCode 軟件，它能夠支援自訂程式碼片段，使你能夠<strong>在輸入關鍵字的前綴後，便能插入一整塊程式碼！</strong>大大提升你編程的效率。</p>
 <p>在這篇文章，我們將會學到如何新增自己的程式碼片段。</p>
@@ -3673,7 +3012,7 @@ endif</code></pre>
 <h1 id="為編輯器進行設定"><a href="#為編輯器進行設定" class="headerlink" title="為編輯器進行設定"></a>為編輯器進行設定</h1><p>首先，為了<strong>避免所新增的程式碼片段無法透過自動完成選單中顯示</strong>，我們可以為編輯器直接啟用自訂程式碼選單片段。</p>
 <p>按編輯器選單列的齒輪裏的設定，或者直接用快捷鍵 <kbd>⌘ Cmd</kbd> + <kbd>,
 <p>把設定界面更換為以 JSON 格式開啟。</p>
-<p><img src="/.io//img1.png" alt="img1"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img1.png" alt="img1"></p>
 <p>在 <code>settings.json</code> 進行以下設定：</p>
 <pre class="line-numbers language-json" data-language="json"><code class="language-json">&quot;editor.tabCompletion&quot;: &quot;on&quot;</code></pre>
 
@@ -3684,11 +3023,11 @@ endif</code></pre>
 <h1 id="新增程式碼片段"><a href="#新增程式碼片段" class="headerlink" title="新增程式碼片段"></a>新增程式碼片段</h1><p>透過快捷鍵 <kbd>⇧ Shift</kbd> + <kbd>⌘ Cmd</kbd> + <kbd>P</kbd> 前往命令輸入界面。</p>
 <p>然後在輸入欄中輸入 <code>snippet</code>，你會找到<kbd class="menu">程式碼片段：設定使用者程式碼片段</kbd> &#x2F; <kbd class="menu">Snippets: Configure User Snippets</kbd>，再按 <kbd>⏎ Enter</kbd>。</p>
 <p>或者，<kbd class="menu">Code</kbd> &gt; <kbd class="menu">喜好設定</kbd> &gt; <kbd class="menu">設定使用者程式碼片段</kbd></p>
-<p><img src="/.io//img8.png" alt="img8"></p>
-<p><img src="/.io//img6.png" alt="img6"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img8.png" alt="img8"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img6.png" alt="img6"></p>
 <hr>
 <p>它會要你設定應用程式碼片段的特定語言，即是設定<strong>只能在特定的程式語言文件中使用裏面的程式碼片段</strong>。<br>或者，你要設定全域還是局部新增。</p>
-<p><img src="/.io//img7.png" alt="img7"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img7.png" alt="img7"></p>
 <hr>
 <p>即是你有三個選項，因應自己所需，選擇其一：</p>
 <ol>
@@ -3795,9 +3134,9 @@ endif</code></pre>
 
 <div class="note info simple"><p><code>scope</code> 可以經以下步驟找到：</p>
 <p><kbd class="menu">程式碼片段：設定使用者程式碼片段</kbd> &#x2F; <kbd class="menu">Snippets: Configure User Snippets</kbd>，再按 <kbd>⏎ Enter</kbd>。</p>
-<p><img src="/.io//img6.png" alt="img6"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img6.png" alt="img6"></p>
 <p>滾動鼠標或按鍵盤的向下按鈕可以看更多程式語言名稱。</p>
-<p><img src="/.io//img7.png" alt="img7"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img7.png" alt="img7"></p>
 </div>
 
 <hr>
@@ -3814,16 +3153,16 @@ endif</code></pre>
     &#125;
 &#125;</code></pre>
 <p>當正在輸入 <code>fori</code> 時，會出現這個項目。</p>
-<p><img src="/.io//img2.png" alt="img2"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img2.png" alt="img2"></p>
 <p>當插入程式碼片段後：</p>
-<p><img src="/.io//img3.png" alt="img3"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img3.png" alt="img3"></p>
 <hr>
 <h1 id="使用-snippet-generator"><a href="#使用-snippet-generator" class="headerlink" title="使用 snippet generator"></a>使用 snippet generator</h1><p>如果你覺得編寫 JSON，要瞭解和使用語法有點吃力，你可以用 <a href="https://snippet-generator.app" target="_blank">snippet generator</a>，這個是一個程式碼片段線上生成器，它支援 VSCode、Sublime Text 和 Atom 這三個軟件。</p>
-<p><img src="/.io//img4.png" alt="img4"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img4.png" alt="img4"></p>
 <p>玩法一樣，不過透過圖形用戶界面簡化了編寫程序，提供了 <code>Description</code>、<code>Tab trigger</code> 和 <code>Snippet</code> 輸入欄。</p>
 <p><code>Tab trigger</code> 就是 <code>prefix</code> 那部分。<br><code>Snippet</code> 就是 <code>body</code> 那部分。</p>
 <hr>
-<p><img src="/.io//img5.png" alt="img5"></p>
+<p><img src="/post/dev-vscode-snippet-notes/img5.png" alt="img5"></p>
 <p>右邊可以看到 JSON 格式的程式碼顯示，如果你選其他編輯器，則顯示其他程式語言的程式碼。</p>
 <p>點擊 <code>Copy snippet</code> 便可以把程式碼複製貼上使用。</p>
 <div class="note info simple"><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;
@@ -3839,64 +3178,200 @@ endif</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>「盤古之白」- 中文排版的重要</title>
-    <url>/post/general-spacing-of-pangu/</url>
-    <content><![CDATA[<p>你是不是經常都看到網頁上的中文字和英文、數字、符號<strong>擠在一塊，就會坐立難安</strong>，忍不住想在它們之間加個空格？</p>
-<p>我實在不明白為什麼<strong>就是不情願加空格</strong>，我強調，這個不是強迫症！</p>
+    <title>JetBrains 開發的 Dokka API 文檔系統</title>
+    <url>/post/android-dev-kotlin-dokka-api-docs.html</url>
+    <content><![CDATA[<p>有沒想過，編寫函式庫 (library) 時候，往往有點很彆扭的，就是…</p>
+<p><font size="30"><b>不想寫文案！</b></font>一來花時間，二來太麻煩。</p>
+<p>不過有時我們都會吐嘈開發者不寫文案就是了，嗯很矛盾。</p>
+<p>有見於此，親愛的 JetBrains 團隊開發了 Dokka，這個自動生成 API 文檔的系統，<strong>可以姑且解決</strong>「不想寫文案」的煩惱。</p>
 <hr>
-<h1 id="什麼是「盤古之白」"><a href="#什麼是「盤古之白」" class="headerlink" title="什麼是「盤古之白」?"></a>什麼是「盤古之白」?</h1><p>這個名字命名的相當優秀，在中國神話，古時流傳有盤古開闢天地的傳說：</p>
-<blockquote>
-<p>盤古開天地，說的是在天地開闢之前，宇宙是混混沌沌的一團氣，裏面沒有光，沒有聲音。這時候，出了一個盤古氏，用大斧把這一團混沌劈了開來。</p>
-</blockquote>
-<h2 id="與不加空格有什麼關聯？"><a href="#與不加空格有什麼關聯？" class="headerlink" title="與不加空格有什麼關聯？"></a>與不加空格有什麼關聯？</h2><p>還不懂？「用大斧把這一團<strong>混沌</strong>劈了開來。」需知不加空格，不但是一團糟，更是一團混沌！</p>
-<h2 id="有理有據"><a href="#有理有據" class="headerlink" title="有理有據"></a>有理有據</h2><div class="note primary simple"><p>漢學家稱這個空白字元為「盤古之白」，因為它<strong>劈開了全形字和半形字之間的混沌</strong>。另有研究顯示，打字的時候不喜歡在中文和英文之間加空格的人，感情路都走得很辛苦，有七成的比例會在 34 歲的時候跟自己不愛的人結婚，而其餘三成的人最後只能把遺產留給自己的貓。畢竟愛情跟書寫都需要適時地留白。與大家共勉之。</p>
-<p>節錄自<a href="https://github.com/vinta/pangu.js">這裏</a>。</p>
-</div>
-
-<hr>
-<h1 id="不加空格，到底什麼居心"><a href="#不加空格，到底什麼居心" class="headerlink" title="不加空格，到底什麼居心"></a>不加空格，到底什麼居心</h1><p>我明白，有時候打字慵懶起來，不打空格，只是人知常情，但絕不縱容！</p>
-<h2 id="暫時解決所謂的「強迫症」"><a href="#暫時解決所謂的「強迫症」" class="headerlink" title="暫時解決所謂的「強迫症」"></a>暫時解決所謂的「強迫症」</h2><p>我再三強調，這不是強迫症，我思疑：<strong>不加空格才有強迫症</strong>。</p>
-<p>在方間我們可以暫時文字擠在一起的問題，就是安裝插件至 Google Chrome 或其他瀏覽器。</p>
-<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://github.com/vinta/pangu.js">
+<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://github.com/Kotlin/dokka">
     <div class="tag-link-tips">引用站外地址</div>
     <div class="tag-link-bottom">
         <div class="tag-link-left" style>
           <i class="anzhiyufont anzhiyu-icon-link" style></i>
         </div>
         <div class="tag-link-right">
-            <div class="tag-link-title">pangu.js</div>
-            <div class="tag-link-sitename"> </div>
+            <div class="tag-link-title">Dokka 官方存儲庫</div>
+            <div class="tag-link-sitename"> 自動生成 API 文檔的系統</div>
         </div>
         <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
     </div>
     </a></div>
 
-<p>但希望大家可以<strong>改過自新，享受瀏覽網頁的樂趣</strong>。</p>
 <hr>
-<h1 id="加空格的好處"><a href="#加空格的好處" class="headerlink" title="加空格的好處"></a>加空格的好處</h1><ol>
-<li>養成良好的寫作習慣</li>
-<li>易於閱讀：文章排版不會因為太多文字而都擠在一起</li>
-<li>幫助網站整體搜尋引擎最佳化 (SEO)</li>
-</ol>
+<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><h2 id="引入-Dokka-配置檔"><a href="#引入-Dokka-配置檔" class="headerlink" title="引入 Dokka 配置檔"></a>引入 Dokka 配置檔</h2><p>在根目錄的 <code>build.gradle.kts</code> 中的 <code>buildscript</code> 區塊引入 <code>classpath</code> 配置檔。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">buildscript &#123;
+    dependencies &#123;
+        classpath(&quot;org.jetbrains.dokka:dokka-gradle-plugin:1.8.20&quot;)
+        classpath(&quot;org.jetbrains.dokka:dokka-base:1.8.20&quot;)
+    &#125;
+&#125;</code></pre>
+
+<h2 id="引入-Dokka-插件"><a href="#引入-Dokka-插件" class="headerlink" title="引入 Dokka 插件"></a>引入 Dokka 插件</h2><p>在根目錄的 <code>build.gradle.kts</code> 中的 <code>plugins</code> 區塊引入 <code>org.jetbrains.dokka</code> 插件。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;&#x2F; Top-level build file where you can add configuration options common to all sub-projects&#x2F;modules.
+@Suppress(&quot;DSL_SCOPE_VIOLATION&quot;) &#x2F;&#x2F; TODO: Remove once KTIJ-19369 is fixed
+plugins &#123;
+    ...
+    id(&quot;org.jetbrains.dokka&quot;) version &quot;1.8.20&quot;
+&#125;
+true &#x2F;&#x2F; Needed to make the Suppress annotation work for the plugins block</code></pre>
+
+<p>在模塊，如 <code>app</code> 的 <code>build.gradle.kts</code> 引入插件。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Suppress(&quot;DSL_SCOPE_VIOLATION&quot;) &#x2F;&#x2F; TODO: Remove once KTIJ-19369 is fixed
+plugins &#123;
+    ...
+    id(&quot;org.jetbrains.dokka&quot;)
+&#125;</code></pre>
+
 <hr>
-<h1 id="最終防線"><a href="#最終防線" class="headerlink" title="最終防線"></a>最終防線</h1><p>我明白，有時候打字慵懶起來，不打空格，只是一時方便。這網誌已經內置安裝了「盤古之白」的插件，所以不會有任何差池！呵呵~</p>
-<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://notioner.notion.site/832221430f754a7395a18aea98fd3b78">
-    <div class="tag-link-tips">引用站外地址</div>
-    <div class="tag-link-bottom">
-        <div class="tag-link-left" style>
-          <i class="anzhiyufont anzhiyu-icon-link" style></i>
-        </div>
-        <div class="tag-link-right">
-            <div class="tag-link-title">中文排版原則｜範例</div>
-            <div class="tag-link-sitename"> </div>
-        </div>
-        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
-    </div>
-    </a></div>]]></content>
+<h1 id="編寫文檔"><a href="#編寫文檔" class="headerlink" title="編寫文檔"></a>編寫文檔</h1><p>要寫的文檔會在程式的 Javadoc 或 Kdoc 註解標記編寫，例如現在寫一個 <code>Person</code> 類：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;**
+ * Person
+ *
+ * @constructor Create empty Person
+ *&#x2F;
+class Person &#123;
+
+    &#x2F;**
+     * Set age
+     *
+     * @param age
+     *&#x2F;
+    fun setAge(age: Int) &#123;
+        &#x2F;&#x2F; ...
+    &#125;
+
+    &#x2F;**
+     * Set name
+     *
+     * @param name
+     *&#x2F;
+    fun setName(name: String) &#123;
+        &#x2F;&#x2F; ...
+    &#125;
+&#125;</code></pre>
+
+<hr>
+<h1 id="執行-Dokka"><a href="#執行-Dokka" class="headerlink" title="執行 Dokka"></a>執行 Dokka</h1><ul>
+<li><code>./gradlew dokkaHtml</code> - 執行單個模塊的文檔</li>
+<li><code>./gradlew dokkaHtmlMultiModule</code> - 執行所有模塊的文檔</li>
+</ul>
+<p>效果是這樣：</p>
+<p><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Ff4m8VSJNHmGDSaB9ZWsh%2Fuploads%2FPcCCo1ubbvMZvEprj6kN%2F%E8%9E%A2%E5%B9%95%E6%88%AA%E5%9C%96%202023-07-09%20%E4%B8%8B%E5%8D%8810.26.01.png?alt=media&token=e99fb47a-b8e7-431b-9fb8-513f40bc604d"></p>
+<hr>
+<h1 id="Dokka-附加插件"><a href="#Dokka-附加插件" class="headerlink" title="Dokka 附加插件"></a>Dokka 附加插件</h1><p>Dokka 官方提供了一些插件：</p>
+<ul>
+<li>dokka-base</li>
+<li>gfm-plugin</li>
+<li>jekyll-plugin</li>
+<li>javadoc-plugin</li>
+<li>kotlin-as-java-plugin</li>
+<li>android-documentation-plugin</li>
+</ul>
+<h2 id="kotlin-as-java-plugin-插件"><a href="#kotlin-as-java-plugin-插件" class="headerlink" title="kotlin-as-java-plugin 插件"></a><code>kotlin-as-java-plugin</code> 插件</h2><p><code>kotlin-as-java-plugin</code> 是主要把 Kotlin 的語法轉換為 Java 語法，即是把整個文檔以 Java 語法形式表示。</p>
+<p>在根目錄的 <code>build.gradle.kts</code> 中的 <code>buildscript</code> 區塊引入 <code>classpath</code> 配置檔：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">classpath(&quot;org.jetbrains.dokka:kotlin-as-java-plugin:1.8.20&quot;)</code></pre>
+
+<p>在模塊的 <code>build.gradle.kts</code> 引入依賴：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">dependencies &#123;
+    dokkaPlugin(&quot;org.jetbrains.dokka:kotlin-as-java-plugin:1.8.20&quot;)
+&#125;</code></pre>
+
+<p>這裏有個例子，左方是 Java，右方是 Kotlin。</p>
+<table>
+<thead>
+<tr>
+<th>Java</th>
+<th>Kotlin</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Ff4m8VSJNHmGDSaB9ZWsh%2Fuploads%2F66HFnDOtw6HsZ6Bg0RXd%2F%E8%9E%A2%E5%B9%95%E6%88%AA%E5%9C%96%202023-07-10%20%E4%B8%8B%E5%8D%8810.36.38.png?alt=media&token=b7c02ed4-dcbc-4696-a879-734cd4350ac8" alt="java" style="border-radius: 8px; width: 100%;"></td>
+<td><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Ff4m8VSJNHmGDSaB9ZWsh%2Fuploads%2FeiiWd0IEH8042E5wTX2a%2F%E8%9E%A2%E5%B9%95%E6%88%AA%E5%9C%96%202023-07-10%20%E4%B8%8B%E5%8D%8810.41.52.png?alt=media&token=d6f519b5-0a5f-4754-ab4e-3e72111bae50" alt="kotlin" style="border-radius: 8px; width: 100%;"></td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>程式編寫</category>
+        <category>Android 開發</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Gradle</tag>
+        <tag>Kotlin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>動態載入 CSS 及 JavaScript 檔案至網頁端</title>
+    <url>/post/web-dev-dynamic-load-css-and-js.html</url>
+    <content><![CDATA[<p>去年，我撰寫了一篇文章，介紹過 Eruda 網頁源始碼線上檢查器，教導大家直接透過瀏覽器書籤直以呼喚這個程式，當然，它也還有其他方式呼喚的，不過這裏不作講解了，因為這個並不是這篇文章的重點。重點是 Eruda 檢查器是透過使用動態載入的方式把 JavaScript 文件載入至網站。</p>
+<p>它的程式是取決於這個函數作初始化： <code>eruda.init();</code></p>
+<p>當然，<code>eruda</code> 是物件，<code>init()</code> 是方法，而這個物件是未下定義的，因此進行初始化前，需要載入應要的 JavaScript 外部檔案：</p>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;eruda</code></pre>
+
+<hr>
+<h1 id="靜態載入"><a href="#靜態載入" class="headerlink" title="靜態載入"></a>靜態載入</h1><p>什麼是靜態載入？其實就是我們經常在 HTML 文件使用的 <code>&lt;link&gt;</code> 和 <code>&lt;script&gt;</code> 標示用以載入 CSS 和 JS 文件，就是直接把這件文件直接載入，在一般簡單普通的網站直接載入是沒問題的，但如果你想按情況而載入特定 CSS 或 JS 文件的話，靜態載入的方式並非你最好的首選。</p>
+<hr>
+<h1 id="動態載入"><a href="#動態載入" class="headerlink" title="動態載入"></a>動態載入</h1><p>與靜態載入不同，動態載入能夠處理按情況所需，而載入哪些文件至網站，要實現動態載入的話，不是在 HTML 文件動手，而是透過編寫 JavaScript 實現動態載入，從而<strong>能減輕使用者載入負擔，提高響應效率</strong>。</p>
+<hr>
+<h2 id="載入源碼檔案"><a href="#載入源碼檔案" class="headerlink" title="載入源碼檔案"></a>載入源碼檔案</h2><div class="tabs" id="load_code"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="load_code-1">CSS</button><button type="button" class="tab " data-href="load_code-2">JavaScript</button></ul><div class="tab-contents"><div class="tab-item-content active" id="load_code-1"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function loadCSSFile() &#123;
+    var fileref &#x3D; document.createElement(&quot;link&quot;);
+    fileref.setAttribute(&quot;rel&quot;, &quot;stylesheet&quot;);
+    fileref.setAttribute(&quot;type&quot;, &quot;text&#x2F;css&quot;);
+    fileref.setAttribute(&quot;href&quot;, filename);
+&#125;</code></pre></div><div class="tab-item-content" id="load_code-2"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function loadJSFile() &#123;
+    var fileref &#x3D; document.createElement(&#39;script&#39;);
+    fileref.setAttribute(&quot;type&quot;, &quot;text&#x2F;javascript&quot;);
+    fileref.setAttribute(&quot;src&quot;, filename);
+&#125;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<p>可以寫一個封裝函數：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">function loadFile(filename, filetype) &#123;
+    if (filetype &#x3D;&#x3D; &quot;css&quot;) loadCSSFile();
+    else if (filetype &#x3D;&#x3D; &quot;js&quot;) loadJSFile();
+
+    if (typeof fileref !&#x3D; &quot;undefined&quot;)
+        document.getElementsByTagName(&quot;head&quot;)[0].appendChild(fileref);
+&#125;</code></pre>
+
+<hr>
+<h2 id="移除源碼檔案"><a href="#移除源碼檔案" class="headerlink" title="移除源碼檔案"></a>移除源碼檔案</h2><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function removeFile(filename, filetype) &#123;
+    var targetelement &#x3D; (filetype &#x3D;&#x3D; &quot;js&quot;)? &quot;script&quot;: (filetype &#x3D;&#x3D; &quot;css&quot;)? &quot;link&quot;: &quot;none&quot;;
+    var targetattr &#x3D; (filetype &#x3D;&#x3D; &quot;js&quot;)?&quot;src&quot;: (filetype &#x3D;&#x3D; &quot;css&quot;)? &quot;href&quot;: &quot;none&quot;;
+    var allsuspects &#x3D; document.getElementsByTagName(targetelement);
+    for (var i &#x3D; allsuspects.length; i &gt;&#x3D; 0; i--) &#123;
+        if (allsuspects[i] &amp;&amp; allsuspects[i].getAttribute(targetattr) !&#x3D; null &amp;&amp; allsuspects[i].getAttribute(targetattr).indexOf(filename)!&#x3D;-1)
+            allsuspects[i].parentNode.removeChild(allsuspects[i]);
+    &#125;
+&#125;</code></pre>
+
+<hr>
+<h2 id="調用函數示例"><a href="#調用函數示例" class="headerlink" title="調用函數示例"></a>調用函數示例</h2><div class="note warning simple"><p>以下編碼並非完整，僅作參考。</p>
+</div>
+
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">let mode &#x3D; Pu.gLS(&quot;webMode&quot;);
+if (mode &#x3D;&#x3D; &quot;drK&quot;) &#123; &#x2F;&#x2F; dark
+    filename &#x3D; filenameDark;
+    removeFile(filenameLight, filetype);
+&#125; else if (mode &#x3D;&#x3D; &quot;lgT&quot;) &#123; &#x2F;&#x2F; light
+    filename &#x3D; filenameLight;
+    removeFile(filenameDark, filetype);
+&#125;
+loadFile(filename, filetype);</code></pre>]]></content>
+      <categories>
+        <category>程式編寫</category>
+        <category>網頁開發</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>HTML</tag>
+        <tag>CSS</tag>
+      </tags>
   </entry>
   <entry>
     <title>Kotlin Compose 跨平台項目開發筆記</title>
-    <url>/post/jetpack-compose-dev-kotlin-multiplatform-notes/</url>
+    <url>/post/jetpack-compose-dev-kotlin-multiplatform-notes.html</url>
     <content><![CDATA[<p>Jetpack Compose 除了<strong>取代了傳統的 XML 建構方式</strong>外，開發的程序已經<strong>不再只針對 Android</strong> 的實現，而是可以進行跨平台的操作，應用程式可以供不同的操作系統如 Android、<strong>iOS 設備及桌面版</strong>使用。</p>
 <div class="note info simple"><p>桌上版泛指能在 Linux、Windows 及 macOS 系統上運作。</p>
 </div>
@@ -4098,75 +3573,600 @@ struct ComposeView: UIViewControllerRepresentable &#123;
       </tags>
   </entry>
   <entry>
-    <title>動態載入 CSS 及 JavaScript 檔案至網頁端</title>
-    <url>/post/web-dev-dynamic-load-css-and-js/</url>
-    <content><![CDATA[<p>去年，我撰寫了一篇文章，介紹過 Eruda 網頁源始碼線上檢查器，教導大家直接透過瀏覽器書籤直以呼喚這個程式，當然，它也還有其他方式呼喚的，不過這裏不作講解了，因為這個並不是這篇文章的重點。重點是 Eruda 檢查器是透過使用動態載入的方式把 JavaScript 文件載入至網站。</p>
-<p>它的程式是取決於這個函數作初始化： <code>eruda.init();</code></p>
-<p>當然，<code>eruda</code> 是物件，<code>init()</code> 是方法，而這個物件是未下定義的，因此進行初始化前，需要載入應要的 JavaScript 外部檔案：</p>
-<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;eruda</code></pre>
+    <title>實作類似 ChatGPT 的機器人聊天 Android 程式</title>
+    <url>/post/android-dev-develop-chatgpt-android-app-tutorial.html</url>
+    <content><![CDATA[<p>今天會跟大家編寫並開發一個類似 ChatGPT 的 OpenAI 聊天機器人 Android 程式。但在開發前，建議先看以下文章再續。</p>
+<div class="note warning simple"><p>這篇教學會使用 <a href="/post/android-dev-openai-utils">這篇文章</a> 所實現的 OpenAIUtils 程式實現。</p>
+</div>
 
 <hr>
-<h1 id="靜態載入"><a href="#靜態載入" class="headerlink" title="靜態載入"></a>靜態載入</h1><p>什麼是靜態載入？其實就是我們經常在 HTML 文件使用的 <code>&lt;link&gt;</code> 和 <code>&lt;script&gt;</code> 標示用以載入 CSS 和 JS 文件，就是直接把這件文件直接載入，在一般簡單普通的網站直接載入是沒問題的，但如果你想按情況而載入特定 CSS 或 JS 文件的話，靜態載入的方式並非你最好的首選。</p>
-<hr>
-<h1 id="動態載入"><a href="#動態載入" class="headerlink" title="動態載入"></a>動態載入</h1><p>與靜態載入不同，動態載入能夠處理按情況所需，而載入哪些文件至網站，要實現動態載入的話，不是在 HTML 文件動手，而是透過編寫 JavaScript 實現動態載入，從而<strong>能減輕使用者載入負擔，提高響應效率</strong>。</p>
-<hr>
-<h2 id="載入源碼檔案"><a href="#載入源碼檔案" class="headerlink" title="載入源碼檔案"></a>載入源碼檔案</h2><div class="tabs" id="load_code"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="load_code-1">CSS</button><button type="button" class="tab " data-href="load_code-2">JavaScript</button></ul><div class="tab-contents"><div class="tab-item-content active" id="load_code-1"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function loadCSSFile() &#123;
-    var fileref &#x3D; document.createElement(&quot;link&quot;);
-    fileref.setAttribute(&quot;rel&quot;, &quot;stylesheet&quot;);
-    fileref.setAttribute(&quot;type&quot;, &quot;text&#x2F;css&quot;);
-    fileref.setAttribute(&quot;href&quot;, filename);
-&#125;</code></pre></div><div class="tab-item-content" id="load_code-2"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function loadJSFile() &#123;
-    var fileref &#x3D; document.createElement(&#39;script&#39;);
-    fileref.setAttribute(&quot;type&quot;, &quot;text&#x2F;javascript&quot;);
-    fileref.setAttribute(&quot;src&quot;, filename);
-&#125;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+<h1 id="什麼是-ChatGPT？"><a href="#什麼是-ChatGPT？" class="headerlink" title="什麼是 ChatGPT？"></a>什麼是 ChatGPT？</h1><p><a href="https://chat.openai.com/">ChatGPT</a> 是現今發展最大的一個聊天機器人技術，它透過 OpenAI 所研發的 API 權杖，利用自然語言生成 （Natural Language Generation，簡稱 NLG）， 用戶可以透過輸入字詞與機器人進行對話，在這裏，稱為 <code>Prompt</code>，意思是用戶所傳達的訊息，而機器人的回應 <code>Completion</code> 就是補全的意思，機器人會根據所傳達的訊息來作相應輸出。</p>
+<p><a href="https://openai.com/">OpenAI</a> 利用深度學習的方式訓練機器人，從而能夠理解用戶所傳達訊息，再作相應輸出。</p>
+<div class="note info simple"><p>直到目前，ChatGPT 現時所使用的模型 <code>Model</code> 是 <code>gpt-3.5-turbo</code>，但是這個模型不是完全免費提供使用，花費 0.002 美元的價格可獲得 1000 個權標 <code>Token</code>，或大約 750 個單字。 推薦使用 <code>text-davinci-003</code>，支援最大權標量為 <code>4097</code>，其中 <code>Prompt Token</code> 和 <code>Completion Token</code> 均計算在內。</p>
+</div>
 
-<p>可以寫一個封裝函數：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">function loadFile(filename, filetype) &#123;
-    if (filetype &#x3D;&#x3D; &quot;css&quot;) loadCSSFile();
-    else if (filetype &#x3D;&#x3D; &quot;js&quot;) loadJSFile();
+<hr>
+<h1 id="OpenAI-或-ChatGPT-地區限制"><a href="#OpenAI-或-ChatGPT-地區限制" class="headerlink" title="OpenAI 或 ChatGPT 地區限制"></a>OpenAI 或 ChatGPT 地區限制</h1><p>可惜的是，OpenAI <strong>還未廣泛開放地區使用</strong>，例如：<strong>香港地區暫時無法使用</strong>，即使透過使用虛擬私有網絡（Virtual Personal Network，簡稱 VPN），都無法完成用戶身份驗證的步驟。</p>
+<hr>
+<h1 id="構建-Android-程式"><a href="#構建-Android-程式" class="headerlink" title="構建 Android 程式"></a>構建 Android 程式</h1><p>雖然 ChatGPT 暫時開放免費使用，但我們可以用 OpenAI 開發類似的聊天機器人程式，進行其他自然語言處理（Natural Language Processing，簡稱 NLP）。在編程的時候。我們只需要透過個人帳戶的權杖 <code>API Key</code>，並運用網絡傳輸，把 OpenAI 的回應記錄獲取出來。</p>
+<div class="note warning simple"><p>要注意的是，網絡不能夠長時間被呼喚，所以它有一定的連接時間總長，過了這個時間，就會<strong>逾時</strong> (Timeout)，這個操作是<strong>阻止詢問網絡時間過長而導致程式無反應</strong>等崩潰情況。</p>
+</div>
 
-    if (typeof fileref !&#x3D; &quot;undefined&quot;)
-        document.getElementsByTagName(&quot;head&quot;)[0].appendChild(fileref);
+<h2 id="預備-XML-佈局"><a href="#預備-XML-佈局" class="headerlink" title="預備 XML 佈局"></a>預備 XML 佈局</h2><details class="folding-tag"><summary> 檢視代碼 </summary>
+              <div class="content">
+              <div class="tabs" id="layout_codes"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="layout_codes-1">activity_main.xml</button><button type="button" class="tab " data-href="layout_codes-2">layout_message_list_item.xml</button></ul><div class="tab-contents"><div class="tab-item-content active" id="layout_codes-1"><h3 id="聊天界面的佈局"><a href="#聊天界面的佈局" class="headerlink" title="聊天界面的佈局"></a>聊天界面的佈局</h3><p>我們會利用 XML 構建聊天界面的佈局，當中每一個的聊天對話泡泡會用 <code>RecyclerView</code> 實現。</p><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
+    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;
+    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;match_parent&quot;
+    android:orientation&#x3D;&quot;vertical&quot;&gt;
+
+    &lt;com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id&#x3D;&quot;@+id&#x2F;progressBar&quot;
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:indeterminate&#x3D;&quot;true&quot;
+        android:visibility&#x3D;&quot;gone&quot;&#x2F;&gt;
+
+    &lt;androidx.recyclerview.widget.RecyclerView
+        android:id&#x3D;&quot;@+id&#x2F;rvChatList&quot;
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:layout_height&#x3D;&quot;0dp&quot;
+        android:layout_weight&#x3D;&quot;1&quot;
+        android:layout_marginBottom&#x3D;&quot;20dp&quot;
+        android:paddingStart&#x3D;&quot;20dp&quot;
+        android:paddingEnd&#x3D;&quot;20dp&quot;
+        android:paddingTop&#x3D;&quot;10dp&quot;&#x2F;&gt;
+
+    &lt;LinearLayout
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:orientation&#x3D;&quot;horizontal&quot;
+        android:paddingBottom&#x3D;&quot;20dp&quot;
+        android:paddingStart&#x3D;&quot;20dp&quot;
+        android:paddingEnd&#x3D;&quot;20dp&quot;&gt;
+
+        &lt;com.google.android.material.textfield.TextInputLayout
+            android:id&#x3D;&quot;@+id&#x2F;inputLayoutMessage&quot;
+            android:layout_width&#x3D;&quot;match_parent&quot;
+            android:layout_height&#x3D;&quot;wrap_content&quot;
+            android:hint&#x3D;&quot;@string&#x2F;enter_message&quot;
+            app:endIconMode&#x3D;&quot;custom&quot;
+            app:endIconDrawable&#x3D;&quot;@drawable&#x2F;ic_baseline_send_24&quot;&gt;
+
+            &lt;EditText
+                android:id&#x3D;&quot;@+id&#x2F;etMessage&quot;
+                android:layout_width&#x3D;&quot;match_parent&quot;
+                android:layout_height&#x3D;&quot;match_parent&quot;
+                android:padding&#x3D;&quot;10dp&quot;&#x2F;&gt;
+
+        &lt;&#x2F;com.google.android.material.textfield.TextInputLayout&gt;
+
+    &lt;&#x2F;LinearLayout&gt;
+
+&lt;&#x2F;LinearLayout&gt;</code></pre></div><div class="tab-item-content" id="layout_codes-2"><h3 id="聊天對話泡泡的佈局"><a href="#聊天對話泡泡的佈局" class="headerlink" title="聊天對話泡泡的佈局"></a>聊天對話泡泡的佈局</h3><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
+    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;wrap_content&quot;
+    android:orientation&#x3D;&quot;vertical&quot;
+    android:animateLayoutChanges&#x3D;&quot;true&quot;&gt;
+
+    &lt;LinearLayout
+        android:id&#x3D;&quot;@+id&#x2F;layoutBotMessage&quot;
+        android:layout_width&#x3D;&quot;wrap_content&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:orientation&#x3D;&quot;horizontal&quot;
+        android:layout_marginEnd&#x3D;&quot;40dp&quot;
+        android:layout_marginBottom&#x3D;&quot;10dp&quot;&gt;
+
+        &lt;TextView
+            android:id&#x3D;&quot;@+id&#x2F;tvBotMessage&quot;
+            android:layout_width&#x3D;&quot;wrap_content&quot;
+            android:layout_height&#x3D;&quot;wrap_content&quot;
+            android:background&#x3D;&quot;@drawable&#x2F;speech_bubble_bot&quot;
+            android:lineSpacingExtra&#x3D;&quot;10dp&quot;
+            android:padding&#x3D;&quot;15dp&quot;
+            android:text&#x3D;&quot;bot message&quot;
+            android:textSize&#x3D;&quot;16sp&quot;&#x2F;&gt;
+
+    &lt;&#x2F;LinearLayout&gt;
+
+    &lt;LinearLayout
+        android:id&#x3D;&quot;@+id&#x2F;layoutUserMessage&quot;
+        android:layout_width&#x3D;&quot;wrap_content&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:orientation&#x3D;&quot;horizontal&quot;
+        android:layout_gravity&#x3D;&quot;end&quot;
+        android:layout_marginStart&#x3D;&quot;40dp&quot;
+        android:layout_marginBottom&#x3D;&quot;10dp&quot;&gt;
+
+        &lt;TextView
+            android:id&#x3D;&quot;@+id&#x2F;tvUserMessage&quot;
+            android:layout_width&#x3D;&quot;wrap_content&quot;
+            android:layout_height&#x3D;&quot;wrap_content&quot;
+            android:background&#x3D;&quot;@drawable&#x2F;speech_bubble_user&quot;
+            android:lineSpacingExtra&#x3D;&quot;10dp&quot;
+            android:padding&#x3D;&quot;15dp&quot;
+            android:text&#x3D;&quot;my message&quot;
+            android:textSize&#x3D;&quot;16sp&quot;&#x2F;&gt;
+
+    &lt;&#x2F;LinearLayout&gt;
+
+&lt;&#x2F;LinearLayout&gt;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+              </div>
+            </details>
+
+<h2 id="預備對話訊息模型"><a href="#預備對話訊息模型" class="headerlink" title="預備對話訊息模型"></a>預備對話訊息模型</h2><p>預備一個類別 <code>MessageModel</code> 作對話訊息模型。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MessageModel &#123;
+
 &#125;</code></pre>
 
-<hr>
-<h2 id="移除源碼檔案"><a href="#移除源碼檔案" class="headerlink" title="移除源碼檔案"></a>移除源碼檔案</h2><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function removeFile(filename, filetype) &#123;
-    var targetelement &#x3D; (filetype &#x3D;&#x3D; &quot;js&quot;)? &quot;script&quot;: (filetype &#x3D;&#x3D; &quot;css&quot;)? &quot;link&quot;: &quot;none&quot;;
-    var targetattr &#x3D; (filetype &#x3D;&#x3D; &quot;js&quot;)?&quot;src&quot;: (filetype &#x3D;&#x3D; &quot;css&quot;)? &quot;href&quot;: &quot;none&quot;;
-    var allsuspects &#x3D; document.getElementsByTagName(targetelement);
-    for (var i &#x3D; allsuspects.length; i &gt;&#x3D; 0; i--) &#123;
-        if (allsuspects[i] &amp;&amp; allsuspects[i].getAttribute(targetattr) !&#x3D; null &amp;&amp; allsuspects[i].getAttribute(targetattr).indexOf(filename)!&#x3D;-1)
-            allsuspects[i].parentNode.removeChild(allsuspects[i]);
+<h3 id="定義常量和變量"><a href="#定義常量和變量" class="headerlink" title="定義常量和變量"></a>定義常量和變量</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public static final String SENT_BY_USER &#x3D; &quot;me&quot;;
+public static final String SENT_BY_BOT &#x3D; &quot;bot&quot;;
+
+private String message, sender;</code></pre>
+
+<h3 id="編寫存取子及變異子"><a href="#編寫存取子及變異子" class="headerlink" title="編寫存取子及變異子"></a>編寫存取子及變異子</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public String getMessage() &#123; return message; &#125;
+public String getSender() &#123; return sender; &#125;</code></pre>
+
+<div class="note info simple"><p>當然你可以弄類似以下的判斷，並進行編寫存取子及變異子（但這篇教學沒有為它改良）：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public boolean isSentByBot;
+isSentByBot &#x3D; getSender().equals(SENT_BY_BOT);
+
+public boolean isSentByBot() &#123; return isSentByBot; &#125;</code></pre></div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public void setMessage(String message) &#123; this.message &#x3D; message; &#125;
+public void setSender(String sender) &#123; this.sender &#x3D; sender; &#125;</code></pre>
+
+<h3 id="編寫建構子"><a href="#編寫建構子" class="headerlink" title="編寫建構子"></a>編寫建構子</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public MessageModel(String message, String sender) &#123;
+    this.message &#x3D; message;
+    this.sender &#x3D; sender;
+&#125;</code></pre>
+
+<h2 id="預備配接器"><a href="#預備配接器" class="headerlink" title="預備配接器"></a>預備配接器</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MessageListAdapter extends RecyclerView.Adapter&lt;MessageListAdapter.ViewHolder&gt; &#123;
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) &#123;
+        return null;
+    &#125;
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) &#123;
+
+    &#125;
+
+    @Override
+    public int getItemCount() &#123;
+        return 0;
+    &#125;
+
+&#125;</code></pre>
+
+<h3 id="編寫-ViewHolder"><a href="#編寫-ViewHolder" class="headerlink" title="編寫 ViewHolder"></a>編寫 <code>ViewHolder</code></h3><div class="note warning simple"><p>這個 <code>ViewHolder</code> 要放在 <code>MessageListAdapter</code> 裏面：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">class MessageListAdapter &#123;
+    class ViewHolder &#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public static class ViewHolder extends RecyclerView.ViewHolder &#123;
+
+&#125;</code></pre>
+
+<h3 id="定義視圖變量"><a href="#定義視圖變量" class="headerlink" title="定義視圖變量"></a>定義視圖變量</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public final LinearLayout layoutBotMessage, layoutUserMessage;
+public final TextView tvBotMessage, tvUserMessage;</code></pre>
+
+<h3 id="編寫建構子，獲取視圖"><a href="#編寫建構子，獲取視圖" class="headerlink" title="編寫建構子，獲取視圖"></a>編寫建構子，獲取視圖</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public ViewHolder(@NonNull LayoutMessageListItemBinding binding) &#123;
+    super(binding.getRoot());
+    
+    layoutBotMessage &#x3D; binding.layoutBotMessage;
+    layoutUserMessage &#x3D; binding.layoutUserMessage;
+    tvBotMessage &#x3D; binding.tvBotMessage;
+    tvUserMessage &#x3D; binding.tvUserMessage;
+&#125;</code></pre>
+
+<h2 id="構建主活動頁"><a href="#構建主活動頁" class="headerlink" title="構建主活動頁"></a>構建主活動頁</h2><h3 id="初始化變量"><a href="#初始化變量" class="headerlink" title="初始化變量"></a>初始化變量</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">private List&lt;MessageModel&gt; listMessage;
+private MessageListAdapter adapterMessageList;
+
+private OpenAIUtils client;</code></pre>
+
+<h3 id="配置對話聊天紀錄"><a href="#配置對話聊天紀錄" class="headerlink" title="配置對話聊天紀錄"></a>配置對話聊天紀錄</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">@Override
+protected void onCreate(Bundle savedInstanceState) &#123;
+    super.onCreate(savedInstanceState);
+    setupChatList();
+&#125;
+
+private void setupChatList() &#123;
+    client &#x3D; new OpenAIUtils();
+    client.setAPIKey(apiKey);
+    client.setAPIUrl(apiUrl);
+    client.setModel(OpenAIUtils.TEXT_DAVINCI_003)
+    client.setTemperature(0.9);
+
+
+    listMessage &#x3D; new ArrayList&lt;&gt;();
+    adapterMessageList &#x3D; new MessageListAdapter(listMessage);
+    binding.rvChatList.setAdapter(adapterMessageList);
+
+    var layoutManager &#x3D; new LinearLayoutManager(this);
+    layoutManager.setStackFromEnd(true);
+    binding.rvChatList.setLayoutManager(layoutManager);
+&#125;</code></pre>
+
+<h3 id="獲取回應"><a href="#獲取回應" class="headerlink" title="獲取回應"></a>獲取回應</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public void callResponse(String message) &#123;
+    try &#123;
+        client.setPrompt(prompt);
+        client.generateResponse(new Callback() &#123;
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) &#123;
+                &#x2F;&#x2F; 顯示報錯訊息
+
+                Log.e(TAG, e.toString())
+            &#125;
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException &#123;
+                String responseBody &#x3D; response.body().string();
+                try &#123;
+                    &#x2F;&#x2F; 獲取回應結果
+
+                    String resultText &#x3D; client.getResponse(responseBody);
+                    TextView tvResult &#x3D; binding.tvResult;
+                    tvResult.setText(resultText);
+
+                &#125; catch (Exception e) &#123;
+                    &#x2F;&#x2F; 顯示報錯訊息
+
+                    Log.e(TAG, client.getErrorResponse(responseBody))
+                &#125;
+            &#125;
+        &#125;);
+    &#125; catch (Exception e) &#123;
+        &#x2F;&#x2F; 顯示報錯訊息
+
+        Log.e(TAG, e.toString())
     &#125;
 &#125;</code></pre>
 
+<h3 id="新增訊息至訊息模型"><a href="#新增訊息至訊息模型" class="headerlink" title="新增訊息至訊息模型"></a>新增訊息至訊息模型</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">private void addMessage(String message, String sender) &#123;
+    runOnUiThread(() -&gt; &#123;
+        listMessage.add(new MessageModel(message,sender));
+        adapterMessageList.notifyDataSetChanged();
+        binding.rvChatList.smoothScrollToPosition(adapterMessageList.getItemCount());
+    &#125;);
+&#125;</code></pre>
+
+<h3 id="新增機器人回應"><a href="#新增機器人回應" class="headerlink" title="新增機器人回應"></a>新增機器人回應</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">private void addResponse(String response) &#123;
+    addMessage(response, MessageModel.SENT_BY_BOT);
+&#125;</code></pre>
+
+<h3 id="發送已輸入訊息"><a href="#發送已輸入訊息" class="headerlink" title="發送已輸入訊息"></a>發送已輸入訊息</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">private void sendMessage(String message) &#123;
+    if (TextUtils.isEmpty(message)) &#123;
+        Log.e(TAG, &quot;The message is empty&quot;);
+    &#125; else &#123;
+        addMessage(message, MessageModel.SENT_BY_USER);
+        binding.etMessage.setText(&quot;&quot;);
+        try &#123;
+            callResponse(message);
+        &#125; catch (Exception e) &#123;
+            Log.e(TAG, e.toString());
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<h3 id="點擊按鈕發送訊息"><a href="#點擊按鈕發送訊息" class="headerlink" title="點擊按鈕發送訊息"></a>點擊按鈕發送訊息</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">binding.inputLayoutMessage.setEndIconOnClickListener(v -&gt; &#123;
+    sendMessage(binding.etMessage.getText().toString().trim())
+&#125;);</code></pre>
+
 <hr>
-<h2 id="調用函數示例"><a href="#調用函數示例" class="headerlink" title="調用函數示例"></a>調用函數示例</h2><div class="note warning simple"><p>以下編碼並非完整，僅作參考。</p>
+<h1 id="源代碼"><a href="#源代碼" class="headerlink" title="源代碼"></a>源代碼</h1><div class="note warning simple"><p>這篇教學會使用 <a href="/post/android-dev-openai-utils">這篇文章</a> 所實現的 OpenAIUtils 程式實現。</p>
 </div>
 
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">let mode &#x3D; Pu.gLS(&quot;webMode&quot;);
-if (mode &#x3D;&#x3D; &quot;drK&quot;) &#123; &#x2F;&#x2F; dark
-    filename &#x3D; filenameDark;
-    removeFile(filenameLight, filetype);
-&#125; else if (mode &#x3D;&#x3D; &quot;lgT&quot;) &#123; &#x2F;&#x2F; light
-    filename &#x3D; filenameLight;
-    removeFile(filenameDark, filetype);
-&#125;
-loadFile(filename, filetype);</code></pre>]]></content>
+<details class="folding-tag"><summary> 點我看代碼 </summary>
+              <div class="content">
+              <div class="tabs" id="app_source_code"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="app_source_code-1">Layouts</button><button type="button" class="tab " data-href="app_source_code-2">MessageModel.java</button><button type="button" class="tab " data-href="app_source_code-3">MessageListAdapter.java</button><button type="button" class="tab " data-href="app_source_code-4">MainActivity.java</button></ul><div class="tab-contents"><div class="tab-item-content active" id="app_source_code-1"><pre class="line-numbers language-markup" data-language="markup"><div class="caption"><span>activity_main.xml</span></div><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
+    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;
+    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;match_parent&quot;
+    android:orientation&#x3D;&quot;vertical&quot;&gt;
+
+    &lt;com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id&#x3D;&quot;@+id&#x2F;progressBar&quot;
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:indeterminate&#x3D;&quot;true&quot;
+        android:visibility&#x3D;&quot;gone&quot;&#x2F;&gt;
+
+    &lt;androidx.recyclerview.widget.RecyclerView
+        android:id&#x3D;&quot;@+id&#x2F;rvChatList&quot;
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:layout_height&#x3D;&quot;0dp&quot;
+        android:layout_weight&#x3D;&quot;1&quot;
+        android:layout_marginBottom&#x3D;&quot;20dp&quot;
+        android:paddingStart&#x3D;&quot;20dp&quot;
+        android:paddingEnd&#x3D;&quot;20dp&quot;
+        android:paddingTop&#x3D;&quot;10dp&quot;&#x2F;&gt;
+
+    &lt;LinearLayout
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:orientation&#x3D;&quot;horizontal&quot;
+        android:paddingBottom&#x3D;&quot;20dp&quot;
+        android:paddingStart&#x3D;&quot;20dp&quot;
+        android:paddingEnd&#x3D;&quot;20dp&quot;&gt;
+
+        &lt;com.google.android.material.textfield.TextInputLayout
+            android:id&#x3D;&quot;@+id&#x2F;inputLayoutMessage&quot;
+            android:layout_width&#x3D;&quot;match_parent&quot;
+            android:layout_height&#x3D;&quot;wrap_content&quot;
+            android:hint&#x3D;&quot;@string&#x2F;enter_message&quot;
+            app:endIconMode&#x3D;&quot;custom&quot;
+            app:endIconDrawable&#x3D;&quot;@drawable&#x2F;ic_baseline_send_24&quot;&gt;
+
+            &lt;EditText
+                android:id&#x3D;&quot;@+id&#x2F;etMessage&quot;
+                android:layout_width&#x3D;&quot;match_parent&quot;
+                android:layout_height&#x3D;&quot;match_parent&quot;
+                android:padding&#x3D;&quot;10dp&quot;&#x2F;&gt;
+
+        &lt;&#x2F;com.google.android.material.textfield.TextInputLayout&gt;
+
+    &lt;&#x2F;LinearLayout&gt;
+
+&lt;&#x2F;LinearLayout&gt;</code></pre><pre class="line-numbers language-markup" data-language="markup"><div class="caption"><span>layout_message_list_item.xml</span></div><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
+    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;wrap_content&quot;
+    android:orientation&#x3D;&quot;vertical&quot;
+    android:animateLayoutChanges&#x3D;&quot;true&quot;&gt;
+
+    &lt;LinearLayout
+        android:id&#x3D;&quot;@+id&#x2F;layoutBotMessage&quot;
+        android:layout_width&#x3D;&quot;wrap_content&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:orientation&#x3D;&quot;horizontal&quot;
+        android:layout_marginEnd&#x3D;&quot;40dp&quot;
+        android:layout_marginBottom&#x3D;&quot;10dp&quot;&gt;
+
+        &lt;TextView
+            android:id&#x3D;&quot;@+id&#x2F;tvBotMessage&quot;
+            android:layout_width&#x3D;&quot;wrap_content&quot;
+            android:layout_height&#x3D;&quot;wrap_content&quot;
+            android:background&#x3D;&quot;@drawable&#x2F;speech_bubble_bot&quot;
+            android:lineSpacingExtra&#x3D;&quot;10dp&quot;
+            android:padding&#x3D;&quot;15dp&quot;
+            android:text&#x3D;&quot;bot message&quot;
+            android:textSize&#x3D;&quot;16sp&quot;&#x2F;&gt;
+
+    &lt;&#x2F;LinearLayout&gt;
+
+    &lt;LinearLayout
+        android:id&#x3D;&quot;@+id&#x2F;layoutUserMessage&quot;
+        android:layout_width&#x3D;&quot;wrap_content&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:orientation&#x3D;&quot;horizontal&quot;
+        android:layout_gravity&#x3D;&quot;end&quot;
+        android:layout_marginStart&#x3D;&quot;40dp&quot;
+        android:layout_marginBottom&#x3D;&quot;10dp&quot;&gt;
+
+        &lt;TextView
+            android:id&#x3D;&quot;@+id&#x2F;tvUserMessage&quot;
+            android:layout_width&#x3D;&quot;wrap_content&quot;
+            android:layout_height&#x3D;&quot;wrap_content&quot;
+            android:background&#x3D;&quot;@drawable&#x2F;speech_bubble_user&quot;
+            android:lineSpacingExtra&#x3D;&quot;10dp&quot;
+            android:padding&#x3D;&quot;15dp&quot;
+            android:text&#x3D;&quot;my message&quot;
+            android:textSize&#x3D;&quot;16sp&quot;&#x2F;&gt;
+
+    &lt;&#x2F;LinearLayout&gt;
+
+&lt;&#x2F;LinearLayout&gt;</code></pre></div><div class="tab-item-content" id="app_source_code-2"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MessageModel &#123;
+
+    public static final String SENT_BY_USER &#x3D; &quot;me&quot;;
+    public static final String SENT_BY_BOT &#x3D; &quot;bot&quot;;
+
+    private String message, sender;
+
+    public MessageModel(String message, String sender) &#123;
+        this.message &#x3D; message;
+        this.sender &#x3D; sender;
+    &#125;
+
+    public void setMessage(String message) &#123;
+        this.message &#x3D; message;
+    &#125;
+
+    public String getMessage() &#123;
+        return message;
+    &#125;
+
+    public void setSender(String sender) &#123;
+        this.sender &#x3D; sender;
+    &#125;
+
+    public String getSender() &#123;
+        return sender;
+    &#125;
+
+&#125;</code></pre></div><div class="tab-item-content" id="app_source_code-3"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MessageListAdapter extends RecyclerView.Adapter&lt;MessageListAdapter.ViewHolder&gt; &#123;
+
+    private List&lt;MessageModel&gt; listMessage;
+
+    public MessageListAdapter(List&lt;MessageModel&gt; listMessage) &#123;
+        this.listMessage &#x3D; listMessage;
+    &#125;
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) &#123;
+        var context &#x3D; parent.getContext();
+        var inflater &#x3D; LayoutInflater.from(context);
+        var binding &#x3D; LayoutMessageListItemBinding.inflate(inflater, parent, false);
+        return new ViewHolder(binding);
+    &#125;
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) &#123;
+        var message &#x3D; listMessage.get(position);
+        var context &#x3D; holder.itemView.getContext();
+
+        if (message.getSender().equals(MessageModel.SENT_BY_USER)) &#123;
+            holder.layoutBotMessage.setVisibility(View.GONE);
+            holder.layoutUserMessage.setVisibility(View.VISIBLE);
+            holder.tvUserMessage.setText(message.toString());
+        &#125; else &#123;
+            holder.layoutUserMessage.setVisibility(View.GONE);
+            holder.layoutBotMessage.setVisibility(View.VISIBLE);
+            holder.tvBotMessage.setText(message.toString());
+        &#125;
+    &#125;
+
+    @Override
+    public int getItemCount() &#123;
+        return listMessage.size();
+    &#125;
+
+    public static class ViewHolder extends RecyclerView.ViewHolder &#123;
+
+        LinearLayout layoutBotMessage, layoutUserMessage;
+        TextView tvBotMessage, tvUserMessage;
+
+        public ViewHolder(@NonNull LayoutMessageListItemBinding binding) &#123;
+            super(binding.getRoot());
+            layoutBotMessage &#x3D; binding.layoutBotMessage;
+            layoutUserMessage &#x3D; binding.layoutUserMessage;
+            tvBotMessage &#x3D; binding.tvBotMessage;
+            tvUserMessage &#x3D; binding.tvUserMessage;
+        &#125;
+    &#125;
+
+&#125;</code></pre></div><div class="tab-item-content" id="app_source_code-4"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MainActivity extends AppCompatActivity &#123;
+
+    private final String OPENAI_URL &#x3D; &quot;https:&#x2F;&#x2F;api.openai.com&#x2F;v1&#x2F;completions&quot;;
+    private final String OPENAI_MODEL &#x3D; &quot;text-davinci-003&quot;;
+    private final String OPENAI_APIKEY &#x3D; &quot;...&quot;; &#x2F;&#x2F; your API Key
+
+    private ActivityMainBinding binding;
+
+    private List&lt;MessageModel&gt; listMessage;
+    private MessageListAdapter adapterMessageList;
+
+    private OpenAIUtils client;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        binding &#x3D; ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        initialize();
+    &#125;
+
+    private void initialize() &#123;
+        setupChatList();
+
+        binding.inputLayoutMessage.setEndIconOnClickListener(v -&gt; sendMessage(binding.etMessage.getText().toString().trim()));
+    &#125;
+
+    private void setupChatList() &#123;
+        client &#x3D; new OpenAIUtils();
+        client.setAPIKey(apiKey);
+        client.setAPIUrl(apiUrl);
+        client.setModel(OpenAIUtils.TEXT_DAVINCI_003)
+        client.setTemperature(0.9);
+
+        listMessage &#x3D; new ArrayList&lt;&gt;();
+        adapterMessageList &#x3D; new MessageListAdapter(listMessage);
+        binding.rvChatList.setAdapter(adapterMessageList);
+
+        var layoutManager &#x3D; new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
+        binding.rvChatList.setLayoutManager(layoutManager);
+    &#125;
+
+    private void sendMessage(String message) &#123;
+        if (TextUtils.isEmpty(message)) &#123;
+            showError(&quot;The message is empty&quot;);
+        &#125; else &#123;
+            addMessage(message, MessageModel.SENT_BY_USER);
+            binding.etMessage.setText(&quot;&quot;);
+            try &#123;
+                callResponse(message);
+            &#125; catch (Exception e) &#123;
+                showError(e.getMessage());
+            &#125;
+        &#125;
+    &#125;
+
+    private void addMessage(String message, String sender) &#123;
+        runOnUiThread(() -&gt; &#123;
+            listMessage.add(new MessageModel(message,sender));
+            adapterMessageList.notifyDataSetChanged();
+            binding.rvChatList.smoothScrollToPosition(adapterMessageList.getItemCount());
+            updateTypingStatus(false);
+        &#125;);
+    &#125;
+
+    private void addResponse(String response) &#123;
+        addMessage(response, MessageModel.SENT_BY_BOT);
+    &#125;
+
+    public void callResponse(String message) &#123;
+        try &#123;
+            client.setPrompt(prompt);
+            client.generateResponse(new Callback() &#123;
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) &#123;
+                    showError(e.getMessage());
+                &#125;
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException &#123;
+                    var jsonObject &#x3D; new JSONObject(response.body().string());
+                    if (response.isSuccessful()) &#123;
+                        var messageResponse &#x3D; client.getResponse(jsonObject);
+                        addResponse(messageResponse);
+                    &#125; else &#123;
+                        var error &#x3D; client.getErrorResponse(jsonObject);
+                        addResponse(error);
+                    &#125;
+                &#125;
+            &#125;);
+        &#125; catch (Exception e) &#123;
+            showError(e.getMessage());
+        &#125;
+    &#125;
+
+    private void updateTypingStatus(boolean bool) &#123;
+        binding.progressBar.setVisibility(bool ? View.VISIBLE : View.GONE);
+    &#125;
+
+    private void showError(String message) &#123;
+        SnackbarUtil.makeErrorSnackbar(this, message);
+    &#125;
+
+&#125;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+              </div>
+            </details>
+]]></content>
       <categories>
+        <category>人工智能</category>
         <category>程式編寫</category>
-        <category>網頁開發</category>
+        <category>Android 開發</category>
       </categories>
       <tags>
-        <tag>JavaScript</tag>
-        <tag>HTML</tag>
-        <tag>CSS</tag>
+        <tag>Android</tag>
+        <tag>Java</tag>
+        <tag>XML</tag>
       </tags>
   </entry>
   <entry>
     <title>利用 Hexo 建立 GitHub 寄存網誌</title>
-    <url>/post/web-dev-hexo-blog-tutorial/</url>
+    <url>/post/web-dev-hexo-blog-tutorial.html</url>
     <content><![CDATA[<p>大家好，歡迎來到我的網誌。欸。。？這裏為什麼好像。。整個樣子都不一樣啊。。</p>
 <p>對啦，因為我「搬家」了。</p>
 <hr>
