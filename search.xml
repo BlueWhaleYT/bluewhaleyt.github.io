@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>人工智能的圖像生成 - Stable Diffusion</title>
-    <url>//post/ai-image-generation-stable-diffusion.html</url>
+    <url>/post/ai-image-generation-stable-diffusion/</url>
     <content><![CDATA[<p>在現今世代，人們除了善用 ChatGPT 的即時對話生成工具，還會藉著咒語 (Prompt) 生成圖像，，而要用到這個強大的圖像生成技術，便可使用 Stable Diffusion。</p>
 <hr>
 <h1 id="神奇的文轉圖黑魔法"><a href="#神奇的文轉圖黑魔法" class="headerlink" title="神奇的文轉圖黑魔法"></a>神奇的文轉圖黑魔法</h1><p>這個黑魔法就是剛才略略提及的 Stable Diffusion，它是一款深度學習文字到圖像的圖像生成模型，簡而言之，一個<strong>藉著所提供的文字敍述轉換所得的圖像</strong>，不但如此，它還支援進階特性操作，使其有別具一樹的實用價值。</p>
@@ -270,7 +270,7 @@ watermark, username, artist name, (worst quality, low quality:1.4), bad anatomy<
   </entry>
   <entry>
     <title>Android 開發入門基礎</title>
-    <url>//post/android-dev-basic-tutorial.html</url>
+    <url>/post/android-dev-basic-tutorial/</url>
     <content><![CDATA[<p>大家好，歡迎來到閱讀「Android 開發入門基礎」。在這裏，你將會學習 Android 開發的基礎入門知識。</p>
 <hr>
 <h1 id="基本概要"><a href="#基本概要" class="headerlink" title="基本概要"></a>基本概要</h1><h2 id="什麼是-Android-開發？"><a href="#什麼是-Android-開發？" class="headerlink" title="什麼是 Android 開發？"></a>什麼是 Android 開發？</h2><p>Android 開發是指開發應用程序或系統軟件，以運行在 Android 操作系統上的軟件開發過程。開發人員可以使用 Java、Kotlin 等高階程式語言，使用 Android 的<strong>軟體開發工具包</strong>（Software Development Kit，簡稱：SDK）以及其他開發工具，如 Android Studio 等，來建立 Android 應用程序。</p>
@@ -315,7 +315,7 @@ watermark, username, artist name, (worst quality, low quality:1.4), bad anatomy<
 <h3 id="認識-SDK-版本"><a href="#認識-SDK-版本" class="headerlink" title="認識 SDK 版本"></a>認識 SDK 版本</h3><p>Android SDK 版本是指 Android 操作系統的軟體開發工具包（SDK）的版本號。它確定了開發人員可以使用哪些 API 和功能，以及他們可以在哪些設備上運行應用程序。每個 Android 版本都有一個特定的SDK版本號。例如，Android 11 的SDK 版本號是 <code>30</code>，Android 10 的SDK版本號是 <code>29</code>，以此類推。開發人員在開發 Android 應用程序時需要選擇他們要針對的 SDK 版本，並使用該版本的 API 和功能進行開發。這有助於確保應用程序能夠在特定版本的 Android 操作系統上正常運行。</p>
 <details class="folding-tag"><summary> 檢視圖像 </summary>
               <div class="content">
-              <div class="note info simple"><p>左面，例如 <code>4.4</code> 是 Android 版本號；<br>接著旁邊的 <code>KitKat</code> 是 Android 版本名稱；<br>右面，例如 <code>19</code> 是 Android SDK 號</p></div><img width="100%" src="/post/android-dev-basic-tutorial/img1.png">
+              <div class="note info simple"><p>左面，例如 <code>4.4</code> 是 Android 版本號；<br>接著旁邊的 <code>KitKat</code> 是 Android 版本名稱；<br>右面，例如 <code>19</code> 是 Android SDK 號</p></div><img width="100%" src="/.io//img1.png">
               </div>
             </details>
 
@@ -704,7 +704,7 @@ android:layout_height&#x3D;&quot;...&quot;</code></pre></div>
   </entry>
   <entry>
     <title>實作類似 ChatGPT 的機器人聊天 Android 程式</title>
-    <url>//post/android-dev-develop-chatgpt-android-app-tutorial.html</url>
+    <url>/post/android-dev-develop-chatgpt-android-app-tutorial/</url>
     <content><![CDATA[<p>今天會跟大家編寫並開發一個類似 ChatGPT 的 OpenAI 聊天機器人 Android 程式。但在開發前，建議先看以下文章再續。</p>
 <div class="note warning simple"><p>這篇教學會使用 <a href="/post/android-dev-openai-utils">這篇文章</a> 所實現的 OpenAIUtils 程式實現。</p>
 </div>
@@ -1296,7 +1296,7 @@ private void setupChatList() &#123;
   </entry>
   <entry>
     <title>GitHub Android CI 開源程式流程部署</title>
-    <url>//post/android-dev-github-workflow-android-ci.html</url>
+    <url>/post/android-dev-github-workflow-android-ci/</url>
     <content><![CDATA[<p>大家好，有沒有想過在開源 Android 程式的時候，除了想開放源代碼供開發人員檢視，都想讓他們先睹為快，率先透過調試 (debug) 試用這個 Android 程式，再考慮進入發佈 (release) 階段。</p>
 <p><font size="6"><strong>但原來，是真的可以做到，而且做法很簡單！</strong></font></p>
 <p>我們會透過使用 Github 官方所開發的「工作流程系統」（即是 Workflow ）進行相關操作。</p>
@@ -1319,7 +1319,7 @@ private void setupChatList() &#123;
 </div>
 
 <p>在你的 Repository，點擊 Actions 分頁，會大概有這樣的界面：</p>
-<p><img src="/post/android-dev-github-workflow-android-ci/img1.png" alt="img1"></p>
+<p><img src="/.io//img1.png" alt="img1"></p>
 <p>它會要你選擇一個工作流程體系，而我們這回要做的是 Android 程式開發調試，所以我們會選擇使用「Android CI」。</p>
 <p>決定好就按 Configure 會有這樣的模版代碼：</p>
 <pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">name: Android CI
@@ -1356,7 +1356,7 @@ jobs:
             </details>
 
 <h1 id="做到了，然後呢？"><a href="#做到了，然後呢？" class="headerlink" title="做到了，然後呢？"></a>做到了，然後呢？</h1><p>如果成功了，你會發現你 commit push 更新檔案的話，就會開始工作流程，但是…</p>
-<p><img src="/post/android-dev-github-workflow-android-ci/img2.png" alt="img2"></p>
+<p><img src="/.io//img2.png" alt="img2"></p>
 <p><font size="5"><strong>所說的調試使用呢？</strong></font><font size="6"><strong>在哪？</strong></font></p>
 <p>原來，Android CI 預設的模板代碼是不提供這功能，但我們可以修改代碼附加額外的操作。</p>
 <p>只要在 <code>jobs</code> &gt; <code>build</code> 部分加上代碼就可以了：</p>
@@ -1368,7 +1368,7 @@ jobs:
     path: app&#x2F;build&#x2F;outputs&#x2F;apk&#x2F;debug&#x2F;app-debug.apk</code></pre>
 
 <p>現在你點擊個別流程，就會看到新加入的 Artifacts 部分，只要點擊那個 apk-debug 的文字就可以下載調試版的 Android 程式。</p>
-<p><img src="/post/android-dev-github-workflow-android-ci/img3.png" alt="img3"></p>
+<p><img src="/.io//img3.png" alt="img3"></p>
 <h1 id="完整-android-yml-代碼"><a href="#完整-android-yml-代碼" class="headerlink" title="完整 android.yml 代碼"></a>完整 <code>android.yml</code> 代碼</h1><p>啊！！！很複雜，不知道在說什麼，只想要代碼，對不？</p>
 <p>複製貼上就可以了！</p>
 <pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">name: Android CI
@@ -1433,7 +1433,7 @@ jobs:
   </entry>
   <entry>
     <title>JetBrains 開發的 Dokka API 文檔系統</title>
-    <url>//post/android-dev-kotlin-dokka-api-docs.html</url>
+    <url>/post/android-dev-kotlin-dokka-api-docs/</url>
     <content><![CDATA[<p>有沒想過，編寫函式庫 (library) 時候，往往有點很彆扭的，就是…</p>
 <p><font size="30"><b>不想寫文案！</b></font>一來花時間，二來太麻煩。</p>
 <p>不過有時我們都會吐嘈開發者不寫文案就是了，嗯很矛盾。</p>
@@ -1558,7 +1558,7 @@ class Person &#123;
   </entry>
   <entry>
     <title>編寫 OpenAIUtils 輕鬆使用 OpenAI API</title>
-    <url>//post/android-dev-openai-utils.html</url>
+    <url>/post/android-dev-openai-utils/</url>
     <content><![CDATA[<p>大家好，歡迎閱讀本篇文章：「編寫 <code>OpenAIUtils</code> 實用程式類」。今天會說一下如何編寫一個實用程式 (Utils)，進行往後簡易使用 OpenAI 所提供的 API (全稱：Application Programming Interface) 來實現和開發相關的另類學習程式。</p>
 <div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://openai.com/">
     <div class="tag-link-tips">引用站外地址</div>
@@ -2158,7 +2158,7 @@ dependencies &#123;
   </entry>
   <entry>
     <title>Sora Editor 編輯器依賴庫使用筆記</title>
-    <url>//post/android-dev-sora-editor-lib-notes.html</url>
+    <url>/post/android-dev-sora-editor-lib-notes/</url>
     <content><![CDATA[<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://github.com/Rosemoe/sora-editor">
     <div class="tag-link-tips">引用站外地址</div>
     <div class="tag-link-bottom">
@@ -2771,7 +2771,7 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
   </entry>
   <entry>
     <title>編寫 GoogleScript 程式實現 Youtube 影片動態標題</title>
-    <url>//post/dev-google-script-youtube-dynamic-title.html</url>
+    <url>/post/dev-google-script-youtube-dynamic-title/</url>
     <content><![CDATA[<p>這個是我兩年前接觸和學到的技術，今天心血來潮想在這裏簡單做一下筆記。</p>
 <div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://www.youtube.com/watch?v=T_cdYoWD4Jo">
     <div class="tag-link-tips">引用站外地址</div>
@@ -2794,9 +2794,9 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
 <h1 id="什麼是-Google-Apps-Script-？"><a href="#什麼是-Google-Apps-Script-？" class="headerlink" title="什麼是 Google Apps Script ？"></a>什麼是 Google Apps Script ？</h1><p>Google Apps Script，又稱 Google Script (副檔名 <code>.gs</code>)，就是<strong>建基於 JavaScript 的擴充語言</strong>，用以編寫 Google Apps 建構類似巨集的效果，達到工作流程自動化的目標，也可以建立 Web 應用程式，整合 Google 協作工具。</p>
 <hr>
 <h1 id="加入-YouTube-Data-API-v3-服務"><a href="#加入-YouTube-Data-API-v3-服務" class="headerlink" title="加入 YouTube Data API v3 服務"></a>加入 <code>YouTube Data API v3</code> 服務</h1><p>在左側選單會有「服務」，按「+」號打開新增服務視窗。</p>
-<p><img src="/post/dev-google-script-youtube-dynamic-title/img1.png" alt="img1"></p>
+<p><img src="/.io//img1.png" alt="img1"></p>
 <p>選擇 <code>YouTube Data API v3</code> 服務，再按「新增」。</p>
-<p><img src="/post/dev-google-script-youtube-dynamic-title/img2.png" alt="img2"></p>
+<p><img src="/.io//img2.png" alt="img2"></p>
 <hr>
 <h1 id="編寫程式碼"><a href="#編寫程式碼" class="headerlink" title="編寫程式碼"></a>編寫程式碼</h1><p>我們會用 Google Script (gs) 程式語言進行編寫。</p>
 <pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">function updateTitle() &#123;
@@ -2825,7 +2825,7 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
 
 <hr>
 <h1 id="執行程式碼"><a href="#執行程式碼" class="headerlink" title="執行程式碼"></a>執行程式碼</h1><p>編寫好就按「執行」，如果在「輸出記錄」沒有輸出錯誤訊息，程式碼就成功運作。</p>
-<p><img src="/post/dev-google-script-youtube-dynamic-title/img3.png" alt="img3"></p>
+<p><img src="/.io//img3.png" alt="img3"></p>
 <hr>
 <h1 id="API-參考"><a href="#API-參考" class="headerlink" title="API 參考"></a>API 參考</h1><div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://developers.google.com/youtube/v3/docs/videos?hl=zh-tw">
     <div class="tag-link-tips">引用站外地址</div>
@@ -2849,7 +2849,7 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
   </entry>
   <entry>
     <title>正則表達式：學極都唔識</title>
-    <url>//post/dev-regex-notes.html</url>
+    <url>/post/dev-regex-notes/</url>
     <content><![CDATA[<p>正則表達式，在編寫程式的時候會用到，但真的很討厭。</p>
 <hr>
 <h1 id="正則表達式"><a href="#正則表達式" class="headerlink" title="正則表達式"></a>正則表達式</h1><p>正則表達式 (Regular Expressions，簡稱 Regex) 是對字符串操作的一種邏輯公式，就是用事先定義好的一些特定字符、及這些特定字符的組合，組成一個「規則字符串」，這個「規則字符串」用來表達對字符串的一種過濾邏輯。</p>
@@ -3198,7 +3198,7 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
   </entry>
   <entry>
     <title>打造及美化終端機和 Vim 編輯器</title>
-    <url>//post/dev-terminal-beautify-tutorial.html</url>
+    <url>/post/dev-terminal-beautify-tutorial/</url>
     <content><![CDATA[<div class="note warning simple"><p>本文章需要使用 <a target="_blank" href="https://brew.sh/index_zh-tw">Homebrew</a>，請先把其安裝。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&#x2F;bin&#x2F;bash -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;HEAD&#x2F;install.sh)&quot;</code></pre></div>
 
@@ -3210,17 +3210,17 @@ editor.setEditorLanguage(language);</code></pre>]]></content>
 <h1 id="為終端機設定真實色"><a href="#為終端機設定真實色" class="headerlink" title="為終端機設定真實色"></a>為終端機設定真實色</h1><p>安裝 iTerm2 原因其中之一，是能夠支援真實色（全彩 - 256色），真實色可以<strong>使終端機顯示更漂亮的色彩配置</strong>。</p>
 <p>點擊 <kbd class="menu">iTerm2</kbd> 選單 &gt; <kbd class="menu">Settings</kbd> &gt; <kbd class="menu">Profiles</kbd> &gt; <kbd class="menu">Terminal</kbd></p>
 <p>把 <kbd class="menu">Report terminal type</kbd> 並設定為 <code>xterm-256color</code>。</p>
-<p><img src="/post/dev-terminal-beautify-tutorial/img1.png" alt="img1"></p>
+<p><img src="/.io//img1.png" alt="img1"></p>
 <hr>
 <h1 id="為終端機設定色彩主題"><a href="#為終端機設定色彩主題" class="headerlink" title="為終端機設定色彩主題"></a>為終端機設定色彩主題</h1><p><strong>你的終端機不是黑白就是像駭客</strong>，想要得到這個終端機的外觀？那就繼續看下去！</p>
-<p><img src="/post/dev-terminal-beautify-tutorial/img2.png" alt="img2"></p>
+<p><img src="/.io//img2.png" alt="img2"></p>
 <div class="note info simple"><p>這個輸出是 <code>neofetch</code> 指令生成的。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">brew install neofetch</code></pre>
 </div>
 
 
 <hr>
-<h2 id="基本主題配置"><a href="#基本主題配置" class="headerlink" title="基本主題配置"></a>基本主題配置</h2><p><img src="/post/dev-terminal-beautify-tutorial/img3.png" alt="img3"></p>
+<h2 id="基本主題配置"><a href="#基本主題配置" class="headerlink" title="基本主題配置"></a>基本主題配置</h2><p><img src="/.io//img3.png" alt="img3"></p>
 <p>Terminal 或 ITerm2 提供了一些內建主題，在 <kbd class="menu">Profiles</kbd> &gt; <kbd class="menu">Colors</kbd> &gt; <kbd class="menu">Color Preset</kbd> 那裏可以選擇主題，如果還想發掘其他更美的主題，可到 <a target="_blank" href="https://github.com/mbadolato/iTerm2-Color-Schemes">iTerm2-Color-Schemes</a> 下載其他主題。</p>
 <div class="note info simple"><ol>
 <li>前往 <a target="_blank" href="https://github.com/mbadolato/iTerm2-Color-Schemes">iTerm2-Color-Schemes</a> 後，點擊 <kbd class="menu">Code</kbd> &gt; <kbd class="menu">Download ZIP</kbd> 把所有檔案以壓縮檔下載至你的電腦。</li>
@@ -3349,7 +3349,7 @@ sudo sh -c &quot;echo $(which zsh) &gt;&gt; &#x2F;etc&#x2F;shells&quot;</code></
 
 <hr>
 <h1 id="Vim-編輯器外觀設定"><a href="#Vim-編輯器外觀設定" class="headerlink" title="Vim 編輯器外觀設定"></a>Vim 編輯器外觀設定</h1><p>把終端機弄美後，是不是都很想有股衝動美化 Vim 編輯器呢？這部分就是教大家怎樣將 Vim 編輯器像我的一樣美。</p>
-<p><img src="/post/dev-terminal-beautify-tutorial/img4.png" alt="img4"></p>
+<p><img src="/.io//img4.png" alt="img4"></p>
 <div class="note warning simple"><p>如果你沒有安裝 <code>vim</code>，可以用 Homebrew 安裝：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">brew install vim</code></pre>
 
@@ -3394,7 +3394,7 @@ call plug#end()</code></pre>
 Plug &#39;...&#39;
 call plug#end()</code></pre>
 
-<p><img src="/post/dev-terminal-beautify-tutorial/img10.png" alt="img10"></p>
+<p><img src="/.io//img10.png" alt="img10"></p>
 <div class="note danger simple"><p><code>Plug &#39;...&#39;</code> 只是樣板，<strong>別把它運行，會報錯</strong>，接下來會使用插件。</p>
 <p>把插件加入後要做的步驟：</p>
 <ol>
@@ -3405,12 +3405,12 @@ call plug#end()</code></pre>
 </div>
 
 <p>當你輸入了 <code>:PlugInstall</code> 後，會在左側另外開啟了安裝插件的畫面：</p>
-<p><img src="/post/dev-terminal-beautify-tutorial/img11.png" alt="img11"></p>
+<p><img src="/.io//img11.png" alt="img11"></p>
 <div class="note info simple"><p><code>:q</code> - <kbd>ESC</kbd> + <kbd>:</kbd> + <kbd>Q</kbd> 退出安裝插件的畫面。</p>
 </div>
 
 <hr>
-<h3 id="airline-amp-airline-themes"><a href="#airline-amp-airline-themes" class="headerlink" title="airline &amp; airline-themes"></a>airline &amp; airline-themes</h3><p><img src="/post/dev-terminal-beautify-tutorial/img5.png" alt="img5"><br><img src="/post/dev-terminal-beautify-tutorial/img6.png" alt="img6"><br><img src="/post/dev-terminal-beautify-tutorial/img7.png" alt="img7"><br><img src="/post/dev-terminal-beautify-tutorial/img8.png" alt="img8"><br><img src="/post/dev-terminal-beautify-tutorial/img9.png" alt="img9"></p>
+<h3 id="airline-amp-airline-themes"><a href="#airline-amp-airline-themes" class="headerlink" title="airline &amp; airline-themes"></a>airline &amp; airline-themes</h3><p><img src="/.io//img5.png" alt="img5"><br><img src="/.io//img6.png" alt="img6"><br><img src="/.io//img7.png" alt="img7"><br><img src="/.io//img8.png" alt="img8"><br><img src="/.io//img9.png" alt="img9"></p>
 <pre class="line-numbers language-vim" data-language="vim"><code class="language-vim">call plug#begin(&#39;~&#x2F;.vim&#x2F;plugged&#39;)
 Plug &#39;vim-airline&#x2F;vim-airline&#39;
 Plug &#39;vim-airline&#x2F;vim-airline-themes&#39;
@@ -3665,7 +3665,7 @@ endif</code></pre>
   </entry>
   <entry>
     <title>VSCode 自訂程式碼片段</title>
-    <url>//post/dev-vscode-snippet-notes.html</url>
+    <url>/post/dev-vscode-snippet-notes/</url>
     <content><![CDATA[<p>哈囉，歡迎來到我的網誌。</p>
 <p>有沒有想過自己在編寫程式碼時，能夠借助自動完成選單來完成一整塊的程式碼？在 VSCode 軟件，它能夠支援自訂程式碼片段，使你能夠<strong>在輸入關鍵字的前綴後，便能插入一整塊程式碼！</strong>大大提升你編程的效率。</p>
 <p>在這篇文章，我們將會學到如何新增自己的程式碼片段。</p>
@@ -3673,7 +3673,7 @@ endif</code></pre>
 <h1 id="為編輯器進行設定"><a href="#為編輯器進行設定" class="headerlink" title="為編輯器進行設定"></a>為編輯器進行設定</h1><p>首先，為了<strong>避免所新增的程式碼片段無法透過自動完成選單中顯示</strong>，我們可以為編輯器直接啟用自訂程式碼選單片段。</p>
 <p>按編輯器選單列的齒輪裏的設定，或者直接用快捷鍵 <kbd>⌘ Cmd</kbd> + <kbd>,
 <p>把設定界面更換為以 JSON 格式開啟。</p>
-<p><img src="/post/dev-vscode-snippet-notes/img1.png" alt="img1"></p>
+<p><img src="/.io//img1.png" alt="img1"></p>
 <p>在 <code>settings.json</code> 進行以下設定：</p>
 <pre class="line-numbers language-json" data-language="json"><code class="language-json">&quot;editor.tabCompletion&quot;: &quot;on&quot;</code></pre>
 
@@ -3684,11 +3684,11 @@ endif</code></pre>
 <h1 id="新增程式碼片段"><a href="#新增程式碼片段" class="headerlink" title="新增程式碼片段"></a>新增程式碼片段</h1><p>透過快捷鍵 <kbd>⇧ Shift</kbd> + <kbd>⌘ Cmd</kbd> + <kbd>P</kbd> 前往命令輸入界面。</p>
 <p>然後在輸入欄中輸入 <code>snippet</code>，你會找到<kbd class="menu">程式碼片段：設定使用者程式碼片段</kbd> &#x2F; <kbd class="menu">Snippets: Configure User Snippets</kbd>，再按 <kbd>⏎ Enter</kbd>。</p>
 <p>或者，<kbd class="menu">Code</kbd> &gt; <kbd class="menu">喜好設定</kbd> &gt; <kbd class="menu">設定使用者程式碼片段</kbd></p>
-<p><img src="/post/dev-vscode-snippet-notes/img8.png" alt="img8"></p>
-<p><img src="/post/dev-vscode-snippet-notes/img6.png" alt="img6"></p>
+<p><img src="/.io//img8.png" alt="img8"></p>
+<p><img src="/.io//img6.png" alt="img6"></p>
 <hr>
 <p>它會要你設定應用程式碼片段的特定語言，即是設定<strong>只能在特定的程式語言文件中使用裏面的程式碼片段</strong>。<br>或者，你要設定全域還是局部新增。</p>
-<p><img src="/post/dev-vscode-snippet-notes/img7.png" alt="img7"></p>
+<p><img src="/.io//img7.png" alt="img7"></p>
 <hr>
 <p>即是你有三個選項，因應自己所需，選擇其一：</p>
 <ol>
@@ -3795,9 +3795,9 @@ endif</code></pre>
 
 <div class="note info simple"><p><code>scope</code> 可以經以下步驟找到：</p>
 <p><kbd class="menu">程式碼片段：設定使用者程式碼片段</kbd> &#x2F; <kbd class="menu">Snippets: Configure User Snippets</kbd>，再按 <kbd>⏎ Enter</kbd>。</p>
-<p><img src="/post/dev-vscode-snippet-notes/img6.png" alt="img6"></p>
+<p><img src="/.io//img6.png" alt="img6"></p>
 <p>滾動鼠標或按鍵盤的向下按鈕可以看更多程式語言名稱。</p>
-<p><img src="/post/dev-vscode-snippet-notes/img7.png" alt="img7"></p>
+<p><img src="/.io//img7.png" alt="img7"></p>
 </div>
 
 <hr>
@@ -3814,16 +3814,16 @@ endif</code></pre>
     &#125;
 &#125;</code></pre>
 <p>當正在輸入 <code>fori</code> 時，會出現這個項目。</p>
-<p><img src="/post/dev-vscode-snippet-notes/img2.png" alt="img2"></p>
+<p><img src="/.io//img2.png" alt="img2"></p>
 <p>當插入程式碼片段後：</p>
-<p><img src="/post/dev-vscode-snippet-notes/img3.png" alt="img3"></p>
+<p><img src="/.io//img3.png" alt="img3"></p>
 <hr>
 <h1 id="使用-snippet-generator"><a href="#使用-snippet-generator" class="headerlink" title="使用 snippet generator"></a>使用 snippet generator</h1><p>如果你覺得編寫 JSON，要瞭解和使用語法有點吃力，你可以用 <a href="https://snippet-generator.app" target="_blank">snippet generator</a>，這個是一個程式碼片段線上生成器，它支援 VSCode、Sublime Text 和 Atom 這三個軟件。</p>
-<p><img src="/post/dev-vscode-snippet-notes/img4.png" alt="img4"></p>
+<p><img src="/.io//img4.png" alt="img4"></p>
 <p>玩法一樣，不過透過圖形用戶界面簡化了編寫程序，提供了 <code>Description</code>、<code>Tab trigger</code> 和 <code>Snippet</code> 輸入欄。</p>
 <p><code>Tab trigger</code> 就是 <code>prefix</code> 那部分。<br><code>Snippet</code> 就是 <code>body</code> 那部分。</p>
 <hr>
-<p><img src="/post/dev-vscode-snippet-notes/img5.png" alt="img5"></p>
+<p><img src="/.io//img5.png" alt="img5"></p>
 <p>右邊可以看到 JSON 格式的程式碼顯示，如果你選其他編輯器，則顯示其他程式語言的程式碼。</p>
 <p>點擊 <code>Copy snippet</code> 便可以把程式碼複製貼上使用。</p>
 <div class="note info simple"><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;
@@ -3840,7 +3840,7 @@ endif</code></pre>
   </entry>
   <entry>
     <title>「盤古之白」- 中文排版的重要</title>
-    <url>//post/general-spacing-of-pangu.html</url>
+    <url>/post/general-spacing-of-pangu/</url>
     <content><![CDATA[<p>你是不是經常都看到網頁上的中文字和英文、數字、符號<strong>擠在一塊，就會坐立難安</strong>，忍不住想在它們之間加個空格？</p>
 <p>我實在不明白為什麼<strong>就是不情願加空格</strong>，我強調，這個不是強迫症！</p>
 <hr>
@@ -3896,7 +3896,7 @@ endif</code></pre>
   </entry>
   <entry>
     <title>Kotlin Compose 跨平台項目開發筆記</title>
-    <url>//post/jetpack-compose-dev-kotlin-multiplatform-notes.html</url>
+    <url>/post/jetpack-compose-dev-kotlin-multiplatform-notes/</url>
     <content><![CDATA[<p>Jetpack Compose 除了<strong>取代了傳統的 XML 建構方式</strong>外，開發的程序已經<strong>不再只針對 Android</strong> 的實現，而是可以進行跨平台的操作，應用程式可以供不同的操作系統如 Android、<strong>iOS 設備及桌面版</strong>使用。</p>
 <div class="note info simple"><p>桌上版泛指能在 Linux、Windows 及 macOS 系統上運作。</p>
 </div>
@@ -4099,7 +4099,7 @@ struct ComposeView: UIViewControllerRepresentable &#123;
   </entry>
   <entry>
     <title>動態載入 CSS 及 JavaScript 檔案至網頁端</title>
-    <url>//post/web-dev-dynamic-load-css-and-js.html</url>
+    <url>/post/web-dev-dynamic-load-css-and-js/</url>
     <content><![CDATA[<p>去年，我撰寫了一篇文章，介紹過 Eruda 網頁源始碼線上檢查器，教導大家直接透過瀏覽器書籤直以呼喚這個程式，當然，它也還有其他方式呼喚的，不過這裏不作講解了，因為這個並不是這篇文章的重點。重點是 Eruda 檢查器是透過使用動態載入的方式把 JavaScript 文件載入至網站。</p>
 <p>它的程式是取決於這個函數作初始化： <code>eruda.init();</code></p>
 <p>當然，<code>eruda</code> 是物件，<code>init()</code> 是方法，而這個物件是未下定義的，因此進行初始化前，需要載入應要的 JavaScript 外部檔案：</p>
@@ -4166,7 +4166,7 @@ loadFile(filename, filetype);</code></pre>]]></content>
   </entry>
   <entry>
     <title>利用 Hexo 建立 GitHub 寄存網誌</title>
-    <url>//post/web-dev-hexo-blog-tutorial.html</url>
+    <url>/post/web-dev-hexo-blog-tutorial/</url>
     <content><![CDATA[<p>大家好，歡迎來到我的網誌。欸。。？這裏為什麼好像。。整個樣子都不一樣啊。。</p>
 <p>對啦，因為我「搬家」了。</p>
 <hr>
