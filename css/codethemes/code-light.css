@@ -1,0 +1,69 @@
+:root {
+    --code-background: #F6f8fa;
+    --code-foreground: #90a4ae;
+    --code-meta: #e53935;
+    --code-class: #f6a434;
+    --code-keyword: #7c4dff;
+    --code-function: #6182b8;
+    --code-string: #91b859;
+    --code-number: #f76d47;
+    --code-annotation: #39adb5;
+    --code-punctuation: #39adb5;
+    --code-comment: #AABFC9;
+    --code-property: #8796b0;
+}
+
+#article-container code:not(pre code) {
+    color: var(--code-foreground) !important;
+}
+
+.token.keyword,
+.token.operator,
+.token.attr-name {
+    color: var(--code-keyword) !important;
+}
+
+.token.namespace {
+    color: #7c4dffdd !important;
+}
+
+.token.class-name {
+    color: var(--code-class) !important;
+}
+
+.token.annotation.punctuation {
+    color: var(--code-annotation) !important;
+}
+
+.token.function {
+    color: var(--code-function) !important;
+}
+
+.token.punctuation {
+    color: var(--code-punctuation) !important;
+}
+
+.token.comment,
+.token.prolog {
+    color: var(--code-comment) !important;
+}
+
+.token.string,
+.token.attr-value {
+    color: var(--code-string) !important;
+}
+
+.token.constant,
+.token.number,
+.token.boolean {
+    color: var(--code-number) !important;
+}
+
+.token.tag,
+.token.key {
+    color: var(--code-meta) !important;
+}
+
+.token.property {
+    color: var(--code-property) !important;
+}

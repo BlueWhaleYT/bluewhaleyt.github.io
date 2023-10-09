@@ -1,0 +1,77 @@
+:root {
+    --dcode-background: #292d3e;
+    --dcode-foreground: #a6accd;
+    --dcode-meta: #f07178;
+    --dcode-class: #ffcb6b;
+    --dcode-keyword: #c792ea;
+    --dcode-function: #82aaff;
+    --dcode-string: #c3e88d;
+    --dcode-number: #f78c6c;
+    --dcode-annotation: #80cbc4;
+    --dcode-punctuation: #89ddff;
+    --dcode-comment: #676e95;
+    --dcode-property: #b2ccd6;
+}
+
+[data-theme='dark'] #article-container pre {
+    background: var(--dcode-background) !important;
+}
+
+[data-theme='dark'] #article-container code {
+    color: var(--dcode-foreground) !important;
+}
+
+[data-theme="dark"] #article-container .highlight .highlight-tools {
+    background: #202331 !important;
+}
+
+[data-theme="dark"] .token.keyword,
+[data-theme="dark"] .token.operator,
+[data-theme="dark"] .token.attr-name {
+    color: var(--dcode-keyword) !important;
+}
+
+[data-theme="dark"] .token.namespace {
+    color: #c792eadd !important;
+}
+
+[data-theme="dark"] .token.class-name {
+    color: var(--dcode-class) !important;
+}
+
+[data-theme="dark"] .token.annotation.punctuation {
+    color: var(--dcode-annotation) !important;
+}
+
+[data-theme="dark"] .token.function {
+    color: var(--dcode-function) !important;
+}
+
+[data-theme="dark"] .token.punctuation {
+    color: var(--dcode-punctuation) !important;
+}
+
+[data-theme="dark"] .token.comment,
+[data-theme="dark"] .token.prolog {
+    color: var(--dcode-comment) !important;
+}
+
+[data-theme="dark"] .token.string,
+[data-theme="dark"] .token.attr-value {
+    color: var(--dcode-string) !important;
+}
+
+[data-theme="dark"] .token.constant,
+[data-theme="dark"] .token.number,
+[data-theme="dark"] .token.boolean {
+    color: var(--dcode-number) !important;
+}
+
+[data-theme="dark"] .token.tag,
+[data-theme="dark"] .token.key {
+    color: var(--dcode-meta) !important;
+}
+
+[data-theme="dark"] .token.property {
+    color: var(--dcode-property) !important;
+}

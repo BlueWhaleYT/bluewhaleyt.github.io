@@ -1,0 +1,957 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>Sora Editor 編輯器依賴庫使用筆記 | BlueWhaleYT 個人網誌</title><meta name="keywords" content="Android,Java,XML,Kotlin"><meta name="author" content="BlueWhaleYT"><meta name="copyright" content="BlueWhaleYT"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="Sora Editor 編輯器依賴庫使用筆記"><meta name="application-name" content="Sora Editor 編輯器依賴庫使用筆記"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="Sora Editor 編輯器依賴庫使用筆記"><meta property="og:url" content="https://bluewhaleyt.github.io/post/android-dev-sora-editor-lib-notes.html"><meta property="og:site_name" content="BlueWhaleYT 個人網誌"><meta property="og:description" content="引用站外地址                                                        Sora Editor 依賴庫存儲庫              輕鬆嵌入編輯器組件至你的應用程式                               編輯器組"><meta property="og:locale" content="zh-TW"><meta property="og:image" content="https://i.imgur.com/eRkHnS4.png"><meta property="article:author" content="BlueWhaleYT"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://i.imgur.com/eRkHnS4.png"><meta name="description" content="引用站外地址                                                        Sora Editor 依賴庫存儲庫              輕鬆嵌入編輯器組件至你的應用程式                               編輯器組"><link rel="shortcut icon" href="https://i.ibb.co/zRvn96K/20210718-233824.jpg"><link rel="canonical" href="https://bluewhaleyt.github.io/post/android-dev-sora-editor-lib-notes"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: undefined,
+  diytitle: undefined,
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: {"mode":"api","api":"https://img2color-go.vercel.app/api?img=","cover_change":true},
+  authorStatus: {"skills":null},
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查詢的內容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"此文章已經發佈了","messageNext":"天了，文章內容可能已經過時，敬請留意。"},
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":150},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: BlueWhaleYT","link":"連結: ","source":"來源: BlueWhaleYT 個人網誌","info":"著作權歸作者所有。商業轉載請聯絡作者獲得授權，非商業轉載請註明出處。","copySuccess":"複製成功，複製和轉載請標注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切換為繁體","cht_to_chs":"你已切換為簡體","day_to_night":"你已切換為深色模式","night_to_day":"你已切換為淺色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"bottom-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'BlueWhaleYT 個人網誌',
+  title: 'Sora Editor 編輯器依賴庫使用筆記',
+  postAI: '',
+  pageFillDescription: '編輯器組件預覽, 匯入依賴庫, editor 模組庫, 定義 CodeEditor 組件, 定義 SymbolInputView 組件, 編輯器設定, 設置編輯器應用的主題配置, 設置字體連字, 設置 TextActionWindow 自定義佈局和外觀, 設置 EditorAutoCompletion 自定義佈局和外觀, 設置診斷程序的提示和指標器, 設置 QuickFix 按鈕點擊事件, 獲取游標所選的文字, 組件 (Component), 事件 (Event), 編輯器的內容變動事件, language-java 模組庫, 設置編輯器應用 Java 語言架構, language-textmate 模組庫, 載入可應用的現成主題, 載入可應用的語言文件, 透過使用語法規則庫, 透過領域特定語言 (DSL), 應用特定主題, 應用特定語言引用站外地址依賴庫存儲庫輕鬆嵌入編輯器組件至你的應用程式編輯器組件預覽圖片來源匯入依賴庫啟用基本模組庫啟用語法高亮模組庫啟用語言模組庫其他處於開發階段的試驗性模組庫有興趣可以使用啟用語言伺服器協定的模組庫啟用語法高亮模組庫模組庫這個是必須要匯入的基礎庫用來實現編輯器組件及其功能定義組件定義組件是常見的符號工具列通常顯示於編輯器下方方便用戶插入字符至編輯器要注意的是如果要加入太多符號超出可視區域需要定義可水平滾動的父佈局例如定義了這個組件你需要配置使用的符號你需要定義兩個陣列一個用於在組件上顯示另一個則用於點擊該符號按鈕後所插入的字符再把綁定至編輯器編輯器設定設置編輯器應用的主題配置支援的主題配置如下明亮主題預設黑暗主題使用示例設置字體連字需要所應用的字體支援連字特性如字體內部代碼設置自定義佈局和外觀設置自定義佈局和外觀主要代碼設置診斷程序的提示和指標器沒有提供診斷程序這個功能你要自行編寫代碼實現但提供了設置診斷程序的提示和指標器支援的嚴重程度如下紅色代表錯誤黃色代表警告綠色代表錯別字這裏有一個預覽圖在進行前要先每個方法裏的第一個的實例如都會顯示在首席位置隨後的所有新增的實例都會最後在下拉式功能選單中顯示設置按鈕點擊事件基本上這個是接受型別的參數所以你可以把執行的代碼以結構實現如果設定為則沒有任何點擊事件需要執行執行的代碼獲取游標所選的文字沒有內置的方法這裏記錄一下組件組件是擴充編輯器現有的組件附加更多的組件可用的組件如下事件可用的事件如下還有更多可到這裏看編輯器的內容變動事件執行的代碼模組庫這個模組主要實現語法的基本語法高亮及關鍵字與識別字的自動補全設置編輯器應用語言架構在過去的古老版本除了語言模組庫外更提供了但遺憾的是由於開發者無法兼顧眾多語言的機制需要同時維護編輯器等功能至今以上羅列的語言模組庫已被移除雖然如此你尚可參照的內部代碼實現其他程式語言的架構模組庫這個模組庫主要是擴充庫的編輯器使用的語法高亮功能載入可應用的現成主題代碼在此單個特定主題多個特定主題載入可應用的語言文件透過使用語法規則庫透過領域特定語言檢視代碼比較推薦使用語法規則庫的來載入可用的語言文件因為有較佳的調整不過如果載入太多語言或會影響性能應用特定主題應用特定語言',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023 年 10 月 08 日 13 時 16 分 14 秒',
+  postMainColor: '#e84393',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/codethemes/code-light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/codethemes/code-dark.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://i.ibb.co/zRvn96K/20210718-233824.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">工具</div><div class="back-menu-list"><a class="back-menu-item" href="/gpt-prompt-template" title="GPT 提詞模板"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="GPT 提詞模板"/><span class="back-menu-item-text">GPT 提詞模板</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">工具</div><div class="back-menu-list"><a class="back-menu-item" href="/gpt-prompt-template" title="GPT 提詞模板"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="GPT 提詞模板"/><span class="back-menu-item-text">GPT 提詞模板</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">BlueWhaleYT 個人網誌</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 「絲襪」地帶</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/gpt-prompt-template"><span> GPT 提詞模板</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索🔍" accesskey="s"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span> 搜尋</span></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Android/" style="font-size: 1.05rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Android<sup>7</sup></a><a href="/tags/CSS/" style="font-size: 1.05rem;">CSS<sup>1</sup></a><a href="/tags/GoogleScript/" style="font-size: 1.05rem;">GoogleScript<sup>1</sup></a><a href="/tags/Gradle/" style="font-size: 1.05rem;">Gradle<sup>4</sup></a><a href="/tags/HTML/" style="font-size: 1.05rem;">HTML<sup>1</sup></a><a href="/tags/JSON/" style="font-size: 1.05rem;">JSON<sup>2</sup></a><a href="/tags/Java/" style="font-size: 1.05rem;">Java<sup>4</sup></a><a href="/tags/JavaScript/" style="font-size: 1.05rem;">JavaScript<sup>2</sup></a><a href="/tags/Kotlin/" style="font-size: 1.05rem;">Kotlin<sup>3</sup></a><a href="/tags/Markdown/" style="font-size: 1.05rem;">Markdown<sup>1</sup></a><a href="/tags/Regex/" style="font-size: 1.05rem;">Regex<sup>1</sup></a><a href="/tags/Swift/" style="font-size: 1.05rem;">Swift<sup>1</sup></a><a href="/tags/XML/" style="font-size: 1.05rem;">XML<sup>4</sup></a><a href="/tags/YAML/" style="font-size: 1.05rem;">YAML<sup>2</sup></a><a href="/tags/%E7%B5%82%E7%AB%AF%E6%A9%9F%E6%8C%87%E4%BB%A4/" style="font-size: 1.05rem;">終端機指令<sup>2</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>歸檔</span><a class="card-more-btn" href="/archives/" title="檢視更多">
+    <i class="anzhiyufont anzhiyu-icon-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">2023 年 10 月</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">2023 年 07 月</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/06/"><span class="card-archive-list-date">2023 年 06 月</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">2023 年 05 月</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/04/"><span class="card-archive-list-date">2023 年 04 月</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/03/"><span class="card-archive-list-date">2023 年 03 月</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">2023 年 01 月</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/12/"><span class="card-archive-list-date">2022 年 12 月</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A8%8B%E5%BC%8F%E7%B7%A8%E5%AF%AB/" itemprop="url">程式編寫</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android-%E9%96%8B%E7%99%BC/" itemprop="url">Android 開發</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Android/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Android</span></a><a class="article-meta__tags" href="/tags/Java/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Java</span></a><a class="article-meta__tags" href="/tags/XML/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>XML</span></a><a class="article-meta__tags" href="/tags/Kotlin/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Kotlin</span></a></span></div></div><h1 class="post-title" itemprop="name headline">Sora Editor 編輯器依賴庫使用筆記</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2022-12-09T08:00:52.000Z" title="發表於 2022 年 12 月 09 日 16 時 00 分 52 秒">2022 年 12 月 09 日</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-10-08T05:16:14.390Z" title="更新於 2023 年 10 月 08 日 13 時 16 分 14 秒">2023 年 10 月 08 日</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字數總計:</span><span class="word-count" title="文章字数">3k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">閱讀時長:</span><span>15分鐘</span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://i.imgur.com/eRkHnS4.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://bluewhaleyt.github.io/post/android-dev-sora-editor-lib-notes.html"><header><a class="post-meta-categories" href="/categories/%E7%A8%8B%E5%BC%8F%E7%B7%A8%E5%AF%AB/" itemprop="url">程式編寫</a><a class="post-meta-categories" href="/categories/Android-%E9%96%8B%E7%99%BC/" itemprop="url">Android 開發</a><a href="/tags/Android/" tabindex="-1" itemprop="url">Android</a><a href="/tags/Java/" tabindex="-1" itemprop="url">Java</a><a href="/tags/XML/" tabindex="-1" itemprop="url">XML</a><a href="/tags/Kotlin/" tabindex="-1" itemprop="url">Kotlin</a><h1 id="CrawlerTitle" itemprop="name headline">Sora Editor 編輯器依賴庫使用筆記</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">BlueWhaleYT</span><time itemprop="dateCreated datePublished" datetime="2022-12-09T08:00:52.000Z" title="發表於 2022 年 12 月 09 日 16 時 00 分 52 秒">2022 年 12 月 09 日</time><time itemprop="dateCreated datePublished" datetime="2023-10-08T05:16:14.390Z" title="更新於 2023 年 10 月 08 日 13 時 16 分 14 秒">2023 年 10 月 08 日</time></header><div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://github.com/Rosemoe/sora-editor">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">Sora Editor 依賴庫存儲庫</div>
+            <div class="tag-link-sitename"> 輕鬆嵌入編輯器組件至你的應用程式</div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>
+
+<hr>
+<h1 id="編輯器組件預覽"><a href="#編輯器組件預覽" class="headerlink" title="編輯器組件預覽"></a>編輯器組件預覽</h1><table>
+<thead>
+<tr>
+<th>Simple</th>
+<th>Advanced</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://raw.githubusercontent.com/Rosemoe/sora-editor/main/images/general.jpg" alt="simple" style="border-radius: 8px; width: 100%;"></td>
+<td><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://raw.githubusercontent.com/Rosemoe/sora-editor/main/images/problem_indicators.jpg" alt="advanced" style="border-radius: 8px; width: 100%;"></td>
+</tr>
+</tbody></table>
+<p>圖片來源：<a target="_blank" rel="noopener" href="https://github.com/Rosemoe/sora-editor">sora-editor</a> Github</p>
+<hr>
+<h1 id="匯入依賴庫"><a href="#匯入依賴庫" class="headerlink" title="匯入依賴庫"></a>匯入依賴庫</h1><pre class="line-numbers language-gradle" data-language="gradle"><code class="language-gradle">dependencies &#123;
+    implementation(platform(&quot;io.github.Rosemoe.sora-editor:bom:0.21.1&quot;))
+    
+    &#x2F;&#x2F; 啟用 Editor 基本模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:editor&quot;)
+    
+    &#x2F;&#x2F; 啟用 TextMate 語法高亮模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:language-textmate&quot;)
+    
+    &#x2F;&#x2F; 啟用 Java 語言模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:language-java&quot;)
+    
+    &#x2F;&#x2F; 其他處於開發階段的試驗性模組庫，有興趣可以使用
+    &#x2F;&#x2F; 啟用語言伺服器協定 (LSP) 的 Editor 模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:editor-lsp&quot;)
+    
+    &#x2F;&#x2F; 啟用 Tree-Sitter 語法高亮模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:language-treesitter&quot;)
+&#125;</code></pre>
+
+<h2 id="editor-模組庫"><a href="#editor-模組庫" class="headerlink" title="editor 模組庫"></a><code>editor</code> 模組庫</h2><p>這個是必須要匯入的基礎庫，用來實現編輯器組件及其功能。</p>
+<h3 id="定義-CodeEditor-組件"><a href="#定義-CodeEditor-組件" class="headerlink" title="定義 CodeEditor 組件"></a>定義 <code>CodeEditor</code> 組件</h3><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;io.github.rosemoe.sora.widget.CodeEditor
+    android:id&#x3D;&quot;@+id&#x2F;editor&quot;
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;</code></pre>
+
+<h3 id="定義-SymbolInputView-組件"><a href="#定義-SymbolInputView-組件" class="headerlink" title="定義 SymbolInputView 組件"></a>定義 <code>SymbolInputView</code> 組件</h3><p><code>SymbolInputView</code> 是常見的符號工具列，通常顯示於編輯器下方，方便用戶插入字符至編輯器，要注意的是，如果要加入太多符號，超出可視區域，需要定義可水平滾動 <code>HorizontalScrollView</code> 的父佈局，例如：</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;HorizontalScrollView
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;wrap_content&quot;
+    android:orientation&#x3D;&quot;horizontal&quot;&gt;
+    
+    &lt;io.github.rosemoe.sora.widget.SymbolInputView
+        android:id&#x3D;&quot;@+id&#x2F;symbol_input_view&quot;
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;
+    
+&lt;&#x2F;LinearLayout&gt;</code></pre>
+
+<p>定義了這個組件，你需要配置使用的符號，你需要定義兩個陣列，一個用於在組件上顯示，另一個則用於點擊該符號按鈕後所插入的字符，再把 <code>SymbolInputView</code> 綁定至編輯器。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">String[] displayText &#x3D; &#123;&quot;→&quot;, &quot;&#123;&quot;, &quot;&#125;&quot;, &quot;(&quot;, &quot;)&quot;, &quot;[&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;,&quot;, &quot;.&quot;, &quot;;&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;?&quot;, &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;&#x2F;&quot;, &quot;&#x3D;&quot;&#125;;
+String[] insertText &#x3D; &#123;&quot;\t&quot;, &quot;&#123;&#125;&quot;, &quot;&#125;&quot;, &quot;()&quot;, &quot;)&quot;, &quot;[]&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;,&quot;, &quot;.&quot;, &quot;;&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;?&quot;, &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;&#x2F;&quot;, &quot;&#x3D;&quot;&#125;;
+
+symbolInputView.addSymbols(displayText, insertText);
+symbolInputView.bindEditor(editor);</code></pre>
+
+<h3 id="編輯器設定"><a href="#編輯器設定" class="headerlink" title="編輯器設定"></a>編輯器設定</h3><h4 id="設置編輯器應用的主題配置"><a href="#設置編輯器應用的主題配置" class="headerlink" title="設置編輯器應用的主題配置"></a>設置編輯器應用的主題配置</h4><p>支援的主題配置如下：</p>
+<p>明亮主題：</p>
+<ul>
+<li><code>EditorColorScheme</code> (預設)</li>
+<li><code>SchemeEclipse</code></li>
+<li><code>SchemeGithub</code></li>
+</ul>
+<p>黑暗主題：</p>
+<ul>
+<li><code>SchemeDarcula</code></li>
+<li><code>SchemeNotepadXX</code></li>
+<li><code>SchemeVS2019</code></li>
+</ul>
+<p>使用示例：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.setColorScheme(new SchemeDarcula());</code></pre>
+
+<h4 id="設置字體連字"><a href="#設置字體連字" class="headerlink" title="設置字體連字"></a>設置字體連字</h4><div class="note warning simple"><p>需要所應用的字體支援連字特性，如 JetBrains Mono 字體。</p>
+</div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.setLigatureEnabled(true);</code></pre>
+
+<details class="folding-tag"><summary> 內部代碼 </summary>
+              <div class="content">
+              <pre class="line-numbers language-java" data-language="java"><code class="language-java">public void setLigatureEnabled(boolean enabled) &#123;
+    this.ligatureEnabled &#x3D; enabled;
+    setFontFeatureSettings(enabled ? null : &quot;&#39;liga&#39; 0,&#39;calt&#39; 0,&#39;hlig&#39; 0,&#39;dlig&#39; 0,&#39;clig&#39; 0&quot;);
+&#125;</code></pre>
+              </div>
+            </details>
+
+<h4 id="設置-TextActionWindow-自定義佈局和外觀"><a href="#設置-TextActionWindow-自定義佈局和外觀" class="headerlink" title="設置 TextActionWindow 自定義佈局和外觀"></a>設置 <code>TextActionWindow</code> 自定義佈局和外觀</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java">View v &#x3D; LayoutInflater.from(context).inflate(R.layout.layout_text_compose_panel, null);
+
+LinearLayout root &#x3D; v.findViewById(R.id.panel_root);
+ImageButton btnSelectAll &#x3D; v.findViewById(R.id.panel_btn_select_all);
+ImageButton btnCopy &#x3D; v.findViewById(R.id.panel_btn_copy);
+ImageButton btnPaste &#x3D; v.findViewById(R.id.panel_btn_paste);
+ImageButton btnCut &#x3D; v.findViewById(R.id.panel_btn_cut);
+
+btnSelectAll.setOnClickListener(view -&gt; editor.selectAll());
+btnCopy.setOnClickListener(view -&gt; editor.copyText());
+btnPaste.setOnClickListener(view -&gt; editor.pasteText());
+btnCut.setOnClickListener(view -&gt; editor.cutText());
+
+editor.getComponent(EditorTextActionWindow.class).setContentView(v);</code></pre>
+
+<h4 id="設置-EditorAutoCompletion-自定義佈局和外觀"><a href="#設置-EditorAutoCompletion-自定義佈局和外觀" class="headerlink" title="設置 EditorAutoCompletion 自定義佈局和外觀"></a>設置 <code>EditorAutoCompletion</code> 自定義佈局和外觀</h4><div class="tabs" id="editor_auto_completion_codes"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="editor_auto_completion_codes-1">主要代碼</button><button type="button" class="tab " data-href="editor_auto_completion_codes-2">layout_editor_completion_list_item.xml</button><button type="button" class="tab " data-href="editor_auto_completion_codes-3">EditorCompletionLayout.java</button><button type="button" class="tab " data-href="editor_auto_completion_codes-4">EditorCompletionItemAdapter.java</button></ul><div class="tab-contents"><div class="tab-item-content active" id="editor_auto_completion_codes-1"><pre class="line-numbers language-java" data-language="java"><code class="language-java">EditorAutoCompletion autoCompletion &#x3D; editor.getComponent(EditorAutoCompletion.class);
+autoCompletion.setLayout(new EditorCompletionLayout());
+autoCompletion.setAdapter(new EditorCompletionItemAdapter());
+autoCompletion.setEnabledAnimation(true);
+autoCompletion.setEnabled(true);</code></pre></div><div class="tab-item-content" id="editor_auto_completion_codes-2"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;LinearLayout
+    xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
+    android:background&#x3D;&quot;?attr&#x2F;colorSurface&quot;
+    android:gravity&#x3D;&quot;center_vertical&quot;
+    android:layout_height&#x3D;&quot;wrap_content&quot;
+    android:layout_width&#x3D;&quot;fill_parent&quot;
+    android:orientation&#x3D;&quot;horizontal&quot;
+    android:padding&#x3D;&quot;5dp&quot;&gt;
+
+    &lt;ImageView
+        android:id&#x3D;&quot;@+id&#x2F;iv_image&quot;
+        android:gravity&#x3D;&quot;center&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:layout_width&#x3D;&quot;20dp&quot;
+        android:layout_marginEnd&#x3D;&quot;5dp&quot;&#x2F;&gt;
+
+    &lt;LinearLayout
+        android:gravity&#x3D;&quot;center&quot;
+        android:layout_height&#x3D;&quot;wrap_content&quot;
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:orientation&#x3D;&quot;horizontal&quot;&gt;
+
+        &lt;TextView
+            android:id&#x3D;&quot;@+id&#x2F;tv_label&quot;
+            android:layout_height&#x3D;&quot;wrap_content&quot;
+            android:layout_width&#x3D;&quot;0dp&quot;
+            android:layout_weight&#x3D;&quot;1&quot;
+            android:singleLine&#x3D;&quot;true&quot;
+            android:text&#x3D;&quot;label&quot; &#x2F;&gt;
+
+        &lt;TextView
+            android:id&#x3D;&quot;@+id&#x2F;tv_desc&quot;
+            android:layout_height&#x3D;&quot;wrap_content&quot;
+            android:layout_width&#x3D;&quot;wrap_content&quot;
+            android:singleLine&#x3D;&quot;true&quot;
+            android:text&#x3D;&quot;desc&quot;
+            android:layout_marginEnd&#x3D;&quot;5dp&quot;
+            android:visibility&#x3D;&quot;gone&quot;
+            android:ellipsize&#x3D;&quot;end&quot; &#x2F;&gt;
+
+
+    &lt;&#x2F;LinearLayout&gt;
+
+
+&lt;&#x2F;LinearLayout&gt;</code></pre></div><div class="tab-item-content" id="editor_auto_completion_codes-3"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class EditorCompletionLayout implements CompletionLayout &#123;
+
+    private ListView listView;
+    private ProgressBar progressBar;
+    private LinearLayout rootView;
+    private TextView textView;
+    private EditorAutoCompletion editorAutoCompletion;
+
+    private GradientDrawable gd;
+
+    public boolean enabledAnimation &#x3D; false;
+
+    private Context context;
+
+    @Override
+    public void onApplyColorScheme(@NonNull EditorColorScheme colorScheme) &#123;
+        gd &#x3D; new GradientDrawable();
+        gd.setColor(colorScheme.getColor(EditorColorScheme.WHOLE_BACKGROUND));
+        setStroke(colorScheme);
+        rootView.setBackground(gd);
+        textView.setTextColor(colorScheme.getColor(EditorColorScheme.TEXT_NORMAL));
+    &#125;
+
+    @Override
+    public void setEditorCompletion(@NonNull EditorAutoCompletion completion) &#123;
+        editorAutoCompletion &#x3D; completion;
+    &#125;
+
+    @NonNull
+    @Override
+    public View inflate(@NonNull Context context) &#123;
+        var rootLayout &#x3D; new LinearLayout(context);
+        rootView &#x3D; rootLayout;
+        listView &#x3D; new ListView(context);
+        progressBar &#x3D; new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
+        textView &#x3D; new TextView(context);
+
+        rootLayout.setOrientation(LinearLayout.VERTICAL);
+
+        setEnabledAnimation(false);
+
+        rootLayout.addView(progressBar, new LinearLayout.LayoutParams(-1, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, context.getResources().getDisplayMetrics())));
+        rootLayout.addView(listView, new LinearLayout.LayoutParams(-1, 0, 1.0f));
+        rootLayout.addView(textView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        textView.setText(context.getString(R.string.auto_completion_hint, &quot;⏎&quot;));
+        textView.setTextSize(12);
+        textView.setMaxLines(1);
+
+        progressBar.setIndeterminate(true);
+        var progressBarLayoutParams &#x3D; (LinearLayout.LayoutParams) progressBar.getLayoutParams();
+        var textViewLayoutParams &#x3D; (LinearLayout.LayoutParams) textView.getLayoutParams();
+
+        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        progressBarLayoutParams.topMargin &#x3D; (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -12, context.getResources().getDisplayMetrics());
+        progressBarLayoutParams.bottomMargin &#x3D; (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8, context.getResources().getDisplayMetrics());
+        progressBarLayoutParams.leftMargin &#x3D; (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+        progressBarLayoutParams.rightMargin &#x3D; (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+
+        textViewLayoutParams.topMargin &#x3D; (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+        textViewLayoutParams.bottomMargin &#x3D; (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
+        textViewLayoutParams.leftMargin &#x3D; (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
+        textViewLayoutParams.rightMargin &#x3D; (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
+
+        GradientDrawable gd &#x3D; new GradientDrawable();
+        gd.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics()));
+
+        rootLayout.setBackground(gd);
+
+        listView.setDividerHeight(0);
+        setLoading(true);
+
+        listView.setOnItemClickListener((parent, view, position, id) -&gt; &#123;
+            editorAutoCompletion.select(position);
+        &#125;);
+
+        return rootLayout;
+    &#125;
+
+    @NonNull
+    @Override
+    public AdapterView&lt;?&gt; getCompletionList() &#123;
+        return listView;
+    &#125;
+
+    @Override
+    public void setLoading(boolean loading) &#123;
+        progressBar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+    &#125;
+
+    @Override
+    public void ensureListPositionVisible(int position, int incrementPixels) &#123;
+        listView.post(() -&gt; &#123;
+            while (listView.getFirstVisiblePosition() + 1 &gt; position &amp;&amp; listView.canScrollList(-1)) &#123;
+                performScrollList(incrementPixels &#x2F; 2);
+            &#125;
+            while (listView.getLastVisiblePosition() - 1 &lt; position &amp;&amp; listView.canScrollList(1)) &#123;
+                performScrollList(-incrementPixels &#x2F; 2);
+            &#125;
+        &#125;);
+    &#125;
+
+    @Override
+    public void setEnabledAnimation(boolean enabledAnimation) &#123;
+        this.enabledAnimation &#x3D; enabledAnimation;
+
+        if (enabledAnimation) &#123;
+            rootView.setLayoutTransition(new LayoutTransition());
+            var transition &#x3D; rootView.getLayoutTransition();
+            transition.enableTransitionType(LayoutTransition.CHANGING);
+            transition.enableTransitionType(LayoutTransition.APPEARING);
+            transition.enableTransitionType(LayoutTransition.DISAPPEARING);
+            transition.enableTransitionType(LayoutTransition.CHANGE_APPEARING);
+            transition.enableTransitionType(LayoutTransition.CHANGE_DISAPPEARING);
+        &#125; else  &#123;
+            rootView.setLayoutTransition(null);
+        &#125;
+    &#125;
+
+    public float valueInDp(float value) &#123;
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, context.getResources().getDisplayMetrics());
+    &#125;
+
+    private void performScrollList(int offset) &#123;
+        var adpView &#x3D; getCompletionList();
+
+        long down &#x3D; SystemClock.uptimeMillis();
+        var ev &#x3D; MotionEvent.obtain(down, down, MotionEvent.ACTION_DOWN, 0, 0, 0);
+        adpView.onTouchEvent(ev);
+        ev.recycle();
+
+        ev &#x3D; MotionEvent.obtain(down, down, MotionEvent.ACTION_MOVE, 0, offset, 0);
+        adpView.onTouchEvent(ev);
+        ev.recycle();
+
+        ev &#x3D; MotionEvent.obtain(down, down, MotionEvent.ACTION_CANCEL, 0, offset, 0);
+        adpView.onTouchEvent(ev);
+        ev.recycle();
+    &#125;
+
+    private void setStroke(EditorColorScheme colorScheme) &#123;
+        if (PreferencesManager.isAutoCompletionStrokeEnabled()) &#123;
+            gd.setStroke(4, colorScheme.getColor(EditorColorScheme.CURRENT_LINE));
+        &#125;
+    &#125;
+
+&#125;</code></pre></div><div class="tab-item-content" id="editor_auto_completion_codes-4"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class EditorCompletionItemAdapter extends EditorCompletionAdapter &#123;
+
+    private LayoutEditorCompletionListItemBinding binding;
+    private CompletionItem item;
+
+    @Override
+    public int getItemHeight() &#123;
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                65, getContext().getResources().getDisplayMetrics());
+    &#125;
+
+    @Override
+    protected View getView(int position, View convertView, ViewGroup parent, boolean isCurrentCursorPosition) &#123;
+        binding &#x3D; LayoutEditorCompletionListItemBinding.inflate(LayoutInflater.from(getContext()), parent, false);
+        convertView &#x3D; binding.getRoot();
+        item &#x3D; getItem(position);
+
+        binding.tvLabel.setText(item.label);
+        binding.tvLabel.setTextColor(getThemeColor(EditorColorScheme.TEXT_NORMAL));
+
+        binding.tvDesc.setText(item.desc);
+        binding.tvDesc.setTextColor(getThemeColor(EditorColorScheme.LINE_NUMBER_CURRENT));
+
+        convertView.setTag(position);
+        if (isCurrentCursorPosition) &#123;
+            convertView.setBackgroundColor(getThemeColor(EditorColorScheme.CURRENT_LINE));
+            binding.tvDesc.setVisibility(View.VISIBLE);
+        &#125; else &#123;
+            convertView.setBackgroundColor(0);
+            binding.tvDesc.setVisibility(View.GONE);
+        &#125;
+
+        if (PreferencesManager.isAutoCompletionFollowCursorEnabled()) &#123;
+            binding.tvDesc.setVisibility(View.GONE);
+        &#125;
+
+        var type &#x3D; item.desc.subSequence(0, 1);
+        setupTypeIcon(type, binding.ivImage, binding.tvDesc);
+        setPartialColorSpan(new LanguageHandler().getPrefix(), getThemeColor(EditorColorScheme.SELECTION_HANDLE));
+
+        return convertView;
+    &#125;
+
+    private void setupTypeIcon(CharSequence type, ImageView imageView, TextView textView) &#123;
+        var context &#x3D; getContext();
+        var icon &#x3D; 0;
+        var color &#x3D; getThemeColor(EditorColorScheme.TEXT_NORMAL);;
+        var text &#x3D; &quot;&quot;;
+        var desc &#x3D; item.desc.toString().substring(1);
+        switch (type.toString()) &#123;
+            case &quot;K&quot;:
+                icon &#x3D; R.drawable.ic_intellisense_symbol_keyword;
+                text &#x3D; context.getString(R.string.keyword);
+                break;
+            case &quot;I&quot;:
+                icon &#x3D; R.drawable.ic_intellisense_symbol_key;
+                text &#x3D; context.getString(R.string.identifier);
+                break;
+            case &quot;S&quot;:
+                icon &#x3D; R.drawable.ic_intellisense_symbol_snippet;
+                text &#x3D; context.getString(R.string.snippet) + desc;
+                break;
+            case &quot;M&quot;:
+                icon &#x3D; R.drawable.ic_intellisence_symbol_method;
+                text &#x3D; context.getString(R.string.method) + desc;
+                color &#x3D; CommonUtil.isInDarkMode(context) ? 0xFF843bbd : 0xFF652d90;
+                break;
+        &#125;
+        imageView.setImageResource(icon);
+        imageView.setColorFilter(color);
+
+        if (!PreferencesManager.isAutoCompletionFollowCursorEnabled()) textView.setText(text);
+    &#125;
+
+    private void setPartialColorSpan(String partial, int color) &#123;
+        if (partial !&#x3D; null &amp;&amp; partial.length() &gt; 0) &#123;
+            var span &#x3D; new SpannableString(item.label);
+            if (item.label.toString().startsWith(partial)) &#123;
+                setSpan(span, color, 0, partial.length());
+            &#125; else if (item.label.toString().contains(partial)) &#123;
+                var pattern &#x3D; Pattern.compile(partial);
+                var matcher &#x3D; pattern.matcher(span);
+                while (matcher.find()) &#123;
+                    setSpan(span, color, matcher.start(), matcher.end());
+                &#125;
+            &#125;
+            binding.tvLabel.setText(span);
+        &#125;
+    &#125;
+
+    private void setSpan(SpannableString span, int color, int start, int end) &#123;
+        if (PreferencesManager.isAutoCompletionHighlightEnabled())
+            span.setSpan(new ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (PreferencesManager.isAutoCompletionHighlightEnabled() &amp;&amp; PreferencesManager.isAutoCompletionHighlightBoldEnabled())
+            span.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    &#125;
+
+&#125;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h3 id="設置診斷程序的提示和指標器"><a href="#設置診斷程序的提示和指標器" class="headerlink" title="設置診斷程序的提示和指標器"></a>設置診斷程序的提示和指標器</h3><p><code>CodeEditor</code> 沒有提供診斷程序，這個功能你要<strong>自行編寫代碼實現</strong>，但提供了<strong>設置診斷程序的提示和指標器</strong>。</p>
+<p>支援的嚴重程度 (Severity) 如下：</p>
+<ul>
+<li><span class="p red">SEVERITY_ERROR</span> ：紅色，代表錯誤</li>
+<li><span class="p yellow">SEVERITY_WARNING</span>：黃色，代表警告</li>
+<li><span class="p green">SEVERITY_TYPO</span>：綠色，代表錯別字</li>
+</ul>
+<p>這裏有一個預覽圖</p>
+<img align="left" alt="(設有診斷程序提示的編輯器)" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://2831537302-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FOSEWIEXBTd0aOuksXCf0%2Fuploads%2Fp7RgeMFq8cLQ1UFVC24c%2F%E8%9E%A2%E5%B9%95%E6%88%AA%E5%9C%96%202023-06-06%20%E4%B8%8B%E5%8D%8810.43.04.png?alt=media&token=de2b128f-50f0-4b5f-8918-6a8a9f2d9ca3" height="350" width="100%">
+
+<div class="note warning simple"><p>在進行 <code>setDiagnostic()</code> 前要先 <code>setDiagnostics(new DiagnosticsContainer());</code>。</p>
+</div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.setDiagnostics(new DiagnosticsContainer());
+
+setDiagnostic(36, 44, DiagnosticRegion.SEVERITY_ERROR, &quot;Error&quot;, &quot;Message&quot;, List.of(
+    new Quickfix(&quot;Fix&quot;, 0L, null),
+    new Quickfix(&quot;Other&quot;, 0L, null)
+));
+
+public void setDiagnostic(int startIndex, int endIndex, short type, String briefMessage, String detailedMessage, List&lt;Quickfix&gt; list) &#123;
+    getDiagnostics().addDiagnostic(
+        new DiagnosticRegion(startIndex, endIndex, type, 0L,
+                new DiagnosticDetail(
+                        briefMessage,
+                        detailedMessage,
+                        list,
+                        null
+                )
+        )
+    );
+&#125;</code></pre>
+
+<div class="note warning simple"><p>每個 <code>setDiagnostic()</code> 方法裏的第一個的 <code>QuickFix</code> 實例，如 <code>Fix</code>，都會顯示在首席位置，隨後的所有新增的 <code>QuickFix</code> 實例都會最後在 <code>More Actions...</code> <strong>下拉式功能選單</strong>中顯示。 </p>
+</div>
+
+<h4 id="設置-QuickFix-按鈕點擊事件"><a href="#設置-QuickFix-按鈕點擊事件" class="headerlink" title="設置 QuickFix 按鈕點擊事件"></a>設置 <code>QuickFix</code> 按鈕點擊事件</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java">new Quickfix(&quot;Fix&quot;, 0L, null)</code></pre>
+
+<p>基本上， 這個 <code>null</code> 是接受 <code>Runnable</code> 型別的參數，所以你可以把執行的代碼以 <code>Runnable</code> 結構實現。如果設定為 <code>null</code>，則沒有任何點擊事件需要執行。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">new Quickfix(&quot;Fix&quot;, 0L, new Runnable() &#123;
+    @Override
+    public void run() &#123;
+        &#x2F;&#x2F; 執行的代碼
+    &#125;
+&#125;)</code></pre>
+
+<h3 id="獲取游標所選的文字"><a href="#獲取游標所選的文字" class="headerlink" title="獲取游標所選的文字"></a>獲取游標所選的文字</h3><p><code>CodeEditor</code> 沒有內置的方法，這裏記錄一下。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public String getSelectedText() &#123;
+    Cursor cursor &#x3D; editor.getCursor();
+    return editor.getText().subContent(
+        cursor.getLeftLine(),
+        cursor.getLeftColumn(),
+        cursor.getRightLine(),
+        cursor.getRightColumn()
+    ).toString();
+&#125;</code></pre>
+
+<h3 id="組件-Component"><a href="#組件-Component" class="headerlink" title="組件 (Component)"></a>組件 (Component)</h3><p>組件 (Component) 是擴充編輯器現有的組件，附加更多的組件。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.getComponent(XXX.class)</code></pre>
+
+<p>可用的組件如下：</p>
+<ul>
+<li><code>Magnifier</code></li>
+<li><code>EditorAutoCompletion</code></li>
+<li><code>EditorTextActionWindow</code></li>
+<li><code>EditorDiagnosticTooltipWindow</code></li>
+</ul>
+<h3 id="事件-Event"><a href="#事件-Event" class="headerlink" title="事件 (Event)"></a>事件 (Event)</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.subscribeEvent(XXX.class, new EventReciever&lt;&gt; &#123;
+    ...
+&#125;);</code></pre>
+
+<p>可用的事件如下：</p>
+<ul>
+<li>ClickEvent</li>
+<li>ColorSchemeUpdateEvent</li>
+<li>ContentChangeEvent</li>
+<li>DoubleClickEvent</li>
+<li>EditorReleaseEvent</li>
+<li>SelectionChangeEvent</li>
+</ul>
+<p>還有更多，可到<a target="_blank" rel="noopener" href="https://github.com/Rosemoe/sora-editor/tree/main/editor/src/main/java/io/github/rosemoe/sora/event">這裏</a>看。</p>
+<h4 id="編輯器的內容變動事件"><a href="#編輯器的內容變動事件" class="headerlink" title="編輯器的內容變動事件"></a>編輯器的內容變動事件</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.subscribeEvent(ContentChangeEvent.class, new EventReceiver&lt;ContentChangeEvent&gt;() &#123;
+    @Override
+    public void onReceive(@NonNull ContentChangeEvent event, @NonNull Unsubscribe unsubscribe) &#123;
+        &#x2F;&#x2F; 執行的代碼
+    &#125;
+&#125;);</code></pre>
+
+<h2 id="language-java-模組庫"><a href="#language-java-模組庫" class="headerlink" title="language-java 模組庫"></a><code>language-java</code> 模組庫</h2><p>這個模組主要實現 <strong>Java 語法的基本語法高亮及關鍵字與識別字</strong>的自動補全。</p>
+<h3 id="設置編輯器應用-Java-語言架構"><a href="#設置編輯器應用-Java-語言架構" class="headerlink" title="設置編輯器應用 Java 語言架構"></a>設置編輯器應用 Java 語言架構</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.setEditorLanguage(new JavaLanguage());</code></pre>
+
+<div class="note danger simple"><p>在過去的古老版本 <code>0.8.x</code>，除了 <code>language-java</code> 語言模組庫外，更提供了</p>
+<ul>
+<li><code>language-html</code></li>
+<li><code>language-python</code></li>
+<li><code>language-css3</code></li>
+<li><code>language-xml</code></li>
+<li><code>language-universal</code><br>但遺憾的是，由於開發者無法兼顧眾多語言的機制，需要同時維護編輯器等功能，<strong>至今以上羅列的語言模組庫已被移除</strong>。雖然如此，你尚可參照 <code>JavaLanguage</code> 的內部代碼，實現其他程式語言的架構。</li>
+</ul>
+</div>
+
+<h2 id="language-textmate-模組庫"><a href="#language-textmate-模組庫" class="headerlink" title="language-textmate 模組庫"></a><code>language-textmate</code> 模組庫</h2><p>這個模組庫主要是擴充 <code>editor</code> 庫的編輯器，<strong>使用 TextMate 的語法高亮功能</strong>。</p>
+<h3 id="載入可應用的現成主題"><a href="#載入可應用的現成主題" class="headerlink" title="載入可應用的現成主題"></a>載入可應用的現成主題</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">try &#123;
+    FileProviderRegistry.getInstance().addFileProvider(new AssetsFileResolver(getAssets()));
+    ThemeRegistry themeRegistry &#x3D; ThemeRegistry.getInstance();
+
+    &#x2F;&#x2F; 代碼在此...
+
+    themeRegistry.loadTheme(
+        new ThemeModel(
+            IThemeSource.fromInputStream(
+                FileProviderRegistry.getInstance().tryGetInputStream(path), path, null
+            ), name
+        )
+    );
+&#125; catch (Exception e) &#123;
+    e.printStackTrace();
+&#125;</code></pre>
+
+<div class="tabs" id="tm_load_themes"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="tm_load_themes-1">單個特定主題</button><button type="button" class="tab " data-href="tm_load_themes-2">多個特定主題</button></ul><div class="tab-contents"><div class="tab-item-content active" id="tm_load_themes-1"><pre class="line-numbers language-java" data-language="java"><code class="language-java">String path &#x3D; &quot;textmate&#x2F;quietlight.json&quot;;</code></pre></div><div class="tab-item-content" id="tm_load_themes-2"><pre class="line-numbers language-java" data-language="java"><code class="language-java">String[] themes &#x3D; &#123;&quot;quietlight&quot;, &quot;darcula&quot;&#125;;
+
+for (int i &#x3D; 0; i &lt; themes.length;) &#123;
+    String name &#x3D; themes[i];
+    String path &#x3D; &quot;textmate&#x2F;&quot; + name + &quot;.json&quot;;
+    &#x2F;&#x2F; themeRegistry.loadTheme(...) here
+    i++;
+&#125;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h3 id="載入可應用的語言文件"><a href="#載入可應用的語言文件" class="headerlink" title="載入可應用的語言文件"></a>載入可應用的語言文件</h3><h4 id="透過使用語法規則庫"><a href="#透過使用語法規則庫" class="headerlink" title="透過使用語法規則庫"></a>透過使用<strong>語法規則庫</strong></h4><pre class="line-numbers language-java" data-language="java"><code class="language-java">GrammarRegistry.getInstance().loadGrammars(&quot;textmate&#x2F;languages.json&quot;);</code></pre>
+
+<h4 id="透過領域特定語言-DSL"><a href="#透過領域特定語言-DSL" class="headerlink" title="透過領域特定語言 (DSL)"></a>透過<strong>領域特定語言</strong> (DSL)</h4><details class="folding-tag"><summary> 檢視代碼 </summary>
+              <div class="content">
+              <pre class="line-numbers language-java" data-language="java"><code class="language-java">GrammarDefinition grammarDefinition &#x3D; new GrammarDefinition() &#123;
+    @Override
+    public String getName() &#123;
+        return &quot;java&quot;;
+    &#125;
+
+    @Override
+    public String getLanguageConfiguration() &#123;
+        return &quot;textmate&#x2F;java&#x2F;language-configuration.json&quot;;
+    &#125;
+
+    @Override
+    public String getScopeName() &#123;
+        return &quot;source.java&quot;;
+    &#125;
+
+    @Override
+    public IGrammarSource getGrammar() &#123;
+        return new IGrammarSource() &#123;
+            @Override
+            public String getFilePath() &#123;
+                return &quot;textmate&#x2F;java&#x2F;syntaxes&#x2F;java.tmLanguage.json&quot;;
+            &#125;
+
+            @Override
+            public Reader getReader() throws IOException &#123;
+                return null;
+            &#125;
+        &#125;;
+    &#125;
+&#125;;
+
+GrammarRegistry.getInstance().loadGrammar(grammarDefinition);
+GrammarRegistry.getInstance().loadLanguageAndLanguageConfiguration(grammarDefinition);</code></pre>
+              </div>
+            </details>
+
+<div class="note info simple"><p>比較推薦使用語法規則庫的 <code>languages.json</code> 來載入可用的語言文件，因為有較佳的調整。不過如果載入太多語言，或會影響性能。</p>
+</div>
+
+<h3 id="應用特定主題"><a href="#應用特定主題" class="headerlink" title="應用特定主題"></a>應用特定主題</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">ThemeRegistry.getInstance().setTheme(&quot;darcula&quot;);</code></pre>
+
+<h3 id="應用特定語言"><a href="#應用特定語言" class="headerlink" title="應用特定語言"></a>應用特定語言</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">TextMateLanguage language;
+Language editorLanguage &#x3D; editor.getEditorLanguage();
+
+if (editorLanguage instanceof TextMateLanguage) &#123;
+	language &#x3D; (TextMateLanguage) editorLanguage;
+    language.updateLanguage(&quot;source.java&quot;);
+&#125; else &#123;
+    language &#x3D; TextMateLanguage.create(&quot;source.java&quot;, true);
+&#125;
+editor.setEditorLanguage(language);</code></pre></article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/20210718-233824.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/20210718-233824.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">BlueWhaleYT</div><div class="post-copyright__author_desc">荒誕的極樂世界</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://bluewhaleyt.github.io/post/android-dev-sora-editor-lib-notes.html">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://bluewhaleyt.github.io/post/android-dev-sora-editor-lib-notes.html')">Sora Editor 編輯器依賴庫使用筆記</span></a></div><div class="post-copyright__notice"><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://bluewhaleyt.github.io" target="_blank">BlueWhaleYT 個人網誌</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__category-list"><a class="post-meta__box__categoryes" href="/categories/%E7%A8%8B%E5%BC%8F%E7%B7%A8%E5%AF%AB/"><span class="categoryes-punctuation"> <i class="anzhiyufont anzhiyu-icon-inbox"></i></span>程式編寫<span class="categoryesPageCount">9</span></a><a class="post-meta__box__categoryes" href="/categories/Android-%E9%96%8B%E7%99%BC/"><span class="categoryes-punctuation"> <i class="anzhiyufont anzhiyu-icon-inbox"></i></span>Android 開發<span class="categoryesPageCount">7</span></a></div><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/Android/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Android<span class="tagsPageCount">7</span></a><a class="post-meta__box__tags" href="/tags/Java/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Java<span class="tagsPageCount">4</span></a><a class="post-meta__box__tags" href="/tags/XML/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>XML<span class="tagsPageCount">4</span></a><a class="post-meta__box__tags" href="/tags/Kotlin/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Kotlin<span class="tagsPageCount">3</span></a></div></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/general-spacing-of-pangu.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/UFVDIq5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">「盤古之白」- 中文排版的重要</div></div></a></div><div class="next-post pull-right"><a href="/post/web-dev-hexo-blog-tutorial.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/atdKiFZ.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">利用 Hexo 建立 GitHub 寄存網誌</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/post/android-dev-basic-tutorial.html" title="Android 開發入門基礎"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/8iWRUFf.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023 年 04 月 26 日</div><div class="title">Android 開發入門基礎</div></div></a></div><div><a href="/post/android-dev-develop-chatgpt-android-app-tutorial.html" title="實作類似 ChatGPT 的機器人聊天 Android 程式"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/DJFMOsN.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023 年 03 月 04 日</div><div class="title">實作類似 ChatGPT 的機器人聊天 Android 程式</div></div></a></div><div><a href="/post/android-dev-openai-utils.html" title="編寫 OpenAIUtils 輕鬆使用 OpenAI API"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/dawMAkm.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023 年 03 月 04 日</div><div class="title">編寫 OpenAIUtils 輕鬆使用 OpenAI API</div></div></a></div><div><a href="/post/android-dev-kotlin-dokka-api-docs.html" title="JetBrains 開發的 Dokka API 文檔系統"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/Kfdq5uB.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023 年 07 月 10 日</div><div class="title">JetBrains 開發的 Dokka API 文檔系統</div></div></a></div><div><a href="/post/jetpack-compose-dev-kotlin-multiplatform-notes.html" title="Kotlin Compose 跨平台項目開發筆記"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/GUsLcS8.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023 年 06 月 26 日</div><div class="title">Kotlin Compose 跨平台項目開發筆記</div></div></a></div><div><a href="/post/android-dev-github-workflow-android-ci.html" title="GitHub Android CI 開源程式流程部署"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/n5HI95f.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023 年 05 月 07 日</div><div class="title">GitHub Android CI 開源程式流程部署</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/20210718-233824.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description">歡迎來到「BlueWhaleYT 個人網誌」。</div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">BlueWhaleYT</h1><div class="author-info__desc">荒誕的極樂世界</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/BlueWhaleYT" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content">因為本網誌內部採用了「繁簡轉換」關係，所以正體中文或會在編碼過程中，被視為異體字或小作的中文字符會被過濾為大作，敬請見諒。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B7%A8%E8%BC%AF%E5%99%A8%E7%B5%84%E4%BB%B6%E9%A0%90%E8%A6%BD"><span class="toc-number">1.</span> <span class="toc-text">編輯器組件預覽</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%AF%E5%85%A5%E4%BE%9D%E8%B3%B4%E5%BA%AB"><span class="toc-number">2.</span> <span class="toc-text">匯入依賴庫</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#editor-%E6%A8%A1%E7%B5%84%E5%BA%AB"><span class="toc-number">2.1.</span> <span class="toc-text">editor 模組庫</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E7%BE%A9-CodeEditor-%E7%B5%84%E4%BB%B6"><span class="toc-number">2.1.1.</span> <span class="toc-text">定義 CodeEditor 組件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E7%BE%A9-SymbolInputView-%E7%B5%84%E4%BB%B6"><span class="toc-number">2.1.2.</span> <span class="toc-text">定義 SymbolInputView 組件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B7%A8%E8%BC%AF%E5%99%A8%E8%A8%AD%E5%AE%9A"><span class="toc-number">2.1.3.</span> <span class="toc-text">編輯器設定</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A8%AD%E7%BD%AE%E7%B7%A8%E8%BC%AF%E5%99%A8%E6%87%89%E7%94%A8%E7%9A%84%E4%B8%BB%E9%A1%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.3.1.</span> <span class="toc-text">設置編輯器應用的主題配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A8%AD%E7%BD%AE%E5%AD%97%E9%AB%94%E9%80%A3%E5%AD%97"><span class="toc-number">2.1.3.2.</span> <span class="toc-text">設置字體連字</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A8%AD%E7%BD%AE-TextActionWindow-%E8%87%AA%E5%AE%9A%E7%BE%A9%E4%BD%88%E5%B1%80%E5%92%8C%E5%A4%96%E8%A7%80"><span class="toc-number">2.1.3.3.</span> <span class="toc-text">設置 TextActionWindow 自定義佈局和外觀</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A8%AD%E7%BD%AE-EditorAutoCompletion-%E8%87%AA%E5%AE%9A%E7%BE%A9%E4%BD%88%E5%B1%80%E5%92%8C%E5%A4%96%E8%A7%80"><span class="toc-number">2.1.3.4.</span> <span class="toc-text">設置 EditorAutoCompletion 自定義佈局和外觀</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A8%AD%E7%BD%AE%E8%A8%BA%E6%96%B7%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%8F%90%E7%A4%BA%E5%92%8C%E6%8C%87%E6%A8%99%E5%99%A8"><span class="toc-number">2.1.4.</span> <span class="toc-text">設置診斷程序的提示和指標器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A8%AD%E7%BD%AE-QuickFix-%E6%8C%89%E9%88%95%E9%BB%9E%E6%93%8A%E4%BA%8B%E4%BB%B6"><span class="toc-number">2.1.4.1.</span> <span class="toc-text">設置 QuickFix 按鈕點擊事件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8D%B2%E5%8F%96%E6%B8%B8%E6%A8%99%E6%89%80%E9%81%B8%E7%9A%84%E6%96%87%E5%AD%97"><span class="toc-number">2.1.5.</span> <span class="toc-text">獲取游標所選的文字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%84%E4%BB%B6-Component"><span class="toc-number">2.1.6.</span> <span class="toc-text">組件 (Component)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6-Event"><span class="toc-number">2.1.7.</span> <span class="toc-text">事件 (Event)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B7%A8%E8%BC%AF%E5%99%A8%E7%9A%84%E5%85%A7%E5%AE%B9%E8%AE%8A%E5%8B%95%E4%BA%8B%E4%BB%B6"><span class="toc-number">2.1.7.1.</span> <span class="toc-text">編輯器的內容變動事件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#language-java-%E6%A8%A1%E7%B5%84%E5%BA%AB"><span class="toc-number">2.2.</span> <span class="toc-text">language-java 模組庫</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A8%AD%E7%BD%AE%E7%B7%A8%E8%BC%AF%E5%99%A8%E6%87%89%E7%94%A8-Java-%E8%AA%9E%E8%A8%80%E6%9E%B6%E6%A7%8B"><span class="toc-number">2.2.1.</span> <span class="toc-text">設置編輯器應用 Java 語言架構</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#language-textmate-%E6%A8%A1%E7%B5%84%E5%BA%AB"><span class="toc-number">2.3.</span> <span class="toc-text">language-textmate 模組庫</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BC%89%E5%85%A5%E5%8F%AF%E6%87%89%E7%94%A8%E7%9A%84%E7%8F%BE%E6%88%90%E4%B8%BB%E9%A1%8C"><span class="toc-number">2.3.1.</span> <span class="toc-text">載入可應用的現成主題</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BC%89%E5%85%A5%E5%8F%AF%E6%87%89%E7%94%A8%E7%9A%84%E8%AA%9E%E8%A8%80%E6%96%87%E4%BB%B6"><span class="toc-number">2.3.2.</span> <span class="toc-text">載入可應用的語言文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%8F%E9%81%8E%E4%BD%BF%E7%94%A8%E8%AA%9E%E6%B3%95%E8%A6%8F%E5%89%87%E5%BA%AB"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">透過使用語法規則庫</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%8F%E9%81%8E%E9%A0%98%E5%9F%9F%E7%89%B9%E5%AE%9A%E8%AA%9E%E8%A8%80-DSL"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">透過領域特定語言 (DSL)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%87%89%E7%94%A8%E7%89%B9%E5%AE%9A%E4%B8%BB%E9%A1%8C"><span class="toc-number">2.3.3.</span> <span class="toc-text">應用特定主題</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%87%89%E7%94%A8%E7%89%B9%E5%AE%9A%E8%AA%9E%E8%A8%80"><span class="toc-number">2.3.4.</span> <span class="toc-text">應用特定語言</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/dev-google-script-youtube-dynamic-title.html" title="編寫 GoogleScript 程式實現 Youtube 影片動態標題"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/HQprPD6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="編寫 GoogleScript 程式實現 Youtube 影片動態標題"/></a><div class="content"><a class="title" href="/post/dev-google-script-youtube-dynamic-title.html" title="編寫 GoogleScript 程式實現 Youtube 影片動態標題">編寫 GoogleScript 程式實現 Youtube 影片動態標題</a><time datetime="2023-10-06T14:50:58.000Z" title="發表於 2023 年 10 月 06 日 22 時 50 分 58 秒">2023 年 10 月 06 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/ai-image-generation-stable-diffusion.html" title="人工智能的圖像生成 - Stable Diffusion"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/YppRLS4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="人工智能的圖像生成 - Stable Diffusion"/></a><div class="content"><a class="title" href="/post/ai-image-generation-stable-diffusion.html" title="人工智能的圖像生成 - Stable Diffusion">人工智能的圖像生成 - Stable Diffusion</a><time datetime="2023-10-01T14:10:00.000Z" title="發表於 2023 年 10 月 01 日 22 時 10 分 00 秒">2023 年 10 月 01 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/android-dev-kotlin-dokka-api-docs.html" title="JetBrains 開發的 Dokka API 文檔系統"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/Kfdq5uB.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JetBrains 開發的 Dokka API 文檔系統"/></a><div class="content"><a class="title" href="/post/android-dev-kotlin-dokka-api-docs.html" title="JetBrains 開發的 Dokka API 文檔系統">JetBrains 開發的 Dokka API 文檔系統</a><time datetime="2023-07-10T14:43:40.000Z" title="發表於 2023 年 07 月 10 日 22 時 43 分 40 秒">2023 年 07 月 10 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/jetpack-compose-dev-kotlin-multiplatform-notes.html" title="Kotlin Compose 跨平台項目開發筆記"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/GUsLcS8.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kotlin Compose 跨平台項目開發筆記"/></a><div class="content"><a class="title" href="/post/jetpack-compose-dev-kotlin-multiplatform-notes.html" title="Kotlin Compose 跨平台項目開發筆記">Kotlin Compose 跨平台項目開發筆記</a><time datetime="2023-06-26T12:31:48.000Z" title="發表於 2023 年 06 月 26 日 20 時 31 分 48 秒">2023 年 06 月 26 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/android-dev-github-workflow-android-ci.html" title="GitHub Android CI 開源程式流程部署"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.imgur.com/n5HI95f.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="GitHub Android CI 開源程式流程部署"/></a><div class="content"><a class="title" href="/post/android-dev-github-workflow-android-ci.html" title="GitHub Android CI 開源程式流程部署">GitHub Android CI 開源程式流程部署</a><time datetime="2023-05-07T09:42:00.000Z" title="發表於 2023 年 05 月 07 日 17 時 42 分 00 秒">2023 年 05 月 07 日</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2021 - 2023 By <a class="footer-bar-link" href="/" title="BlueWhaleYT" target="_blank">BlueWhaleYT</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" href="/" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/" title="tag"><div class="headline">標籤</div><div class="length-num">15</div></a><a href="/categories/" title="category"><div class="headline">分類</div><div class="length-num">5</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="顯示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>顯示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">工具</div><div class="back-menu-list"><a class="back-menu-item" href="/gpt-prompt-template" title="GPT 提詞模板"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="GPT 提詞模板"/><span class="back-menu-item-text">GPT 提詞模板</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">工具</div><div class="back-menu-list"><a class="back-menu-item" href="/gpt-prompt-template" title="GPT 提詞模板"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="GPT 提詞模板"/><span class="back-menu-item-text">GPT 提詞模板</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 「絲襪」地帶</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/gpt-prompt-template"><span> GPT 提詞模板</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Android/" style="font-size: 0.88rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Android<sup>7</sup></a><a href="/tags/CSS/" style="font-size: 0.88rem;">CSS<sup>1</sup></a><a href="/tags/GoogleScript/" style="font-size: 0.88rem;">GoogleScript<sup>1</sup></a><a href="/tags/Gradle/" style="font-size: 0.88rem;">Gradle<sup>4</sup></a><a href="/tags/HTML/" style="font-size: 0.88rem;">HTML<sup>1</sup></a><a href="/tags/JSON/" style="font-size: 0.88rem;">JSON<sup>2</sup></a><a href="/tags/Java/" style="font-size: 0.88rem;">Java<sup>4</sup></a><a href="/tags/JavaScript/" style="font-size: 0.88rem;">JavaScript<sup>2</sup></a><a href="/tags/Kotlin/" style="font-size: 0.88rem;">Kotlin<sup>3</sup></a><a href="/tags/Markdown/" style="font-size: 0.88rem;">Markdown<sup>1</sup></a><a href="/tags/Regex/" style="font-size: 0.88rem;">Regex<sup>1</sup></a><a href="/tags/Swift/" style="font-size: 0.88rem;">Swift<sup>1</sup></a><a href="/tags/XML/" style="font-size: 0.88rem;">XML<sup>4</sup></a><a href="/tags/YAML/" style="font-size: 0.88rem;">YAML<sup>2</sup></a><a href="/tags/%E7%B5%82%E7%AB%AF%E6%A9%9F%E6%8C%87%E4%BB%A4/" style="font-size: 0.88rem;">終端機指令<sup>2</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="簡繁轉換">繁</button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到頂部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><span id="loading-status"></span><button class="search-close-button"><i class="anzhiyufont anzhiyu-icon-xmark"></i></button></nav><div class="is-center" id="loading-database"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-pulse-icon"></i><span>  資料庫載入中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜尋文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.4/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2021 By 安知鱼 V1.6.8",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 BlueWhaleYT 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script src="https://cdn.cbd.int/prismjs@1.29.0/prism.js"></script><script src="https://cdn.cbd.int/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script><script src="https://cdn.cbd.int/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
