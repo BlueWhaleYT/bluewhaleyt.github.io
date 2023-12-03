@@ -1,77 +1,107 @@
+/*
+    use [data-theme='dark'] to adjust for only dark mode
+*/
+
 :root {
-    --dcode-background: #292d3e;
-    --dcode-foreground: #a6accd;
-    --dcode-meta: #f07178;
-    --dcode-class: #ffcb6b;
-    --dcode-keyword: #c792ea;
-    --dcode-function: #82aaff;
-    --dcode-string: #c3e88d;
-    --dcode-number: #f78c6c;
-    --dcode-annotation: #80cbc4;
-    --dcode-punctuation: #89ddff;
-    --dcode-comment: #676e95;
-    --dcode-property: #b2ccd6;
+    --palenight-red: #f07178;
+    --palenight-red-alt: #ff5370;
+    --palenight-orange: #f79c6c;
+    --palenight-yellow: #ffcb6c;
+    --palenight-green: #c3e88d;
+    --palenight-cyan: #80cbc4;
+    --palenight-light-blue: #89ddff;
+    --palenight-blue: #82aaff;
+    --palenight-purple: #c792ea;
+    --palenight-grey: #676e95;
+    --palenight-white: #eeffff;
+    --palenight-default: #a6accd;
 }
 
-[data-theme='dark'] #article-container pre {
-    background: var(--dcode-background) !important;
+#article-container .highlight-tools .code-lang,
+#article-container .highlight-tools .anzhiyufont {
+    color: var(--palenight-default) !important;
 }
 
-[data-theme='dark'] #article-container code {
-    color: var(--dcode-foreground) !important;
+/* [ TEXT COLOR ] */
+pre code span,
+pre {
+    color: var(--palenight-default) !important;
 }
 
-[data-theme="dark"] #article-container .highlight .highlight-tools {
-    background: #202331 !important;
+/* [ LINE NUMMBER ] */
+#article-container pre[class*='language-'].line-numbers .line-numbers-rows>span:before {
+    color: var(--palenight-grey) !important;
 }
 
-[data-theme="dark"] .token.keyword,
-[data-theme="dark"] .token.operator,
-[data-theme="dark"] .token.attr-name {
-    color: var(--dcode-keyword) !important;
+/* [ OPERATOR, PUNCTUATION ] */
+.highlight .token.punctuation {
+    color: var(--palenight-light-blue) !important;
+}
+.highlight .token.operator {
+    color: var(--palenight-purple) !important;
 }
 
-[data-theme="dark"] .token.namespace {
-    color: #c792eadd !important;
+/* [ COMMENT ] */
+.highlight .token.comment {
+    color: var(--palenight-grey) !important;
+    font-style: italic !important;
 }
 
-[data-theme="dark"] .token.class-name {
-    color: var(--dcode-class) !important;
+/* [ STRING ] */
+.highlight .token.string {
+    color: var(--palenight-green) !important;
 }
 
-[data-theme="dark"] .token.annotation.punctuation {
-    color: var(--dcode-annotation) !important;
+/* [ KEYWORD ] */
+.highlight .token.keyword {
+    color: var(--palenight-purple) !important;
 }
 
-[data-theme="dark"] .token.function {
-    color: var(--dcode-function) !important;
+/* [ FUNCTION ] */
+.highlight .token.function {
+    color: var(--palenight-blue) !important;
 }
 
-[data-theme="dark"] .token.punctuation {
-    color: var(--dcode-punctuation) !important;
+/* [ ANNOTATION ] */
+.highlight .token.annotation {
+    color: var(--palenight-cyan) !important;
 }
 
-[data-theme="dark"] .token.comment,
-[data-theme="dark"] .token.prolog {
-    color: var(--dcode-comment) !important;
+/* [ CLASS ] */
+.highlight .token.class-name {
+    color: var(--palenight-yellow) !important;
 }
 
-[data-theme="dark"] .token.string,
-[data-theme="dark"] .token.attr-value {
-    color: var(--dcode-string) !important;
+/* [ HTML TAG ] */
+.highlight .token.tag {
+    color: var(--palenight-red) !important;
 }
 
-[data-theme="dark"] .token.constant,
-[data-theme="dark"] .token.number,
-[data-theme="dark"] .token.boolean {
-    color: var(--dcode-number) !important;
+/* [ HTML ATTRIBUTE ] */
+.highlight .token.attr-name,
+.highlight .token.namespace {
+    color: var(--palenight-purple) !important;
 }
 
-[data-theme="dark"] .token.tag,
-[data-theme="dark"] .token.key {
-    color: var(--dcode-meta) !important;
+/* [ HTML ATTRIBUTE VALUE ] */
+.highlight .token.attr-value {
+    color: var(--palenight-green) !important;
 }
 
-[data-theme="dark"] .token.property {
-    color: var(--dcode-property) !important;
+/* [ DIFF ] */
+.highlight .language-diff .deleted .prefix {
+    color: #eb3b5aaa !important;
+}
+
+.highlight .language-diff .deleted .line {
+    color: #eb3b5a !important;
+    text-decoration: line-through !important;
+}
+
+.highlight .language-diff .inserted .prefix {
+    color: #20bf6baa !important;
+}
+
+.highlight .language-diff .inserted .line {
+    color: #20bf6b !important;
 }

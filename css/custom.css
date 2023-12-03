@@ -1,135 +1,137 @@
+/* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
 
 :root {
-    --anzhiyu-lighttext: var(--anzhiyu-main)
-}
-[data-theme='dark'] img {
-    filter: initial !important;
+    --anzhiyu-lighttext: var(--anzhiyu-main) /* Fix TOC "main_color" not working in dark mode */
 }
 
+/* Remove repeated header */
 #article-container header {
     display: none !important;
 }
 
-/* [ Text Formatting ] */
-#article-container a {
-    font-family: initial !important;
+/* Adjust post Header cover / banner ] */
+@media (min-width:600px) {
+    #page-header.post-bg #post-top-cover {
+        filter: initial !important;
+        width: auto !important;
+        height: auto !important;
+        margin: auto !important;
+        /* transform: translateX(10px) !important; */
+    }
 }
-#article-container kbd {
-    text-shadow: none !important;
+
+/* Remove "Original" badges and tags */
+#post-firstinfo .meta-firstline a.post-meta-original,
+#post .post-copyright__original {
+    display: none !important;
 }
+
+/* Reset inline code background color */
+#article-container code {
+    background: var(--anzhiyu-secondbg) !important;
+    border: var(--style-border) !important;
+    color: var(--d-code-foreground) !important;
+}
+#article-container pre code {
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Adjust code block label font size */
+#article-container .highlight-tools .code-lang {
+    font-size: 12px !important;
+    text-transform: none !important;
+}
+
+/* Fix collapse code block animation */
+#article-container .code-expand-btn.expand-done {
+    transform: initial !important;
+}
+
+/* Adjust expand and collapse icon text */
+#article-container .code-expand-btn .anzhiyu-icon-angle-double-down:before {
+    content: '\fe3e \00a0| 展開程式碼' !important;
+    color: var(--hl-color) !important;
+}
+#article-container .code-expand-btn.expand-done .anzhiyu-icon-angle-double-down:before {
+    content: '\fe3d \00a0| 收起程式碼' !important;
+    color: var(--hl-color) !important;
+}
+
+/* Adjust bullet points dot size */
 #article-container ul>li:not(.tab)::before {
     top: 0.98em !important;
     width: auto !important;
     height: auto !important;
 }
 
-/* [ Code Block ] */
-#article-container code {
-    background: var(--anzhiyu-secondbg) !important;
-    border: var(--style-border) !important;
-    /* color: var(--anzhiyu-main) !important; */
-}
-#article-container pre code {
-    background: transparent !important;
-    border: none !important;
-}
-[data-theme='dark'] #article-container code:not(pre code) {
-    /* color: color-mix(in srgb, var(--anzhiyu-main) 60%, white) !important; */
+/* Reset hyperlink texts font */
+#article-container a {
+    font-family: initial !important;
 }
 
-#article-container pre[class*='language-'] *:first-child {
-    margin-left: 0px !important;
+/* Set notes border color */
+#post .note {
+    border-top-color: var(--anzhiyu-card-border) !important;
+    border-bottom-color: var(--anzhiyu-card-border) !important;
+    border-right-color: var(--anzhiyu-card-border) !important;
 }
 
-#article-container pre,
-#article-container code,
-#article-container pre span {
-    font-family: "JetBrains Mono", consolas, Menlo, "PingFang SC", "Microsoft JhengHei", "Microsoft YaHei", sans-serif !important;
-}
-
-#article-container .highlight-tools .code-lang { /* code language label */
-    font-size: 0.1em !important;
-    text-transform: none !important;
-}
-
-#article-container .code-expand-btn.expand-done {
-    transform: initial !important;
-}
-
-#article-container .code-expand-btn .anzhiyu-icon-angle-double-down:before {
-    content: '\fe3e' !important;
-}
-
-#article-container .code-expand-btn.expand-done .anzhiyu-icon-angle-double-down:before {
-    content: '\fe3d' !important;
-}
-
-/* [ Note ] */
-.note.simple {
-    border-color: var(--anzhiyu-card-border);
-}
-
-/* [ Horizontal divider ] */
-hr,
+/* Set dividers (hr and h2's divider) */
+#post hr,
 #post #article-container h2 {
-    border-color: var(--anzhiyu-card-border);
+    border-color: var(--anzhiyu-card-border) !important;
+    border-width: 2px !important;
 }
 
-/* [ Post Header (Gradient) ] */ 
-#page-header.post-bg #post-top-cover {
-    filter: initial !important;
-    width: auto !important;
-    height: auto !important;
-    margin: auto !important;
-    transform: translateX(10px) !important;
-}
-
-@media screen and (max-width: 768px) {
-    #page-header.post-bg #post-top-cover {
-    }
-}
-
-/* [ Home Page Thumbnail Swiper ] */
-.swiper-pagination-bullet-active {
-    background: var(--anzhiyu-main) !important;
-}
-
-/* [ Remove "Original" tag ] */
-#post-firstinfo .meta-firstline a.post-meta-original {
+/* Remove items from right menu */
+#menu-searchBaidu,
+#menu-commenttext {
     display: none !important;
 }
 
-/* [ Plugins ] */
-/* [ Sticky ] */
+/* Recent posts (index page) categories text */
+#recent-posts .article-categories-original,
+#recent-posts .newPost,
+#recent-posts .unvisited-post {
+    font-size: 12px !important;
+}
+
+/* Hide unvisited / unread posts badge */
+#recent-posts .unvisited-post {
+    display: none !important;
+}
+
+/* Adjust google translate widget */
+.goog-logo-link,
+.skiptranslate span {
+    display: none !important;
+}
+.goog-te-gadget {
+    color: transparent !important;
+    font-size: 1px !important;
+}
+.goog-te-combo {
+    background: var(--anzhiyu-secondbg) !important;
+    color: var(--font-color) !important;
+    width: 100%;
+    height: 60px;
+    padding-left: 20px;
+    border-radius: 1em;
+}
+/* body > .skiptranslate {
+    display: none;
+} */
+
+/* Plugins */
+/* Adjust sticky badge */
 #recent-posts>.recent-post-item>.recent-post-info .sticky-warp {
     background: #ff7242 !important;
     padding: 0px 10px;
     border-radius: 0.4em;
 }
+
 #recent-posts>.recent-post-item>.recent-post-info .sticky-warp .sticky {
     color: white !important;
-}
-
-/* [ Encrypt ] */
-
-.hbe-button {
-    background: var(--anzhiyu-card-bg) !important;
-    border: var(--style-border) !important;
-    border-radius: 14px !important;
-    color: var(--font-color) !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-    text-align: center !important;
-    text-indent: 0 !important;
-    width: 100% !important;
-    margin: 80px 0px !important;
-}
-
-.hbe-button:hover {
-    background: var(--anzhiyu-main) !important;
-}
-
-.hbe-button::after {
-    border: none !important;
 }
