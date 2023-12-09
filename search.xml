@@ -370,6 +370,474 @@ watermark, username, artist name, (worst quality, low quality:1.4), bad anatomy<
       </categories>
   </entry>
   <entry>
+    <title>Android 開發 | Sora Editor 編輯器函式庫</title>
+    <url>/post/android-dev-sora-editor-lib-notes.html</url>
+    <content><![CDATA[<p>以往如果要寫一個設有語法高亮的文本編輯器，可能會用到基本的正則表達式 (Regex) 配合使用 <code>TextWatcher</code> 來實現。</p>
+<details class="folding-tag"><summary> 以往大概實現方式 </summary>
+              <div class="content">
+              <div class="tabs" id="legacy_way"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="legacy_way-1">Code</button><button type="button" class="tab " data-href="legacy_way-2">Usage</button></ul><div class="tab-contents"><div class="tab-item-content active" id="legacy_way-1"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class SyntaxHighlightTextWatcher implements TextWatcher &#123;
+
+    private final EditText editText;
+    private final Pattern pattern;
+    private final int highlightColor;
+
+    public SyntaxHighlightTextWatcher(EditText editText, String regex, int highlightColor) &#123;
+        this.editText &#x3D; editText;
+        this.pattern &#x3D; Pattern.compile(regex);
+        this.highlightColor &#x3D; highlightColor;
+    &#125;
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) &#123;
+    &#125;
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) &#123;
+    &#125;
+
+    @Override
+    public void afterTextChanged(Editable editable) &#123;
+        String text &#x3D; editable.toString();
+
+        Spannable spannable &#x3D; Spannable.Factory.getInstance().newSpannable(text);
+        Matcher matcher &#x3D; pattern.matcher(text);
+
+        while (matcher.find()) &#123;
+            int matchStart &#x3D; matcher.start();
+            int matchEnd &#x3D; matcher.end();
+            spannable.setSpan(new ForegroundColorSpan(highlightColor), matchStart, matchEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        &#125;
+
+        editText.removeTextChangedListener(this);
+        editText.setText(spannable);
+        editText.setSelection(text.length());
+        editText.addTextChangedListener(this);
+    &#125;
+&#125;</code></pre></div><div class="tab-item-content" id="legacy_way-2"><pre class="line-numbers language-java" data-language="java"><code class="language-java">String regex &#x3D; &quot;(public|protected|private|return|if|else|for|while)&quot;;
+int highlightColor &#x3D; getResources().getColor(R.color.highlight_color);
+RegexSyntaxHighlightTextWatcher textWatcher &#x3D; new RegexSyntaxHighlightTextWatcher(editText, regex, highlightColor);
+editText.addTextChangedListener(textWatcher);</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+              </div>
+            </details>
+
+<p>但這樣做太繁複，而且有很多限制，亦都會因為過份地對 <code>EditText</code> 文本進行語法顏色編製，會令到在輸入時不流暢，降低應用程式的效率。所以，這個情況如果改用 Sora Editor 就最好不過了。</p>
+<p>Sora Editor 是由 <a href="https://github.com/Rosemoe">Rosemoe</a> 作者開發的一個供 Android 開發的程式使用的代碼編輯器組件，如提供基本的行號顯示、程式診斷輔助指標、乃至可以匯入額外的模塊，如常見的支援語法高亮特性，使整個函式庫生息不少。</p>
+<hr>
+<h1 id="匯入依賴庫"><a href="#匯入依賴庫" class="headerlink" title="匯入依賴庫"></a>匯入依賴庫</h1><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">dependencies &#123;
+    implementation(platform(&quot;io.github.Rosemoe.sora-editor:bom:0.21.1&quot;))
+    
+    &#x2F;&#x2F; 啟用 Editor 基本模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:editor&quot;)
+    
+    &#x2F;&#x2F; 啟用 TextMate 語法高亮模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:language-textmate&quot;)
+    
+    &#x2F;&#x2F; 啟用 Java 語言模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:language-java&quot;)
+    
+    &#x2F;&#x2F; 其他處於開發階段的試驗性模組庫，有興趣可以使用
+    &#x2F;&#x2F; 啟用語言伺服器協定 (LSP) 的 Editor 模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:editor-lsp&quot;)
+    
+    &#x2F;&#x2F; 啟用 Tree-Sitter 語法高亮模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:language-treesitter&quot;)
+&#125;</code></pre>
+
+<p>接下來，我會稱 <code>editor</code> 為核心庫，因為這個函式庫必須要首先匯入的就是 <code>editor</code> 庫。</p>
+<hr>
+<h1 id="editor-核心庫"><a href="#editor-核心庫" class="headerlink" title="editor 核心庫"></a><code>editor</code> 核心庫</h1><h2 id="嵌入編輯器到-XML-佈局"><a href="#嵌入編輯器到-XML-佈局" class="headerlink" title="嵌入編輯器到 XML 佈局"></a>嵌入編輯器到 XML 佈局</h2><ol>
+<li>定義 <code>CodeEditor</code> 組件，就是一個核心編輯器<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;io.github.rosemoe.sora.widget.CodeEditor
+    android:id&#x3D;&quot;@+id&#x2F;editor&quot;
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;</code></pre></li>
+<li>定義 <code>SymbolInputView</code> 組件，這個是用來插入常用符號的工具列，但有時候，如果增設太多符號項到工具列，可能會超出可視區域，所以通常都會連同 <code>HorizontalScrollView</code> 水平滾動佈局加入。<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;HorizontalScrollView
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;wrap_content&quot;
+    android:orientation&#x3D;&quot;horizontal&quot;&gt;
+    &lt;io.github.rosemoe.sora.widget.SymbolInputView
+        android:id&#x3D;&quot;@+id&#x2F;symbol_input_view&quot;
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;
+&lt;&#x2F;LinearLayout&gt;</code></pre>
+預設是沒有符號項加入到工具列的，這裏要準備兩個陣列：<pre class="line-numbers language-java" data-language="java"><code class="language-java">String[] displayText &#x3D; &#123;&quot;→&quot;, &quot;&#123;&quot;, &quot;&#125;&quot;, &quot;(&quot;, &quot;)&quot;, &quot;[&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;,&quot;, &quot;.&quot;, &quot;;&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;?&quot;, &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;&#x2F;&quot;, &quot;&#x3D;&quot;&#125;;
+String[] insertText &#x3D; &#123;&quot;\t&quot;, &quot;&#123;&#125;&quot;, &quot;&#125;&quot;, &quot;()&quot;, &quot;)&quot;, &quot;[]&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;,&quot;, &quot;.&quot;, &quot;;&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;?&quot;, &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;&#x2F;&quot;, &quot;&#x3D;&quot;&#125;;
+
+symbolInputView.addSymbols(displayText, insertText);
+symbolInputView.bindEditor(editor);</code></pre>
+<div class="note info simple"><p><code>displayText</code> 用來顯示的符號，而 <code>insertText</code> 用來插入的符號</p>
+</div></li>
+</ol>
+<h2 id="設置診斷程序的提示和指標器"><a href="#設置診斷程序的提示和指標器" class="headerlink" title="設置診斷程序的提示和指標器"></a>設置診斷程序的提示和指標器</h2><p><code>CodeEditor</code> 並沒有提供診斷程式程序，這個功能你要自行編寫代碼實現，但提供了設置診斷程序的提示和指標器。</p>
+<p>支援的嚴重程度 (Severity) 如下：</p>
+<ul>
+<li><code>SEVERITY_ERROR</code> ：紅色，代表錯誤</li>
+<li><code>SEVERITY_WARNING</code>：黃色，代表警告</li>
+<li><code>SEVERITY_TYPO</code>：綠色，代表錯別字</li>
+</ul>
+<p>這裏有一個預覽圖：</p>
+<p><img src="https://i.imgur.com/vOyMhjm.png" alt="CodeEditor Diagnostics Preview"></p>
+<div class="note warning simple"><p>在進行 <code>setDiagnostic()</code> 前要先 <code>setDiagnostics(new DiagnosticsContainer());</code>。</p>
+</div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.setDiagnostics(new DiagnosticsContainer());
+
+setDiagnostic(36, 44, DiagnosticRegion.SEVERITY_ERROR, &quot;Error&quot;, &quot;Message&quot;, List.of(
+    new Quickfix(&quot;Fix&quot;, 0L, null),
+    new Quickfix(&quot;Other&quot;, 0L, null)
+));
+
+public void setDiagnostic(int startIndex, int endIndex, short type, String briefMessage, String detailedMessage, List&lt;Quickfix&gt; list) &#123;
+    getDiagnostics().addDiagnostic(
+        new DiagnosticRegion(startIndex, endIndex, type, 0L,
+                new DiagnosticDetail(
+                        briefMessage,
+                        detailedMessage,
+                        list,
+                        null
+                )
+        )
+    );
+&#125;</code></pre>
+
+<div class="note warning simple"><p>每個 <code>setDiagnostic()</code> 方法裏的第一個的 <code>QuickFix</code> 實例，如 <code>Fix</code>，都會顯示在首席位置，隨後的所有新增的 <code>QuickFix</code> 實例都會最後在 <code>More Actions...</code> 下拉式功能選單中顯示。</p>
+</div>
+
+<h3 id="設置-QuickFix-按鈕點擊事件"><a href="#設置-QuickFix-按鈕點擊事件" class="headerlink" title="設置 QuickFix 按鈕點擊事件"></a>設置 <code>QuickFix</code> 按鈕點擊事件</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">new Quickfix(&quot;Fix&quot;, 0L, new Runnable() &#123;
+    @Override
+    public void run() &#123;
+        &#x2F;&#x2F; 執行的代碼
+    &#125;
+&#125;)</code></pre>
+
+<h2 id="加入事件"><a href="#加入事件" class="headerlink" title="加入事件"></a>加入事件</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.subscribeEvent(XXX.class, new EventReciever&lt;&gt; &#123;
+    ...
+&#125;);</code></pre>
+
+<p>可用的事件如下：</p>
+<ul>
+<li><code>ClickEvent</code></li>
+<li><code>ColorSchemeUpdateEvent</code></li>
+<li><code>ContentChangeEvent</code></li>
+<li><code>DoubleClickEvent</code></li>
+<li><code>EditorReleaseEvent</code></li>
+<li><code>SelectionChangeEvent</code></li>
+</ul>
+<p>還有更多，可到<a href="https://github.com/Rosemoe/sora-editor/tree/main/editor/src/main/java/io/github/rosemoe/sora/event">這裏</a>看。</p>
+<h3 id="內容變動事件"><a href="#內容變動事件" class="headerlink" title="內容變動事件"></a>內容變動事件</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.subscribeEvent(ContentChangeEvent.class, new EventReceiver&lt;ContentChangeEvent&gt;() &#123;
+    @Override
+    public void onReceive(@NonNull ContentChangeEvent event, @NonNull Unsubscribe unsubscribe) &#123;
+        &#x2F;&#x2F; 執行的代碼
+    &#125;
+&#125;);</code></pre>
+
+<hr>
+<h1 id="language-textmate-模組庫"><a href="#language-textmate-模組庫" class="headerlink" title="language-textmate 模組庫"></a><code>language-textmate</code> 模組庫</h1><p>這個模組庫主要是擴充 <code>editor</code> 庫的編輯器，使用 TextMate 支援語法高亮功能。</p>
+]]></content>
+      <categories>
+        <category>程式編寫</category>
+        <category>Android 開發</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Java</tag>
+        <tag>XML</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>程式編寫 | 由 Java 遷移到 Kotlin 的基礎</title>
+    <url>/post/dev-migrate-to-kotlin-from-java.html</url>
+    <content><![CDATA[<h1 id="好端端的，為什麼要轉寫-Kotlin？"><a href="#好端端的，為什麼要轉寫-Kotlin？" class="headerlink" title="好端端的，為什麼要轉寫 Kotlin？"></a>好端端的，為什麼要轉寫 Kotlin？</h1><p>其實都挺無奈的，但這個是一個別無選擇的出路。在 Android 開發中，我看不到 Java 在未來還有立足之地。</p>
+<ol>
+<li>Java 不爭氣，在最初時期是很風光的，但往後加入的大部分特性，Android 都不支援。</li>
+<li>已經被 Google 官方斷言，往後推出的 Android 開發特性都以 Kotlin 為首，有目共睹，Jetpack Compose 就是一個 Java 開發者哭暈的證據。</li>
+</ol>
+<hr>
+<h1 id="Java-與-Kotlin-語法差異"><a href="#Java-與-Kotlin-語法差異" class="headerlink" title="Java 與 Kotlin 語法差異"></a>Java 與 Kotlin 語法差異</h1><h2 id="方法-x2F-函數定義"><a href="#方法-x2F-函數定義" class="headerlink" title="方法&#x2F;函數定義"></a>方法&#x2F;函數定義</h2><p>有一個約定俗成的理念，就是雖然大家做的都是一樣的東西，但 Java 就是稱方法 (method)，而 Kotlin 則沿用 C 語言的函數 (function) 為名稱。</p>
+<p>在 Java 中，例如定義一個傳回 <code>int</code> 型別的方法是這樣的：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">int sum(int a, int b) &#123;
+    return a + b;
+&#125;</code></pre>
+
+<p>而在 Kotlin 可以有不同的玩法</p>
+<ol>
+<li><p>一般寫法</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun sum(a: Int, b: Int) &#123;
+    return a + b
+&#125;</code></pre>
+<div class="note info simple"><p>會看到差異：</p>
+<ol>
+<li>是先以 <code>fun</code> (function 的縮寫) 作區塊開首，開宗明義的跟你說這個就是函數</li>
+<li>參數型別或函數傳回型別會用 <code>:</code> 形式，在後面定義參數型別，都看到 Java 用 <code>int</code> 而 Kotlin 則用類別 (Class) 而成的 <code>Int</code></li>
+<li>不用寫 <code>;</code> 作語句結尾</li>
+</ol>
+</div>
+</li>
+<li><p>隱式表達寫法</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun sum(a: Int, b: Int): Int &#x3D; a + b</code></pre>
+<div class="note info simple"><p>這裏的 <code>=</code> 就是 <code>return</code> 的意思了。</p>
+</div>
+</li>
+<li><p>擴展函數<br>假設現在寫一個 <code>MathKt</code> 類，如果只是寫擴充函數，這裏不用寫 <code>class MathKt &#123; ... &#125;</code>。<br>例如寫一個看 <code>Int</code> 型別加 <code>1</code> 的函數</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun Int.increment() &#x3D; this + 1</code></pre>
+<div class="note info simple"><p>擴展函數是為單一型別擴充的函數，你可以用這個方式寫 Utils，相當好用，至於 <code>this</code> 即是指明了的至別 i.e. <code>Int</code>。</p>
+<p>用法就是：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun main() &#123;
+    print(4.increment())
+&#125;</code></pre></div></li>
+</ol>
+<h2 id="變量定義"><a href="#變量定義" class="headerlink" title="變量定義"></a>變量定義</h2><p>在 Kotlin 有重點關注可變與不可變變量，就是變量及常量吧。</p>
+<p>Java 要定義它們，例如用 <code>int</code> 為例子，是寫：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">int num &#x3D; 5
+
+final int LUCKY_NUMBER &#x3D; 5</code></pre>
+
+<p>在 Kotlin，就要善用 <code>var</code> 和 <code>val</code> 關鍵字。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var num &#x3D; 5
+var num: Int &#x3D; 5 &#x2F;&#x2F; 可省略
+
+val LUCKY_NUMBER &#x3D; 5</code></pre>
+
+<p>為什麼 Kotlin 要 <code>val</code> 就可以寫常量呢，這裏稍後再說。</p>
+<h2 id="字串與變量拼合"><a href="#字串與變量拼合" class="headerlink" title="字串與變量拼合"></a>字串與變量拼合</h2><p>簡單來說，就是例如：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">String name &#x3D; &quot;Steve&quot;;
+System.out.println(&quot;I am &quot; + name);</code></pre>
+
+<p>在 Java 要用 <code>+</code> 來把變量拼合一起，而在 Kotlin 都可以用 <code>+</code> 來這樣做，但亦可以像 EcmaScript 的 <code>$&#123;&#125;</code> 寫法，唯一不同的就是不用 <code>`</code> 這個符號。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val name &#x3D; &quot;Steve&quot;
+print(&quot;I am $&#123;name&#125;&quot;)</code></pre>
+
+<hr>
+<h2 id="條件語句"><a href="#條件語句" class="headerlink" title="條件語句"></a>條件語句</h2><p>Java 寫的有幾種方法：</p>
+<ol>
+<li><p>一般寫法</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">if (a &gt; 5) &#123;
+    System.out.println(&quot;True&quot;);
+&#125; else &#123;
+    System.out.println(&quot;False&quot;);
+&#125;</code></pre>
+</li>
+<li><p>三元運算</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">System.out.println((a &gt; 5) ? &quot;True&quot; : &quot;False&quot;);</code></pre></li>
+</ol>
+<p>在 Kotlin 都有不同寫法</p>
+<ol>
+<li><p>一般寫法</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">if (a &gt; 5) &#123;
+    print(&quot;True&quot;)
+&#125; else &#123;
+    print(&quot;False&quot;)
+&#125;</code></pre></li>
+<li><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val flag
+val result &#x3D; if (a &gt; 5) &#123;
+    flag &#x3D; &quot;True&quot;
+&#125; else &#123;
+    flag &#x3D; &quot;False&quot;
+&#125;
+print(result)</code></pre>
+</li>
+<li><p>類似三元運算</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">print(if (a &gt; 5) &quot;True&quot; else &quot;False&quot;)</code></pre></li>
+</ol>
+<h2 id="情況判斷語句"><a href="#情況判斷語句" class="headerlink" title="情況判斷語句"></a>情況判斷語句</h2><p>Java 是用 <code>switch</code> 寫法的，而 Kotlin 是用 <code>when</code> 的，而且用法更強大。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">when (obj) &#123;
+    1 -&gt; print(&quot;One&quot;)
+    &quot;Hello&quot; -&gt; print(&quot;Greeting&quot;)
+    is Long -&gt; print(&quot;Long&quot;)
+    !is String -&gt; print(&quot;Not a string&quot;)
+    else -&gt; print(&quot;Unknown&quot;)
+&#125; </code></pre>
+
+<h2 id="型別判斷"><a href="#型別判斷" class="headerlink" title="型別判斷"></a>型別判斷</h2><p>Java 會用 <code>instanceof</code> 來進行型別判斷。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">if (obj instanceof String) &#123;
+    &#x2F;&#x2F; ...
+&#125; else if (obj instanceof int) &#123;
+    &#x2F;&#x2F; ...
+&#125;</code></pre>
+
+<p>Kotlin 則用 <code>is</code> 關鍵字。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">if (obj is String) &#123;
+    &#x2F;&#x2F; ...
+&#125; else if (obj is Int) &#123;
+    &#x2F;&#x2F; ...
+&#125;</code></pre>
+
+<h2 id="空指針異常處理"><a href="#空指針異常處理" class="headerlink" title="空指針異常處理"></a>空指針異常處理</h2><p><code>null</code> 就是一個變量所存的空值，即是一個無效物件，強迫要這個 <code>null</code> 值變量做事，只會讓程式崩潰。寫 Java 經常會遇到空指針異常 (<code>NullPointerException</code>)，在 Kotlin 有相關的處理方案。</p>
+<div class="note warning simple"><p>Kotlin 宣告變量 <strong>不可以預設定義值為 <code>null</code></strong> ，所以也算擊退了空指針問題。</p>
+</div>
+
+<h3 id="可空-Nullable-與不可空-Non-null-型別"><a href="#可空-Nullable-與不可空-Non-null-型別" class="headerlink" title="可空 (Nullable) 與不可空 (Non-null) 型別"></a>可空 (Nullable) 與不可空 (Non-null) 型別</h3><p>雖然 Kotlin 不可以預設定義 <code>null</code> 值，但不代表 Kotlin 沒有 <code>null</code> 值的存在。</p>
+<p>如果，我們直接宣告 <code>null</code> 值變量，會在編譯時拋出異常</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val name: String &#x3D; null</code></pre>
+
+<p>這個情況，就要加上 <code>?</code>，它是用來把變量設為可空型別，這個時候就可以用 <code>null</code>：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val name: String? &#x3D; null</code></pre>
+
+<h3 id="考慮變量為空的情況"><a href="#考慮變量為空的情況" class="headerlink" title="考慮變量為空的情況"></a>考慮變量為空的情況</h3><p>現在，如果你直接用 <code>name</code> 變量，例如 <code>name.length</code> 會出現這個問題：</p>
+<pre class="line-numbers language-none"><code class="language-none">Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable reciever of type String?</code></pre>
+
+<p>編譯器會引導你用 <code>?.</code> 或 <code>!!</code> 符號解決問題</p>
+<p>如果，你想判斷一個變量是否空，當然你可以這樣做：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">if (name !&#x3D; null)
+    println(name.length)</code></pre>
+
+<p>但是 Kotlin 有一個更簡單的做法，就是用 <code>?.</code> 直接寫：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">println(name?.length)</code></pre>
+
+<p>通常，我們都會用 <code>let</code> 語法糖搭配使用，如果處理沒有 <code>?</code> 即不可空型別變量，就不必要用 <code>let</code>。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">name?.let &#123;
+    println(it.length)
+&#125;</code></pre>
+
+<div class="note info simple"><p>這裏的 <code>it</code> 是編譯器推斷的，如果推斷成功，它就認定了這個 <code>it</code> 是指 <code>name</code>。</p>
+</div>
+
+<p>非空斷言 <code>!!.</code> 不推薦用的，這裏不重點說，因為有時你跟 IDE 提議用 <code>!!.</code> 都會拋錯誤：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">IllegalArgumentException：Parameter specified as non-null is null</code></pre>
+
+<h2 id="Getter-amp-Setter"><a href="#Getter-amp-Setter" class="headerlink" title="Getter &amp; Setter"></a>Getter &amp; Setter</h2><p>在 Java，你會經常用到 Getter &amp; Setter，(如硬要說中文的話，也就是存取子及變異子)，例如你有一個 <code>Person</code> 對象：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class Person &#123;
+    String name &#x3D; &quot;&quot;;
+    int age &#x3D; 0;
+&#125;</code></pre>
+
+<p>你就會編寫 Getter &amp; Setter：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public void setName(String name) &#123;
+    this.name &#x3D; name;
+&#125;
+public void setAge(int age) &#123;
+    this.age &#x3D; age;
+&#125;
+public String getName() &#123;
+    return name;
+&#125;
+public String getAge() &#123;
+    return age;
+&#125;</code></pre>
+
+<p>嗯，很長，畢竟這是 Java，但一旦你使用 Kotlin 就可以簡化代碼了。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">class Person &#123;
+    var name: String &#x3D; &quot;&quot;
+    var age: Int &#x3D; 0
+&#125;</code></pre>
+
+<p>JVM (Java 虛擬機) 就會預設自動生成 Getter &amp; Setter，可以直接使用了。</p>
+<h3 id="這個情況的-val-跟-var-分別"><a href="#這個情況的-val-跟-var-分別" class="headerlink" title="這個情況的 val 跟 var 分別"></a>這個情況的 <code>val</code> 跟 <code>var</code> 分別</h3><p>在 Kotlin 會有兩種宣告變量方法：</p>
+<ul>
+<li><code>val</code>: 宣告<strong>不可變</strong>變量，類似 Java 的 <code>final</code> 關鍵字</li>
+<li><code>var</code>: 宣告<strong>可變</strong>變量</li>
+</ul>
+<p>在這個情況下，生成 Getter 以及 Setter 有一個關鍵</p>
+<div class="note info simple"><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">class Person &#123;
+    var name: String &#x3D; &quot;&quot;   &#x2F;&#x2F; 宣告可變變量
+    val age: Int &#x3D; 0        &#x2F;&#x2F; 宣告不可變變量
+&#125;</code></pre>
+
+<p>最終，JVM 會：</p>
+<ul>
+<li>對 <code>name</code> 變量，生成 Getter 及 Setter 方法</li>
+<li>對 <code>age</code> 變量，只會生成 Getter 方法</li>
+</ul>
+</div>
+
+<p>由此可得，要 Setter 的話就要用 <code>var</code>，否則用 <code>val</code>。</p>
+<h2 id="脫離-Kotlin-關鍵字"><a href="#脫離-Kotlin-關鍵字" class="headerlink" title="脫離 Kotlin 關鍵字"></a>脫離 Kotlin 關鍵字</h2><p>Kotlin 加了很多新的關鍵字，例如 <code>is</code>、<code>data</code> 等關鍵字，有時候不是想以關鍵字語法用途，例如在 Java 有一個這樣的方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MyClass &#123;
+   static void is()&#123;
+       System.out.print(&quot;Hello World&quot;);
+   &#125;
+&#125;</code></pre>
+
+<p>在 Kotlin 調用這個 <code>is()</code> 函數，因為 <code>is</code> 是認定為關鍵字，所以要加一對 <code>``</code> 符號。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun main(args: Array&lt;String&gt;) &#123;
+   MyClass.&#96;is&#96;()   
+&#125;</code></pre>]]></content>
+      <categories>
+        <category>程式編寫</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose 開發 | 解決卡頓的關鍵：使用 release 版本運行</title>
+    <url>/post/jetpack-compose-dev-keystore-release.html</url>
+    <content><![CDATA[<p>Jetpack Compose 是一個近年來新興的開發架構，在開發 Compose 程式時，往往都會遇到一件事相當困擾，就是程式卡卡的，運作不流暢，這很影響用戶體驗，而令到 Compose 程式卡頓不外乎是有關兩項因素：</p>
+<ol>
+<li>在 <code>@Composable</code> 可組合項執行及計算複雜的程式邏輯</li>
+<li>使用 <code>debug</code> 模式調試程式</li>
+</ol>
+<p>如果你是第一種，那就可以去學一下使用 <code>ViewModel</code> 把程式邏輯與界面設計分開，因為可組合項主要是用來使界面設計的，它因為會重組的可能，所以<strong>不建議把邏輯放在內計算</strong>。</p>
+<p>至於如果你是第二種，那就來對地方，這裏會記錄一下使用 Keystore 編譯及運行 <code>release</code> 版本。</p>
+<hr>
+<h1 id="構建及簽署應用程式"><a href="#構建及簽署應用程式" class="headerlink" title="構建及簽署應用程式"></a>構建及簽署應用程式</h1><p>要進行 <code>release</code> 版本，最重要的就是要範為應用程式簽署，在 Android Studio，上面選單列的 <code>Build</code> 找 <code>Generate Signed Bundle / APK</code></p>
+<p>它會問你選擇 AAB (Android App Bundle) 或是 APK，這裏選擇 APK</p>
+<p><img src="/post/jetpack-compose-dev-keystore-release/img1.png" alt="img1"></p>
+<p>如果你之前已經有建立了的 Keystore 就按 Choose existing… 不然就按 Create new</p>
+<p><img src="/post/jetpack-compose-dev-keystore-release/img2.png" alt="img2"></p>
+<h2 id="建立-Keystore"><a href="#建立-Keystore" class="headerlink" title="建立 Keystore"></a>建立 Keystore</h2><p>建立一個 Keystore 需要填妥表格，包括以下項目</p>
+<p><img src="/post/jetpack-compose-dev-keystore-release/img3.png" alt="img3"></p>
+<ul>
+<li><code>Key store path</code>: Keystore 檔案 (副檔名為 <code>.keystore</code>) 存放位置，通常如果是獨立只為獨有應用程式用的 Keystore，這個檔案路徑可以存放到專案的根目錄位置 e.g. <code>AndroidStudioProjects/MyApp/myapp_release.keystore</code></li>
+<li><code>Password</code>: 設置 Keystore 的密碼</li>
+</ul>
+<p>而 <code>Key</code> 有幾項需要注意：</p>
+<ul>
+<li><code>Alias</code>: Key 的名稱，可以用 <code>key</code> 為前綴 e.g. <code>keyMyApp</code>，不規定。</li>
+<li><code>Password</code>: 設置 Key 的密碼，如沒有太大問題，這裏可以都使用 Keystore 密碼</li>
+<li><code>Validity</code>: 以年數作計算，預設是 <code>25</code>，就是 Key 的有效期為 25 年</li>
+</ul>
+<p>而 <code>Certificate</code> 細項中：</p>
+<ul>
+<li><code>First and Last Name</code>: 用戶名稱</li>
+</ul>
+<p>其餘的按需要就填。</p>
+<h2 id="完成-Keystore"><a href="#完成-Keystore" class="headerlink" title="完成 Keystore"></a>完成 Keystore</h2><p>例如完成好的 Keystore，再按 Next</p>
+<p><img src="/post/jetpack-compose-dev-keystore-release/img4.png" alt="img4"></p>
+<p>這裏會問 Keystore 應用到 <code>debug</code> 或是 <code>release</code>，選擇 <code>release</code>，按 Create</p>
+<p><img src="/post/jetpack-compose-dev-keystore-release/img5.png" alt="img5"></p>
+<hr>
+<h1 id="配置-release-構建代碼"><a href="#配置-release-構建代碼" class="headerlink" title="配置 release 構建代碼"></a>配置 <code>release</code> 構建代碼</h1><p>在 <code>app</code> 模塊的 <code>build.gradle.kts</code> 加入代碼：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">buildTypes &#123;
+    signingConfigs &#123;
+        create(&quot;release&quot;) &#123;
+            keyAlias &#x3D; &quot;XXX&quot;
+            keyPassword &#x3D; &quot;XXX&quot;         &#x2F;&#x2F; Key 密碼
+            storeFile &#x3D; file(&quot;XXX&quot;)
+            storePassword &#x3D; &quot;XXX&quot;       &#x2F;&#x2F; Keystore 密碼
+        &#125;
+    &#125;
+    release &#123;
+        isMinifyEnabled &#x3D; false
+        proguardFiles(
+            getDefaultProguardFile(&quot;proguard-android-optimize.txt&quot;),
+            &quot;proguard-rules.pro&quot;
+        )
+        signingConfig &#x3D; signingConfigs.getByName(&quot;release&quot;)
+    &#125;
+&#125;</code></pre>
+
+<p><code>storeFile</code> 是 Keystore 檔案存放路徑，例子 </p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">storeFile &#x3D; file(&quot;&#x2F;Users&#x2F;bluewhaleyt&#x2F;AndroidStudioProjects&#x2F;MyApp&#x2F;myapp_release.keystore&quot;)</code></pre>
+
+<hr>
+<h1 id="使用-release-構建程式"><a href="#使用-release-構建程式" class="headerlink" title="使用 release 構建程式"></a>使用 <code>release</code> 構建程式</h1><p>把專案 <code>app</code> 的 <code>Build Variant</code> 更改為 <code>release</code> 版本</p>
+<div class="note info simple"><p>一旦改 <code>app</code> 的 <code>Build Variant</code> (構建模式)，其他的模塊都會用該構建模式，即一併使用 <code>release</code> 模式。</p>
+</div>
+
+<p><img src="/post/jetpack-compose-dev-keystore-release/img6.png" alt="img6"></p>
+<p>現在 Run 程式就是用 <code>release</code> 模式了</p>
+]]></content>
+      <categories>
+        <category>程式編寫</category>
+        <category>Jetpack Compose 開發</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>程式編寫 | 實作自訂常用的程式碼片段</title>
     <url>/post/dev-vscode-custom-snippets.html</url>
     <content><![CDATA[<p>有沒有想過自己在編寫程式碼時，能夠借助自動完成選單來完成一整塊的程式碼？在 VSCode 軟件，它能夠支援自訂程式碼片段，使你能夠<strong>在輸入關鍵字的前綴後，便能插入一整塊程式碼！</strong>大大提升你編程的效率。</p>
@@ -546,183 +1014,254 @@ watermark, username, artist name, (worst quality, low quality:1.4), bad anatomy<
       </tags>
   </entry>
   <entry>
-    <title>Android 開發 | Sora Editor 編輯器函式庫</title>
-    <url>/post/android-dev-sora-editor-lib-notes.html</url>
-    <content><![CDATA[<p>以往如果要寫一個設有語法高亮的文本編輯器，可能會用到基本的正則表達式 (Regex) 配合使用 <code>TextWatcher</code> 來實現。</p>
-<details class="folding-tag"><summary> 以往大概實現方式 </summary>
+    <title>Jetpack Compose 開發 | 實作自訂設計系統</title>
+    <url>/post/jetpack-compose-dev-custom-design-system-notes.html</url>
+    <content><![CDATA[<p>有時候，我們想寫應用程式時，由其是現在使用 Jetpack Compose 框架，可能會用到 Compose 跨平台架構，實現 Android 及 iOS 雙平台手機程式，如果沿用官方提供的質感設計 3 來做程式，依然沒問題，只是有點不能突顯程式的獨特性。</p>
+<p>所以，你看到大部分熱門及大型公司製造的應用程式，有些雖然都是沿用質感設計 3，但是其實是以這個為根基，之後再客製化的，從而反映程式別具一樹的設計風格。</p>
+<p>這裏會記錄一下實際上一個設計系統怎做。</p>
+<hr>
+<h1 id="以官方提供的-API-寫自訂的設計系統"><a href="#以官方提供的-API-寫自訂的設計系統" class="headerlink" title="以官方提供的 API 寫自訂的設計系統"></a>以官方提供的 API 寫自訂的設計系統</h1><p>首先，有一點是無庸置疑的就是官方寫的質感設計 3 都是用這個 API 寫出來的，意味着只要我們參考這個質感設計 3 主題的實現代碼，就可以做一個自訂主題。</p>
+<hr>
+<h1 id="擴充現有主題設定"><a href="#擴充現有主題設定" class="headerlink" title="擴充現有主題設定"></a>擴充現有主題設定</h1><p>如果是論擴充，這裏就不是自訂主題，純粹是擴充而已，但如果你只有擴充的需要，你可以考慮選擇個別擴充還是整體擴充。</p>
+<ol>
+<li><p>個別擴充：若是你想純粹在預設的質感設計系統中，擴充新的設計指標，如色彩、字型等，你可以輕鬆運用擴充函數進行擴展。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val Colors.snackbarAction: Color
+    get() &#x3D; if (isLight) Red300 else Red700</code></pre>
+<p>要使用這個顏色，可以沿用 <code>MaterialTheme</code> 對象：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val color &#x3D; MaterialTheme.colors.snackbarAction</code></pre>
+<details class="folding-tag"><summary> 其他例子 </summary>
               <div class="content">
-              <div class="tabs" id="legacy_way"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="legacy_way-1">Code</button><button type="button" class="tab " data-href="legacy_way-2">Usage</button></ul><div class="tab-contents"><div class="tab-item-content active" id="legacy_way-1"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class SyntaxHighlightTextWatcher implements TextWatcher &#123;
-
-    private final EditText editText;
-    private final Pattern pattern;
-    private final int highlightColor;
-
-    public SyntaxHighlightTextWatcher(EditText editText, String regex, int highlightColor) &#123;
-        this.editText &#x3D; editText;
-        this.pattern &#x3D; Pattern.compile(regex);
-        this.highlightColor &#x3D; highlightColor;
-    &#125;
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) &#123;
-    &#125;
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) &#123;
-    &#125;
-
-    @Override
-    public void afterTextChanged(Editable editable) &#123;
-        String text &#x3D; editable.toString();
-
-        Spannable spannable &#x3D; Spannable.Factory.getInstance().newSpannable(text);
-        Matcher matcher &#x3D; pattern.matcher(text);
-
-        while (matcher.find()) &#123;
-            int matchStart &#x3D; matcher.start();
-            int matchEnd &#x3D; matcher.end();
-            spannable.setSpan(new ForegroundColorSpan(highlightColor), matchStart, matchEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        &#125;
-
-        editText.removeTextChangedListener(this);
-        editText.setText(spannable);
-        editText.setSelection(text.length());
-        editText.addTextChangedListener(this);
-    &#125;
-&#125;</code></pre></div><div class="tab-item-content" id="legacy_way-2"><pre class="line-numbers language-java" data-language="java"><code class="language-java">String regex &#x3D; &quot;(public|protected|private|return|if|else|for|while)&quot;;
-int highlightColor &#x3D; getResources().getColor(R.color.highlight_color);
-RegexSyntaxHighlightTextWatcher textWatcher &#x3D; new RegexSyntaxHighlightTextWatcher(editText, regex, highlightColor);
-editText.addTextChangedListener(textWatcher);</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+              <p>其他都可以：<br>字型</p><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;&#x2F; Use with MaterialTheme.typography.textFieldInput
+val Typography.textFieldInput: TextStyle
+    get() &#x3D; TextStyle(...)</code></pre><p>形狀</p><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;&#x2F; Use with MaterialTheme.shapes.card
+val Shapes.card: Shape
+    get() &#x3D; RoundedCornerShape(size &#x3D; 20.dp)</code></pre>
               </div>
             </details>
-
-<p>但這樣做太繁複，而且有很多限制，亦都會因為過份地對 <code>EditText</code> 文本進行語法顏色編製，會令到在輸入時不流暢，降低應用程式的效率。所以，這個情況如果改用 Sora Editor 就最好不過了。</p>
-<p>Sora Editor 是由 <a href="https://github.com/Rosemoe">Rosemoe</a> 作者開發的一個供 Android 開發的程式使用的代碼編輯器組件，如提供基本的行號顯示、程式診斷輔助指標、乃至可以匯入額外的模塊，如常見的支援語法高亮特性，使整個函式庫生息不少。</p>
-<hr>
-<h1 id="匯入依賴庫"><a href="#匯入依賴庫" class="headerlink" title="匯入依賴庫"></a>匯入依賴庫</h1><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">dependencies &#123;
-    implementation(platform(&quot;io.github.Rosemoe.sora-editor:bom:0.21.1&quot;))
-    
-    &#x2F;&#x2F; 啟用 Editor 基本模組庫
-    implementation(&quot;io.github.Rosemoe.sora-editor:editor&quot;)
-    
-    &#x2F;&#x2F; 啟用 TextMate 語法高亮模組庫
-    implementation(&quot;io.github.Rosemoe.sora-editor:language-textmate&quot;)
-    
-    &#x2F;&#x2F; 啟用 Java 語言模組庫
-    implementation(&quot;io.github.Rosemoe.sora-editor:language-java&quot;)
-    
-    &#x2F;&#x2F; 其他處於開發階段的試驗性模組庫，有興趣可以使用
-    &#x2F;&#x2F; 啟用語言伺服器協定 (LSP) 的 Editor 模組庫
-    implementation(&quot;io.github.Rosemoe.sora-editor:editor-lsp&quot;)
-    
-    &#x2F;&#x2F; 啟用 Tree-Sitter 語法高亮模組庫
-    implementation(&quot;io.github.Rosemoe.sora-editor:language-treesitter&quot;)
-&#125;</code></pre>
-
-<p>接下來，我會稱 <code>editor</code> 為核心庫，因為這個函式庫必須要首先匯入的就是 <code>editor</code> 庫。</p>
-<hr>
-<h1 id="editor-核心庫"><a href="#editor-核心庫" class="headerlink" title="editor 核心庫"></a><code>editor</code> 核心庫</h1><h2 id="嵌入編輯器到-XML-佈局"><a href="#嵌入編輯器到-XML-佈局" class="headerlink" title="嵌入編輯器到 XML 佈局"></a>嵌入編輯器到 XML 佈局</h2><ol>
-<li>定義 <code>CodeEditor</code> 組件，就是一個核心編輯器<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;io.github.rosemoe.sora.widget.CodeEditor
-    android:id&#x3D;&quot;@+id&#x2F;editor&quot;
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;</code></pre></li>
-<li>定義 <code>SymbolInputView</code> 組件，這個是用來插入常用符號的工具列，但有時候，如果增設太多符號項到工具列，可能會超出可視區域，所以通常都會連同 <code>HorizontalScrollView</code> 水平滾動佈局加入。<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;HorizontalScrollView
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;wrap_content&quot;
-    android:orientation&#x3D;&quot;horizontal&quot;&gt;
-    &lt;io.github.rosemoe.sora.widget.SymbolInputView
-        android:id&#x3D;&quot;@+id&#x2F;symbol_input_view&quot;
-        android:layout_width&#x3D;&quot;match_parent&quot;
-        android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;
-&lt;&#x2F;LinearLayout&gt;</code></pre>
-預設是沒有符號項加入到工具列的，這裏要準備兩個陣列：<pre class="line-numbers language-java" data-language="java"><code class="language-java">String[] displayText &#x3D; &#123;&quot;→&quot;, &quot;&#123;&quot;, &quot;&#125;&quot;, &quot;(&quot;, &quot;)&quot;, &quot;[&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;,&quot;, &quot;.&quot;, &quot;;&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;?&quot;, &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;&#x2F;&quot;, &quot;&#x3D;&quot;&#125;;
-String[] insertText &#x3D; &#123;&quot;\t&quot;, &quot;&#123;&#125;&quot;, &quot;&#125;&quot;, &quot;()&quot;, &quot;)&quot;, &quot;[]&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;,&quot;, &quot;.&quot;, &quot;;&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;?&quot;, &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;&#x2F;&quot;, &quot;&#x3D;&quot;&#125;;
-
-symbolInputView.addSymbols(displayText, insertText);
-symbolInputView.bindEditor(editor);</code></pre>
-<div class="note info simple"><p><code>displayText</code> 用來顯示的符號，而 <code>insertText</code> 用來插入的符號</p>
-</div></li>
-</ol>
-<h2 id="設置診斷程序的提示和指標器"><a href="#設置診斷程序的提示和指標器" class="headerlink" title="設置診斷程序的提示和指標器"></a>設置診斷程序的提示和指標器</h2><p><code>CodeEditor</code> 並沒有提供診斷程式程序，這個功能你要自行編寫代碼實現，但提供了設置診斷程序的提示和指標器。</p>
-<p>支援的嚴重程度 (Severity) 如下：</p>
-<ul>
-<li><code>SEVERITY_ERROR</code> ：紅色，代表錯誤</li>
-<li><code>SEVERITY_WARNING</code>：黃色，代表警告</li>
-<li><code>SEVERITY_TYPO</code>：綠色，代表錯別字</li>
-</ul>
-<p>這裏有一個預覽圖：</p>
-<p><img src="https://i.imgur.com/vOyMhjm.png" alt="CodeEditor Diagnostics Preview"></p>
-<div class="note warning simple"><p>在進行 <code>setDiagnostic()</code> 前要先 <code>setDiagnostics(new DiagnosticsContainer());</code>。</p>
-</div>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.setDiagnostics(new DiagnosticsContainer());
-
-setDiagnostic(36, 44, DiagnosticRegion.SEVERITY_ERROR, &quot;Error&quot;, &quot;Message&quot;, List.of(
-    new Quickfix(&quot;Fix&quot;, 0L, null),
-    new Quickfix(&quot;Other&quot;, 0L, null)
-));
-
-public void setDiagnostic(int startIndex, int endIndex, short type, String briefMessage, String detailedMessage, List&lt;Quickfix&gt; list) &#123;
-    getDiagnostics().addDiagnostic(
-        new DiagnosticRegion(startIndex, endIndex, type, 0L,
-                new DiagnosticDetail(
-                        briefMessage,
-                        detailedMessage,
-                        list,
-                        null
-                )
+</li>
+<li><p>整體擴充：為現時的主題進行額外的擴展，不再局限於某部分組件的應用設計指標。<br>例如，目前的主題只有 primary (主色) 及 secondary (次色)，現在想新增 tertiary (第三色)。</p>
+<details class="folding-tag"><summary> 點我看代碼 </summary>
+              <div class="content">
+              <ol><li>構建新的數據類<br>這個數據類將會用於設置顏色值。<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Immutable
+data class ExtendedColors(
+    val tertiary: Color,
+    val onTertiary: Color
+)</code></pre><div class="note info simple"><p><code>@Immutable</code> 是 Compose 特有的註解，可以提高重組性能。</p></div></li><li>構建本機範圍資料<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val LocalExtendedColors &#x3D; staticCompositionLocalOf &#123;
+    ExtendedColors(
+        tertiary &#x3D; Color.Unspecified,
+        onTertiary &#x3D; Color.Unspecified,
+    )
+&#125;</code></pre></li><li>構建擴充主題<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun ExtendedTheme(
+    &#x2F;* ... *&#x2F;
+    content: @Composable () -&gt; Unit
+) &#123;
+    val extendedColors &#x3D; ExtendedColors(
+        tertiary &#x3D; Color(0xFFA8EFF0),
+        onTertiary &#x3D; Color(0xFF002021)
+    )
+    CompositionLocalProvider(LocalExtendedColors provides extendedColors) &#123;
+        MaterialTheme(
+            &#x2F;* colors &#x3D; ..., typography &#x3D; ..., shapes &#x3D; ... *&#x2F;
+            content &#x3D; content
         )
-    );
+    &#125;
+&#125;
+
+&#x2F;&#x2F; Use with eg. ExtendedTheme.colors.tertiary
+object ExtendedTheme &#123;
+    val colors: ExtendedColors
+        @Composable
+        get() &#x3D; LocalExtendedColors.current
+&#125;</code></pre></li><li>應用 <code>ExtendedTheme</code> 提供的顏色至組件<br>這個 <code>ExtendedTheme</code> 是繼承了 <code>MaterialTheme</code> 的設計指標，所以運用 <code>ExtendedTheme</code> 可保留使用 <code>MaterialTheme</code> 的巢狀結構.<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun ExtendedButton(
+    onClick: () -&gt; Unit,
+    modifier: Modifier &#x3D; Modifier,
+    content: @Composable RowScope.() -&gt; Unit
+) &#123;
+    Button(
+        colors &#x3D; ButtonDefaults.buttonColors(
+            backgroundColor &#x3D; ExtendedTheme.colors.tertiary,
+            contentColor &#x3D; ExtendedTheme.colors.onTertiary
+            &#x2F;* Other colors use values from MaterialTheme *&#x2F;
+        ),
+        onClick &#x3D; onClick,
+        modifier &#x3D; modifier,
+        content &#x3D; content
+    )
+&#125;</code></pre></li></ol>
+              </div>
+            </details></li>
+</ol>
+<hr>
+<h1 id="構建自訂的設計主題"><a href="#構建自訂的設計主題" class="headerlink" title="構建自訂的設計主題"></a>構建自訂的設計主題</h1><p>以上說的，純粹是<strong>以現有的主題進行擴充</strong>，但如果真的要自訂全新的設計系統，其實並不難！</p>
+<h2 id="瞭解設計系統指標"><a href="#瞭解設計系統指標" class="headerlink" title="瞭解設計系統指標"></a>瞭解設計系統指標</h2><p>檢查 <code>MaterialTheme</code> 的源代碼：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun MaterialTheme(
+    colors: Colors &#x3D; MaterialTheme.colors,
+    typography: Typography &#x3D; MaterialTheme.typography,
+    shapes: Shapes &#x3D; MaterialTheme.shapes,
+    content: @Composable () -&gt; Unit
+)</code></pre>
+
+<p>你會發現，設計指標有顏色、字型及形狀，不過，或許你會覺得不足夠的情況，例如間距 (Spaces)，設置內距或外距的值。</p>
+<h2 id="構建主題"><a href="#構建主題" class="headerlink" title="構建主題"></a>構建主題</h2><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">object CustomTheme &#123;
+    val colors: CustomColors
+        @Composable
+        @ReadOnlyComposable
+        get() &#x3D; LocalColors.current
+
+    val typography: CustomTypography
+        @Composable
+        @ReadOnlyComposable
+        get() &#x3D; LocalTypography.current
+
+    val shapes: Shapes
+        @Composable
+        @ReadOnlyComposable
+        get() &#x3D; LocalShapes.current
+
+    val spaces: CustomSpaces
+        @Composable
+        @ReadOnlyComposable
+        get() &#x3D; LocalSpaces.current
 &#125;</code></pre>
 
-<div class="note warning simple"><p>每個 <code>setDiagnostic()</code> 方法裏的第一個的 <code>QuickFix</code> 實例，如 <code>Fix</code>，都會顯示在首席位置，隨後的所有新增的 <code>QuickFix</code> 實例都會最後在 <code>More Actions...</code> 下拉式功能選單中顯示。</p>
-</div>
-
-<h3 id="設置-QuickFix-按鈕點擊事件"><a href="#設置-QuickFix-按鈕點擊事件" class="headerlink" title="設置 QuickFix 按鈕點擊事件"></a>設置 <code>QuickFix</code> 按鈕點擊事件</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">new Quickfix(&quot;Fix&quot;, 0L, new Runnable() &#123;
-    @Override
-    public void run() &#123;
-        &#x2F;&#x2F; 執行的代碼
-    &#125;
-&#125;)</code></pre>
-
-<h2 id="加入事件"><a href="#加入事件" class="headerlink" title="加入事件"></a>加入事件</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.subscribeEvent(XXX.class, new EventReciever&lt;&gt; &#123;
-    ...
-&#125;);</code></pre>
-
-<p>可用的事件如下：</p>
+<h3 id="釐定主題指標"><a href="#釐定主題指標" class="headerlink" title="釐定主題指標"></a>釐定主題指標</h3><h4 id="顏色"><a href="#顏色" class="headerlink" title="顏色"></a>顏色</h4><p>大概需要的顏色如下：</p>
 <ul>
-<li><code>ClickEvent</code></li>
-<li><code>ColorSchemeUpdateEvent</code></li>
-<li><code>ContentChangeEvent</code></li>
-<li><code>DoubleClickEvent</code></li>
-<li><code>EditorReleaseEvent</code></li>
-<li><code>SelectionChangeEvent</code></li>
+<li><code>primary</code></li>
+<li><code>content</code></li>
+<li><code>background</code></li>
+<li><code>success</code></li>
+<li><code>error</code></li>
 </ul>
-<p>還有更多，可到<a href="https://github.com/Rosemoe/sora-editor/tree/main/editor/src/main/java/io/github/rosemoe/sora/event">這裏</a>看。</p>
-<h3 id="內容變動事件"><a href="#內容變動事件" class="headerlink" title="內容變動事件"></a>內容變動事件</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.subscribeEvent(ContentChangeEvent.class, new EventReceiver&lt;ContentChangeEvent&gt;() &#123;
-    @Override
-    public void onReceive(@NonNull ContentChangeEvent event, @NonNull Unsubscribe unsubscribe) &#123;
-        &#x2F;&#x2F; 執行的代碼
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">data class CustomColors(
+    val primary: Color,
+    val content: Color,
+    val background: Color,
+    val success: Color,
+    val error: Color
+) &#123;
+    val primary by mutableStateOf(primary)
+        private set
+    val content by mutableStateOf(content)
+        private set
+    val background by mutableStateOf(background)
+        private set
+    val success by mutableStateOf(success)
+        private set
+    val error by mutableStateOf(error)
+        private set
+    
+    fun copy(
+        primary: Color &#x3D; this.primary,
+        content: Color &#x3D; this.content,
+        background: Color &#x3D; this.background,
+        success: Color &#x3D; this.success,
+        error: Color &#x3D; this.error,
+    ) &#x3D; CustomColors(
+        primary &#x3D; primary,
+        content &#x3D; content,
+        background &#x3D; background,
+        success &#x3D; success,
+        error &#x3D; error,
+    )
+    fun updateColorsFrom(other: CustomColors) &#123;
+        primary &#x3D; other.primary
+        content &#x3D; other.content
+        background &#x3D; other.background
+        success &#x3D; other.success
+        error &#x3D; other.error
     &#125;
-&#125;);</code></pre>
+&#125;</code></pre>
 
-<hr>
-<h1 id="language-textmate-模組庫"><a href="#language-textmate-模組庫" class="headerlink" title="language-textmate 模組庫"></a><code>language-textmate</code> 模組庫</h1><p>這個模組庫主要是擴充 <code>editor</code> 庫的編輯器，使用 TextMate 支援語法高亮功能。</p>
-]]></content>
+<h4 id="字型"><a href="#字型" class="headerlink" title="字型"></a>字型</h4><p>通常字型都需要處理標題 1 至標題 6，段落文字的不同大小，這裏先簡單做 2 個：</p>
+<ul>
+<li><code>heading1</code></li>
+<li><code>body1</code></li>
+</ul>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">data class CustomTypography(
+    val heading1: TextStyle &#x3D; TextStyle(
+        fontFamily &#x3D; FontFamily.SansSerif,
+        fontWeight &#x3D; FontWeight.Bold,
+        fontSize &#x3D; 24.sp
+    ),
+    val body1: TextStyle &#x3D; TextStyle(
+        fontFamily &#x3D; FontFamily.SansSerif,
+        fontWeight &#x3D; FontWeight.Normal,
+        fontSize &#x3D; 16.sp
+    ),
+)</code></pre>
+
+<h4 id="間距"><a href="#間距" class="headerlink" title="間距"></a>間距</h4><p>這個主題的間距指標會有 3 個，例如：</p>
+<ul>
+<li><code>small</code></li>
+<li><code>medium</code></li>
+<li><code>large</code></li>
+</ul>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">data class CustomSpaces(
+    val small: Dp &#x3D; 4.dp,
+    val medium: Dp &#x3D; 8.dp,
+    val large: Dp &#x3D; 16.dp
+)</code></pre>
+
+<h3 id="判定淺色及深色主題顏色值"><a href="#判定淺色及深色主題顏色值" class="headerlink" title="判定淺色及深色主題顏色值"></a>判定淺色及深色主題顏色值</h3><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun lightColors() &#x3D; CustomColors(
+    primary &#x3D; Color(0xFFE67E22),
+    content &#x3D; Color(0xFF000000),
+    background &#x3D; Color(0xFFF5F5F5),
+    success &#x3D; Color(0xFF2ECC71),
+    error &#x3D; Color(0xFFE74C3C),
+)
+
+fun darkColors() &#x3D; CustomColors(
+    primary &#x3D; Color(0xFFDF6900),
+    content &#x3D; Color(0xFFFFFFFF),
+    background &#x3D; Color(0xFF353B48),
+    success &#x3D; Color(0xFF44BD32),
+    error &#x3D; Color(0xFFC23616),
+)</code></pre>
+
+<h3 id="構建本機範圍資料"><a href="#構建本機範圍資料" class="headerlink" title="構建本機範圍資料"></a>構建本機範圍資料</h3><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val LocalSpaces &#x3D; staticCompositionLocalOf &#123; CustomSpaces() &#125;
+
+val LocalColors &#x3D; staticCompositionLocalOf &#123; lightColors() &#125;
+
+val LocalTypography &#x3D; staticCompositionLocalOf &#123; CustomTypography() &#125;</code></pre>
+
+<h3 id="構建主題-1"><a href="#構建主題-1" class="headerlink" title="構建主題"></a>構建主題</h3><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun CustomTheme(
+    spaces: CustomSpaces &#x3D; CustomTheme.spaces,
+    typography: CustomTypography &#x3D; CustomTheme.typography,
+    colors: CustomColors &#x3D; CustomTheme.colors,
+    content: @Composable () -&gt; Unit,
+) &#123;
+    val rememberedColors &#x3D; remember &#123; colors.copy() &#125;.apply &#123; updateColorsFrom(colors) &#125;
+    CompositionLocalProvider(
+        LocalColors provides rememberedColors,
+        LocalSpaces provides spaces,
+        LocalTypography provides typography,
+    ) &#123;
+        ProvideTextStyle(typography.body1, content &#x3D; content)
+    &#125;
+&#125;</code></pre>
+
+<h2 id="應用主題"><a href="#應用主題" class="headerlink" title="應用主題"></a>應用主題</h2><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">class MainActivity : ComponentActivity() &#123;
+    override fun onCreate(savedInstanceState: Bundle?) &#123;
+        super.onCreate(savedInstanceState)
+        setContent &#123;
+            CustomTheme &#123;
+                App()
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>]]></content>
       <categories>
         <category>程式編寫</category>
-        <category>Android 開發</category>
+        <category>Jetpack Compose 開發</category>
       </categories>
       <tags>
         <tag>Kotlin</tag>
-        <tag>Java</tag>
-        <tag>XML</tag>
+        <tag>Android</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Jetpack Compose 開發 | 解決卡頓的關鍵：使用 release 版本運行</title>
-    <url>/post/jetpack-compose-dev-keystore-release.html</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>程式編寫 | 綜合整理 Kotlin 筆記</title>
@@ -1793,472 +2332,6 @@ println(value)</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Jetpack Compose 開發 | 實作自訂設計系統</title>
-    <url>/post/jetpack-compose-dev-custom-design-system-notes.html</url>
-    <content><![CDATA[<p>有時候，我們想寫應用程式時，由其是現在使用 Jetpack Compose 框架，可能會用到 Compose 跨平台架構，實現 Android 及 iOS 雙平台手機程式，如果沿用官方提供的質感設計 3 來做程式，依然沒問題，只是有點不能突顯程式的獨特性。</p>
-<p>所以，你看到大部分熱門及大型公司製造的應用程式，有些雖然都是沿用質感設計 3，但是其實是以這個為根基，之後再客製化的，從而反映程式別具一樹的設計風格。</p>
-<p>這裏會記錄一下實際上一個設計系統怎做。</p>
-<hr>
-<h1 id="以官方提供的-API-寫自訂的設計系統"><a href="#以官方提供的-API-寫自訂的設計系統" class="headerlink" title="以官方提供的 API 寫自訂的設計系統"></a>以官方提供的 API 寫自訂的設計系統</h1><p>首先，有一點是無庸置疑的就是官方寫的質感設計 3 都是用這個 API 寫出來的，意味着只要我們參考這個質感設計 3 主題的實現代碼，就可以做一個自訂主題。</p>
-<hr>
-<h1 id="擴充現有主題設定"><a href="#擴充現有主題設定" class="headerlink" title="擴充現有主題設定"></a>擴充現有主題設定</h1><p>如果是論擴充，這裏就不是自訂主題，純粹是擴充而已，但如果你只有擴充的需要，你可以考慮選擇個別擴充還是整體擴充。</p>
-<ol>
-<li><p>個別擴充：若是你想純粹在預設的質感設計系統中，擴充新的設計指標，如色彩、字型等，你可以輕鬆運用擴充函數進行擴展。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val Colors.snackbarAction: Color
-    get() &#x3D; if (isLight) Red300 else Red700</code></pre>
-<p>要使用這個顏色，可以沿用 <code>MaterialTheme</code> 對象：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val color &#x3D; MaterialTheme.colors.snackbarAction</code></pre>
-<details class="folding-tag"><summary> 其他例子 </summary>
-              <div class="content">
-              <p>其他都可以：<br>字型</p><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;&#x2F; Use with MaterialTheme.typography.textFieldInput
-val Typography.textFieldInput: TextStyle
-    get() &#x3D; TextStyle(...)</code></pre><p>形狀</p><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;&#x2F; Use with MaterialTheme.shapes.card
-val Shapes.card: Shape
-    get() &#x3D; RoundedCornerShape(size &#x3D; 20.dp)</code></pre>
-              </div>
-            </details>
-</li>
-<li><p>整體擴充：為現時的主題進行額外的擴展，不再局限於某部分組件的應用設計指標。<br>例如，目前的主題只有 primary (主色) 及 secondary (次色)，現在想新增 tertiary (第三色)。</p>
-<details class="folding-tag"><summary> 點我看代碼 </summary>
-              <div class="content">
-              <ol><li>構建新的數據類<br>這個數據類將會用於設置顏色值。<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Immutable
-data class ExtendedColors(
-    val tertiary: Color,
-    val onTertiary: Color
-)</code></pre><div class="note info simple"><p><code>@Immutable</code> 是 Compose 特有的註解，可以提高重組性能。</p></div></li><li>構建本機範圍資料<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val LocalExtendedColors &#x3D; staticCompositionLocalOf &#123;
-    ExtendedColors(
-        tertiary &#x3D; Color.Unspecified,
-        onTertiary &#x3D; Color.Unspecified,
-    )
-&#125;</code></pre></li><li>構建擴充主題<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
-fun ExtendedTheme(
-    &#x2F;* ... *&#x2F;
-    content: @Composable () -&gt; Unit
-) &#123;
-    val extendedColors &#x3D; ExtendedColors(
-        tertiary &#x3D; Color(0xFFA8EFF0),
-        onTertiary &#x3D; Color(0xFF002021)
-    )
-    CompositionLocalProvider(LocalExtendedColors provides extendedColors) &#123;
-        MaterialTheme(
-            &#x2F;* colors &#x3D; ..., typography &#x3D; ..., shapes &#x3D; ... *&#x2F;
-            content &#x3D; content
-        )
-    &#125;
-&#125;
-
-&#x2F;&#x2F; Use with eg. ExtendedTheme.colors.tertiary
-object ExtendedTheme &#123;
-    val colors: ExtendedColors
-        @Composable
-        get() &#x3D; LocalExtendedColors.current
-&#125;</code></pre></li><li>應用 <code>ExtendedTheme</code> 提供的顏色至組件<br>這個 <code>ExtendedTheme</code> 是繼承了 <code>MaterialTheme</code> 的設計指標，所以運用 <code>ExtendedTheme</code> 可保留使用 <code>MaterialTheme</code> 的巢狀結構.<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
-fun ExtendedButton(
-    onClick: () -&gt; Unit,
-    modifier: Modifier &#x3D; Modifier,
-    content: @Composable RowScope.() -&gt; Unit
-) &#123;
-    Button(
-        colors &#x3D; ButtonDefaults.buttonColors(
-            backgroundColor &#x3D; ExtendedTheme.colors.tertiary,
-            contentColor &#x3D; ExtendedTheme.colors.onTertiary
-            &#x2F;* Other colors use values from MaterialTheme *&#x2F;
-        ),
-        onClick &#x3D; onClick,
-        modifier &#x3D; modifier,
-        content &#x3D; content
-    )
-&#125;</code></pre></li></ol>
-              </div>
-            </details></li>
-</ol>
-<hr>
-<h1 id="構建自訂的設計主題"><a href="#構建自訂的設計主題" class="headerlink" title="構建自訂的設計主題"></a>構建自訂的設計主題</h1><p>以上說的，純粹是<strong>以現有的主題進行擴充</strong>，但如果真的要自訂全新的設計系統，其實並不難！</p>
-<h2 id="瞭解設計系統指標"><a href="#瞭解設計系統指標" class="headerlink" title="瞭解設計系統指標"></a>瞭解設計系統指標</h2><p>檢查 <code>MaterialTheme</code> 的源代碼：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
-fun MaterialTheme(
-    colors: Colors &#x3D; MaterialTheme.colors,
-    typography: Typography &#x3D; MaterialTheme.typography,
-    shapes: Shapes &#x3D; MaterialTheme.shapes,
-    content: @Composable () -&gt; Unit
-)</code></pre>
-
-<p>你會發現，設計指標有顏色、字型及形狀，不過，或許你會覺得不足夠的情況，例如間距 (Spaces)，設置內距或外距的值。</p>
-<h2 id="構建主題"><a href="#構建主題" class="headerlink" title="構建主題"></a>構建主題</h2><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">object CustomTheme &#123;
-    val colors: CustomColors
-        @Composable
-        @ReadOnlyComposable
-        get() &#x3D; LocalColors.current
-
-    val typography: CustomTypography
-        @Composable
-        @ReadOnlyComposable
-        get() &#x3D; LocalTypography.current
-
-    val shapes: Shapes
-        @Composable
-        @ReadOnlyComposable
-        get() &#x3D; LocalShapes.current
-
-    val spaces: CustomSpaces
-        @Composable
-        @ReadOnlyComposable
-        get() &#x3D; LocalSpaces.current
-&#125;</code></pre>
-
-<h3 id="釐定主題指標"><a href="#釐定主題指標" class="headerlink" title="釐定主題指標"></a>釐定主題指標</h3><h4 id="顏色"><a href="#顏色" class="headerlink" title="顏色"></a>顏色</h4><p>大概需要的顏色如下：</p>
-<ul>
-<li><code>primary</code></li>
-<li><code>content</code></li>
-<li><code>background</code></li>
-<li><code>success</code></li>
-<li><code>error</code></li>
-</ul>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">data class CustomColors(
-    val primary: Color,
-    val content: Color,
-    val background: Color,
-    val success: Color,
-    val error: Color
-) &#123;
-    val primary by mutableStateOf(primary)
-        private set
-    val content by mutableStateOf(content)
-        private set
-    val background by mutableStateOf(background)
-        private set
-    val success by mutableStateOf(success)
-        private set
-    val error by mutableStateOf(error)
-        private set
-    
-    fun copy(
-        primary: Color &#x3D; this.primary,
-        content: Color &#x3D; this.content,
-        background: Color &#x3D; this.background,
-        success: Color &#x3D; this.success,
-        error: Color &#x3D; this.error,
-    ) &#x3D; CustomColors(
-        primary &#x3D; primary,
-        content &#x3D; content,
-        background &#x3D; background,
-        success &#x3D; success,
-        error &#x3D; error,
-    )
-    fun updateColorsFrom(other: CustomColors) &#123;
-        primary &#x3D; other.primary
-        content &#x3D; other.content
-        background &#x3D; other.background
-        success &#x3D; other.success
-        error &#x3D; other.error
-    &#125;
-&#125;</code></pre>
-
-<h4 id="字型"><a href="#字型" class="headerlink" title="字型"></a>字型</h4><p>通常字型都需要處理標題 1 至標題 6，段落文字的不同大小，這裏先簡單做 2 個：</p>
-<ul>
-<li><code>heading1</code></li>
-<li><code>body1</code></li>
-</ul>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">data class CustomTypography(
-    val heading1: TextStyle &#x3D; TextStyle(
-        fontFamily &#x3D; FontFamily.SansSerif,
-        fontWeight &#x3D; FontWeight.Bold,
-        fontSize &#x3D; 24.sp
-    ),
-    val body1: TextStyle &#x3D; TextStyle(
-        fontFamily &#x3D; FontFamily.SansSerif,
-        fontWeight &#x3D; FontWeight.Normal,
-        fontSize &#x3D; 16.sp
-    ),
-)</code></pre>
-
-<h4 id="間距"><a href="#間距" class="headerlink" title="間距"></a>間距</h4><p>這個主題的間距指標會有 3 個，例如：</p>
-<ul>
-<li><code>small</code></li>
-<li><code>medium</code></li>
-<li><code>large</code></li>
-</ul>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">data class CustomSpaces(
-    val small: Dp &#x3D; 4.dp,
-    val medium: Dp &#x3D; 8.dp,
-    val large: Dp &#x3D; 16.dp
-)</code></pre>
-
-<h3 id="判定淺色及深色主題顏色值"><a href="#判定淺色及深色主題顏色值" class="headerlink" title="判定淺色及深色主題顏色值"></a>判定淺色及深色主題顏色值</h3><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun lightColors() &#x3D; CustomColors(
-    primary &#x3D; Color(0xFFE67E22),
-    content &#x3D; Color(0xFF000000),
-    background &#x3D; Color(0xFFF5F5F5),
-    success &#x3D; Color(0xFF2ECC71),
-    error &#x3D; Color(0xFFE74C3C),
-)
-
-fun darkColors() &#x3D; CustomColors(
-    primary &#x3D; Color(0xFFDF6900),
-    content &#x3D; Color(0xFFFFFFFF),
-    background &#x3D; Color(0xFF353B48),
-    success &#x3D; Color(0xFF44BD32),
-    error &#x3D; Color(0xFFC23616),
-)</code></pre>
-
-<h3 id="構建本機範圍資料"><a href="#構建本機範圍資料" class="headerlink" title="構建本機範圍資料"></a>構建本機範圍資料</h3><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val LocalSpaces &#x3D; staticCompositionLocalOf &#123; CustomSpaces() &#125;
-
-val LocalColors &#x3D; staticCompositionLocalOf &#123; lightColors() &#125;
-
-val LocalTypography &#x3D; staticCompositionLocalOf &#123; CustomTypography() &#125;</code></pre>
-
-<h3 id="構建主題-1"><a href="#構建主題-1" class="headerlink" title="構建主題"></a>構建主題</h3><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
-fun CustomTheme(
-    spaces: CustomSpaces &#x3D; CustomTheme.spaces,
-    typography: CustomTypography &#x3D; CustomTheme.typography,
-    colors: CustomColors &#x3D; CustomTheme.colors,
-    content: @Composable () -&gt; Unit,
-) &#123;
-    val rememberedColors &#x3D; remember &#123; colors.copy() &#125;.apply &#123; updateColorsFrom(colors) &#125;
-    CompositionLocalProvider(
-        LocalColors provides rememberedColors,
-        LocalSpaces provides spaces,
-        LocalTypography provides typography,
-    ) &#123;
-        ProvideTextStyle(typography.body1, content &#x3D; content)
-    &#125;
-&#125;</code></pre>
-
-<h2 id="應用主題"><a href="#應用主題" class="headerlink" title="應用主題"></a>應用主題</h2><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">class MainActivity : ComponentActivity() &#123;
-    override fun onCreate(savedInstanceState: Bundle?) &#123;
-        super.onCreate(savedInstanceState)
-        setContent &#123;
-            CustomTheme &#123;
-                App()
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre>]]></content>
-      <categories>
-        <category>程式編寫</category>
-        <category>Jetpack Compose 開發</category>
-      </categories>
-      <tags>
-        <tag>Kotlin</tag>
-        <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>程式編寫 | 由 Java 遷移到 Kotlin 的基礎</title>
-    <url>/post/dev-migrate-to-kotlin-from-java.html</url>
-    <content><![CDATA[<h1 id="好端端的，為什麼要轉寫-Kotlin？"><a href="#好端端的，為什麼要轉寫-Kotlin？" class="headerlink" title="好端端的，為什麼要轉寫 Kotlin？"></a>好端端的，為什麼要轉寫 Kotlin？</h1><p>其實都挺無奈的，但這個是一個別無選擇的出路。在 Android 開發中，我看不到 Java 在未來還有立足之地。</p>
-<ol>
-<li>Java 不爭氣，在最初時期是很風光的，但往後加入的大部分特性，Android 都不支援。</li>
-<li>已經被 Google 官方斷言，往後推出的 Android 開發特性都以 Kotlin 為首，有目共睹，Jetpack Compose 就是一個 Java 開發者哭暈的證據。</li>
-</ol>
-<hr>
-<h1 id="Java-與-Kotlin-語法差異"><a href="#Java-與-Kotlin-語法差異" class="headerlink" title="Java 與 Kotlin 語法差異"></a>Java 與 Kotlin 語法差異</h1><h2 id="方法-x2F-函數定義"><a href="#方法-x2F-函數定義" class="headerlink" title="方法&#x2F;函數定義"></a>方法&#x2F;函數定義</h2><p>有一個約定俗成的理念，就是雖然大家做的都是一樣的東西，但 Java 就是稱方法 (method)，而 Kotlin 則沿用 C 語言的函數 (function) 為名稱。</p>
-<p>在 Java 中，例如定義一個傳回 <code>int</code> 型別的方法是這樣的：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">int sum(int a, int b) &#123;
-    return a + b;
-&#125;</code></pre>
-
-<p>而在 Kotlin 可以有不同的玩法</p>
-<ol>
-<li><p>一般寫法</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun sum(a: Int, b: Int) &#123;
-    return a + b
-&#125;</code></pre>
-<div class="note info simple"><p>會看到差異：</p>
-<ol>
-<li>是先以 <code>fun</code> (function 的縮寫) 作區塊開首，開宗明義的跟你說這個就是函數</li>
-<li>參數型別或函數傳回型別會用 <code>:</code> 形式，在後面定義參數型別，都看到 Java 用 <code>int</code> 而 Kotlin 則用類別 (Class) 而成的 <code>Int</code></li>
-<li>不用寫 <code>;</code> 作語句結尾</li>
-</ol>
-</div>
-</li>
-<li><p>隱式表達寫法</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun sum(a: Int, b: Int): Int &#x3D; a + b</code></pre>
-<div class="note info simple"><p>這裏的 <code>=</code> 就是 <code>return</code> 的意思了。</p>
-</div>
-</li>
-<li><p>擴展函數<br>假設現在寫一個 <code>MathKt</code> 類，如果只是寫擴充函數，這裏不用寫 <code>class MathKt &#123; ... &#125;</code>。<br>例如寫一個看 <code>Int</code> 型別加 <code>1</code> 的函數</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun Int.increment() &#x3D; this + 1</code></pre>
-<div class="note info simple"><p>擴展函數是為單一型別擴充的函數，你可以用這個方式寫 Utils，相當好用，至於 <code>this</code> 即是指明了的至別 i.e. <code>Int</code>。</p>
-<p>用法就是：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun main() &#123;
-    print(4.increment())
-&#125;</code></pre></div></li>
-</ol>
-<h2 id="變量定義"><a href="#變量定義" class="headerlink" title="變量定義"></a>變量定義</h2><p>在 Kotlin 有重點關注可變與不可變變量，就是變量及常量吧。</p>
-<p>Java 要定義它們，例如用 <code>int</code> 為例子，是寫：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">int num &#x3D; 5
-
-final int LUCKY_NUMBER &#x3D; 5</code></pre>
-
-<p>在 Kotlin，就要善用 <code>var</code> 和 <code>val</code> 關鍵字。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var num &#x3D; 5
-var num: Int &#x3D; 5 &#x2F;&#x2F; 可省略
-
-val LUCKY_NUMBER &#x3D; 5</code></pre>
-
-<p>為什麼 Kotlin 要 <code>val</code> 就可以寫常量呢，這裏稍後再說。</p>
-<h2 id="字串與變量拼合"><a href="#字串與變量拼合" class="headerlink" title="字串與變量拼合"></a>字串與變量拼合</h2><p>簡單來說，就是例如：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">String name &#x3D; &quot;Steve&quot;;
-System.out.println(&quot;I am &quot; + name);</code></pre>
-
-<p>在 Java 要用 <code>+</code> 來把變量拼合一起，而在 Kotlin 都可以用 <code>+</code> 來這樣做，但亦可以像 EcmaScript 的 <code>$&#123;&#125;</code> 寫法，唯一不同的就是不用 <code>`</code> 這個符號。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val name &#x3D; &quot;Steve&quot;
-print(&quot;I am $&#123;name&#125;&quot;)</code></pre>
-
-<hr>
-<h2 id="條件語句"><a href="#條件語句" class="headerlink" title="條件語句"></a>條件語句</h2><p>Java 寫的有幾種方法：</p>
-<ol>
-<li><p>一般寫法</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">if (a &gt; 5) &#123;
-    System.out.println(&quot;True&quot;);
-&#125; else &#123;
-    System.out.println(&quot;False&quot;);
-&#125;</code></pre>
-</li>
-<li><p>三元運算</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">System.out.println((a &gt; 5) ? &quot;True&quot; : &quot;False&quot;);</code></pre></li>
-</ol>
-<p>在 Kotlin 都有不同寫法</p>
-<ol>
-<li><p>一般寫法</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">if (a &gt; 5) &#123;
-    print(&quot;True&quot;)
-&#125; else &#123;
-    print(&quot;False&quot;)
-&#125;</code></pre></li>
-<li><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val flag
-val result &#x3D; if (a &gt; 5) &#123;
-    flag &#x3D; &quot;True&quot;
-&#125; else &#123;
-    flag &#x3D; &quot;False&quot;
-&#125;
-print(result)</code></pre>
-</li>
-<li><p>類似三元運算</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">print(if (a &gt; 5) &quot;True&quot; else &quot;False&quot;)</code></pre></li>
-</ol>
-<h2 id="情況判斷語句"><a href="#情況判斷語句" class="headerlink" title="情況判斷語句"></a>情況判斷語句</h2><p>Java 是用 <code>switch</code> 寫法的，而 Kotlin 是用 <code>when</code> 的，而且用法更強大。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">when (obj) &#123;
-    1 -&gt; print(&quot;One&quot;)
-    &quot;Hello&quot; -&gt; print(&quot;Greeting&quot;)
-    is Long -&gt; print(&quot;Long&quot;)
-    !is String -&gt; print(&quot;Not a string&quot;)
-    else -&gt; print(&quot;Unknown&quot;)
-&#125; </code></pre>
-
-<h2 id="型別判斷"><a href="#型別判斷" class="headerlink" title="型別判斷"></a>型別判斷</h2><p>Java 會用 <code>instanceof</code> 來進行型別判斷。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">if (obj instanceof String) &#123;
-    &#x2F;&#x2F; ...
-&#125; else if (obj instanceof int) &#123;
-    &#x2F;&#x2F; ...
-&#125;</code></pre>
-
-<p>Kotlin 則用 <code>is</code> 關鍵字。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">if (obj is String) &#123;
-    &#x2F;&#x2F; ...
-&#125; else if (obj is Int) &#123;
-    &#x2F;&#x2F; ...
-&#125;</code></pre>
-
-<h2 id="空指針異常處理"><a href="#空指針異常處理" class="headerlink" title="空指針異常處理"></a>空指針異常處理</h2><p><code>null</code> 就是一個變量所存的空值，即是一個無效物件，強迫要這個 <code>null</code> 值變量做事，只會讓程式崩潰。寫 Java 經常會遇到空指針異常 (<code>NullPointerException</code>)，在 Kotlin 有相關的處理方案。</p>
-<div class="note warning simple"><p>Kotlin 宣告變量 <strong>不可以預設定義值為 <code>null</code></strong> ，所以也算擊退了空指針問題。</p>
-</div>
-
-<h3 id="可空-Nullable-與不可空-Non-null-型別"><a href="#可空-Nullable-與不可空-Non-null-型別" class="headerlink" title="可空 (Nullable) 與不可空 (Non-null) 型別"></a>可空 (Nullable) 與不可空 (Non-null) 型別</h3><p>雖然 Kotlin 不可以預設定義 <code>null</code> 值，但不代表 Kotlin 沒有 <code>null</code> 值的存在。</p>
-<p>如果，我們直接宣告 <code>null</code> 值變量，會在編譯時拋出異常</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val name: String &#x3D; null</code></pre>
-
-<p>這個情況，就要加上 <code>?</code>，它是用來把變量設為可空型別，這個時候就可以用 <code>null</code>：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val name: String? &#x3D; null</code></pre>
-
-<h3 id="考慮變量為空的情況"><a href="#考慮變量為空的情況" class="headerlink" title="考慮變量為空的情況"></a>考慮變量為空的情況</h3><p>現在，如果你直接用 <code>name</code> 變量，例如 <code>name.length</code> 會出現這個問題：</p>
-<pre class="line-numbers language-none"><code class="language-none">Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable reciever of type String?</code></pre>
-
-<p>編譯器會引導你用 <code>?.</code> 或 <code>!!</code> 符號解決問題</p>
-<p>如果，你想判斷一個變量是否空，當然你可以這樣做：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">if (name !&#x3D; null)
-    println(name.length)</code></pre>
-
-<p>但是 Kotlin 有一個更簡單的做法，就是用 <code>?.</code> 直接寫：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">println(name?.length)</code></pre>
-
-<p>通常，我們都會用 <code>let</code> 語法糖搭配使用，如果處理沒有 <code>?</code> 即不可空型別變量，就不必要用 <code>let</code>。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">name?.let &#123;
-    println(it.length)
-&#125;</code></pre>
-
-<div class="note info simple"><p>這裏的 <code>it</code> 是編譯器推斷的，如果推斷成功，它就認定了這個 <code>it</code> 是指 <code>name</code>。</p>
-</div>
-
-<p>非空斷言 <code>!!.</code> 不推薦用的，這裏不重點說，因為有時你跟 IDE 提議用 <code>!!.</code> 都會拋錯誤：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">IllegalArgumentException：Parameter specified as non-null is null</code></pre>
-
-<h2 id="Getter-amp-Setter"><a href="#Getter-amp-Setter" class="headerlink" title="Getter &amp; Setter"></a>Getter &amp; Setter</h2><p>在 Java，你會經常用到 Getter &amp; Setter，(如硬要說中文的話，也就是存取子及變異子)，例如你有一個 <code>Person</code> 對象：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class Person &#123;
-    String name &#x3D; &quot;&quot;;
-    int age &#x3D; 0;
-&#125;</code></pre>
-
-<p>你就會編寫 Getter &amp; Setter：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public void setName(String name) &#123;
-    this.name &#x3D; name;
-&#125;
-public void setAge(int age) &#123;
-    this.age &#x3D; age;
-&#125;
-public String getName() &#123;
-    return name;
-&#125;
-public String getAge() &#123;
-    return age;
-&#125;</code></pre>
-
-<p>嗯，很長，畢竟這是 Java，但一旦你使用 Kotlin 就可以簡化代碼了。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">class Person &#123;
-    var name: String &#x3D; &quot;&quot;
-    var age: Int &#x3D; 0
-&#125;</code></pre>
-
-<p>JVM (Java 虛擬機) 就會預設自動生成 Getter &amp; Setter，可以直接使用了。</p>
-<h3 id="這個情況的-val-跟-var-分別"><a href="#這個情況的-val-跟-var-分別" class="headerlink" title="這個情況的 val 跟 var 分別"></a>這個情況的 <code>val</code> 跟 <code>var</code> 分別</h3><p>在 Kotlin 會有兩種宣告變量方法：</p>
-<ul>
-<li><code>val</code>: 宣告<strong>不可變</strong>變量，類似 Java 的 <code>final</code> 關鍵字</li>
-<li><code>var</code>: 宣告<strong>可變</strong>變量</li>
-</ul>
-<p>在這個情況下，生成 Getter 以及 Setter 有一個關鍵</p>
-<div class="note info simple"><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">class Person &#123;
-    var name: String &#x3D; &quot;&quot;   &#x2F;&#x2F; 宣告可變變量
-    val age: Int &#x3D; 0        &#x2F;&#x2F; 宣告不可變變量
-&#125;</code></pre>
-
-<p>最終，JVM 會：</p>
-<ul>
-<li>對 <code>name</code> 變量，生成 Getter 及 Setter 方法</li>
-<li>對 <code>age</code> 變量，只會生成 Getter 方法</li>
-</ul>
-</div>
-
-<p>由此可得，要 Setter 的話就要用 <code>var</code>，否則用 <code>val</code>。</p>
-<h2 id="脫離-Kotlin-關鍵字"><a href="#脫離-Kotlin-關鍵字" class="headerlink" title="脫離 Kotlin 關鍵字"></a>脫離 Kotlin 關鍵字</h2><p>Kotlin 加了很多新的關鍵字，例如 <code>is</code>、<code>data</code> 等關鍵字，有時候不是想以關鍵字語法用途，例如在 Java 有一個這樣的方法：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MyClass &#123;
-   static void is()&#123;
-       System.out.print(&quot;Hello World&quot;);
-   &#125;
-&#125;</code></pre>
-
-<p>在 Kotlin 調用這個 <code>is()</code> 函數，因為 <code>is</code> 是認定為關鍵字，所以要加一對 <code>``</code> 符號。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun main(args: Array&lt;String&gt;) &#123;
-   MyClass.&#96;is&#96;()   
-&#125;</code></pre>]]></content>
-      <categories>
-        <category>程式編寫</category>
-      </categories>
-      <tags>
-        <tag>Kotlin</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Roblox 開發 | 建立插件</title>
     <url>/post/roblox-dev-create-plugins.html</url>
     <content><![CDATA[<p>進行 Roblox 開發時，我們往往都會用到一些插件。比如是熱門的 AutoScale 插件，一個轉換 Offset 為 Scale 的實用插件，這個插件點擊後，會出現一個 GUI 視窗，這裏會簡單記錄怎寫 GUI 視窗插件。</p>
@@ -2445,8 +2518,8 @@ struct ComposeView: UIViewControllerRepresentable &#123;
         <tag>Kotlin</tag>
         <tag>Android</tag>
         <tag>Swift</tag>
-        <tag>iOS</tag>
         <tag>HTML</tag>
+        <tag>iOS</tag>
         <tag>Desktop</tag>
       </tags>
   </entry>
