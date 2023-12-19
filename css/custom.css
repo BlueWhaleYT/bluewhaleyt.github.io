@@ -103,6 +103,11 @@
     display: none !important;
 }
 
+/* AI summary description */
+.post-ai-description .ai-btn-box {
+    display: none !important;
+}
+
 /* Adjust google translate widget */
 .goog-logo-link,
 .skiptranslate span {
