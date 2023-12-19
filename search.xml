@@ -3,9 +3,23 @@
   <entry>
     <title>Jetpack Compose | 客製化主題實作筆記</title>
     <url>/post/jetpack-compose-dev-custom-theme-implementation-notes.html</url>
-    <content><![CDATA[<p>在編寫 Jetpack Compose 程式時，都會使用到質感設計 2 或質感設計 3 的設計框架作為應用程式最基礎的設計風格，因為質感設計 2，甚至是質感設計 3，都提供了許多簡潔明瞭的組件，所以官方建議<strong>構建 Jetpack Compose 程式，盡量都使用質感設計的框架</strong>進行開發。</p>
-<p>話雖如此，仍然有許多認受性為高的大型公司，它們所開發的自家應用程式整體的外觀設計，似乎不是跟質感設計的路線而走的，反而是貫有自己一套的設計風格，這點亦可<strong>反映出應用程式的獨特性</strong>，不會有跟某某開發的應用程式有相似的情況。有一些是沿用質感設計的框架，再深入改革的，有一些則白手起家，自己由零開始寫一個設計框架。</p>
-<p>有一點無庸置疑的就是，官方為 <strong>Jetpack Compose 寫的質感設計主題都是使用自己開發的 API</strong> 的，所以我們可以做的，其實就是<strong>參照原先質感設計的實現程式碼，就可以自己寫一套設計主題了</strong>。</p>
+    <content><![CDATA[<p>在編寫 Jetpack Compose 程式時，常常會使用到質感設計 2 或質感設計 3 的設計框架，作為應用程式的基本設計風格。這是因為質感設計 2 和質感設計 3 提供了許多簡潔明瞭的組件，官方建議在構建 Jetpack Compose 程式時，盡量使用這些框架進行開發。</p>
+<p>然而，一些知名的大型公司可能會選擇採用與質感設計不同的設計風格，來<strong>展現他們自家應用程式的獨特性</strong>。這也反映了應用程式的多樣性，避免出現與其他應用程式相似的情況。有些公司會<strong>在質感設計的框架基礎上進行改革</strong>，有些則會<strong>從頭開始自己撰寫設計框架</strong>。</p>
+<p>不可否認的是，官方為 Jetpack Compose 所撰寫的質感設計主題都是使用他們自家開發的 API。因此，我們可以<strong>參考原始的質感設計實現程式碼，來撰寫自己的設計主題</strong>。這樣我們就可以擁有自己定制的設計風格了。</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>明亮主題</th>
+<th>黑暗主題</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img1.png" alt="Showcase = Light mode"></td>
+<td><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img2.png" alt="Showcase = Dark mode"></td>
+</tr>
+</tbody></table>
+<p>以上是製成品，這篇筆記會記下有關自訂主題的實現方式。</p>
 <hr>
 <h1 id="參照-MaterialTheme-程式碼"><a href="#參照-MaterialTheme-程式碼" class="headerlink" title="參照 MaterialTheme 程式碼"></a>參照 <code>MaterialTheme</code> 程式碼</h1><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">object MaterialTheme &#123;
     val colorScheme: ColorScheme
@@ -30,7 +44,7 @@
 <li><code>typography</code>: 要應用的字型及字體</li>
 <li><code>shapes</code>: 要應用的形狀，如形狀的弧度</li>
 </ul>
-<p>然後你會發現。。。<strong>其實沒有內置像素密度 (dimension)、間距 (spacing) 的常用指標</strong>，有見及此，我們可以自己參照原型，寫一個更好用的主題。</p>
+<p>然後你會發現。。。<strong>其實沒有內置像素密度、尺寸 (dimension)、間距 (spacing) 等常用指標</strong>，有見及此，我們可以自己參照原型，寫一個更好用的主題。</p>
 <hr>
 <h1 id="實作自訂主題"><a href="#實作自訂主題" class="headerlink" title="實作自訂主題"></a>實作自訂主題</h1><p>姑且命名新主題為 <strong>「BabyWhale」</strong>。</p>
 <h2 id="多範疇指標建立"><a href="#多範疇指標建立" class="headerlink" title="多範疇指標建立"></a>多範疇指標建立</h2><h3 id="色彩調色指標"><a href="#色彩調色指標" class="headerlink" title="色彩調色指標"></a>色彩調色指標</h3><p>建立一個 <code>BabyWhaleColor.kt</code>，這個檔案是定義不同主題的顏色配置，例如是淺色和深色主題。</p>
@@ -60,6 +74,10 @@ val Red_300 &#x3D; Color(0xFFFFA182)
 
 val White &#x3D; Color.White
 val Black &#x3D; Color.Black</code></pre>
+
+<div class="note info simple"><p>我是使用 <a href="https://colors.eva.design/">Eva Design System</a> 來生成以上的調色，為了較簡單，這裏只採用 <code>500</code> 和 <code>300</code> 色調碼，如果想要再完整的，基本上就是 <code>100</code> 至 <code>900</code> 全都使用。</p>
+<p><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img3.png" alt="Eva Design System"></p>
+</div>
 
 <p>寫一個數據類定義要用的顏色指標，然後把顏色向分予不同的主題模式。</p>
 <pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Immutable
@@ -205,7 +223,22 @@ fun BabyWhaleTheme(
     &#125;
 &#125;</code></pre>
 
-<h2 id="自訂組件"><a href="#自訂組件" class="headerlink" title="自訂組件"></a>自訂組件</h2><p>例如寫一個不同級別程度的按鈕</p>
+<details class="folding-tag"><summary> 主題函式庫提供方法 </summary>
+              <div class="content">
+              <p>如果你是想將主題封裝成依附元件，供不同項目使用，用法其實就像 <code>MaterialTheme</code> 一樣。</p><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun AppTheme(
+    isDarkMode: Boolean &#x3D; isSystemInDarkTheme,
+    content: @Composable () -&gt; Unit
+) &#123;
+    BabyWhaleTheme(
+        isDarkMode &#x3D; isDarkMode,
+        content &#x3D; content
+    )
+&#125;</code></pre>
+              </div>
+            </details>
+
+<h2 id="自訂組件"><a href="#自訂組件" class="headerlink" title="自訂組件"></a>自訂組件</h2><p>因為 Jetpack Compose 內置提供的大部份組件都是使用質感設計為基礎的，所以如果你要寫一個與這個自訂主題相容的組件，就必須要自己另外再寫，這裏展示例如寫一個不同級別程度的按鈕</p>
 <pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">enum class BabyWhaleButtonType &#123;
     Primary, Info, Success, Warning, Error
 &#125;
