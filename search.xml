@@ -1,11 +1,373 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Android | 多功能的 sora-editor 函式庫綜合使用筆記</title>
+    <url>/post/android-dev-sora-editor-library-notes.html</url>
+    <content><![CDATA[<div class="note warning simple"><p>這篇筆記是純粹為個人而寫的筆記，因為 sora-editor 函式庫太多 API，然而目前為止還沒有正式的 API 文檔，所以唯有自己記下。如果內容有用，我會考慮加上英文翻譯，但我的英文很爛，謝謝。</p>
+</div>
+
+<p>sora-editor 是一個多功能的 Android 代碼編輯器庫，這個庫提供了許多功能，包括語法高亮、自動完成等編輯器常用的特性。</p>
+<h1 id="基礎入門"><a href="#基礎入門" class="headerlink" title="基礎入門"></a>基礎入門</h1><h2 id="匯入依附元件"><a href="#匯入依附元件" class="headerlink" title="匯入依附元件"></a>匯入依附元件</h2><p>基本上這個函式庫的核心是 <code>editor</code> 模組，它是負責編輯器組件的實現功能。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">dependencies &#123;
+    implementation(platform(&quot;io.github.Rosemoe.sora-editor:bom:0.22.2&quot;))
+    
+    &#x2F;&#x2F; 啟用 Editor 基本模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:editor&quot;)
+
+    &#x2F;&#x2F; 啟用 Java 語言模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:language-java&quot;)
+    
+    &#x2F;&#x2F; 啟用 TextMate 語法高亮模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:language-textmate&quot;)
+    
+    &#x2F;&#x2F; 其他處於開發階段的試驗性模組庫，有興趣可以使用
+    &#x2F;&#x2F; 啟用語言伺服器協定 (LSP) 的 Editor 模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:editor-lsp&quot;)
+    
+    &#x2F;&#x2F; 啟用 Tree-Sitter 語法高亮模組庫
+    implementation(&quot;io.github.Rosemoe.sora-editor:language-treesitter&quot;)
+&#125;</code></pre>
+
+<h2 id="定義基本組件至佈局"><a href="#定義基本組件至佈局" class="headerlink" title="定義基本組件至佈局"></a>定義基本組件至佈局</h2><ol>
+<li>編輯器<div class="note info simple"><p><code>CodeEditor</code> 視圖通常只會用於「全螢幕」，只可以把 <code>layout_width</code> 和 <code>layout_height</code> 設為絕對值或 <code>match_parent</code>。</p>
+</div>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;io.github.rosemoe.sora.widget.CodeEditor
+    android:id&#x3D;&quot;@+id&#x2F;editor&quot;
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;</code></pre></li>
+<li>符號插入工具項<br>另外，為了用戶方便使用你的編輯器程式，你可以在 <code>CodeEditor</code> 下方新增一個符號插入工具項，要注意的是，需要加上 <code>HorizontalScrollView</code> 來對工具項進行水平捲動。<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;HorizontalScrollView
+    android:layout_width&#x3D;&quot;match_parent&quot;
+    android:layout_height&#x3D;&quot;40dp&quot;&gt;
+    &lt;io.github.rosemoe.sora.widget.SymbolInputView
+        android:id&#x3D;&quot;@+id&#x2F;symbol_input_view&quot;
+        android:layout_width&#x3D;&quot;match_parent&quot;
+        android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;
+&lt;&#x2F;HorizontalScrollView&gt;</code></pre>
+預設的 <code>SymbolInputView</code> 是沒有任何符號提供的，需要手動加入<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val displayText &#x3D; listOf(&quot;→&quot;, &quot;&#123;&quot;, &quot;&#125;&quot;, &quot;(&quot;, &quot;)&quot;, &quot;[&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;,&quot;, &quot;.&quot;, &quot;;&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;?&quot;, &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;&#x2F;&quot;, &quot;&#x3D;&quot;)
+val insertText  &#x3D; listOf(&quot;\t&quot;, &quot;&#123;&#125;&quot;, &quot;&#125;&quot;, &quot;()&quot;, &quot;)&quot;, &quot;[]&quot;, &quot;]&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;,&quot;, &quot;.&quot;, &quot;;&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;?&quot;, &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;&#x2F;&quot;, &quot;&#x3D;&quot;)
+
+symbolInputView.apply &#123;
+    bindEditor(codeEditor)
+    addSymbols(displayText, insertText);
+&#125;</code></pre>
+<div class="note info simple"><p><code>displayText</code> 用來顯示的符號，而 <code>insertText</code> 用來插入的符號</p>
+</div></li>
+</ol>
+<h2 id="設置字體"><a href="#設置字體" class="headerlink" title="設置字體"></a>設置字體</h2><p>在 <code>app/src/main</code> 新建一個 <code>assets</code> 資料夾，再在裏面新建一個 <code>fonts</code> 資料夾，自己把要用的字體檔案放進去。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val font &#x3D; Typeface.createFromAsset(context.assets, &quot;fonts&#x2F;JetBrainsMono.ttf&quot;)
+editor.apply &#123;
+    typefaceText &#x3D; font
+    typefaceLineNumber &#x3D; font
+&#125;</code></pre>
+
+<div class="note danger simple"><p><code>CodeEditor</code> 內建的 <code>isLigatureEnabled</code> <strong>只支援字體連字特性</strong>，如常見的 JetBrains Mono 字型 (別下載 NL (No-ligatures) 是沒有連字特性)</p>
+</div>
+
+<h2 id="獲取游標點選的文字"><a href="#獲取游標點選的文字" class="headerlink" title="獲取游標點選的文字"></a>獲取游標點選的文字</h2><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun CodeEditor.getSelectedText(): String &#123;
+    val cursor &#x3D; this.cursor
+    return this.text.subContent(
+        cursor.leftLine,
+        cursor.leftColumn,
+        cursor.rightLine,
+        cursor.rightColumn
+    ).toString()
+&#125;</code></pre>
+
+<div class="note info simple"><p>例如把點選文字轉成大寫：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">editor.apply &#123;
+    commitText(getSelectedText().uppercase())
+&#125;</code></pre></div>
+
+<h2 id="獲取目前行的文字"><a href="#獲取目前行的文字" class="headerlink" title="獲取目前行的文字"></a>獲取目前行的文字</h2><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun CodeEditor.getLineNumber() &#x3D; this.cursor.leftLine
+fun CodeEditor.getLineNumberText(line: Int &#x3D; 0) &#x3D; this.text.getLineString(line)
+
+val currentLineText &#x3D; editor.getLineNumberText(editor.getLineNumber())</code></pre>
+
+<hr>
+<h1 id="進階特性"><a href="#進階特性" class="headerlink" title="進階特性"></a>進階特性</h1><h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p><code>CodeEditor</code> 提供了許多對於編輯器的行為及事件，當要註冊一個事件，就要用 <code>subscribeEvent()</code> 函數。</p>
+<h3 id="內容變動事件"><a href="#內容變動事件" class="headerlink" title="內容變動事件"></a>內容變動事件</h3><p>我們可以使用 <code>ContentChangeEvent</code> 監聽編輯器的文本內容變動</p>
+<div class="tabs" id="code_contentchangeevent_kotlin"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_contentchangeevent_kotlin-1">Kotlin</button><button type="button" class="tab " data-href="code_contentchangeevent_kotlin-2">Java</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_contentchangeevent_kotlin-1"><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">editor.subscribeEvent(ContentChangeEvent::class.java) &#123; _, _ -&gt;
+    &#x2F;&#x2F; ...      
+&#125;</code></pre></div><div class="tab-item-content" id="code_contentchangeevent_kotlin-2"><pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.subscribeEvent(ContentChangeEvent.class, new EventReceiver&lt;ContentChangeEvent&gt;() &#123;
+    @Override
+    public void onReceive(@NonNull ContentChangeEvent event, @NonNull Unsubscribe unsubscribe) &#123;
+        &#x2F;&#x2F; ...
+    &#125;
+&#125;);</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h3 id="實體鍵盤鍵綁定事件"><a href="#實體鍵盤鍵綁定事件" class="headerlink" title="實體鍵盤鍵綁定事件"></a>實體鍵盤鍵綁定事件</h3><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">editor.subscribeEvent(KeyBindingEvent::class.java) &#123; event, _ -&gt;
+    if ((event.keyCode &#x3D;&#x3D; KeyEvent.KEYCODE_P) &amp;&amp; event.isShiftPressed) &#123;
+        Toast.makeText(context, &quot;Shift + P action&quot;, Toast.LENGTH_SHORT).show()
+    &#125;
+&#125;</code></pre>
+
+<h2 id="文本搜尋與取代"><a href="#文本搜尋與取代" class="headerlink" title="文本搜尋與取代"></a>文本搜尋與取代</h2><p><code>CodeEditor</code> 內建一個 <code>Searcher</code> 進行文本搜尋，你有兩個方法把搜尋器加入到程式：</p>
+<ol>
+<li>把搜尋元件加入到懸浮動作頂部列 (<code>ActionBar</code>)，這點 <code>CodeEditor</code> 的 <code>beginSearchMode()</code> 已經會做這件事<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">editor.beginSearchMode()</code></pre></li>
+<li>直接用輸入組件 e.g. <code>EditText</code><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">searchInput.addTextChangedListener(object : TextWatcher) &#123;
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) &#123;&#125;
+    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) &#123;&#125;
+    override fun afterTextChanged(editable: Editable) &#123;
+        if (editable.isNotEmpty()) &#123;
+            try &#123;
+                editor.searcher.search(
+                    editable.toString, EditorSearcher.SearchOptions(false, false)
+                )
+            &#125; catch (e: PatternSyntaxException) &#123;
+                e.printStacktrace()
+            &#125;
+        &#125; else editor.searcher.stopSearch()
+    &#125;
+&#125;</code></pre>
+<div class="note info simple"><p><code>EditorSearcher.SearchOptions()</code> 有兩個重載，</p>
+<ol>
+<li>這個情況下的接受兩個 <code>boolean</code> 參數，<code>EditorSearcher.SearchOptions(false, false)</code> 必須接受兩個參數，第一個是 <code>ignoreCase</code>，即判斷大小寫須相符的準則，第二個是 <code>useRegex</code>，即使用正則表示式與否。</li>
+<li>如果想實現啟用或不啟用全字拼寫須相符、大小寫須相符之類的，這個重載是接受 <code>@IntRange(from = 1, to = 3) int type, boolean ignoreCase</code> 可考慮以下代碼：<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val type &#x3D; when &#123;
+    regex -&gt; SearchOptions.TYPE_REGULAR_EXPRESSION
+    wholeWord -&gt; SearchOptions.TYPE_WHOLE_WORD
+    else -&gt; SearchOptions.TYPE_NORMAL
+&#125;
+val searchOptions &#x3D; EditorSearcher.SearchOptions(type, ignoreCase)</code></pre></li>
+</ol>
+</div></li>
+</ol>
+<p>至於取代的實現方式，會用到 <code>replaceThis()</code> 或 <code>replaceAll()</code></p>
+<ul>
+<li><code>replaceThis()</code>: 取代當前所輸入的字符至編輯器</li>
+<li><code>replaceAll()</code>: 一併取代所輸入的字符至編輯器</li>
+</ul>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">editor.searcher.apply &#123;
+    replaceThis(replaceInput.text.toString())
+    replaceAll(replaceInput.text.toString())
+&#125;</code></pre>
+
+<h2 id="診斷程序"><a href="#診斷程序" class="headerlink" title="診斷程序"></a>診斷程序</h2><p><code>CodeEditor</code> 並沒有提供診斷程式程序，這個功能你要自行編寫代碼實現，但提供了設置診斷程序的提示和指標器。</p>
+<p>支援的嚴重程度 (Severity) 如下：</p>
+<ul>
+<li><code>SEVERITY_ERROR</code> ：紅色，代表錯誤</li>
+<li><code>SEVERITY_WARNING</code>：黃色，代表警告</li>
+<li><code>SEVERITY_TYPO</code>：綠色，代表錯別字</li>
+</ul>
+<div class="tabs" id="code_diagnostics_kotlin"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_diagnostics_kotlin-1">Kotlin</button><button type="button" class="tab " data-href="code_diagnostics_kotlin-2">Java</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_diagnostics_kotlin-1"><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">editor.apply &#123;
+    diagnostics &#x3D; DiagnosticsContainer()
+    setDiagnostic(36, 44, DiagnosticRegion.SEVERITY_ERROR, &quot;Error&quot;, &quot;Message&quot;,
+        listOf(
+            Quickfix(&quot;Fix&quot;, 0L, null),
+            Quickfix(&quot;Other&quot;, 0L, null)
+        )
+    )
+&#125;
+
+private fun CodeEditor.setDiagnostic(startIndex: Int, endIndex: Int, type: Short, briefMessage: String, detailedMessage: String, list: List&lt;Quickfix&gt;) &#123;
+    diagnostics?.addDiagnostic(
+        DiagnosticRegion(startIndex, endIndex, type, 0L,
+            DiagnosticDetail(briefMessage, detailedMessage, list, null)
+        )
+    )
+&#125;</code></pre></div><div class="tab-item-content" id="code_diagnostics_kotlin-2"><pre class="line-numbers language-java" data-language="java"><code class="language-java">editor.setDiagnostics(new DiagnosticsContainer());
+
+setDiagnostic(36, 44, DiagnosticRegion.SEVERITY_ERROR, &quot;Error&quot;, &quot;Message&quot;, List.of(
+    new Quickfix(&quot;Fix&quot;, 0L, null),
+    new Quickfix(&quot;Other&quot;, 0L, null)
+));
+
+private void setDiagnostic(int startIndex, int endIndex, short type, String briefMessage, String detailedMessage, List&lt;Quickfix&gt; list) &#123;
+    getDiagnostics().addDiagnostic(
+        new DiagnosticRegion(startIndex, endIndex, type, 0L,
+                new DiagnosticDetail(briefMessage, detailedMessage, list, null)
+        )
+    );
+&#125;</code></pre>
+<div class="note info simple"><p><code>QuickFix</code> 的點擊事件是 <code>Runnable</code></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">new Quickfix(&quot;Fix&quot;, 0L, new Runnable() &#123;
+    @Override
+    public void run() &#123;
+        &#x2F;&#x2F; ...
+    &#125;
+&#125;)</code></pre></div></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<hr>
+<h1 id="Compose-使用方式"><a href="#Compose-使用方式" class="headerlink" title="Compose 使用方式"></a>Compose 使用方式</h1><p>sora-editor 目前暫時還沒支援 Compose 架構的可組合項函式，但是我們可以使用 <code>AndroidView</code> 把 <code>CodeEditor</code> 視圖嵌入至可組合函式內，有兩種方法：</p>
+<ol>
+<li>直接定義一個新的 <code>CodeEditor</code><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun CodeEditor(
+    modifier: Modifier &#x3D; Modifier,
+    properties: ((CodeEditor) -&gt; Unit)? &#x3D; null
+) &#123;
+    val context &#x3D; LocalContext.current
+    val editor &#x3D; remember &#123;
+        CodeEditor(context)
+            .also &#123;
+                properties?.invoke(it)
+            &#125;
+    &#125;
+    AndroidView(
+        factory &#x3D; &#123; editor &#125;,
+        modifier &#x3D; modifier.fillMaxSize(),
+        onRelease &#x3D; &#123; it.release() &#125;
+    )
+&#125;</code></pre></li>
+<li>如果你已經有一個編輯器的佈局，可以考慮用 <code>inflate</code> 方式<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun CodeEditor(
+    modifier: Modifier &#x3D; Modifier,
+    properties: ((CodeEditor) -&gt; Unit)? &#x3D; null
+) &#123;
+    AndroidView(
+        factory &#x3D; &#123; View.inflate(it, R.layout.layout_editor_view, null) &#125;
+        modifier &#x3D; modifier.fillMaxSize()
+    ) &#123; view -&gt;
+        val editor &#x3D; view.findViewById&lt;CodeEditor&gt;(R.id.editor)
+        properties?.invoke(editor)
+    &#125;
+&#125;</code></pre></li>
+</ol>
+]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>Android 開發</category>
+        <category>Jetpack Compose</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Java</tag>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose | 多樣化的動畫實現方式</title>
+    <url>/post/jetpack-compose-dev-animation-in-compose.html</url>
+    <content><![CDATA[<p>Jetpack Compose 是一個新興的 UI 構建技術框架，除了著重於 UI 靜態方面的實現，都有支援到輕鬆使用動畫的一環。</p>
+<p>這個是大家初嘗 Jetpack Compose 時，想必會看過這個官方圖：</p>
+<p><img src="/post/jetpack-compose-dev-animation-in-compose/img1.gif" alt="official showcase gif"></p>
+<p>你會看到，只要執行了 <code>Column</code> 的點擊事件，就可以有一個展開的動畫。這個只是其中一種動畫實現方式，接下來會說說更多其他不同處理動畫的方式。</p>
+<p>官方有一個建議，判斷用哪一種方式最為適合：</p>
+<ul>
+<li>如果要在版面配置中為內容變更建立動畫效果：<ul>
+<li>如果要建立顯示與消失的動畫效果：<ul>
+<li>使用 <code>AnimatedVisibility</code>。</li>
+</ul>
+</li>
+<li>根據狀態替換內容：<ul>
+<li>如果要為內容建立淡出淡入效果：<ul>
+<li>使用 <code>Crossfade</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>AnimatedContent</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>Modifier.animateContentSize</code>。</li>
+</ul>
+</li>
+<li>如果要依據狀態顯示動畫：<ul>
+<li>如果要在組合期間顯示動畫：<ul>
+<li>如要讓動畫持續顯示：<ul>
+<li>使用 <code>rememberInfiniteTransition</code>。</li>
+</ul>
+</li>
+<li>如果您同時為多個值建立動畫效果：<ul>
+<li>使用 <code>updateTransition</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>animate*AsState</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果要精確控制動畫時間：<ul>
+<li>使用 <code>Animation</code>，例如 <code>TargetBasedAnimation</code> 或 <code>DecayAnimation</code>。</li>
+</ul>
+</li>
+<li>如果動畫是事實的唯一來源：<ul>
+<li>使用 <code>Animatable</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>AnimationState</code> 或 <code>animate</code>。</li>
+</ul>
+<hr>
+<h1 id="高階動畫-API"><a href="#高階動畫-API" class="headerlink" title="高階動畫 API"></a>高階動畫 API</h1><p>配合質感設計的簡易高階動畫</p>
+<h2 id="AnimatedVisibility"><a href="#AnimatedVisibility" class="headerlink" title="AnimatedVisibility"></a><code>AnimatedVisibility</code></h2><p>主要是以動畫方式呈現內容的顯示與消失。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var visible by remember &#123; mutableStateOf(false) &#125;
+
+Column &#123;
+    AnimatedVisibility(visible &#x3D; visible) &#123;
+        Text(text &#x3D; &quot;Hello World&quot;)
+    &#125;
+    Button(onClick &#x3D; &#123; visible &#x3D; !visible &#125;) &#123;
+        Text(&quot;show text&quot;)
+    &#125;
+&#125;</code></pre>
+
+<h2 id="AnimatedContent-實驗功能"><a href="#AnimatedContent-實驗功能" class="headerlink" title="AnimatedContent (實驗功能)"></a><code>AnimatedContent</code> (實驗功能)</h2><div class="note danger simple"><p>實驗性 API 未來可能會變更，或完全移除。</p>
+</div>
+
+<div class="note info simple"><p><code>AnimatedContent</code> 與 <code>AnimatedVisibility</code> 有點相似，前者控制切換，後者則控制顯隱。</p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var count by remember &#123; mutableIntStateOf(0) &#125;
+
+Column &#123;
+    AnimatedContent(targetState &#x3D; count) &#123; targetCount -&gt;
+        Text(
+            text &#x3D; &#123; Text(text &#x3D; targetCount) &#125;
+        )
+    &#125;
+    Button(onClick &#x3D; &#123; count++ &#125; )
+&#125;</code></pre>
+
+<p><code>Text</code> 應用了隸屬於 <code>AnimatedContent</code> 的 <code>targetCount</code> 傳入參數，這個時候當內容更改時，就會有動畫的改變。</p>
+<h2 id="animate-AsState"><a href="#animate-AsState" class="headerlink" title="animate*AsState"></a><code>animate*AsState</code></h2><p>可用於為單一值建立動畫效果。您只需提供結束值 (或目標值)，該 API 就會從現值開始播放動畫，直到達到指定值。</p>
+<p>假如現在有一個小方塊 (預設的正常大小是 <code>70.dp</code>)，當按它就會長大一點，再按就長大多一點。</p>
+<div class="note info simple"><p><code>animate*AsState</code> 這裏指的 <code>*</code> 是有許多不同的至別，如 <code>Dp</code>, <code>Int</code>, <code>Float</code>, <code>Color</code> 等。</p>
+<p>因為現在是在用 <code>Dp</code> 值為狀態提升的基準，所以這裏會用的是 <code>animateDpAsState</code>，因此剛才所指的 <code>*</code> 是按情況而選擇用哪一個型別的。</p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var size by remember &#123; mutableStateOf(70.dp) &#125;
+val animatedSize by animateDpAsState(                           &#x2F;&#x2F; 新增一個狀態動畫提升
+    targetValue &#x3D; size,
+    animationSpec &#x3D; tween(1000)                                 &#x2F;&#x2F; 動畫執行時間
+)        
+
+Box(
+    modifier &#x3D; Modifier
+        .background(MaterialTheme.colorScheme.primary)
+        .size(animatedSize)                                     &#x2F;&#x2F; 使用狀態動畫提升值
+        .clickable &#123; size *&#x3D; 2 &#125;
+)</code></pre>
+
+<div class="note warning simple"><p>使用 <code>animate*AsState</code> 的變量一定只能是 <code>val</code> 唯讀變量，意味著<strong>這個變量不會進行任何計算</strong>，只會用作最後顯示到目標位置。</p>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>沒有動畫</th>
+<th>有動畫</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img alt="without animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXBlODFzcDZmNXZxM3kyaDN4a2dqdDNidzRmbWdjdTdtbXUyZmlnciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GZ4XaWk930NDcq2ljI/giphy.gif"></td>
+<td><img alt="with animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NoNGdieGN1dHN2engyZmZkZnFjbGwzbms2b3F4ZXpxZTFucWl6ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gx3PbwaTAnU8L2T90E/giphy.gif"></td>
+</tr>
+</tbody></table>
+<div class="note warning simple"><p><img src="/post/jetpack-compose-dev-animation-in-compose/img2.png" alt="label parameter warning"></p>
+<p>這裏 Android Studio 會警告你在使用 <code>animate*AsState</code> 或其他關於動畫範疇的情況下沒有用 <code>label</code> 參數，這個 <code>label</code> 參數純粹是在 IDE 的動畫製作時候，方便辨認的，如果不是特別重要，可選擇忽略。</p>
+</div>]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>Jetpack Compose</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Jetpack Compose | 客製化主題實作筆記</title>
     <url>/post/jetpack-compose-dev-custom-theme-implementation-notes.html</url>
     <content><![CDATA[<p>在編寫 Jetpack Compose 程式時，常常會使用到質感設計 2 或質感設計 3 的設計框架，作為應用程式的基本設計風格。這是因為質感設計 2 和質感設計 3 提供了許多簡潔明瞭的組件，官方建議在構建 Jetpack Compose 程式時，盡量使用這些框架進行開發。</p>
 <p>然而，一些知名的大型公司可能會選擇採用與質感設計不同的設計風格，來<strong>展現他們自家應用程式的獨特性</strong>。這也反映了應用程式的多樣性，避免出現與其他應用程式相似的情況。有些公司會<strong>在質感設計的框架基礎上進行改革</strong>，有些則會<strong>從頭開始自己撰寫設計框架</strong>。</p>
 <p>不可否認的是，官方為 Jetpack Compose 所撰寫的質感設計主題都是使用他們自家開發的 API。因此，我們可以<strong>參考原始的質感設計實現程式碼，來撰寫自己的設計主題</strong>。這樣我們就可以擁有自己定制的設計風格了。</p>
+<p>這裏有官方教學，不過是以質感設計 2 為基礎的，有興趣看可按此：<a href="https://developer.android.com/jetpack/compose/designsystems/custom?hl=zh-tw#implementing-fully-custom">官方教學文案</a>，這裏會著重於使用質感設計 3 的實作方式。</p>
 <hr>
 <table>
 <thead>
@@ -46,7 +408,7 @@
 </ul>
 <p>然後你會發現。。。<strong>其實沒有內置像素密度、尺寸 (dimension)、間距 (spacing) 等常用指標</strong>，有見及此，我們可以自己參照原型，寫一個更好用的主題。</p>
 <hr>
-<h1 id="實作自訂主題"><a href="#實作自訂主題" class="headerlink" title="實作自訂主題"></a>實作自訂主題</h1><p>姑且命名新主題為 <strong>「BabyWhale」</strong>。</p>
+<h1 id="導入自訂主題"><a href="#導入自訂主題" class="headerlink" title="導入自訂主題"></a>導入自訂主題</h1><p>姑且命名新主題為 <strong>「BabyWhale」</strong>。</p>
 <h2 id="多範疇指標建立"><a href="#多範疇指標建立" class="headerlink" title="多範疇指標建立"></a>多範疇指標建立</h2><h3 id="色彩調色指標"><a href="#色彩調色指標" class="headerlink" title="色彩調色指標"></a>色彩調色指標</h3><p>建立一個 <code>BabyWhaleColor.kt</code>，這個檔案是定義不同主題的顏色配置，例如是淺色和深色主題。</p>
 <p>這裏是一個簡單的顏色色板，作用大概是</p>
 <ul>
@@ -291,10 +653,148 @@ fun BabyWhaleButton(
             &#125;
         &#125;
     &#125;
+&#125;</code></pre>
+
+<hr>
+<h1 id="擴充質感主題"><a href="#擴充質感主題" class="headerlink" title="擴充質感主題"></a>擴充質感主題</h1><p>或許你對質感主題仍然情有獨鍾，只是對部分的顏色或其他的指標有點執着。甚至是想另外新增一個第 N 個副色，這裏可考慮用擴充形式，一來不會影響整個主題，二來實現到你的目的，無傷大雅。</p>
+<h2 id="擴充屬性"><a href="#擴充屬性" class="headerlink" title="擴充屬性"></a>擴充屬性</h2><p>說好是擴充了，所以就真的是單純用擴展函式來對指標物件進行擴充。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;&#x2F; Use with MaterialTheme.colorScheme.snackbarAction
+val ColorScheme.snackbarAction: Color
+    get() &#x3D; if (isLight) Red300 else Red700
+
+&#x2F;&#x2F; Use with MaterialTheme.typography.textFieldInput
+val Typography.textFieldInput: TextStyle
+    get() &#x3D; TextStyle(&#x2F;* ... *&#x2F;)
+
+&#x2F;&#x2F; Use with MaterialTheme.shapes.card
+val Shapes.card: Shape
+    get() &#x3D; RoundedCornerShape(size &#x3D; 20.dp)</code></pre>
+
+<h2 id="擴充質感主題-1"><a href="#擴充質感主題-1" class="headerlink" title="擴充質感主題"></a>擴充質感主題</h2><p>這個會用到 <code>CompositionLocalProvider</code> 把定義好的擴充顏色作為本機資料。再把這些顏色「包裝」到現有的 <code>MaterialTheme</code>。</p>
+<p>假如現在質感設計 3 有 <code>error</code>, <code>onError</code>, <code>errorContainer</code>, <code>onErrorContainer</code>，你覺得不夠，你想看到「成功」，就可以寫一個數據類再加以把顏色定義。</p>
+<p>預設會先用 <code>Color.Unspecified</code> (未下定義的顏色值)。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Immutable
+data class ExtendedColorScheme(
+    val success: Color,
+    val onSuccess: Color,
+    val successContainer: Color,
+    val onSuccessContainer: Color
+)
+
+val LocalExtendedColorScheme &#x3D; staticCompositionLocalOf &#123;
+    ExtendedColorScheme(
+        success &#x3D; Color.Unspecified,
+        onSuccess &#x3D; Color.Unspecified,
+        successContainer &#x3D; Color.Unspecified,
+        onSuccessContainer &#x3D; Color.Unspecified,
+    )
+&#125;</code></pre>
+
+<p>然後像 <code>MaterialTheme</code> 一樣寫一個 <code>object</code> 和可組合函式，但不同的是，我們仍然會用到 <code>MaterialTheme</code>。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">object ExtendedTheme &#123;
+    val colorScheme: ExtendedColorScheme
+        @Composable
+        get() &#x3D; LocalExtendedColorScheme.current
+&#125;
+
+@Composable
+fun ExtendedTheme(
+    &#x2F;* 這裏如常處理其他參數 *&#x2F;
+    content: @Composable () -&gt; Unit
+) &#123;
+    &#x2F;&#x2F; 這裏的顏色值沒有進行特別測試
+    val extendedColors &#x3D; ExtendedColorScheme(
+        success &#x3D; Color(0xFF98e01d),
+        onSuccess &#x3D; Color(0xFF366B05),
+        successContainer &#x3D; Color(0xFF366B05),
+        onSuccessContainer &#x3D; Color(0xFF7AC015),
+    )
+    CompositionLocalProvider(LocalExtendedColorScheme provides extendedColors) &#123;
+        MaterialTheme(
+            &#x2F;* 這裏如常處理其他參數 *&#x2F;
+            content &#x3D; content
+        )
+    &#125;
 &#125;</code></pre>]]></content>
       <categories>
-        <category>學習筆記</category>
         <category>Jetpack Compose</category>
+        <category>學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android | 建立密鑰庫並以發佈模式運行程序</title>
+    <url>/post/android-dev-keystore-and-release-mode.html</url>
+    <content><![CDATA[<p>密鑰庫 (Keystore) 是一個<strong>存儲密鑰和證書的安全文件</strong>，Keystore 被用於對應用程式進行簽名，以確保應用程式的完整性和安全性。它包含了一個私鑰和與之相對應的公鑰。</p>
+<p>在開發階段，我們通常會使用調試密鑰庫 (Debug Keystore)，它是由 Android SDK 自動生成的，並且不需要我們主動管理。Debug Keystore 用於在開發期間對應用程式進行簽名，方便我們在<strong>測試和調試應用程式時使用</strong>。</p>
+<p>當我們要將應用程式發布到 Google Play 商店或其他渠道時，我們需要使用發佈密鑰庫 (Release Keystore)。Release Keystore 是<strong>由開發者自己生成的</strong>，並且需要妥善保管。它將用於對應用程式<strong>進行正式簽名</strong>，以確保應用程式的安全性和真實性。</p>
+<div class="note info simple"><p>在 Jetpack Compose 架構中，使用發佈模式啟動應用程式會較調試模式顯著為快，因為發佈模式優化了編譯及 Compose 重組速度。</p>
+</div>
+
+<hr>
+<h1 id="構建及簽署應用程式"><a href="#構建及簽署應用程式" class="headerlink" title="構建及簽署應用程式"></a>構建及簽署應用程式</h1><p>要進行 <code>release</code> 版本，最重要的就是要範為應用程式簽署，在 Android Studio，上面選單列的 <code>Build</code> 找 <code>Generate Signed Bundle / APK</code></p>
+<p>它會問你選擇 AAB (Android App Bundle) 或是 APK，這裏選擇 APK</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img1.png" alt="img1"></p>
+<p>如果你之前已經有建立了的 Keystore 就按 Choose existing… 不然就按 Create new</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img2.png" alt="img2"></p>
+<h2 id="建立-Keystore"><a href="#建立-Keystore" class="headerlink" title="建立 Keystore"></a>建立 Keystore</h2><p>建立一個 Keystore 需要填妥表格，包括以下項目</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img3.png" alt="img3"></p>
+<ul>
+<li><code>Key store path</code>: Keystore 檔案 (副檔名為 <code>.keystore</code>) 存放位置，通常如果是獨立只為獨有應用程式用的 Keystore，這個檔案路徑可以存放到專案的根目錄位置 e.g. <code>AndroidStudioProjects/MyApp/myapp_release.keystore</code></li>
+<li><code>Password</code>: 設置 Keystore 的密碼</li>
+</ul>
+<p>而 <code>Key</code> 有幾項需要注意：</p>
+<ul>
+<li><code>Alias</code>: Key 的名稱，可以用 <code>key</code> 為前綴 e.g. <code>keyMyApp</code>，不規定。</li>
+<li><code>Password</code>: 設置 Key 的密碼，如沒有太大問題，這裏可以都使用 Keystore 密碼</li>
+<li><code>Validity</code>: 以年數作計算，預設是 <code>25</code>，就是 Key 的有效期為 25 年</li>
+</ul>
+<p>而 <code>Certificate</code> 細項中：</p>
+<ul>
+<li><code>First and Last Name</code>: 用戶名稱</li>
+</ul>
+<p>其餘的按需要就填。</p>
+<h2 id="完成-Keystore"><a href="#完成-Keystore" class="headerlink" title="完成 Keystore"></a>完成 Keystore</h2><p>例如完成好的 Keystore，再按 Next</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img4.png" alt="img4"></p>
+<p>這裏會問 Keystore 應用到 <code>debug</code> 或是 <code>release</code>，選擇 <code>release</code>，按 Create</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img5.png" alt="img5"></p>
+<hr>
+<h1 id="配置-release-構建代碼"><a href="#配置-release-構建代碼" class="headerlink" title="配置 release 構建代碼"></a>配置 <code>release</code> 構建代碼</h1><p>在 <code>app</code> 模塊的 <code>build.gradle.kts</code> 加入代碼：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">buildTypes &#123;
+    signingConfigs &#123;
+        create(&quot;release&quot;) &#123;
+            keyAlias &#x3D; &quot;XXX&quot;
+            keyPassword &#x3D; &quot;XXX&quot;         &#x2F;&#x2F; Key 密碼
+            storeFile &#x3D; file(&quot;XXX&quot;)
+            storePassword &#x3D; &quot;XXX&quot;       &#x2F;&#x2F; Keystore 密碼
+        &#125;
+    &#125;
+    release &#123;
+        isMinifyEnabled &#x3D; false
+        proguardFiles(
+            getDefaultProguardFile(&quot;proguard-android-optimize.txt&quot;),
+            &quot;proguard-rules.pro&quot;
+        )
+        signingConfig &#x3D; signingConfigs.getByName(&quot;release&quot;)
+    &#125;
+&#125;</code></pre>
+
+<p><code>storeFile</code> 是 Keystore 檔案存放路徑，例子 </p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">storeFile &#x3D; file(&quot;&#x2F;Users&#x2F;bluewhaleyt&#x2F;AndroidStudioProjects&#x2F;MyApp&#x2F;myapp_release.keystore&quot;)</code></pre>
+
+<hr>
+<h1 id="使用-release-構建程式"><a href="#使用-release-構建程式" class="headerlink" title="使用 release 構建程式"></a>使用 <code>release</code> 構建程式</h1><p>把專案 <code>app</code> 的 <code>Build Variant</code> 更改為 <code>release</code> 版本</p>
+<div class="note info simple"><p>一旦改 <code>app</code> 的 <code>Build Variant</code> (構建模式)，其他的模塊都會用該構建模式，即一併使用 <code>release</code> 模式。</p>
+</div>
+
+<p><img src="/post/android-dev-keystore-and-release-mode/img6.png" alt="img6"></p>
+<p>現在 Run 程式就是用 <code>release</code> 模式了</p>
+]]></content>
+      <categories>
+        <category>Android 開發</category>
       </categories>
       <tags>
         <tag>Kotlin</tag>
