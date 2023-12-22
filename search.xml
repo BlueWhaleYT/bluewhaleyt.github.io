@@ -1,6 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Android | 建立密鑰庫並以發佈模式運行程序</title>
+    <url>/post/android-dev-keystore-and-release-mode.html</url>
+    <content><![CDATA[<p>密鑰庫 (Keystore) 是一個<strong>存儲密鑰和證書的安全文件</strong>，Keystore 被用於對應用程式進行簽名，以確保應用程式的完整性和安全性。它包含了一個私鑰和與之相對應的公鑰。</p>
+<p>在開發階段，我們通常會使用調試密鑰庫 (Debug Keystore)，它是由 Android SDK 自動生成的，並且不需要我們主動管理。Debug Keystore 用於在開發期間對應用程式進行簽名，方便我們在<strong>測試和調試應用程式時使用</strong>。</p>
+<p>當我們要將應用程式發布到 Google Play 商店或其他渠道時，我們需要使用發佈密鑰庫 (Release Keystore)。Release Keystore 是<strong>由開發者自己生成的</strong>，並且需要妥善保管。它將用於對應用程式<strong>進行正式簽名</strong>，以確保應用程式的安全性和真實性。</p>
+<div class="note info simple"><p>在 Jetpack Compose 架構中，使用發佈模式啟動應用程式會較調試模式顯著為快，因為發佈模式優化了編譯及 Compose 重組速度。</p>
+</div>
+
+<hr>
+<h1 id="構建及簽署應用程式"><a href="#構建及簽署應用程式" class="headerlink" title="構建及簽署應用程式"></a>構建及簽署應用程式</h1><p>要進行 <code>release</code> 版本，最重要的就是要範為應用程式簽署，在 Android Studio，上面選單列的 <code>Build</code> 找 <code>Generate Signed Bundle / APK</code></p>
+<p>它會問你選擇 AAB (Android App Bundle) 或是 APK，這裏選擇 APK</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img1.png" alt="img1"></p>
+<p>如果你之前已經有建立了的 Keystore 就按 Choose existing… 不然就按 Create new</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img2.png" alt="img2"></p>
+<h2 id="建立-Keystore"><a href="#建立-Keystore" class="headerlink" title="建立 Keystore"></a>建立 Keystore</h2><p>建立一個 Keystore 需要填妥表格，包括以下項目</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img3.png" alt="img3"></p>
+<ul>
+<li><code>Key store path</code>: Keystore 檔案 (副檔名為 <code>.keystore</code>) 存放位置，通常如果是獨立只為獨有應用程式用的 Keystore，這個檔案路徑可以存放到專案的根目錄位置 e.g. <code>AndroidStudioProjects/MyApp/myapp_release.keystore</code></li>
+<li><code>Password</code>: 設置 Keystore 的密碼</li>
+</ul>
+<p>而 <code>Key</code> 有幾項需要注意：</p>
+<ul>
+<li><code>Alias</code>: Key 的名稱，可以用 <code>key</code> 為前綴 e.g. <code>keyMyApp</code>，不規定。</li>
+<li><code>Password</code>: 設置 Key 的密碼，如沒有太大問題，這裏可以都使用 Keystore 密碼</li>
+<li><code>Validity</code>: 以年數作計算，預設是 <code>25</code>，就是 Key 的有效期為 25 年</li>
+</ul>
+<p>而 <code>Certificate</code> 細項中：</p>
+<ul>
+<li><code>First and Last Name</code>: 用戶名稱</li>
+</ul>
+<p>其餘的按需要就填。</p>
+<h2 id="完成-Keystore"><a href="#完成-Keystore" class="headerlink" title="完成 Keystore"></a>完成 Keystore</h2><p>例如完成好的 Keystore，再按 Next</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img4.png" alt="img4"></p>
+<p>這裏會問 Keystore 應用到 <code>debug</code> 或是 <code>release</code>，選擇 <code>release</code>，按 Create</p>
+<p><img src="/post/android-dev-keystore-and-release-mode/img5.png" alt="img5"></p>
+<hr>
+<h1 id="配置-release-構建代碼"><a href="#配置-release-構建代碼" class="headerlink" title="配置 release 構建代碼"></a>配置 <code>release</code> 構建代碼</h1><p>在 <code>app</code> 模塊的 <code>build.gradle.kts</code> 加入代碼：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">buildTypes &#123;
+    signingConfigs &#123;
+        create(&quot;release&quot;) &#123;
+            keyAlias &#x3D; &quot;XXX&quot;
+            keyPassword &#x3D; &quot;XXX&quot;         &#x2F;&#x2F; Key 密碼
+            storeFile &#x3D; file(&quot;XXX&quot;)
+            storePassword &#x3D; &quot;XXX&quot;       &#x2F;&#x2F; Keystore 密碼
+        &#125;
+    &#125;
+    release &#123;
+        isMinifyEnabled &#x3D; false
+        proguardFiles(
+            getDefaultProguardFile(&quot;proguard-android-optimize.txt&quot;),
+            &quot;proguard-rules.pro&quot;
+        )
+        signingConfig &#x3D; signingConfigs.getByName(&quot;release&quot;)
+    &#125;
+&#125;</code></pre>
+
+<p><code>storeFile</code> 是 Keystore 檔案存放路徑，例子 </p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">storeFile &#x3D; file(&quot;&#x2F;Users&#x2F;bluewhaleyt&#x2F;AndroidStudioProjects&#x2F;MyApp&#x2F;myapp_release.keystore&quot;)</code></pre>
+
+<hr>
+<h1 id="使用-release-構建程式"><a href="#使用-release-構建程式" class="headerlink" title="使用 release 構建程式"></a>使用 <code>release</code> 構建程式</h1><p>把專案 <code>app</code> 的 <code>Build Variant</code> 更改為 <code>release</code> 版本</p>
+<div class="note info simple"><p>一旦改 <code>app</code> 的 <code>Build Variant</code> (構建模式)，其他的模塊都會用該構建模式，即一併使用 <code>release</code> 模式。</p>
+</div>
+
+<p><img src="/post/android-dev-keystore-and-release-mode/img6.png" alt="img6"></p>
+<p>現在 Run 程式就是用 <code>release</code> 模式了</p>
+]]></content>
+      <categories>
+        <category>Android 開發</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Android | 多功能的 sora-editor 函式庫綜合使用筆記</title>
     <url>/post/android-dev-sora-editor-library-notes.html</url>
     <content><![CDATA[<div class="note warning simple"><p>這篇筆記是純粹為個人而寫的筆記，因為 sora-editor 函式庫太多 API，然而目前為止還沒有正式的 API 文檔，所以唯有自己記下。如果內容有用，我會考慮加上英文翻譯，但我的英文很爛，謝謝。</p>
@@ -223,14 +299,14 @@ fun CodeEditor(
 </ol>
 ]]></content>
       <categories>
-        <category>實驗內容</category>
         <category>Android 開發</category>
+        <category>實驗內容</category>
         <category>Jetpack Compose</category>
       </categories>
       <tags>
         <tag>Kotlin</tag>
-        <tag>Java</tag>
         <tag>Android</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -717,8 +793,8 @@ fun ExtendedTheme(
     &#125;
 &#125;</code></pre>]]></content>
       <categories>
-        <category>Jetpack Compose</category>
         <category>學習筆記</category>
+        <category>Jetpack Compose</category>
       </categories>
       <tags>
         <tag>Kotlin</tag>
@@ -726,75 +802,218 @@ fun ExtendedTheme(
       </tags>
   </entry>
   <entry>
-    <title>Android | 建立密鑰庫並以發佈模式運行程序</title>
-    <url>/post/android-dev-keystore-and-release-mode.html</url>
-    <content><![CDATA[<p>密鑰庫 (Keystore) 是一個<strong>存儲密鑰和證書的安全文件</strong>，Keystore 被用於對應用程式進行簽名，以確保應用程式的完整性和安全性。它包含了一個私鑰和與之相對應的公鑰。</p>
-<p>在開發階段，我們通常會使用調試密鑰庫 (Debug Keystore)，它是由 Android SDK 自動生成的，並且不需要我們主動管理。Debug Keystore 用於在開發期間對應用程式進行簽名，方便我們在<strong>測試和調試應用程式時使用</strong>。</p>
-<p>當我們要將應用程式發布到 Google Play 商店或其他渠道時，我們需要使用發佈密鑰庫 (Release Keystore)。Release Keystore 是<strong>由開發者自己生成的</strong>，並且需要妥善保管。它將用於對應用程式<strong>進行正式簽名</strong>，以確保應用程式的安全性和真實性。</p>
-<div class="note info simple"><p>在 Jetpack Compose 架構中，使用發佈模式啟動應用程式會較調試模式顯著為快，因為發佈模式優化了編譯及 Compose 重組速度。</p>
+    <title>Jetpack Compose | 導航的基本應用</title>
+    <url>/post/jetpack-compose-dev-navigation.html</url>
+    <content><![CDATA[<p>在編寫 Jetpack Compose 程式的我們，不再像以前使用 XML 的傳統架構方式來設計程式的不同介面，而是透過編寫多個可組合函式來實現介面的設計。然而，這樣一來就帶出了一個問題，既然在 Compose 中不再使用 <code>Activity</code>，也不能使用 <code>Intent</code> 來切換介面了，那要怎麼做呢？</p>
+<p>答案就是使用 Navigation。雖然 Navigation 在傳統的 XML 架構中也有使用，例如在 Fragment 中會用到 <code>NavController</code>，但在 Compose 中也存在並且非常有用。</p>
+<p>Navigation 的作用是<strong>持續追蹤應用程式畫面的可組合項返回堆疊</strong>以及各個畫面的狀態。簡單來說，它就是用來切換不同頁面的工具。使用 Navigation 可以輕鬆地定義和管理應用程式的畫面流程，讓我們能夠更方便地控制和切換介面。</p>
+<hr>
+<h1 id="定義介面的路由"><a href="#定義介面的路由" class="headerlink" title="定義介面的路由"></a>定義介面的路由</h1><p>在開始使用之前，我們可以先定義一下介面路由，定義路由通常有兩種方法：</p>
+<ol>
+<li>使用 <code>enum class</code> 列舉類：<strong>適合不需要用上參數</strong>的路由，簡單明暸<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">enum class ScreenRoute &#123;
+    Main, Second
+&#125;</code></pre>
+你亦可以用這個方式：<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">enum class ScreenRoute(
+    val route: String
+) &#123;
+    Main(&quot;screen_main&quot;), Second(&quot;screen_second&quot;)
+&#125;</code></pre></li>
+<li>使用 <code>sealed class</code> 封裝類別：多元化管理不同路由的適用參數<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">sealed class Screen(
+    val route: String
+) &#123;
+    data object MainScreen: Screen(&quot;screen_main&quot;)
+    data object SecondScreen: Screen(&quot;screen_second&quot;)
+&#125;</code></pre></li>
+</ol>
+<div class="note info simple"><p>建議用 <code>sealed class</code> 來定義介面路由，因為這樣可以<strong>更具彈性處理</strong>。</p>
 </div>
 
 <hr>
-<h1 id="構建及簽署應用程式"><a href="#構建及簽署應用程式" class="headerlink" title="構建及簽署應用程式"></a>構建及簽署應用程式</h1><p>要進行 <code>release</code> 版本，最重要的就是要範為應用程式簽署，在 Android Studio，上面選單列的 <code>Build</code> 找 <code>Generate Signed Bundle / APK</code></p>
-<p>它會問你選擇 AAB (Android App Bundle) 或是 APK，這裏選擇 APK</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img1.png" alt="img1"></p>
-<p>如果你之前已經有建立了的 Keystore 就按 Choose existing… 不然就按 Create new</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img2.png" alt="img2"></p>
-<h2 id="建立-Keystore"><a href="#建立-Keystore" class="headerlink" title="建立 Keystore"></a>建立 Keystore</h2><p>建立一個 Keystore 需要填妥表格，包括以下項目</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img3.png" alt="img3"></p>
-<ul>
-<li><code>Key store path</code>: Keystore 檔案 (副檔名為 <code>.keystore</code>) 存放位置，通常如果是獨立只為獨有應用程式用的 Keystore，這個檔案路徑可以存放到專案的根目錄位置 e.g. <code>AndroidStudioProjects/MyApp/myapp_release.keystore</code></li>
-<li><code>Password</code>: 設置 Keystore 的密碼</li>
-</ul>
-<p>而 <code>Key</code> 有幾項需要注意：</p>
-<ul>
-<li><code>Alias</code>: Key 的名稱，可以用 <code>key</code> 為前綴 e.g. <code>keyMyApp</code>，不規定。</li>
-<li><code>Password</code>: 設置 Key 的密碼，如沒有太大問題，這裏可以都使用 Keystore 密碼</li>
-<li><code>Validity</code>: 以年數作計算，預設是 <code>25</code>，就是 Key 的有效期為 25 年</li>
-</ul>
-<p>而 <code>Certificate</code> 細項中：</p>
-<ul>
-<li><code>First and Last Name</code>: 用戶名稱</li>
-</ul>
-<p>其餘的按需要就填。</p>
-<h2 id="完成-Keystore"><a href="#完成-Keystore" class="headerlink" title="完成 Keystore"></a>完成 Keystore</h2><p>例如完成好的 Keystore，再按 Next</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img4.png" alt="img4"></p>
-<p>這裏會問 Keystore 應用到 <code>debug</code> 或是 <code>release</code>，選擇 <code>release</code>，按 Create</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img5.png" alt="img5"></p>
-<hr>
-<h1 id="配置-release-構建代碼"><a href="#配置-release-構建代碼" class="headerlink" title="配置 release 構建代碼"></a>配置 <code>release</code> 構建代碼</h1><p>在 <code>app</code> 模塊的 <code>build.gradle.kts</code> 加入代碼：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">buildTypes &#123;
-    signingConfigs &#123;
-        create(&quot;release&quot;) &#123;
-            keyAlias &#x3D; &quot;XXX&quot;
-            keyPassword &#x3D; &quot;XXX&quot;         &#x2F;&#x2F; Key 密碼
-            storeFile &#x3D; file(&quot;XXX&quot;)
-            storePassword &#x3D; &quot;XXX&quot;       &#x2F;&#x2F; Keystore 密碼
+<h1 id="建立一個導航操作器"><a href="#建立一個導航操作器" class="headerlink" title="建立一個導航操作器"></a>建立一個導航操作器</h1><p>你可以先加入一個可組合函式，例如名為 <code>ScreenNavController()</code></p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun ScreenNavController() &#123; ... &#125;</code></pre>
+
+<p>修改程式起始的核心部分，如 <code>setContent &#123; ... &#125;</code> 內容內，或 <code>App()</code> 可組合函式，總知你就要把這個 <code>ScreenNavController()</code> 放在程式顯示的開端。</p>
+<p>在這個 <code>ScreenNavController()</code> 定義一個 <code>NavHost()</code></p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun ScreenNavController() &#123;
+    val navController &#x3D; rememberNavController()
+    NavHost(
+        navController &#x3D; navController,
+        startDestination &#x3D; Screen.MainScreen.route
+    ) &#123;
+        composable(route &#x3D; Screen.MainScreen.route) &#123;
+            MainScreen(navController &#x3D; navController)
         &#125;
-    &#125;
-    release &#123;
-        isMinifyEnabled &#x3D; false
-        proguardFiles(
-            getDefaultProguardFile(&quot;proguard-android-optimize.txt&quot;),
-            &quot;proguard-rules.pro&quot;
-        )
-        signingConfig &#x3D; signingConfigs.getByName(&quot;release&quot;)
+        composable(route &#x3D; Screen.SecondScreen.route) &#123;
+            SecondScreen(navController &#x3D; navController)
+        &#125;
     &#125;
 &#125;</code></pre>
 
-<p><code>storeFile</code> 是 Keystore 檔案存放路徑，例子 </p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">storeFile &#x3D; file(&quot;&#x2F;Users&#x2F;bluewhaleyt&#x2F;AndroidStudioProjects&#x2F;MyApp&#x2F;myapp_release.keystore&quot;)</code></pre>
-
-<hr>
-<h1 id="使用-release-構建程式"><a href="#使用-release-構建程式" class="headerlink" title="使用 release 構建程式"></a>使用 <code>release</code> 構建程式</h1><p>把專案 <code>app</code> 的 <code>Build Variant</code> 更改為 <code>release</code> 版本</p>
-<div class="note info simple"><p>一旦改 <code>app</code> 的 <code>Build Variant</code> (構建模式)，其他的模塊都會用該構建模式，即一併使用 <code>release</code> 模式。</p>
+<div class="note warning simple"><p>建議如果這個介面函式 (<code>*Screen</code>) 是會被應用到 <code>NavHost</code>，請加上 <code>navController</code> 參數至可組合函式</p>
 </div>
 
-<p><img src="/post/android-dev-keystore-and-release-mode/img6.png" alt="img6"></p>
-<p>現在 Run 程式就是用 <code>release</code> 模式了</p>
-]]></content>
+<p>當中：</p>
+<ul>
+<li><code>rememberNavController()</code>: 一個存取及提升導航的狀態</li>
+<li><code>startDestination</code>: 宣告導航首個介面，通常就是 <code>MainScreen</code></li>
+<li><code>composable()</code>: 為這個 <code>NavHost</code> 定義所用的介面路由，為相應的介面路由定義所用的可組合函式。</li>
+</ul>
+<hr>
+<h1 id="切換介面的操作"><a href="#切換介面的操作" class="headerlink" title="切換介面的操作"></a>切換介面的操作</h1><h2 id="簡單・純粹切換介面"><a href="#簡單・純粹切換介面" class="headerlink" title="簡單・純粹切換介面"></a>簡單・純粹切換介面</h2><p>例如在 <code>MainScreen</code> 你有一個按鈕，當點擊這個按鈕，就會切換到 <code>SecondScreen</code> 介面。我們可以用 <code>navigate()</code> 函數導航到指定的路由</p>
+<div class="note info simple"><p>如果你是使用 <code>enum class</code> 方式，導向路由的方法例如是 <code>route = ScreenRoute.Second.name</code>，要注意因為 <code>Second</code> 是一個列舉，要獲取為字串要附上 <code>name</code> 屬性，變成 <code>&quot;Second&quot;</code></p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun MainScreen(
+    navController: NavController
+) &#123;
+    Column &#123;
+        Text(text &#x3D; &quot;Main screen&quot;)
+        Button(
+            onClick &#x3D; &#123;
+                navController.navigate(route &#x3D; Screen.SecondScreen.route)
+            &#125;
+        ) &#123;
+            Text(text &#x3D; &quot;Navigate to Second screen&quot;)
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>如果想返回上一頁，例如在 <code>SecondScreen</code> 可組合函式有一個按鈕，點擊後返回到上一頁，可以用 <code>popBackStack()</code>。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun SecondScreen(
+    navController: NavController
+) &#123;
+    Column &#123;
+        Text(text &#x3D; &quot;Second screen&quot;)
+        Button(
+            onClick &#x3D; &#123;
+                navController.popBackStack()
+            &#125;
+        ) &#123;
+            Text(text &#x3D; &quot;Back to Main screen&quot;)
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<h2 id="傳入參數的切換介面"><a href="#傳入參數的切換介面" class="headerlink" title="傳入參數的切換介面"></a>傳入參數的切換介面</h2><p>有時候可能你想在切換介面的同時，傳入參數，為接下來的介面得到資料變化，這個時候可以在 <code>composable()</code> 可組合函式定義 <code>arguments</code> 參數。</p>
+<p>假如在 <code>MainScreen</code> 現在新增一個輸入框，用來輸入不同值作為參數，切換介面時得到不同的數值變化。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun MainScreen(
+    navController: NavController
+) &#123;
+    var value by remember &#123; mutableStateOf(&quot;&quot;) &#125;
+
+    Column &#123;
+        Text(text &#x3D; &quot;Main screen&quot;)
+
+        TextField(
+            value &#x3D; value,
+            onValueChange &#x3D; &#123; value &#x3D; it &#125;
+        )
+
+        Button(
+            onClick &#x3D; &#123;
+                navController.navigate(route &#x3D; Screen.SecondScreen.route)
+            &#125;
+        ) &#123;
+            Text(text &#x3D; &quot;Navigate to Second screen&quot;)
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>然後當切換到 <code>SecondScreen</code> 介面時，顯示路由所得的參數項，這裏會先給可組合函式多定義 <code>name</code> 參數，這個 <code>Text</code> 是用來顯示參數所傳的值。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun SecondScreen(
+    navController: NavController,
+    name: String?
+) &#123;
+    Column &#123;
+        Text(text &#x3D; &quot;Second screen, hello $name&quot;)
+        Button(
+            onClick &#x3D; &#123;
+                navController.popBackStack()
+            &#125;
+        ) &#123;
+            Text(text &#x3D; &quot;Back to Main screen&quot;)
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>在負責 <code>SecondScreen</code> 的 <code>composable()</code> 需要設置 <code>arguments</code>，假定現在這個參數值的類型是 <code>String</code>，而參數名跟 <code>SecondScreen</code> 的參數一樣都是 <code>name</code>。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">composable(
+    route &#x3D; Screen.SecondScreen.route + &quot;&#x2F;&#123;name&#125;&quot;,
+    arguments &#x3D; listOf(
+        navArgument(&quot;name&quot;) &#123;
+            type &#x3D; NavType.StringType
+            defaultValue &#x3D; &quot;&quot;
+            nullable &#x3D; true
+        &#125;
+    )
+) &#123; entry -&gt;
+    SecondScreen(
+        navController &#x3D; navController,
+        name &#x3D; entry.arguments?.getString(&quot;name&quot;)
+    )
+&#125;</code></pre>
+
+<p>要注意的是 <code>route</code> 因為要傳入參數 <code>name</code>，所以要像一般 URL 或 URI 掛上參數項，<strong>要用一對 <code>&#123;&#125;</code> 把參數括住</strong>。</p>
+<p>可以在 <code>Screen.kt</code> 寫一個新的函數 <code>withArgs()</code></p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun withArgs(vararg args: String) &#x3D; buildString &#123;
+    append(route)
+    args.forEach &#123; append(&quot;&#x2F;$it&quot;) &#125;
+&#125;</code></pre>
+
+<p>最後，在 <code>MainScreen</code> 剛才所寫的 <code>value</code> 輸入狀態中傳入為參數</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">&#x2F;&#x2F; var value by remember &#123; mutableStateOf(&quot;&quot;) &#125;
+onClick &#x3D; &#123;
+    navController.navigate(route &#x3D; Screen.SecondScreen.withArgs(value))
+&#125;</code></pre>
+
+<hr>
+<h1 id="切換介面的過渡動畫"><a href="#切換介面的過渡動畫" class="headerlink" title="切換介面的過渡動畫"></a>切換介面的過渡動畫</h1><p>以前需要用上 Accompanist 的 <code>AnimatedHost</code>，但現在 Navigation API 更新了，<code>NavHost</code> 支援切換介面的動畫了，而且預設已經設定了淡入淡出動畫：</p>
+<div class="note danger simple"><p>目前 <code>NavHost</code> 的過渡動畫特性 API 尚未穩定。</p>
+</div>
+
+<p><img src="/post/jetpack-compose-dev-navigation/img1.png" alt="NavHost default animation"></p>
+<p>可見設置自訂的過渡動畫需要理解 4 個參數：</p>
+<ul>
+<li><code>enterTransition</code>：進入目的地時的過渡效果，可以設置目的地進入畫面的動畫效果。</li>
+<li><code>exitTransition</code>：離開目的地時的過渡效果，可以設置目的地離開畫面的動畫效果。</li>
+<li><code>popEnterTransition</code>：返回上一個目的地時的過渡效果，可以設置返回時目的地進入畫面的動畫效果。</li>
+<li><code>popExitTransition</code>：返回上一個目的地時的過渡效果，可以設置返回時目的地離開畫面的動畫效果。</li>
+</ul>
+<p>例子如下：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">enterTransition &#x3D; &#123;
+    slideIntoContainer(
+        towards &#x3D; AnimatedContentTransitionScope.SlideDirection.Companion.Left,
+        animationSpec &#x3D; tween(700)
+    )
+&#125;,
+exitTransition &#x3D; &#123;
+    slideOutOfContainer(
+        towards &#x3D; AnimatedContentTransitionScope.SlideDirection.Companion.Left,
+        animationSpec &#x3D; tween(700)
+    )
+&#125;,
+popEnterTransition &#x3D; &#123;
+    slideIntoContainer(
+        towards &#x3D; AnimatedContentTransitionScope.SlideDirection.Companion.Right,
+        animationSpec &#x3D; tween(700)
+    )
+&#125;,
+popExitTransition &#x3D; &#123;
+    slideOutOfContainer(
+        towards &#x3D; AnimatedContentTransitionScope.SlideDirection.Companion.Right,
+        animationSpec &#x3D; tween(700)
+    )
+&#125;</code></pre>]]></content>
       <categories>
-        <category>Android 開發</category>
+        <category>實驗內容</category>
+        <category>學習筆記</category>
+        <category>Jetpack Compose</category>
       </categories>
       <tags>
         <tag>Kotlin</tag>

@@ -98,7 +98,8 @@ h1,h2,h3,h4,h5,h6 {
     border-left-color: #fa8231 !important;
     background: #fa823122 !important;
 }
-#post .note.warning *:not(p) {
+#post .note.warning code:not(pre > code),
+#post .note.warning strong {
     color: #fa8231 !important;
 }
 #post .note.warning::before {
@@ -112,7 +113,8 @@ h1,h2,h3,h4,h5,h6 {
     color: #eb3b5a !important;
     content: '\f06a';
 }
-#post .note.danger *:not(p) {
+#post .note.danger code:not(pre > code),
+#post .note.danger strong {
     color: #eb3b5a !important;
 }
 
