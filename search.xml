@@ -310,6 +310,58 @@ fun CodeEditor(
       </tags>
   </entry>
   <entry>
+    <title>Git 版本控制及操作 - JGit 筆記</title>
+    <url>/post/dev-jgit-notes.html</url>
+    <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
+<p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
+<h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
+<li>Kotlin 開發者亦可使用 <a href="https://github.com/sya-ri/KGit">KGit</a> 函式庫，該函式庫以 JGit 為基礎，但保留 Kotlin 語法的程式編寫方式</li>
+<li>Android 開發在使用 JGit 時，需要注意以下幾點：</li>
+</ol>
+<ul>
+<li>確保 <code>AndroidManifest.xml</code> 聲明權限許可，以及<strong>允許所有檔案權限</strong> (All File Access)，否則報錯 Operation Not Permitted<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;uses-permission android:name&#x3D;&quot;android.permission.READ_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot;&#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_NETWORK_STATE&quot; &#x2F;&gt;</code></pre></li>
+<li>進行指令操作，如克隆遠端存儲庫至本機，需要使用<strong>異步執行緒或 <code>Executor</code> 等相關處理方式</strong>，(Kotlin 則可使用協程)，否則會在執行指令時報錯 <code>NetworkOnMainThreadException</code><pre class="line-numbers language-java" data-language="java"><code class="language-java">private final ExecutorService executor &#x3D; Executors.newSingleThreadExecutor();
+private final Handler handler &#x3D; new Handler(Looper.getMainLooper());
+
+executor.execute(() -&gt; &#123;
+    &#x2F;&#x2F; ...
+&#125;)</code></pre></li>
+</ul>
+<hr>
+<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><p>匯入依附元件至 <code>build.gradle</code></p>
+<pre class="line-numbers language-gradle" data-language="gradle"><code class="language-gradle">implementation &#39;org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r&#39;</code></pre>
+
+<h2 id="產生本機存儲庫及-git-檔案"><a href="#產生本機存儲庫及-git-檔案" class="headerlink" title="產生本機存儲庫及 .git 檔案"></a>產生本機存儲庫及 <code>.git</code> 檔案</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">try &#123;
+    this.localRepo &#x3D; new FileRepository(localPath + &quot;&#x2F;.git&quot;);
+&#125; catch (IOException e) &#123;
+    e.printStackTrace();
+&#125;
+
+git &#x3D; new Git(localRepo);</code></pre>
+
+<hr>
+<h1 id="版本控制及操作"><a href="#版本控制及操作" class="headerlink" title="版本控制及操作"></a>版本控制及操作</h1><h2 id="克隆遠端存儲庫至本機"><a href="#克隆遠端存儲庫至本機" class="headerlink" title="克隆遠端存儲庫至本機"></a>克隆遠端存儲庫至本機</h2><div class="note warning simple"><p>要克隆的目錄或資料夾<strong>需要被建立及清空</strong>才能順利克隆遠端存儲庫，不清空則報 Directory XXX is not empty</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">File dir &#x3D; new File(localPath)
+if (!dir.exists()) folder.mkdirs();</code></pre></div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">Git.cloneRepository()
+    .setURI(remotePath)
+    .setDirectory(new File(localPath))
+    .call();</code></pre>]]></content>
+      <categories>
+        <category>實驗內容</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Android</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Jetpack Compose | 多樣化的動畫實現方式</title>
     <url>/post/jetpack-compose-dev-animation-in-compose.html</url>
     <content><![CDATA[<p>Jetpack Compose 是一個新興的 UI 構建技術框架，除了著重於 UI 靜態方面的實現，都有支援到輕鬆使用動畫的一環。</p>

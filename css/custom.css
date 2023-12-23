@@ -55,6 +55,11 @@ h1,h2,h3,h4,h5,h6 {
     text-transform: none !important;
 }
 
+/* Fix code block text padding */
+#article-container pre[class*='language-'] *:first-child {
+    margin-left: 0px !important;
+}
+
 /* Fix collapse code block animation */
 #article-container .code-expand-btn.expand-done {
     transform: initial !important;
@@ -155,6 +160,11 @@ h1,h2,h3,h4,h5,h6 {
 }
 #post img:hover {
     border: 3px solid var(--anzhiyu-main);
+}
+
+/* Post selector */
+#blog-container ::selection {
+    background: var(--anzhiyu-main) !important;
 }
 
 /* Adjust google translate widget */
