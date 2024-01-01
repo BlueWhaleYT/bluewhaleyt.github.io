@@ -72,8 +72,9 @@ pre {
     color: var(--palenight-yellow) !important;
 }
 
-/* [ HTML TAG ] */
-.highlight .token.tag {
+/* [ HTML TAG, KEY ] */
+.highlight .token.tag,
+.highlight .token.key {
     color: var(--palenight-red) !important;
 }
 

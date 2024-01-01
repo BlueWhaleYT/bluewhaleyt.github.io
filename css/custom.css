@@ -167,6 +167,18 @@ h1,h2,h3,h4,h5,h6 {
     background: var(--anzhiyu-main) !important;
 }
 
+/* Post image alt */
+#post .img-alt::before {
+    content: "( 圖片描述：";
+}
+#post .img-alt::after {
+    content: " )";
+}
+#post .img-alt {
+    font-size: 1em;
+    font-style: italic;
+}
+
 /* Adjust google translate widget */
 .goog-logo-link,
 .skiptranslate span {
