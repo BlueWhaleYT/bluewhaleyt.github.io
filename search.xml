@@ -79,7 +79,7 @@
   uses: actions&#x2F;setup-java@v3.13.0
   with:
     java-version: &#39;17&#39;
-    distribution: &#39;temurin&#39; # JVM 環境，如 orcale, temurin 等
+    distribution: &#39;temurin&#39; # JDK，如 oracle, temurin 等
     cache: gradle</code></pre></div>]]></content>
       <categories>
         <category>實驗內容</category>
@@ -150,6 +150,18 @@
 <p><code>storeFile</code> 是 Keystore 檔案存放路徑，例子 </p>
 <pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">storeFile &#x3D; file(&quot;&#x2F;Users&#x2F;bluewhaleyt&#x2F;AndroidStudioProjects&#x2F;MyApp&#x2F;myapp_release.keystore&quot;)</code></pre>
 
+<div class="note danger simple"><p>由於 Keystore 是私密的敏感資料，例如所設定的密碼不應公開，你可以在 <code>~/.gradle/gradle.properties</code> 檔案內把 Keystore 設定存入在內：</p>
+<pre class="line-numbers language-none"><code class="language-none">RELEASE_KEY_ALIAS&#x3D;XXX
+RELEASE_KEY_PASSWORD&#x3D;XXX
+RELEASE_STORE_FILE_PATH&#x3D;XXX
+RELEASE_STORE_PASSWORD&#x3D;XXX</code></pre>
+
+<p>然後在 <code>build.gradle.kts</code> 使用 <code>gradle.properties</code> 內的 Keystore 設定</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">keyAlias RELEASE_KEY_ALIAS
+keyPassword RELEASE_KEY_PASSWORD
+storeFile file(RELEASE_STORE_FILE_PATH)
+storePassword RELEASE_STORE_PASSWORD</code></pre></div>
+
 <hr>
 <h1 id="使用-release-構建程式"><a href="#使用-release-構建程式" class="headerlink" title="使用 release 構建程式"></a>使用 <code>release</code> 構建程式</h1><p>把專案 <code>app</code> 的 <code>Build Variant</code> 更改為 <code>release</code> 版本</p>
 <div class="note info simple"><p>一旦改 <code>app</code> 的 <code>Build Variant</code> (構建模式)，其他的模塊都會用該構建模式，即一併使用 <code>release</code> 模式。</p>
@@ -164,6 +176,390 @@
       <tags>
         <tag>Android</tag>
         <tag>Kotlin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose | APK 插件化筆記</title>
+    <url>/post/android-dev-plugin-system-implementation-notes.html</url>
+    <content><![CDATA[<p>在以往使用 XML 架構的插件化方式，我們需要依賴 <code>AndroidManifest.xml</code> 多個附加插件的 <code>Activity</code>，再透過反射 (Reflection) API 把插件提供的 <code>Activity</code> 開放予主項目程式導入，使得 Android 碎片化。</p>
+<p>現在來到新型 Jetpack Compose 架構，因為 Compose 基本上要編寫的 UI 都是一個可組合項 (<code>Composable</code>)，所以事情變得簡單多了。</p>
+<div class="note info simple"><p>這個方法仍可應用於傳統的 XML 架構佈局。</p>
+</div>
+
+<hr>
+<h1 id="插件的配置"><a href="#插件的配置" class="headerlink" title="插件的配置"></a>插件的配置</h1><p>在這個範例中，我們會製作一個 <code>plugin-amazingbutton</code> 插件，提供一個漸變色按鈕作範例。</p>
+<p>要記得 <code>plugin-*</code> 模塊 <code>build.gradle.kts</code> 是 Application 而不是 Library 製式，因為插件最終會以 APK 形成。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">plugins &#123;
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinGradlePlugin)
+&#125;</code></pre>
+
+<p>如果你的插件 APK 是可以開啟的，可以在 <code>plugin-*</code> 模塊的 <code>AndroidManifest.xml</code> 設定應用程式基本配置。</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;&gt;
+
+    &lt;application
+        android:icon&#x3D;&quot;@android:mipmap&#x2F;sym_def_app_icon&quot;
+        android:label&#x3D;&quot;PluginSystemTest - AmazingButton Plugin&quot;&gt;
+
+        &lt;activity
+            android:name&#x3D;&quot;.MainActivity&quot;
+            android:exported&#x3D;&quot;true&quot;&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name&#x3D;&quot;android.intent.action.MAIN&quot; &#x2F;&gt;
+                &lt;category android:name&#x3D;&quot;android.intent.category.LAUNCHER&quot; &#x2F;&gt;
+            &lt;&#x2F;intent-filter&gt;
+        &lt;&#x2F;activity&gt;
+
+    &lt;&#x2F;application&gt;
+
+&lt;&#x2F;manifest&gt;</code></pre>
+
+<h2 id="插件提供的可組合組件"><a href="#插件提供的可組合組件" class="headerlink" title="插件提供的可組合組件"></a>插件提供的可組合組件</h2><p>在這個範例中，這個 <code>plugin-amazingbutton</code> 插件會提供一個製作漸變色按鈕的函式。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">class AmazingButton &#123;
+    val AmazingButton: (@Composable () -&gt; Unit) &#x3D; &#123;
+        GradientButton(
+            text &#x3D; &quot;Button text&quot;,
+            gradient &#x3D; Brush.horizontalGradient(listOf(Color(0xFF28D8A3), Color(0xFF00BEB2)))
+        )
+    &#125;
+&#125;
+
+@Composable
+private fun GradientButton(
+    text: String,
+    gradient : Brush,
+    modifier: Modifier &#x3D; Modifier,
+    onClick: () -&gt; Unit &#x3D; &#123; &#125;,
+) &#123;
+    Button(
+        modifier &#x3D; modifier,
+        colors &#x3D; ButtonDefaults.buttonColors(containerColor &#x3D; Color.Transparent),
+        contentPadding &#x3D; PaddingValues(),
+        onClick &#x3D; &#123; onClick() &#125;,
+    ) &#123;
+        Box(
+            modifier &#x3D; Modifier
+                .background(gradient)
+                .padding(12.dp)
+                .then(modifier),
+            contentAlignment &#x3D; Alignment.Center,
+        ) &#123;
+            Text(text &#x3D; text)
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<div class="note info simple"><p>你可能會問，為什麼 <code>AmazingButton</code> 不是用平時的函式方式建立，而是用 Lambda 方式建立呢？</p>
+<p>因為 Jetpack Compose 的可組合函式經過 JVM 編譯後會生成附加 2 個參數項：<code>Composer</code> 及 <code>Int</code>。如果沿用以下這個方式定義可組合項，可能會因為導致傳入參數錯誤而無法成功重組。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun AmazingButton() &#123;
+    &#x2F;&#x2F; ...
+&#125;</code></pre>
+
+<p>如果你用的是這個方式建立，那麼反射做法：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">val method: Method &#x3D;
+    plugin.getDeclaredMethod(
+        &quot;AmazingButton&quot;,
+        Composer::class.java,
+        Int::class.java
+    )
+method.isAccessible &#x3D; true
+val obj &#x3D; plugin.getDeclaredConstructor().newInstance()</code></pre></div>
+
+<hr>
+<h1 id="獲取檔案存取請求"><a href="#獲取檔案存取請求" class="headerlink" title="獲取檔案存取請求"></a>獲取檔案存取請求</h1><p>在 <code>app</code> 模塊的 <code>AndroidManifest.xml</code> 記得加上使用權限設定：</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;uses-permission android:name&#x3D;&quot;android.permission.READ_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+
+&lt;application
+    android:requestLegacyExternalStorage&#x3D;&quot;true&quot; &#x2F;&gt;</code></pre>
+
+<h2 id="允許存取所有檔案"><a href="#允許存取所有檔案" class="headerlink" title="允許存取所有檔案"></a>允許存取所有檔案</h2><div class="note warning simple"><p>所有檔案存取 (All File Access) 權限只限於 SDK 30 (Android 11) 或以上使用。</p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@RequiresApi(Build.VERSION_CODES.R)
+fun requestAllFileAccess(
+    context: Context
+) &#123;
+    if (!Environment.isExternalStorageManager()) &#123;
+        val intent &#x3D; Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+        val uri &#x3D; Uri.fromParts(&quot;package&quot;, context.packageName, null)
+        intent.setData(uri)
+        context.startActivity(intent)
+    &#125;
+&#125;</code></pre>
+
+<h2 id="管理權限的內容容器"><a href="#管理權限的內容容器" class="headerlink" title="管理權限的內容容器"></a>管理權限的內容容器</h2><p>這個內容容器是用來簡易對權限處理的佈局進行操作，理想用法如下：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">Container &#123; permissionGranted -&gt;
+    if (permissionGranted) -&gt; Comp1() else Comp2()
+&#125;</code></pre>
+
+<p><code>Container</code> 可組合函式會處理好關於權限讀取的程序，我們還會預設把 <code>plugins</code> 資料夾建立到 <code>storage/emulated/0/&lt;程式名稱&gt;/</code> 路徑內。</p>
+<details class="folding-tag"><summary> 瀏覽 Container 可組合函式程式碼 </summary>
+              <div class="content">
+              <pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun Container(
+    content: @Composable ColumnScope.(
+        permissionGranted: Boolean, pluginsDir: File
+    ) -&gt; Unit
+) &#123;
+    val context &#x3D; LocalContext.current
+    val permissions &#x3D; arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
+    val readWritePermissionGranted &#x3D; permissions.all &#123;
+        ContextCompat.checkSelfPermission(context, it) &#x3D;&#x3D; PackageManager.PERMISSION_GRANTED
+    &#125;
+    val permissionsGranted &#x3D; if (Build.VERSION.SDK_INT &gt;&#x3D; Build.VERSION_CODES.S) &#123;
+        Environment.isExternalStorageManager() &amp;&amp; readWritePermissionGranted
+    &#125; else readWritePermissionGranted
+
+    val launcher &#x3D; rememberLauncherForActivityResult(
+        contract &#x3D; ActivityResultContracts.RequestMultiplePermissions(),
+        onResult &#x3D; &#123;
+
+        &#125;
+    )
+
+    LaunchedEffect(Unit) &#123;
+        launcher.launch(permissions)
+    &#125;
+
+    if (Build.VERSION.SDK_INT &gt;&#x3D; Build.VERSION_CODES.R) &#123;
+        requestAllFileAccess(context)
+        val pluginsDir &#x3D; File(Environment.getExternalStorageDirectory().absolutePath + &quot;&#x2F;PluginSystemTest&#x2F;plugins&#x2F;&quot;)
+        if (permissionsGranted) &#123;
+            pluginsDir.takeIf &#123; !it.exists()
+                it.mkdirs()
+            &#125;
+        &#125;
+        Column(
+            modifier &#x3D; Modifier.padding(16.dp)
+        ) &#123;
+            content(permissionsGranted, pluginsDir)
+        &#125;
+    &#125;
+&#125;</code></pre>
+              </div>
+            </details>
+
+<hr>
+<h1 id="下載插件-APK-安裝檔"><a href="#下載插件-APK-安裝檔" class="headerlink" title="下載插件 APK 安裝檔"></a>下載插件 APK 安裝檔</h1><h2 id="測試用途：直接編譯-plugin-並匯出"><a href="#測試用途：直接編譯-plugin-並匯出" class="headerlink" title="測試用途：直接編譯 plugin-* 並匯出"></a>測試用途：直接編譯 <code>plugin-*</code> 並匯出</h2><p>你可以直接把其匯出，獲取插件 APK 安裝檔，再手動存放到目標路徑運行，<strong>但只僅作初始測試用途</strong>。</p>
+<h2 id="實際用途：把插件-APK-安裝檔存放到-URL-或伺服器端"><a href="#實際用途：把插件-APK-安裝檔存放到-URL-或伺服器端" class="headerlink" title="實際用途：把插件 APK 安裝檔存放到 URL 或伺服器端"></a>實際用途：把插件 APK 安裝檔存放到 URL 或伺服器端</h2><ol>
+<li>你可以把插件 APK 安裝檔存放到檔案存放平台，再獲取其下載鏈結，藉由 <code>DownloadManager</code> 把檔案下載並存放到目標路徑。</li>
+</ol>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;uses-permission android:name&#x3D;”android.permission.INTERNET”&#x2F;&gt;</code></pre>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun downloadFile(context: Context, url: String, file: File) &#123;
+    val request &#x3D; DownloadManager.Request(Uri.parse(url))
+    request.apply &#123;
+        setDestinationUri(file.toUri())
+        setTitle(file.name)
+        setDescription(&quot;Downloading...&quot;)
+    &#125;
+
+    val downloadManager &#x3D; context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    downloadManager.enqueue(request)
+&#125;</code></pre>
+<ol start="2">
+<li>自已架設伺服器</li>
+</ol>
+<hr>
+<h1 id="顯示並遍歷已下載插件"><a href="#顯示並遍歷已下載插件" class="headerlink" title="顯示並遍歷已下載插件"></a>顯示並遍歷已下載插件</h1><p>基本上就是遍歷檔案路徑的所有檔案，但唯獨只顯示所有屬於 APK 安裝檔的檔案。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun MainScreen() &#123;
+    Container &#123; permissionGranted, pluginsDir -&gt;
+        if (permissionGranted) &#123;
+            LazyColumn &#123;
+                pluginsDir.listFiles()?.let &#123;
+                    items(it) &#123; file -&gt;
+                        if (file.extension &#x3D;&#x3D; &quot;apk&quot;) &#123;
+                            FileItem(file &#x3D; file)
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+@Composable
+fun FileItem(
+    modifier: Modifier &#x3D; Modifier,
+    file: File
+) &#123;
+    Row(
+        modifier &#x3D; modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.extraLarge)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .padding(16.dp)
+    ) &#123;
+        Icon(
+            imageVector &#x3D; Icons.Outlined.Android,
+            contentDescription &#x3D; null,
+            tint &#x3D; MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier &#x3D; Modifier.width(16.dp))
+        Column &#123;
+            Text(text &#x3D; file.nameWithoutExtension, style &#x3D; MaterialTheme.typography.titleLarge)
+            Text(text &#x3D; file.path, style &#x3D; MaterialTheme.typography.bodyMedium.copy(color &#x3D; LocalContentColor.current.copy(0.38f)))
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<h1 id="載入插件"><a href="#載入插件" class="headerlink" title="載入插件"></a>載入插件</h1><h2 id="載入插件安裝檔"><a href="#載入插件安裝檔" class="headerlink" title="載入插件安裝檔"></a>載入插件安裝檔</h2><p>我們會透過用 Java 類加載器 (<code>DexClassLoader</code>) 動態載入要使用的插件 APK。另外，我們會為插件存放 Dex 檔案，用於存儲編譯後的 Java 程式碼和資源。當加載插件時，<code>DexClassLoader</code> 會需要在指定的路徑中尋找並加載 Dex 檔案。如果不創建 Dex 目錄，或會導致應用程式在執行時出現錯誤或異常情況。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">object PluginManager &#123;
+
+    var pluginClassLoader: DexClassLoader? &#x3D; null
+
+    fun loadPluginFromFile(
+        context: Context,
+        file: File,
+    ): DexClassLoader? &#123;
+        val filesDir &#x3D; context.externalCacheDir
+        val apkFile &#x3D; File(filesDir?.absolutePath, file.name)
+        file.copyTo(apkFile, true)
+
+        val dexFile &#x3D; File(filesDir, &quot;dex&quot;)
+        if (!dexFile.exists()) &#123;
+            dexFile.mkdirs()
+        &#125;
+
+        pluginClassLoader &#x3D; DexClassLoader(
+            apkFile.absolutePath,
+            apkFile.absolutePath,
+            null,
+            context.classLoader
+        )
+        return pluginClassLoader
+    &#125;
+
+&#125;</code></pre>
+
+<h2 id="載入插件的程式"><a href="#載入插件的程式" class="headerlink" title="載入插件的程式"></a>載入插件的程式</h2><p>在這個範例中，我們會透過點擊一個按鈕來載入插件提供的漸變色按鈕。</p>
+<p>我們可以宣告兩個狀態：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var pluginApplySuccess by mutableStateOf(false)
+var pluginCompose by mutableStateOf&lt;@Composable () -&gt; Unit&gt;(&#123;&#125;)</code></pre>
+
+<ul>
+<li><code>pluginApplySuccess</code>: 用來更新插件成功載入與否的狀態</li>
+<li><code>pluginCompose</code>: 用來顯示載入插件後的可組合項</li>
+</ul>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun loadAmazingButton(context: Context) &#123;
+    if (pluginApplySuccess) return
+
+    val pluginsDir &#x3D; Environment.getExternalStorageDirectory().absolutePath + &quot;&#x2F;PluginSystemTest&#x2F;plugins&#x2F;&quot;
+    val pluginFile &#x3D; PluginManager.loadPluginFromFile(context, File(&quot;$pluginsDir&#x2F;plugin-amazingbutton.apk&quot;))
+    val plugin &#x3D; pluginFile?.loadClass(&quot;com.bluewhaleyt.plugin.amazingbutton.AmazingButton&quot;)
+    
+    plugin?.let &#123;
+        val method &#x3D; plugin.getDeclaredMethod(&quot;getAmazingButton&quot;)
+        method.isAccessible &#x3D; true
+        val obj &#x3D; plugin.getDeclaredConstructor().newInstance()
+        pluginCompose &#x3D; method.invoke(obj) as (@Composable () -&gt; Unit)
+        pluginApplySuccess &#x3D; true
+    &#125;
+&#125;</code></pre>
+
+<div class="note danger simple"><p>經過 JVM 編譯後的 <code>AmazingButton</code> Lambda <code>get()</code> 屬性會變成 Java 的 <code>getAmazingButton()</code> 方法。</p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun MainScreen() &#123;
+    val context &#x3D; LocalContext.current
+    Container &#123; permissionGranted, pluginsDir -&gt;
+        if (permissionGranted) &#123;
+            Button(
+                onClick &#x3D; &#123;
+                    loadAmazingButton(context)
+                &#125;
+            ) &#123;
+                Text(text &#x3D; &quot;Load AmazingButton&quot;)
+            &#125;
+            AnimatedContent(
+                targetState &#x3D; pluginCompose,
+                label &#x3D; &quot;Plugin content&quot;
+            ) &#123; pluginContent -&gt;
+                Column(
+                    modifier &#x3D; Modifier
+                        .fillMaxWidth()
+                        .clip(MaterialTheme.shapes.extraLarge)
+                        .background(color &#x3D; MaterialTheme.colorScheme.primaryContainer)
+                        .padding(16.dp)
+                ) &#123;
+                    Text(text &#x3D; &quot;Plugins loaded area&quot;)
+                    pluginContent()
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>Android 開發</category>
+        <category>學習筆記</category>
+        <category>Jetpack Compose</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Kotlin</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git 版本控制及操作 - JGit 筆記</title>
+    <url>/post/dev-jgit-notes.html</url>
+    <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
+<p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
+<h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
+<li>Kotlin 開發者亦可使用 <a href="https://github.com/sya-ri/KGit">KGit</a> 函式庫，該函式庫以 JGit 為基礎，但保留 Kotlin 語法的程式編寫方式</li>
+<li>Android 開發在使用 JGit 時，需要注意以下幾點：</li>
+</ol>
+<ul>
+<li>確保 <code>AndroidManifest.xml</code> 聲明權限許可，以及<strong>允許所有檔案權限</strong> (All File Access)，否則報錯 Operation Not Permitted<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;uses-permission android:name&#x3D;&quot;android.permission.READ_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot;&#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_NETWORK_STATE&quot; &#x2F;&gt;</code></pre></li>
+<li>進行指令操作，如克隆遠端存儲庫至本機，需要使用<strong>異步執行緒或 <code>Executor</code> 等相關處理方式</strong>，(Kotlin 則可使用協程)，否則會在執行指令時報錯 <code>NetworkOnMainThreadException</code><pre class="line-numbers language-java" data-language="java"><code class="language-java">private final ExecutorService executor &#x3D; Executors.newSingleThreadExecutor();
+private final Handler handler &#x3D; new Handler(Looper.getMainLooper());
+
+executor.execute(() -&gt; &#123;
+    &#x2F;&#x2F; ...
+&#125;)</code></pre></li>
+</ul>
+<hr>
+<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><p>匯入依附元件至 <code>build.gradle</code></p>
+<pre class="line-numbers language-gradle" data-language="gradle"><code class="language-gradle">implementation &#39;org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r&#39;</code></pre>
+
+<h2 id="產生本機存儲庫及-git-檔案"><a href="#產生本機存儲庫及-git-檔案" class="headerlink" title="產生本機存儲庫及 .git 檔案"></a>產生本機存儲庫及 <code>.git</code> 檔案</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">try &#123;
+    this.localRepo &#x3D; new FileRepository(localPath + &quot;&#x2F;.git&quot;);
+&#125; catch (IOException e) &#123;
+    e.printStackTrace();
+&#125;
+
+git &#x3D; new Git(localRepo);</code></pre>
+
+<hr>
+<h1 id="版本控制及操作"><a href="#版本控制及操作" class="headerlink" title="版本控制及操作"></a>版本控制及操作</h1><h2 id="克隆遠端存儲庫至本機"><a href="#克隆遠端存儲庫至本機" class="headerlink" title="克隆遠端存儲庫至本機"></a>克隆遠端存儲庫至本機</h2><div class="note warning simple"><p>要克隆的目錄或資料夾<strong>需要被建立及清空</strong>才能順利克隆遠端存儲庫，不清空則報 Directory XXX is not empty</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">File dir &#x3D; new File(localPath)
+if (!dir.exists()) folder.mkdirs();</code></pre></div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">Git.cloneRepository()
+    .setURI(remotePath)
+    .setDirectory(new File(localPath))
+    .call();</code></pre>]]></content>
+      <categories>
+        <category>實驗內容</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Kotlin</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -497,6 +893,134 @@ fun CodeEditor(
         <tag>Android</tag>
         <tag>Kotlin</tag>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose | 多樣化的動畫實現方式</title>
+    <url>/post/jetpack-compose-dev-animation-in-compose.html</url>
+    <content><![CDATA[<p>Jetpack Compose 是一個新興的 UI 構建技術框架，除了著重於 UI 靜態方面的實現，都有支援到輕鬆使用動畫的一環。</p>
+<p>這個是大家初嘗 Jetpack Compose 時，想必會看過這個官方圖：</p>
+<p><img src="/post/jetpack-compose-dev-animation-in-compose/img1.gif" alt="official showcase gif"></p>
+<p>你會看到，只要執行了 <code>Column</code> 的點擊事件，就可以有一個展開的動畫。這個只是其中一種動畫實現方式，接下來會說說更多其他不同處理動畫的方式。</p>
+<p>官方有一個建議，判斷用哪一種方式最為適合：</p>
+<ul>
+<li>如果要在版面配置中為內容變更建立動畫效果：<ul>
+<li>如果要建立顯示與消失的動畫效果：<ul>
+<li>使用 <code>AnimatedVisibility</code>。</li>
+</ul>
+</li>
+<li>根據狀態替換內容：<ul>
+<li>如果要為內容建立淡出淡入效果：<ul>
+<li>使用 <code>Crossfade</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>AnimatedContent</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>Modifier.animateContentSize</code>。</li>
+</ul>
+</li>
+<li>如果要依據狀態顯示動畫：<ul>
+<li>如果要在組合期間顯示動畫：<ul>
+<li>如要讓動畫持續顯示：<ul>
+<li>使用 <code>rememberInfiniteTransition</code>。</li>
+</ul>
+</li>
+<li>如果您同時為多個值建立動畫效果：<ul>
+<li>使用 <code>updateTransition</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>animate*AsState</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果要精確控制動畫時間：<ul>
+<li>使用 <code>Animation</code>，例如 <code>TargetBasedAnimation</code> 或 <code>DecayAnimation</code>。</li>
+</ul>
+</li>
+<li>如果動畫是事實的唯一來源：<ul>
+<li>使用 <code>Animatable</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>AnimationState</code> 或 <code>animate</code>。</li>
+</ul>
+<hr>
+<h1 id="高階動畫-API"><a href="#高階動畫-API" class="headerlink" title="高階動畫 API"></a>高階動畫 API</h1><p>配合質感設計的簡易高階動畫</p>
+<h2 id="AnimatedVisibility"><a href="#AnimatedVisibility" class="headerlink" title="AnimatedVisibility"></a><code>AnimatedVisibility</code></h2><p>主要是以動畫方式呈現內容的顯示與消失。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var visible by remember &#123; mutableStateOf(false) &#125;
+
+Column &#123;
+    AnimatedVisibility(visible &#x3D; visible) &#123;
+        Text(text &#x3D; &quot;Hello World&quot;)
+    &#125;
+    Button(onClick &#x3D; &#123; visible &#x3D; !visible &#125;) &#123;
+        Text(&quot;show text&quot;)
+    &#125;
+&#125;</code></pre>
+
+<h2 id="AnimatedContent-實驗功能"><a href="#AnimatedContent-實驗功能" class="headerlink" title="AnimatedContent (實驗功能)"></a><code>AnimatedContent</code> (實驗功能)</h2><div class="note danger simple"><p>實驗性 API 未來可能會變更，或完全移除。</p>
+</div>
+
+<div class="note info simple"><p><code>AnimatedContent</code> 與 <code>AnimatedVisibility</code> 有點相似，前者控制切換，後者則控制顯隱。</p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var count by remember &#123; mutableIntStateOf(0) &#125;
+
+Column &#123;
+    AnimatedContent(targetState &#x3D; count) &#123; targetCount -&gt;
+        Text(
+            text &#x3D; &#123; Text(text &#x3D; targetCount) &#125;
+        )
+    &#125;
+    Button(onClick &#x3D; &#123; count++ &#125; )
+&#125;</code></pre>
+
+<p><code>Text</code> 應用了隸屬於 <code>AnimatedContent</code> 的 <code>targetCount</code> 傳入參數，這個時候當內容更改時，就會有動畫的改變。</p>
+<h2 id="animate-AsState"><a href="#animate-AsState" class="headerlink" title="animate*AsState"></a><code>animate*AsState</code></h2><p>可用於為單一值建立動畫效果。您只需提供結束值 (或目標值)，該 API 就會從現值開始播放動畫，直到達到指定值。</p>
+<p>假如現在有一個小方塊 (預設的正常大小是 <code>70.dp</code>)，當按它就會長大一點，再按就長大多一點。</p>
+<div class="note info simple"><p><code>animate*AsState</code> 這裏指的 <code>*</code> 是有許多不同的至別，如 <code>Dp</code>, <code>Int</code>, <code>Float</code>, <code>Color</code> 等。</p>
+<p>因為現在是在用 <code>Dp</code> 值為狀態提升的基準，所以這裏會用的是 <code>animateDpAsState</code>，因此剛才所指的 <code>*</code> 是按情況而選擇用哪一個型別的。</p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var size by remember &#123; mutableStateOf(70.dp) &#125;
+val animatedSize by animateDpAsState(                           &#x2F;&#x2F; 新增一個狀態動畫提升
+    targetValue &#x3D; size,
+    animationSpec &#x3D; tween(1000)                                 &#x2F;&#x2F; 動畫執行時間
+)        
+
+Box(
+    modifier &#x3D; Modifier
+        .background(MaterialTheme.colorScheme.primary)
+        .size(animatedSize)                                     &#x2F;&#x2F; 使用狀態動畫提升值
+        .clickable &#123; size *&#x3D; 2 &#125;
+)</code></pre>
+
+<div class="note warning simple"><p>使用 <code>animate*AsState</code> 的變量一定只能是 <code>val</code> 唯讀變量，意味著<strong>這個變量不會進行任何計算</strong>，只會用作最後顯示到目標位置。</p>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>沒有動畫</th>
+<th>有動畫</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img alt="without animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXBlODFzcDZmNXZxM3kyaDN4a2dqdDNidzRmbWdjdTdtbXUyZmlnciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GZ4XaWk930NDcq2ljI/giphy.gif"></td>
+<td><img alt="with animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NoNGdieGN1dHN2engyZmZkZnFjbGwzbms2b3F4ZXpxZTFucWl6ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gx3PbwaTAnU8L2T90E/giphy.gif"></td>
+</tr>
+</tbody></table>
+<div class="note warning simple"><p><img src="/post/jetpack-compose-dev-animation-in-compose/img2.png" alt="label parameter warning"></p>
+<p>這裏 Android Studio 會警告你在使用 <code>animate*AsState</code> 或其他關於動畫範疇的情況下沒有用 <code>label</code> 參數，這個 <code>label</code> 參數純粹是在 IDE 的動畫製作時候，方便辨認的，如果不是特別重要，可選擇忽略。</p>
+</div>]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>Jetpack Compose</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Kotlin</tag>
       </tags>
   </entry>
   <entry>
@@ -864,411 +1388,6 @@ fun ExtendedTheme(
       </tags>
   </entry>
   <entry>
-    <title>Jetpack Compose | 多樣化的動畫實現方式</title>
-    <url>/post/jetpack-compose-dev-animation-in-compose.html</url>
-    <content><![CDATA[<p>Jetpack Compose 是一個新興的 UI 構建技術框架，除了著重於 UI 靜態方面的實現，都有支援到輕鬆使用動畫的一環。</p>
-<p>這個是大家初嘗 Jetpack Compose 時，想必會看過這個官方圖：</p>
-<p><img src="/post/jetpack-compose-dev-animation-in-compose/img1.gif" alt="official showcase gif"></p>
-<p>你會看到，只要執行了 <code>Column</code> 的點擊事件，就可以有一個展開的動畫。這個只是其中一種動畫實現方式，接下來會說說更多其他不同處理動畫的方式。</p>
-<p>官方有一個建議，判斷用哪一種方式最為適合：</p>
-<ul>
-<li>如果要在版面配置中為內容變更建立動畫效果：<ul>
-<li>如果要建立顯示與消失的動畫效果：<ul>
-<li>使用 <code>AnimatedVisibility</code>。</li>
-</ul>
-</li>
-<li>根據狀態替換內容：<ul>
-<li>如果要為內容建立淡出淡入效果：<ul>
-<li>使用 <code>Crossfade</code>。</li>
-</ul>
-</li>
-<li>否則，請使用 <code>AnimatedContent</code>。</li>
-</ul>
-</li>
-<li>否則，請使用 <code>Modifier.animateContentSize</code>。</li>
-</ul>
-</li>
-<li>如果要依據狀態顯示動畫：<ul>
-<li>如果要在組合期間顯示動畫：<ul>
-<li>如要讓動畫持續顯示：<ul>
-<li>使用 <code>rememberInfiniteTransition</code>。</li>
-</ul>
-</li>
-<li>如果您同時為多個值建立動畫效果：<ul>
-<li>使用 <code>updateTransition</code>。</li>
-</ul>
-</li>
-<li>否則，請使用 <code>animate*AsState</code>。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>如果要精確控制動畫時間：<ul>
-<li>使用 <code>Animation</code>，例如 <code>TargetBasedAnimation</code> 或 <code>DecayAnimation</code>。</li>
-</ul>
-</li>
-<li>如果動畫是事實的唯一來源：<ul>
-<li>使用 <code>Animatable</code>。</li>
-</ul>
-</li>
-<li>否則，請使用 <code>AnimationState</code> 或 <code>animate</code>。</li>
-</ul>
-<hr>
-<h1 id="高階動畫-API"><a href="#高階動畫-API" class="headerlink" title="高階動畫 API"></a>高階動畫 API</h1><p>配合質感設計的簡易高階動畫</p>
-<h2 id="AnimatedVisibility"><a href="#AnimatedVisibility" class="headerlink" title="AnimatedVisibility"></a><code>AnimatedVisibility</code></h2><p>主要是以動畫方式呈現內容的顯示與消失。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var visible by remember &#123; mutableStateOf(false) &#125;
-
-Column &#123;
-    AnimatedVisibility(visible &#x3D; visible) &#123;
-        Text(text &#x3D; &quot;Hello World&quot;)
-    &#125;
-    Button(onClick &#x3D; &#123; visible &#x3D; !visible &#125;) &#123;
-        Text(&quot;show text&quot;)
-    &#125;
-&#125;</code></pre>
-
-<h2 id="AnimatedContent-實驗功能"><a href="#AnimatedContent-實驗功能" class="headerlink" title="AnimatedContent (實驗功能)"></a><code>AnimatedContent</code> (實驗功能)</h2><div class="note danger simple"><p>實驗性 API 未來可能會變更，或完全移除。</p>
-</div>
-
-<div class="note info simple"><p><code>AnimatedContent</code> 與 <code>AnimatedVisibility</code> 有點相似，前者控制切換，後者則控制顯隱。</p>
-</div>
-
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var count by remember &#123; mutableIntStateOf(0) &#125;
-
-Column &#123;
-    AnimatedContent(targetState &#x3D; count) &#123; targetCount -&gt;
-        Text(
-            text &#x3D; &#123; Text(text &#x3D; targetCount) &#125;
-        )
-    &#125;
-    Button(onClick &#x3D; &#123; count++ &#125; )
-&#125;</code></pre>
-
-<p><code>Text</code> 應用了隸屬於 <code>AnimatedContent</code> 的 <code>targetCount</code> 傳入參數，這個時候當內容更改時，就會有動畫的改變。</p>
-<h2 id="animate-AsState"><a href="#animate-AsState" class="headerlink" title="animate*AsState"></a><code>animate*AsState</code></h2><p>可用於為單一值建立動畫效果。您只需提供結束值 (或目標值)，該 API 就會從現值開始播放動畫，直到達到指定值。</p>
-<p>假如現在有一個小方塊 (預設的正常大小是 <code>70.dp</code>)，當按它就會長大一點，再按就長大多一點。</p>
-<div class="note info simple"><p><code>animate*AsState</code> 這裏指的 <code>*</code> 是有許多不同的至別，如 <code>Dp</code>, <code>Int</code>, <code>Float</code>, <code>Color</code> 等。</p>
-<p>因為現在是在用 <code>Dp</code> 值為狀態提升的基準，所以這裏會用的是 <code>animateDpAsState</code>，因此剛才所指的 <code>*</code> 是按情況而選擇用哪一個型別的。</p>
-</div>
-
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">var size by remember &#123; mutableStateOf(70.dp) &#125;
-val animatedSize by animateDpAsState(                           &#x2F;&#x2F; 新增一個狀態動畫提升
-    targetValue &#x3D; size,
-    animationSpec &#x3D; tween(1000)                                 &#x2F;&#x2F; 動畫執行時間
-)        
-
-Box(
-    modifier &#x3D; Modifier
-        .background(MaterialTheme.colorScheme.primary)
-        .size(animatedSize)                                     &#x2F;&#x2F; 使用狀態動畫提升值
-        .clickable &#123; size *&#x3D; 2 &#125;
-)</code></pre>
-
-<div class="note warning simple"><p>使用 <code>animate*AsState</code> 的變量一定只能是 <code>val</code> 唯讀變量，意味著<strong>這個變量不會進行任何計算</strong>，只會用作最後顯示到目標位置。</p>
-</div>
-
-<table>
-<thead>
-<tr>
-<th>沒有動畫</th>
-<th>有動畫</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><img alt="without animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXBlODFzcDZmNXZxM3kyaDN4a2dqdDNidzRmbWdjdTdtbXUyZmlnciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GZ4XaWk930NDcq2ljI/giphy.gif"></td>
-<td><img alt="with animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NoNGdieGN1dHN2engyZmZkZnFjbGwzbms2b3F4ZXpxZTFucWl6ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gx3PbwaTAnU8L2T90E/giphy.gif"></td>
-</tr>
-</tbody></table>
-<div class="note warning simple"><p><img src="/post/jetpack-compose-dev-animation-in-compose/img2.png" alt="label parameter warning"></p>
-<p>這裏 Android Studio 會警告你在使用 <code>animate*AsState</code> 或其他關於動畫範疇的情況下沒有用 <code>label</code> 參數，這個 <code>label</code> 參數純粹是在 IDE 的動畫製作時候，方便辨認的，如果不是特別重要，可選擇忽略。</p>
-</div>]]></content>
-      <categories>
-        <category>實驗內容</category>
-        <category>Jetpack Compose</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Kotlin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Jetpack Compose | 有效管理 UI 介面的狀態</title>
-    <url>/post/jetpack-compose-ui-state-sealed-class-notes.html</url>
-    <content><![CDATA[<p>在 Jetpack Compose 中，官方強調的是狀態管理的重要性。一般情況下，我們使用 ViewModel 將商業邏輯放在其中，以減少組合函式中的邏輯程式碼，從而提供更好的使用者體驗。</p>
-<p>然而，有時我們需要處理一些進階的管理程式，例如 API 請求、檔案讀取等，這時候可能會用到以下三個基本狀態：</p>
-<ul>
-<li><code>Loading</code>（載入中）：表示資料正在載入的過程中，可以顯示一個載入中的動畫或提示訊息。</li>
-<li><code>Success</code>（成功）：表示資料載入成功，可以將資料顯示在介面上或執行相應的操作。</li>
-<li><code>Error</code>（錯誤）：表示資料載入過程中發生錯誤，可以顯示錯誤訊息或提供用戶重新嘗試的選項。</li>
-</ul>
-<p>這三個狀態可以<strong>幫助我們更好地管理資料載入的過程</strong>，並提供更好的使用者反饋。在實作中，我們可以使用<strong>相應的狀態來更新介面</strong>，以反映當前的狀態。</p>
-<p>接下來會以一個檔案文本編輯器作範例</p>
-<hr>
-<h1 id="定義封裝類狀態"><a href="#定義封裝類狀態" class="headerlink" title="定義封裝類狀態"></a>定義封裝類狀態</h1><div class="note warning simple"><p><code>UIState</code> 封裝類會因應程式的目的而有所不同，現在這個範例是檔案文本編輯器，所以稱作 <code>EditorUIState</code></p>
-</div>
-
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">sealed class EditorUIState &#123;
-    data object Loading : EditorUIState()
-    data class Error(val message: String? &#x3D; null) : EditorUIState()
-    data class Success(val file: File? &#x3D; null) : EditorUIState()
-&#125;</code></pre>
-
-<p>在這個 <code>EditorUIState</code>，其中 <code>Error</code> 及 <code>Success</code> 需要傳入參數，<code>Error</code> 是用來顯示錯誤訊息，而 <code>Success</code> 是只有傳入參數的物件是有效，才會執行，在這個範例中，唯獨只有 <code>Success</code> 這個狀態需要獲取要用的資料。</p>
-<h2 id="不同狀態應用的介面"><a href="#不同狀態應用的介面" class="headerlink" title="不同狀態應用的介面"></a>不同狀態應用的介面</h2><p>在這個範例中，我們的 <code>Loading</code>, <code>Success</code> 及 <code>Error</code> 狀態會分別以以下方式顯示：</p>
-<ul>
-<li><code>Loading</code>: 會顯示一個載入對話框，當載入完成，對話框便會自動關閉</li>
-<li><code>Error</code>: 把錯誤訊息顯示在 <code>Scaffold</code> 內的 <code>Snackbar</code>，當發生錯誤，<code>Snackbar</code> 便會彈出，同時會附加一個重試按鈕，重新再獲取資料</li>
-<li><code>Success</code>: 成功獲取資料的內容就會在 <code>Scaffold</code> 的主佈局呈現</li>
-</ul>
-<hr>
-<h1 id="編寫-ViewModel"><a href="#編寫-ViewModel" class="headerlink" title="編寫 ViewModel"></a>編寫 ViewModel</h1><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">class EditorViewModel : ViewModel()</code></pre>
-
-<p>在這個範例中，需要定義三個狀態，狀態分別需要可變及不可變型態。</p>
-<div class="note info simple"><p>定義可變狀態時，一般我們在 ViewModel 定義可變 (mutable) 狀態都會在變量名稱加上 <code>_</code> 前綴，而定義不可變狀態會宣告 <code>State</code> 型別，即不可變狀態作賦值。</p>
-</div>
-
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">private val _file &#x3D; mutableStateOf(File(&quot;&quot;)) &#x2F;&#x2F; 無效檔案範例
-val file: State&lt;File&gt; &#x3D; _file
-
-private val _uiState &#x3D; MutableStateFlow&lt;EditorUIState&gt;(EditorUIState.Loading)
-val uiState &#x3D; _uiState.asStateFlow()
-
-private val _editorText &#x3D; mutableStateOf(_file.value.getFileContent())
-val editorText: State&lt;String&gt; &#x3D; _editorText
-
-val snackbarHostState &#x3D; SnackbarHostState()</code></pre>
-
-<p>正常情況下，都會以 <code>Loading</code> 狀態為初始 UI 狀態，<code>Success</code> 或 <code>Error</code> 狀態是待 <code>Loading</code> 完成才判斷的。</p>
-<h2 id="初始化狀態程序"><a href="#初始化狀態程序" class="headerlink" title="初始化狀態程序"></a>初始化狀態程序</h2><div class="note info simple"><p>因為我們想確保 ViewModel 能夠順利被載入及執行，所以加上了 2 秒延遲 (<code>delay(2000L)</code>)。</p>
-</div>
-
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">init &#123;
-    init()
-&#125;
-
-private fun init() &#123;
-    viewModelScope.launch &#123;
-        delay(2000L)
-
-        _uiState.value &#x3D; if (_file.value.exists()) &#123;
-            EditorUIState.Success(file &#x3D; _file.value)
-        &#125; else &#123;
-            EditorUIState.Error(message &#x3D; &quot;Invalid file&quot;)
-        &#125;
-    &#125;
-&#125;</code></pre>
-
-<p>在這個範例中，我們判斷如果所獲取的檔案是存在的，則視為成功，否則視為錯誤。</p>
-<h2 id="顯示錯誤訊息的-Snackbar"><a href="#顯示錯誤訊息的-Snackbar" class="headerlink" title="顯示錯誤訊息的 Snackbar"></a>顯示錯誤訊息的 <code>Snackbar</code></h2><p>剛才都說過，當發生錯誤，就會彈出 <code>Snackbar</code> 訊息</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun showErrorSnackbar(message: String) &#123;
-    viewModelScope.launch &#123;
-        snackbarHostState.showSnackbar(message)
-    &#125;
-&#125;</code></pre>
-
-<p>而且有一個重試按鈕的點擊事件，重新再獲取資料，其實就是把狀態歸零，再初始化一遍。</p>
-<div class="note info simple"><p>這裏的歸零是重置為 <code>Loading</code> 狀態。</p>
-</div>
-
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun refresh() &#123;
-    _uiState.value &#x3D; EditorUIState.Loading
-    init()
-&#125;</code></pre>
-
-<h1 id="編寫不同狀態的介面"><a href="#編寫不同狀態的介面" class="headerlink" title="編寫不同狀態的介面"></a>編寫不同狀態的介面</h1><p><code>Success</code> 的含義本來就是當資料獲取成功後就會導向該介面，意昧着你只要把主要的介面內容寫進 <code>Success</code> 介面便可，因為理論上<strong>用戶提供的檔案路徑均屬有效。只要檔案有效才可以繼續使用編輯器</strong>。</p>
-<p>在這個範例中，<code>Loading</code> 及 <code>Error</code> 分別使用了對話框及 Snackbar 形式，其實這個可以很自由，你喜歡的話都可以都以介面形式處理：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">when (state) &#123;
-    is EditorUIState.Loading -&gt; LoadingScreen()
-    is EditorUIState.Error -&gt; ErrorScreen()
-    is EditorUIState.Success -&gt; ReadyScreen()
-&#125;</code></pre>
-
-<div class="note warning simple"><p>記得 <code>state</code> 參數要設置 <code>collectAsState()</code>，否則只會一直處於 <code>Loading</code> 狀態，一直顯示載入對話框。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
-fun EditorScreen(
-    viewModel: EditorViewModel &#x3D; viewModel(),
-    navController: NavController
-) &#123;
-    Content(
-        state &#x3D; viewModel.uiState.collectAsState().value
-    )
-&#125;</code></pre></div>
-
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
-fun Content(
-    viewModel: EditorViewModel &#x3D; viewModel(),
-    state: EditorUIState,
-) &#123;
-    val scope &#x3D; rememberCoroutineScope()
-
-    Container(
-        onRetry &#x3D; &#123;
-            viewModel.refresh()
-        &#125;
-    ) &#123;
-        when (state) &#123;
-            is EditorUIState.Loading -&gt; &#123;
-                LoadingDialog()
-            &#125;
-            is EditorUIState.Error -&gt; &#123;
-                scope.launch &#123;
-                    viewModel.showErrorSnackbar(state.message ?: &quot;Unexpected Error&quot;)
-                &#125;
-            &#125;
-            is EditorUIState.Success -&gt; &#123;
-                Text(text &#x3D; state.file?.path.toString())
-                TextField(
-                    value &#x3D; viewModel.editorText.value,
-                    onValueChange &#x3D; &#123; viewModel.editorText.value &#x3D; it &#125;
-                )
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre>
-
-<div class="tabs" id="container_loadingdialog"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="container_loadingdialog-1">Container</button><button type="button" class="tab " data-href="container_loadingdialog-2">LoadingDialog</button></ul><div class="tab-contents"><div class="tab-item-content active" id="container_loadingdialog-1"><p><code>Container</code> 可組合函式主要是用來封裝整個 <code>Scaffold</code>，連同顯示錯誤訊息的 Snackbar。</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
-fun Container(
-    viewModel: EditorViewModel &#x3D; viewModel(),
-    onRetry: () -&gt; Unit,
-    content: @Composable () -&gt; Unit
-) &#123;
-    Scaffold(
-        snackbarHost &#x3D; &#123;
-            SnackbarHost(
-                hostState &#x3D; viewModel.snackbarHostState,
-                snackbar &#x3D; &#123; data -&gt;
-                    Snackbar(
-                        modifier &#x3D; Modifier.padding(16.dp),
-                        action &#x3D; &#123;
-                            TextButton(
-                                onClick &#x3D; onRetry
-                            ) &#123;
-                                Text(text &#x3D; &quot;Retry&quot;)
-                            &#125;
-                        &#125;
-                    ) &#123;
-                        Text(text &#x3D; data.visuals.message)
-                    &#125;
-                &#125;
-            )
-        &#125;
-    ) &#123;
-        Column(
-            modifier &#x3D; Modifier.padding(it)
-        ) &#123;
-            content()
-        &#125;
-    &#125;
-&#125;</code></pre></div><div class="tab-item-content" id="container_loadingdialog-2"><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
-fun LoadingDialog() &#123;
-    Dialog(
-        onDismissRequest &#x3D; &#123;&#125;
-    ) &#123;
-        Box(
-            modifier &#x3D; Modifier
-                .width(100.dp)
-                .height(100.dp)
-                .clip(MaterialTheme.shapes.extraLarge)
-                .background(MaterialTheme.colorScheme.surfaceContainer),
-            contentAlignment &#x3D; Alignment.Center
-        ) &#123;
-            CircularProgressIndicator()
-        &#125;
-    &#125;
-&#125;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
-
-<hr>
-<h1 id="實驗及預覽所有狀態介面"><a href="#實驗及預覽所有狀態介面" class="headerlink" title="實驗及預覽所有狀態介面"></a>實驗及預覽所有狀態介面</h1><p>在這個範例中，如果要實驗一個成功導向 <code>Success</code> 狀態的介面，就需要提供一個有效的檔案路徑：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">private val _file &#x3D; mutableStateOf(File(&quot;&#x2F;storage&#x2F;emulated&#x2F;0&#x2F;BlueWhaleYT&#x2F;Hello.js&quot;)) &#x2F;&#x2F; 有效檔案範例
-val file: State&lt;File&gt; &#x3D; _file</code></pre>
-
-<p>如果要實驗導向 <code>Error</code> 狀態介面，則可以提供無效檔案：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">private val _file &#x3D; mutableStateOf(File(&quot;&quot;)) &#x2F;&#x2F; 無效檔案範例
-val file: State&lt;File&gt; &#x3D; _file</code></pre>
-
-<p>不過有時候，你可能會想借助 Compose Preview 功能來預覽不同狀態的介面，我們可以寫一個繼承 <code>PreviewParameterProvider</code> 介面，例如：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">internal class EditorUIStateProvider : PreviewParameterProvider&lt;EditorUIState&gt; &#123;
-    override val values: Sequence&lt;EditorUIState&gt; &#x3D; sequenceOf(
-        EditorUIState.Loading,
-        EditorUIState.Success(),
-        EditorUIState.Error()
-    )
-&#125;</code></pre>
-
-<p>然後在你的預覽可組合函式中：</p>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Preview(showSystemUi &#x3D; true)
-@Composable
-fun EditorScreenPreview(
-    @PreviewParameter(EditorUIStateProvider::class) state: EditorUIState
-) &#123;
-    MyAppTheme &#123;
-        Content(state &#x3D; state)
-    &#125;
-&#125;</code></pre>]]></content>
-      <categories>
-        <category>實驗內容</category>
-        <category>學習筆記</category>
-        <category>Jetpack Compose</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Kotlin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git 版本控制及操作 - JGit 筆記</title>
-    <url>/post/dev-jgit-notes.html</url>
-    <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
-<p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
-<h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
-<li>Kotlin 開發者亦可使用 <a href="https://github.com/sya-ri/KGit">KGit</a> 函式庫，該函式庫以 JGit 為基礎，但保留 Kotlin 語法的程式編寫方式</li>
-<li>Android 開發在使用 JGit 時，需要注意以下幾點：</li>
-</ol>
-<ul>
-<li>確保 <code>AndroidManifest.xml</code> 聲明權限許可，以及<strong>允許所有檔案權限</strong> (All File Access)，否則報錯 Operation Not Permitted<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;uses-permission android:name&#x3D;&quot;android.permission.READ_EXTERNAL_STORAGE&quot; &#x2F;&gt;
-&lt;uses-permission android:name&#x3D;&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
-&lt;uses-permission android:name&#x3D;&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
-&lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot;&#x2F;&gt;
-&lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_NETWORK_STATE&quot; &#x2F;&gt;</code></pre></li>
-<li>進行指令操作，如克隆遠端存儲庫至本機，需要使用<strong>異步執行緒或 <code>Executor</code> 等相關處理方式</strong>，(Kotlin 則可使用協程)，否則會在執行指令時報錯 <code>NetworkOnMainThreadException</code><pre class="line-numbers language-java" data-language="java"><code class="language-java">private final ExecutorService executor &#x3D; Executors.newSingleThreadExecutor();
-private final Handler handler &#x3D; new Handler(Looper.getMainLooper());
-
-executor.execute(() -&gt; &#123;
-    &#x2F;&#x2F; ...
-&#125;)</code></pre></li>
-</ul>
-<hr>
-<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><p>匯入依附元件至 <code>build.gradle</code></p>
-<pre class="line-numbers language-gradle" data-language="gradle"><code class="language-gradle">implementation &#39;org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r&#39;</code></pre>
-
-<h2 id="產生本機存儲庫及-git-檔案"><a href="#產生本機存儲庫及-git-檔案" class="headerlink" title="產生本機存儲庫及 .git 檔案"></a>產生本機存儲庫及 <code>.git</code> 檔案</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">try &#123;
-    this.localRepo &#x3D; new FileRepository(localPath + &quot;&#x2F;.git&quot;);
-&#125; catch (IOException e) &#123;
-    e.printStackTrace();
-&#125;
-
-git &#x3D; new Git(localRepo);</code></pre>
-
-<hr>
-<h1 id="版本控制及操作"><a href="#版本控制及操作" class="headerlink" title="版本控制及操作"></a>版本控制及操作</h1><h2 id="克隆遠端存儲庫至本機"><a href="#克隆遠端存儲庫至本機" class="headerlink" title="克隆遠端存儲庫至本機"></a>克隆遠端存儲庫至本機</h2><div class="note warning simple"><p>要克隆的目錄或資料夾<strong>需要被建立及清空</strong>才能順利克隆遠端存儲庫，不清空則報 Directory XXX is not empty</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">File dir &#x3D; new File(localPath)
-if (!dir.exists()) folder.mkdirs();</code></pre></div>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">Git.cloneRepository()
-    .setURI(remotePath)
-    .setDirectory(new File(localPath))
-    .call();</code></pre>]]></content>
-      <categories>
-        <category>實驗內容</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Kotlin</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Jetpack Compose | 導航的基本應用</title>
     <url>/post/jetpack-compose-dev-navigation.html</url>
     <content><![CDATA[<p>在編寫 Jetpack Compose 程式的我們，不再像以前使用 XML 的傳統架構方式來設計程式的不同介面，而是透過編寫多個可組合函式來實現介面的設計。然而，這樣一來就帶出了一個問題，既然在 Compose 中不再使用 <code>Activity</code>，也不能使用 <code>Intent</code> 來切換介面了，那要怎麼做呢？</p>
@@ -1476,6 +1595,234 @@ popExitTransition &#x3D; &#123;
         towards &#x3D; AnimatedContentTransitionScope.SlideDirection.Companion.Right,
         animationSpec &#x3D; tween(700)
     )
+&#125;</code></pre>]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>學習筆記</category>
+        <category>Jetpack Compose</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Kotlin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose | 有效管理 UI 介面的狀態</title>
+    <url>/post/jetpack-compose-ui-state-sealed-class-notes.html</url>
+    <content><![CDATA[<p>在 Jetpack Compose 中，官方強調的是狀態管理的重要性。一般情況下，我們使用 ViewModel 將商業邏輯放在其中，以減少組合函式中的邏輯程式碼，從而提供更好的使用者體驗。</p>
+<p>然而，有時我們需要處理一些進階的管理程式，例如 API 請求、檔案讀取等，這時候可能會用到以下三個基本狀態：</p>
+<ul>
+<li><code>Loading</code>（載入中）：表示資料正在載入的過程中，可以顯示一個載入中的動畫或提示訊息。</li>
+<li><code>Success</code>（成功）：表示資料載入成功，可以將資料顯示在介面上或執行相應的操作。</li>
+<li><code>Error</code>（錯誤）：表示資料載入過程中發生錯誤，可以顯示錯誤訊息或提供用戶重新嘗試的選項。</li>
+</ul>
+<p>這三個狀態可以<strong>幫助我們更好地管理資料載入的過程</strong>，並提供更好的使用者反饋。在實作中，我們可以使用<strong>相應的狀態來更新介面</strong>，以反映當前的狀態。</p>
+<p>接下來會以一個檔案文本編輯器作範例</p>
+<hr>
+<h1 id="定義封裝類狀態"><a href="#定義封裝類狀態" class="headerlink" title="定義封裝類狀態"></a>定義封裝類狀態</h1><div class="note warning simple"><p><code>UIState</code> 封裝類會因應程式的目的而有所不同，現在這個範例是檔案文本編輯器，所以稱作 <code>EditorUIState</code></p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">sealed class EditorUIState &#123;
+    data object Loading : EditorUIState()
+    data class Error(val message: String? &#x3D; null) : EditorUIState()
+    data class Success(val file: File? &#x3D; null) : EditorUIState()
+&#125;</code></pre>
+
+<p>在這個 <code>EditorUIState</code>，其中 <code>Error</code> 及 <code>Success</code> 需要傳入參數，<code>Error</code> 是用來顯示錯誤訊息，而 <code>Success</code> 是只有傳入參數的物件是有效，才會執行，在這個範例中，唯獨只有 <code>Success</code> 這個狀態需要獲取要用的資料。</p>
+<h2 id="不同狀態應用的介面"><a href="#不同狀態應用的介面" class="headerlink" title="不同狀態應用的介面"></a>不同狀態應用的介面</h2><p>在這個範例中，我們的 <code>Loading</code>, <code>Success</code> 及 <code>Error</code> 狀態會分別以以下方式顯示：</p>
+<ul>
+<li><code>Loading</code>: 會顯示一個載入對話框，當載入完成，對話框便會自動關閉</li>
+<li><code>Error</code>: 把錯誤訊息顯示在 <code>Scaffold</code> 內的 <code>Snackbar</code>，當發生錯誤，<code>Snackbar</code> 便會彈出，同時會附加一個重試按鈕，重新再獲取資料</li>
+<li><code>Success</code>: 成功獲取資料的內容就會在 <code>Scaffold</code> 的主佈局呈現</li>
+</ul>
+<hr>
+<h1 id="編寫-ViewModel"><a href="#編寫-ViewModel" class="headerlink" title="編寫 ViewModel"></a>編寫 ViewModel</h1><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">class EditorViewModel : ViewModel()</code></pre>
+
+<p>在這個範例中，需要定義三個狀態，狀態分別需要可變及不可變型態。</p>
+<div class="note info simple"><p>定義可變狀態時，一般我們在 ViewModel 定義可變 (mutable) 狀態都會在變量名稱加上 <code>_</code> 前綴，而定義不可變狀態會宣告 <code>State</code> 型別，即不可變狀態作賦值。</p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">private val _file &#x3D; mutableStateOf(File(&quot;&quot;)) &#x2F;&#x2F; 無效檔案範例
+val file: State&lt;File&gt; &#x3D; _file
+
+private val _uiState &#x3D; MutableStateFlow&lt;EditorUIState&gt;(EditorUIState.Loading)
+val uiState &#x3D; _uiState.asStateFlow()
+
+private val _editorText &#x3D; mutableStateOf(_file.value.getFileContent())
+val editorText: State&lt;String&gt; &#x3D; _editorText
+
+val snackbarHostState &#x3D; SnackbarHostState()</code></pre>
+
+<p>正常情況下，都會以 <code>Loading</code> 狀態為初始 UI 狀態，<code>Success</code> 或 <code>Error</code> 狀態是待 <code>Loading</code> 完成才判斷的。</p>
+<h2 id="初始化狀態程序"><a href="#初始化狀態程序" class="headerlink" title="初始化狀態程序"></a>初始化狀態程序</h2><div class="note info simple"><p>因為我們想確保 ViewModel 能夠順利被載入及執行，所以加上了 2 秒延遲 (<code>delay(2000L)</code>)。</p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">init &#123;
+    init()
+&#125;
+
+private fun init() &#123;
+    viewModelScope.launch &#123;
+        delay(2000L)
+
+        _uiState.value &#x3D; if (_file.value.exists()) &#123;
+            EditorUIState.Success(file &#x3D; _file.value)
+        &#125; else &#123;
+            EditorUIState.Error(message &#x3D; &quot;Invalid file&quot;)
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>在這個範例中，我們判斷如果所獲取的檔案是存在的，則視為成功，否則視為錯誤。</p>
+<h2 id="顯示錯誤訊息的-Snackbar"><a href="#顯示錯誤訊息的-Snackbar" class="headerlink" title="顯示錯誤訊息的 Snackbar"></a>顯示錯誤訊息的 <code>Snackbar</code></h2><p>剛才都說過，當發生錯誤，就會彈出 <code>Snackbar</code> 訊息</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun showErrorSnackbar(message: String) &#123;
+    viewModelScope.launch &#123;
+        snackbarHostState.showSnackbar(message)
+    &#125;
+&#125;</code></pre>
+
+<p>而且有一個重試按鈕的點擊事件，重新再獲取資料，其實就是把狀態歸零，再初始化一遍。</p>
+<div class="note info simple"><p>這裏的歸零是重置為 <code>Loading</code> 狀態。</p>
+</div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">fun refresh() &#123;
+    _uiState.value &#x3D; EditorUIState.Loading
+    init()
+&#125;</code></pre>
+
+<h1 id="編寫不同狀態的介面"><a href="#編寫不同狀態的介面" class="headerlink" title="編寫不同狀態的介面"></a>編寫不同狀態的介面</h1><p><code>Success</code> 的含義本來就是當資料獲取成功後就會導向該介面，意昧着你只要把主要的介面內容寫進 <code>Success</code> 介面便可，因為理論上<strong>用戶提供的檔案路徑均屬有效。只要檔案有效才可以繼續使用編輯器</strong>。</p>
+<p>在這個範例中，<code>Loading</code> 及 <code>Error</code> 分別使用了對話框及 Snackbar 形式，其實這個可以很自由，你喜歡的話都可以都以介面形式處理：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">when (state) &#123;
+    is EditorUIState.Loading -&gt; LoadingScreen()
+    is EditorUIState.Error -&gt; ErrorScreen()
+    is EditorUIState.Success -&gt; ReadyScreen()
+&#125;</code></pre>
+
+<div class="note warning simple"><p>記得 <code>state</code> 參數要設置 <code>collectAsState()</code>，否則只會一直處於 <code>Loading</code> 狀態，一直顯示載入對話框。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun EditorScreen(
+    viewModel: EditorViewModel &#x3D; viewModel(),
+    navController: NavController
+) &#123;
+    Content(
+        state &#x3D; viewModel.uiState.collectAsState().value
+    )
+&#125;</code></pre></div>
+
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun Content(
+    viewModel: EditorViewModel &#x3D; viewModel(),
+    state: EditorUIState,
+) &#123;
+    val scope &#x3D; rememberCoroutineScope()
+
+    Container(
+        onRetry &#x3D; &#123;
+            viewModel.refresh()
+        &#125;
+    ) &#123;
+        when (state) &#123;
+            is EditorUIState.Loading -&gt; &#123;
+                LoadingDialog()
+            &#125;
+            is EditorUIState.Error -&gt; &#123;
+                scope.launch &#123;
+                    viewModel.showErrorSnackbar(state.message ?: &quot;Unexpected Error&quot;)
+                &#125;
+            &#125;
+            is EditorUIState.Success -&gt; &#123;
+                Text(text &#x3D; state.file?.path.toString())
+                TextField(
+                    value &#x3D; viewModel.editorText.value,
+                    onValueChange &#x3D; &#123; viewModel.editorText.value &#x3D; it &#125;
+                )
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<div class="tabs" id="container_loadingdialog"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="container_loadingdialog-1">Container</button><button type="button" class="tab " data-href="container_loadingdialog-2">LoadingDialog</button></ul><div class="tab-contents"><div class="tab-item-content active" id="container_loadingdialog-1"><p><code>Container</code> 可組合函式主要是用來封裝整個 <code>Scaffold</code>，連同顯示錯誤訊息的 Snackbar。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun Container(
+    viewModel: EditorViewModel &#x3D; viewModel(),
+    onRetry: () -&gt; Unit,
+    content: @Composable () -&gt; Unit
+) &#123;
+    Scaffold(
+        snackbarHost &#x3D; &#123;
+            SnackbarHost(
+                hostState &#x3D; viewModel.snackbarHostState,
+                snackbar &#x3D; &#123; data -&gt;
+                    Snackbar(
+                        modifier &#x3D; Modifier.padding(16.dp),
+                        action &#x3D; &#123;
+                            TextButton(
+                                onClick &#x3D; onRetry,
+                                colors &#x3D; ButtonDefaults.textButtonColors(
+                                    contentColor &#x3D; SnackbarDefaults.actionColor
+                                )
+                            ) &#123;
+                                Text(text &#x3D; &quot;Retry&quot;)
+                            &#125;
+                        &#125;
+                    ) &#123;
+                        Text(text &#x3D; data.visuals.message)
+                    &#125;
+                &#125;
+            )
+        &#125;
+    ) &#123;
+        Column(
+            modifier &#x3D; Modifier.padding(it)
+        ) &#123;
+            content()
+        &#125;
+    &#125;
+&#125;</code></pre></div><div class="tab-item-content" id="container_loadingdialog-2"><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Composable
+fun LoadingDialog() &#123;
+    Dialog(
+        onDismissRequest &#x3D; &#123;&#125;
+    ) &#123;
+        Box(
+            modifier &#x3D; Modifier
+                .width(100.dp)
+                .height(100.dp)
+                .clip(MaterialTheme.shapes.extraLarge)
+                .background(MaterialTheme.colorScheme.surfaceContainer),
+            contentAlignment &#x3D; Alignment.Center
+        ) &#123;
+            CircularProgressIndicator()
+        &#125;
+    &#125;
+&#125;</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<hr>
+<h1 id="實驗及預覽所有狀態介面"><a href="#實驗及預覽所有狀態介面" class="headerlink" title="實驗及預覽所有狀態介面"></a>實驗及預覽所有狀態介面</h1><p>在這個範例中，如果要實驗一個成功導向 <code>Success</code> 狀態的介面，就需要提供一個有效的檔案路徑：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">private val _file &#x3D; mutableStateOf(File(&quot;&#x2F;storage&#x2F;emulated&#x2F;0&#x2F;BlueWhaleYT&#x2F;Hello.js&quot;)) &#x2F;&#x2F; 有效檔案範例
+val file: State&lt;File&gt; &#x3D; _file</code></pre>
+
+<p>如果要實驗導向 <code>Error</code> 狀態介面，則可以提供無效檔案：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">private val _file &#x3D; mutableStateOf(File(&quot;&quot;)) &#x2F;&#x2F; 無效檔案範例
+val file: State&lt;File&gt; &#x3D; _file</code></pre>
+
+<p>不過有時候，你可能會想借助 Compose Preview 功能來預覽不同狀態的介面，我們可以寫一個繼承 <code>PreviewParameterProvider</code> 介面，例如：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">internal class EditorUIStateProvider : PreviewParameterProvider&lt;EditorUIState&gt; &#123;
+    override val values: Sequence&lt;EditorUIState&gt; &#x3D; sequenceOf(
+        EditorUIState.Loading,
+        EditorUIState.Success(),
+        EditorUIState.Error()
+    )
+&#125;</code></pre>
+
+<p>然後在你的預覽可組合函式中：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">@Preview(showSystemUi &#x3D; true)
+@Composable
+fun EditorScreenPreview(
+    @PreviewParameter(EditorUIStateProvider::class) state: EditorUIState
+) &#123;
+    MyAppTheme &#123;
+        Content(state &#x3D; state)
+    &#125;
 &#125;</code></pre>]]></content>
       <categories>
         <category>實驗內容</category>
