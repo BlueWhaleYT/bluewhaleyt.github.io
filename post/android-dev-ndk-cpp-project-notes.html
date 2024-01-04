@@ -1,0 +1,432 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>Android | NDK 及 C++ Native 程式開發筆記 | 🐳 BlueWhaleYT</title><meta name="keywords" content="Android,Java,C++,NDK"><meta name="author" content="BlueWhaleYT"><meta name="copyright" content="BlueWhaleYT"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="Android | NDK 及 C++ Native 程式開發筆記"><meta name="application-name" content="Android | NDK 及 C++ Native 程式開發筆記"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="Android | NDK 及 C++ Native 程式開發筆記"><meta property="og:url" content="https://bluewhaleyt.github.io/post/android-dev-ndk-cpp-project-notes.html"><meta property="og:site_name" content="🐳 BlueWhaleYT"><meta property="og:description" content="C++ 是一種中階程式語言，主要用於遊戲和視覺開發。它也是眾所周知的難以理解的程式語法之一。對於初學者來說，C++ 可以這樣開始： #include &amp;lt;iostream&amp;gt;  int main(int argc, char * argv[]) &amp;amp;#123;     std::cout &amp;amp;l"><meta property="og:locale" content="zh-TW"><meta property="og:image" content="https://i.imgur.com/ESvLANy.png"><meta property="article:author" content="BlueWhaleYT"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://i.imgur.com/ESvLANy.png"><meta name="description" content="C++ 是一種中階程式語言，主要用於遊戲和視覺開發。它也是眾所周知的難以理解的程式語法之一。對於初學者來說，C++ 可以這樣開始： #include &amp;lt;iostream&amp;gt;  int main(int argc, char * argv[]) &amp;amp;#123;     std::cout &amp;amp;l"><link rel="shortcut icon" href="https://i.ibb.co/zRvn96K/personal-icon.jpg"><link rel="canonical" href="https://bluewhaleyt.github.io/post/android-dev-ndk-cpp-project-notes"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"Blog","mode":"local","switchBtn":false,"btnLink":null,"randomNum":0,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: undefined,
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"你好","list":[{"greeting":"凌晨時分了，怎麼還在這裏呢？","startTime":0,"endTime":5},{"greeting":"早安！新的一天又開始了！","startTime":6,"endTime":10},{"greeting":"午安！吃飽了嗎？","startTime":11,"endTime":13},{"greeting":"下午好！加油，再堅持一下！","startTime":14,"endTime":17},{"greeting":"晚上好！晚餐吃得好嗎？","startTime":18,"endTime":21},{"greeting":"夜深了，該休息了！晚安！","startTime":22,"endTime":24}]},
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: {"mode":"both","api":"https://img2color-go.vercel.app/api?img=","cover_change":true},
+  authorStatus: {"skills":null},
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查詢的內容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: BlueWhaleYT","link":"連結: ","source":"來源: 🐳 BlueWhaleYT","info":"著作權歸作者所有。商業轉載請聯絡作者獲得授權，非商業轉載請註明出處。","copySuccess":"複製成功，複製和轉載請標注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切換為繁體","cht_to_chs":"你已切換為簡體","day_to_night":"你已切換為深色模式","night_to_day":"你已切換為淺色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: '🐳 BlueWhaleYT',
+  title: 'Android | NDK 及 C++ Native 程式開發筆記',
+  postAI: '',
+  pageFillDescription: '初建 C++ Native 項目, 項目 app 模塊 build.gradle, 項目樹狀結構變更, CMake 建構指令碼, Java 與 C++ 鏈結產生, Java 本機介面 (JNI), 動態鏈接庫 (.so)是一種中階程式語言主要用於遊戲和視覺開發它也是眾所周知的難以理解的程式語法之一對於初學者來說可以這樣開始這種語言與開發密切相關因為大多數手機遊戲都是用進行編寫和開發的作為開發程式的我們也可以使用來寫程式就像跨領域使用和一樣初建項目基本上如果你是用可以使用項目模板建立程式這裏它會要你選擇使用什麼版本通常選擇便可項目模塊在模塊的內的區塊多定義了使用函式庫的配置項目樹狀結構變更因為這是一個項目所以它會較一般的項目多附加了一些預設元素如果你沒有模板或可考慮以下樹狀結構變更在目錄會多新增了一個資料夾顧名思義這個資料夾是用來管理及編寫語言建構指令碼建構指令碼是一個純文字檔案檔案名必須為就是負責為或程式定義要用的函式庫相當於的根據這個模板預設的內容是這樣的與鏈結產生這個模板預設提供了一個檔案而在多新增了一個載入本機函式庫的程式碼而及一個關鍵字而成的調用函數本機介面是一個編程框架透過虛擬機調用函式庫或其他本機程序本機程序一般使用或匯編語言編寫從而被編譯為爾件及系統操作的程序在以上模板你可以看到定義一個方法需要這麼長的程式碼在這個範例中是項目的類別而在程式調用函數就要另外定義一個附有關鍵字的相應函數特別要說說程式碼是一個限制使用語言作為命名規則即該函數將會採用語言進行定義及是定義函數的修飾詞是指明函數傳回類型是的型別是一個指向環境的指標提供了在本地程式碼中調用方法訪問對象等操作的方法是一個代表對象的類型它可以是任何對象的參考並且可以在本地程式碼中用於訪問該對象的屬性和方法基本上這個定義方法不用手動敲的可以直接用的自動完成方案只要在定義一個方法然後就會在檔案生成了程式碼所以你大可以不用學會怎樣寫方法只要理解便可動態鏈接庫把編譯並匯出後的檔案修改為檔案解壓縮開啟資料夾就可以看到檔案的模板預設支援及提供以下架構',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024 年 01 月 04 日 11 時 16 分 18 秒',
+  postMainColor: '#546de5',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/codethemes/code-dark.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><style type="text/css">
+.CodeMirror-lines,.line,.code-output,.code,.token {
+    font-size: 16px;
+    line-height: 22px;
+}
+</style><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://i.ibb.co/zRvn96K/personal-icon.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">🐳 BlueWhaleYT</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 彙整頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分類頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 標籤頁</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索🔍" accesskey="s"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span> 搜尋</span></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新評論</span></div><div class="aside-list"><span>正在載入中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Android/" style="font-size: 1.05rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Android<sup>10</sup></a><a href="/tags/C/" style="font-size: 1.05rem;">C++<sup>1</sup></a><a href="/tags/Java/" style="font-size: 1.05rem;">Java<sup>4</sup></a><a href="/tags/Kotlin/" style="font-size: 1.05rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Kotlin<sup>8</sup></a><a href="/tags/NDK/" style="font-size: 1.05rem;">NDK<sup>1</sup></a><a href="/tags/YAML/" style="font-size: 1.05rem;">YAML<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>歸檔</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/03/"><span class="card-archive-list-date">三月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">一月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/12/"><span class="card-archive-list-date">十二月 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AF%A6%E9%A9%97%E5%85%A7%E5%AE%B9/" itemprop="url">實驗內容</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android-%E9%96%8B%E7%99%BC/" itemprop="url">Android 開發</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/" itemprop="url">學習筆記</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Android/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Android</span></a><a class="article-meta__tags" href="/tags/Java/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Java</span></a><a class="article-meta__tags" href="/tags/C/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>C++</span></a><a class="article-meta__tags" href="/tags/NDK/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>NDK</span></a></span></div></div><h1 class="post-title" itemprop="name headline">Android | NDK 及 C++ Native 程式開發筆記</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2023-03-28T01:16:09.000Z" title="發表於 2023 年 03 月 28 日 09 時 16 分 09 秒">2023 年 03 月 28 日</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-01-04T03:16:18.328Z" title="更新於 2024 年 01 月 04 日 11 時 16 分 18 秒">2024 年 01 月 04 日</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字數總計:</span><span class="word-count" title="文章字数">1.3k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">閱讀時長:</span><span>5分鐘</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="Android | NDK 及 C++ Native 程式開發筆記"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://i.imgur.com/ESvLANy.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://bluewhaleyt.github.io/post/android-dev-ndk-cpp-project-notes.html"><header><a class="post-meta-categories" href="/categories/%E5%AF%A6%E9%A9%97%E5%85%A7%E5%AE%B9/" itemprop="url">實驗內容</a><a class="post-meta-categories" href="/categories/Android-%E9%96%8B%E7%99%BC/" itemprop="url">Android 開發</a><a class="post-meta-categories" href="/categories/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/" itemprop="url">學習筆記</a><a href="/tags/Android/" tabindex="-1" itemprop="url">Android</a><a href="/tags/Java/" tabindex="-1" itemprop="url">Java</a><a href="/tags/C/" tabindex="-1" itemprop="url">C++</a><a href="/tags/NDK/" tabindex="-1" itemprop="url">NDK</a><h1 id="CrawlerTitle" itemprop="name headline">Android | NDK 及 C++ Native 程式開發筆記</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">BlueWhaleYT</span><time itemprop="dateCreated datePublished" datetime="2023-03-28T01:16:09.000Z" title="發表於 2023 年 03 月 28 日 09 時 16 分 09 秒">2023 年 03 月 28 日</time><time itemprop="dateCreated datePublished" datetime="2024-01-04T03:16:18.328Z" title="更新於 2024 年 01 月 04 日 11 時 16 分 18 秒">2024 年 01 月 04 日</time></header><p>C++ 是一種中階程式語言，主要用於遊戲和視覺開發。它也是眾所周知的難以理解的程式語法之一。對於初學者來說，C++ 可以這樣開始：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">#include &lt;iostream&gt;
+
+int main(int argc, char * argv[]) &#123;
+    std::cout &lt;&lt; &quot;Hello World&quot; &lt;&lt; std::endl;
+    return 0;
+&#125;</code></pre>
+
+<p>這種語言與 Android 開發密切相關，因為大多數手機遊戲都是用 C++ 進行編寫和開發的。作為開發 Android 程式的我們，也可以使用 Android Studio 來寫 C++ Native 程式，就像跨領域使用 Java 和 C++ 一樣。</p>
+<hr>
+<h1 id="初建-C-Native-項目"><a href="#初建-C-Native-項目" class="headerlink" title="初建 C++ Native 項目"></a>初建 C++ Native 項目</h1><p>基本上，如果你是用 Android Studio，可以使用 C++ Native 項目模板建立 C++ Native 程式。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/android-dev-ndk-cpp-project-notes/img1.png" alt="C++ 項目模板"></p>
+<p>這裏它會要你選擇使用什麼 C++ 版本，通常選擇 Toolchain Default 便可。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/android-dev-ndk-cpp-project-notes/img2.png" alt="選擇 C++ 版本"></p>
+<h2 id="項目-app-模塊-build-gradle"><a href="#項目-app-模塊-build-gradle" class="headerlink" title="項目 app 模塊 build.gradle"></a>項目 <code>app</code> 模塊 <code>build.gradle</code></h2><p>在 <code>app</code> 模塊的 <code>build.gradle</code> 內的 <code>android</code> 區塊多定義了使用 C++ 函式庫的配置：</p>
+<pre class="line-numbers language-gradle" data-language="gradle"><code class="language-gradle">externalNativeBuild &#123;
+    cmake &#123;
+        path file(&#39;src&#x2F;main&#x2F;cpp&#x2F;CMakeLists.txt&#39;)
+        version &#39;3.22.1&#39;
+    &#125;
+&#125;</code></pre>
+
+<h2 id="項目樹狀結構變更"><a href="#項目樹狀結構變更" class="headerlink" title="項目樹狀結構變更"></a>項目樹狀結構變更</h2><p>因為這是一個 C++ Native 項目，所以它會較一般的 Android 項目多附加了一些預設元素，如果你沒有 C++ Native 模板或 Android Studio，可考慮以下樹狀結構變更。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/android-dev-ndk-cpp-project-notes/img3.png" alt="樹狀結構變更"></p>
+<p>在 app 目錄會多新增了一個 <code>cpp</code> 資料夾，顧名思義，這個資料夾是用來管理及編寫 C++ 語言。</p>
+<h3 id="CMake-建構指令碼"><a href="#CMake-建構指令碼" class="headerlink" title="CMake 建構指令碼"></a>CMake 建構指令碼</h3><p>CMake 建構指令碼是一個純文字檔案，檔案名必須為 <code>CMakeLists.txt</code>。就是負責為 C 或 C++ 程式定義要用的函式庫，相當於 Java 的 <code>build.gradle</code>。</p>
+<p>根據這個模板，預設的 <code>CMakeLists.txt</code> 內容是這樣的：</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"># For more information about using CMake with Android Studio, read the
+# documentation: https:&#x2F;&#x2F;d.android.com&#x2F;studio&#x2F;projects&#x2F;add-native-code.html.
+# For more examples on how to use CMake, see https:&#x2F;&#x2F;github.com&#x2F;android&#x2F;ndk-samples.
+
+# Sets the minimum CMake version required for this project.
+cmake_minimum_required(VERSION 3.22.1)
+
+# Declares the project name. The project name can be accessed via $&#123; PROJECT_NAME&#125;,
+# Since this is the top level CMakeLists.txt, the project name is also accessible
+# with $&#123;CMAKE_PROJECT_NAME&#125; (both CMake variables are in-sync within the top level
+# build script scope).
+project(&quot;cppapptest&quot;)
+
+# Creates and names a library, sets it as either STATIC
+# or SHARED, and provides the relative paths to its source code.
+# You can define multiple libraries, and CMake builds them for you.
+# Gradle automatically packages shared libraries with your APK.
+#
+# In this top level CMakeLists.txt, $&#123;CMAKE_PROJECT_NAME&#125; is used to define
+# the target library name; in the sub-module&#39;s CMakeLists.txt, $&#123;PROJECT_NAME&#125;
+# is preferred for the same purpose.
+#
+# In order to load a library into your app from Java&#x2F;Kotlin, you must call
+# System.loadLibrary() and pass the name of the library defined here;
+# for GameActivity&#x2F;NativeActivity derived applications, the same library name must be
+# used in the AndroidManifest.xml file.
+add_library($&#123;CMAKE_PROJECT_NAME&#125; SHARED
+        # List C&#x2F;C++ source files with relative paths to this CMakeLists.txt.
+        native-lib.cpp)
+
+# Specifies libraries CMake should link to your target library. You
+# can link libraries from various origins, such as libraries defined in this
+# build script, prebuilt third-party libraries, or Android system libraries.
+target_link_libraries($&#123;CMAKE_PROJECT_NAME&#125;
+        # List libraries link to the target library
+        android
+        log)</code></pre>
+
+<h3 id="Java-與-C-鏈結產生"><a href="#Java-與-C-鏈結產生" class="headerlink" title="Java 與 C++ 鏈結產生"></a>Java 與 C++ 鏈結產生</h3><p>這個模板預設提供了一個 <code>native-lib.cpp</code> 檔案。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">#include &lt;jni.h&gt;
+#include &lt;string&gt;
+
+extern &quot;C&quot; JNIEXPORT jstring JNICALL
+Java_com_bluewhaleyt_cppapptest_MainActivity_stringFromJNI(
+        JNIEnv* env,
+        jobject &#x2F;* this *&#x2F;) &#123;
+    std::string hello &#x3D; &quot;Hello from C++&quot;;
+    return env-&gt;NewStringUTF(hello.c_str());
+&#125;</code></pre>
+
+<p>而在 <code>MainActivity.java</code> 多新增了一個載入 <code>native-lib</code> C++ 本機函式庫的程式碼，而及一個 <code>native</code> 關鍵字而成的 C++ 調用函數：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">static &#123;
+    System.loadLibrary(&quot;cppapptest&quot;);
+&#125;
+
+public native String stringFromJNI();</code></pre>
+
+<hr>
+<h1 id="Java-本機介面-JNI"><a href="#Java-本機介面-JNI" class="headerlink" title="Java 本機介面 (JNI)"></a>Java 本機介面 (JNI)</h1><p>JNI 是一個編程框架，透過 Java 虛擬機 (JVM) 調用函式庫，或其他本機程序，本機程序一般使用 C、C++ 或匯編語言 (Assembly) 編寫，從而被編譯為爾件及系統操作的程序。</p>
+<p>在以上模板，你可以看到，定義一個 JNI 方法，需要這麼長的程式碼：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">extern &quot;C&quot; JNIEXPORT jstring JNICALL
+Java_ClassName_functionName(
+    JNIEnv* env,
+    jobject &#x2F;* this *&#x2F;
+) &#123; ... &#125;</code></pre>
+
+<div class="note info simple"><p>在這個範例中，<code>ClassName</code> 是項目的 Java <code>MainActivity</code> 類別 <code>com_bluewhaleyt_cppapptest_MainActivity</code></p>
+</div>
+
+<p>而在 Java 程式調用 C++ 函數 <code>functionName()</code>，就要另外定義一個附有 <code>native</code> 關鍵字的相應函數：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public native String functionName();</code></pre>
+
+<p>特別要說說 C++ 程式碼：</p>
+<ul>
+<li><code>extern &quot;C&quot;</code>: 是一個限制使用 C 語言作為命名規則，即該函數將會採用 C 語言進行定義。</li>
+<li><code>JNIEXPORT</code> 及 <code>JNICALL</code>: 是定義 JNI 函數的修飾詞。</li>
+<li><code>jstring</code>: 是指明函數傳回類型是 Java 的 <code>String</code> 型別</li>
+<li><code>JNIEnv</code>: 是一個指向 JNI 環境的指標，提供了在本地程式碼中調用 Java 方法、訪問 Java 對象等操作的方法。</li>
+<li><code>jobject</code>: 是一個代表 Java 對象的類型。它可以是任何 Java 對象的參考，並且可以在本地程式碼中用於訪問該對象的屬性和方法。</li>
+</ul>
+<div class="note info simple"><p>基本上這個 JNI 定義方法不用手動敲的，可以直接用 Android Studio 的自動完成方案：</p>
+<p>只要在 Java 定義一個 <code>native</code> 方法：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/android-dev-ndk-cpp-project-notes/img4.png" alt="C++ 自動完成方案"></p>
+<p>然後就會在 C++ 檔案生成了程式碼：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">extern &quot;C&quot;
+JNIEXPORT void JNICALL
+Java_com_bluewhaleyt_cppapptest_MainActivity_myTestFunc(JNIEnv *env, jobject thiz) &#123;
+    &#x2F;&#x2F; TODO: implement myTestFunc()
+&#125;</code></pre>
+
+<p>所以你大可以不用學會怎樣寫 JNI 方法，只要理解便可。</p>
+</div>
+
+<hr>
+<h1 id="動態鏈接庫-so"><a href="#動態鏈接庫-so" class="headerlink" title="動態鏈接庫 (.so)"></a>動態鏈接庫 (<code>.so</code>)</h1><p>把編譯並匯出後的 <code>.apk</code> 檔案修改為 <code>.zip</code> 檔案解壓縮，開啟 lib 資料夾就可以看到 <code>.so</code> 檔案。</p>
+<p>Android Studio 的 C++ Native 模板預設支援及提供以下 NDK 架構:</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/android-dev-ndk-cpp-project-notes/img5.png" alt="NDK .so"></p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/personal-icon.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/personal-icon.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">BlueWhaleYT</div><div class="post-copyright__author_desc">荒誕的極樂世界</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://bluewhaleyt.github.io/post/android-dev-ndk-cpp-project-notes.html">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://bluewhaleyt.github.io/post/android-dev-ndk-cpp-project-notes.html')">Android | NDK 及 C++ Native 程式開發筆記</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://bluewhaleyt.github.io/post/android-dev-ndk-cpp-project-notes.html"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="rm.copyPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://bluewhaleyt.github.io" target="_blank">🐳 BlueWhaleYT</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/Android/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Android<span class="tagsPageCount">10</span></a><a class="post-meta__box__tags" href="/tags/Java/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Java<span class="tagsPageCount">4</span></a><a class="post-meta__box__tags" href="/tags/C/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>C++<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/NDK/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>NDK<span class="tagsPageCount">1</span></a></div></div></div></div></div><div class="aside-content" id="aside-content"><div id="google_translate_element"></div><script type="text/javascript">function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'zh-TW', includedLanguages: 'ja,ko,en,zh-TW,zh-CN'}, 'google_translate_element');
+}</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/personal-icon.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description">歡迎來到「BlueWhaleYT 個人網誌」。</div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">BlueWhaleYT</h1><div class="author-info__desc">荒誕的極樂世界</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/BlueWhaleYT" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content"> 設備: MacBook Pro Apple M2 <br> 常用軟件: VSCode / Fleet / Android Studio </div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E5%BB%BA-C-Native-%E9%A0%85%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">初建 C++ Native 項目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A0%85%E7%9B%AE-app-%E6%A8%A1%E5%A1%8A-build-gradle"><span class="toc-number">1.1.</span> <span class="toc-text">項目 app 模塊 build.gradle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A0%85%E7%9B%AE%E6%A8%B9%E7%8B%80%E7%B5%90%E6%A7%8B%E8%AE%8A%E6%9B%B4"><span class="toc-number">1.2.</span> <span class="toc-text">項目樹狀結構變更</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CMake-%E5%BB%BA%E6%A7%8B%E6%8C%87%E4%BB%A4%E7%A2%BC"><span class="toc-number">1.2.1.</span> <span class="toc-text">CMake 建構指令碼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E8%88%87-C-%E9%8F%88%E7%B5%90%E7%94%A2%E7%94%9F"><span class="toc-number">1.2.2.</span> <span class="toc-text">Java 與 C++ 鏈結產生</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E6%9C%AC%E6%A9%9F%E4%BB%8B%E9%9D%A2-JNI"><span class="toc-number">2.</span> <span class="toc-text">Java 本機介面 (JNI)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8B%95%E6%85%8B%E9%8F%88%E6%8E%A5%E5%BA%AB-so"><span class="toc-number">3.</span> <span class="toc-text">動態鏈接庫 (.so)</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/jetpack-compose-ui-state-sealed-class-notes.html" title="Jetpack Compose | 有效管理 UI 介面的狀態"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/gCynhNb.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="Jetpack Compose | 有效管理 UI 介面的狀態"/></a><div class="content"><a class="title" href="/post/jetpack-compose-ui-state-sealed-class-notes.html" title="Jetpack Compose | 有效管理 UI 介面的狀態">Jetpack Compose | 有效管理 UI 介面的狀態</a><time datetime="2024-01-01T03:52:00.000Z" title="發表於 2024 年 01 月 01 日 11 時 52 分 00 秒">2024 年 01 月 01 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/android-dev-plugin-system-implementation-notes.html" title="Jetpack Compose | APK 插件化筆記"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/DaAqGKv.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="Jetpack Compose | APK 插件化筆記"/></a><div class="content"><a class="title" href="/post/android-dev-plugin-system-implementation-notes.html" title="Jetpack Compose | APK 插件化筆記">Jetpack Compose | APK 插件化筆記</a><time datetime="2023-12-29T02:10:02.000Z" title="發表於 2023 年 12 月 29 日 10 時 10 分 02 秒">2023 年 12 月 29 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/jetpack-compose-dev-animation-in-compose.html" title="Jetpack Compose | 多樣化的動畫實現方式"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/gFiWnNk.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="Jetpack Compose | 多樣化的動畫實現方式"/></a><div class="content"><a class="title" href="/post/jetpack-compose-dev-animation-in-compose.html" title="Jetpack Compose | 多樣化的動畫實現方式">Jetpack Compose | 多樣化的動畫實現方式</a><time datetime="2023-12-20T02:47:32.000Z" title="發表於 2023 年 12 月 20 日 10 時 47 分 32 秒">2023 年 12 月 20 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/android-dev-keystore-and-release-mode.html" title="Android | 建立密鑰庫並以發佈模式運行程序"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/AVVYOYF.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="Android | 建立密鑰庫並以發佈模式運行程序"/></a><div class="content"><a class="title" href="/post/android-dev-keystore-and-release-mode.html" title="Android | 建立密鑰庫並以發佈模式運行程序">Android | 建立密鑰庫並以發佈模式運行程序</a><time datetime="2023-12-08T06:18:35.000Z" title="發表於 2023 年 12 月 08 日 14 時 18 分 35 秒">2023 年 12 月 08 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/jetpack-compose-dev-custom-theme-implementation-notes.html" title="Jetpack Compose | 客製化主題實作筆記"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/NETPgOw.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="Jetpack Compose | 客製化主題實作筆記"/></a><div class="content"><a class="title" href="/post/jetpack-compose-dev-custom-theme-implementation-notes.html" title="Jetpack Compose | 客製化主題實作筆記">Jetpack Compose | 客製化主題實作筆記</a><time datetime="2023-10-14T13:26:42.000Z" title="發表於 2023 年 10 月 14 日 21 時 26 分 42 秒">2023 年 10 月 14 日</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2024 By <a class="footer-bar-link" href="/" title="BlueWhaleYT" target="_blank">BlueWhaleYT</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" href="/null"></a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/" title="tag"><div class="headline">標籤</div><div class="length-num">6</div></a><a href="/categories/" title="category"><div class="headline">分類</div><div class="length-num">4</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="顯示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>顯示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 彙整頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分類頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 標籤頁</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Android/" style="font-size: 0.88rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Android<sup>10</sup></a><a href="/tags/C/" style="font-size: 0.88rem;">C++<sup>1</sup></a><a href="/tags/Java/" style="font-size: 0.88rem;">Java<sup>4</sup></a><a href="/tags/Kotlin/" style="font-size: 0.88rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Kotlin<sup>8</sup></a><a href="/tags/NDK/" style="font-size: 0.88rem;">NDK<sup>1</sup></a><a href="/tags/YAML/" style="font-size: 0.88rem;">YAML<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="簡繁轉換">繁</button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到頂部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><span id="loading-status"></span><button class="search-close-button"><i class="anzhiyufont anzhiyu-icon-xmark"></i></button></nav><div class="is-center" id="loading-database"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-pulse-icon"></i><span>  資料庫載入中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜尋文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.4/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script async src="/anzhiyu/random.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script src="https://cdn.cbd.int/prismjs@1.29.0/prism.js"></script><script src="https://cdn.cbd.int/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script><script src="https://cdn.cbd.int/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script src="/js/custom.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div><!-- hexo injector body_end start --><script src="https://unpkg.com/kotlin-playground@1" data-server data-version></script>
+<script>
+
+if(typeof ktpgOptions !== 'undefined'){
+    KotlinPlayground('.kotlin-code',ktpgOptions)
+}else{
+    KotlinPlayground('.kotlin-code')
+}
+window.addEventListener('pjax:complete', event => {
+    if(typeof ktpgOptions !== 'undefined'){
+        KotlinPlayground('.kotlin-code',ktpgOptions)
+    }else{
+        KotlinPlayground('.kotlin-code')
+    }
+});
+</script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>

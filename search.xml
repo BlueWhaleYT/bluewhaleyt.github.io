@@ -179,6 +179,146 @@ storePassword RELEASE_STORE_PASSWORD</code></pre></div>
       </tags>
   </entry>
   <entry>
+    <title>Android | NDK 及 C++ Native 程式開發筆記</title>
+    <url>/post/android-dev-ndk-cpp-project-notes.html</url>
+    <content><![CDATA[<p>C++ 是一種中階程式語言，主要用於遊戲和視覺開發。它也是眾所周知的難以理解的程式語法之一。對於初學者來說，C++ 可以這樣開始：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">#include &lt;iostream&gt;
+
+int main(int argc, char * argv[]) &#123;
+    std::cout &lt;&lt; &quot;Hello World&quot; &lt;&lt; std::endl;
+    return 0;
+&#125;</code></pre>
+
+<p>這種語言與 Android 開發密切相關，因為大多數手機遊戲都是用 C++ 進行編寫和開發的。作為開發 Android 程式的我們，也可以使用 Android Studio 來寫 C++ Native 程式，就像跨領域使用 Java 和 C++ 一樣。</p>
+<hr>
+<h1 id="初建-C-Native-項目"><a href="#初建-C-Native-項目" class="headerlink" title="初建 C++ Native 項目"></a>初建 C++ Native 項目</h1><p>基本上，如果你是用 Android Studio，可以使用 C++ Native 項目模板建立 C++ Native 程式。</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img1.png" alt="C++ 項目模板"></p>
+<p>這裏它會要你選擇使用什麼 C++ 版本，通常選擇 Toolchain Default 便可。</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img2.png" alt="選擇 C++ 版本"></p>
+<h2 id="項目-app-模塊-build-gradle"><a href="#項目-app-模塊-build-gradle" class="headerlink" title="項目 app 模塊 build.gradle"></a>項目 <code>app</code> 模塊 <code>build.gradle</code></h2><p>在 <code>app</code> 模塊的 <code>build.gradle</code> 內的 <code>android</code> 區塊多定義了使用 C++ 函式庫的配置：</p>
+<pre class="line-numbers language-gradle" data-language="gradle"><code class="language-gradle">externalNativeBuild &#123;
+    cmake &#123;
+        path file(&#39;src&#x2F;main&#x2F;cpp&#x2F;CMakeLists.txt&#39;)
+        version &#39;3.22.1&#39;
+    &#125;
+&#125;</code></pre>
+
+<h2 id="項目樹狀結構變更"><a href="#項目樹狀結構變更" class="headerlink" title="項目樹狀結構變更"></a>項目樹狀結構變更</h2><p>因為這是一個 C++ Native 項目，所以它會較一般的 Android 項目多附加了一些預設元素，如果你沒有 C++ Native 模板或 Android Studio，可考慮以下樹狀結構變更。</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img3.png" alt="樹狀結構變更"></p>
+<p>在 app 目錄會多新增了一個 <code>cpp</code> 資料夾，顧名思義，這個資料夾是用來管理及編寫 C++ 語言。</p>
+<h3 id="CMake-建構指令碼"><a href="#CMake-建構指令碼" class="headerlink" title="CMake 建構指令碼"></a>CMake 建構指令碼</h3><p>CMake 建構指令碼是一個純文字檔案，檔案名必須為 <code>CMakeLists.txt</code>。就是負責為 C 或 C++ 程式定義要用的函式庫，相當於 Java 的 <code>build.gradle</code>。</p>
+<p>根據這個模板，預設的 <code>CMakeLists.txt</code> 內容是這樣的：</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"># For more information about using CMake with Android Studio, read the
+# documentation: https:&#x2F;&#x2F;d.android.com&#x2F;studio&#x2F;projects&#x2F;add-native-code.html.
+# For more examples on how to use CMake, see https:&#x2F;&#x2F;github.com&#x2F;android&#x2F;ndk-samples.
+
+# Sets the minimum CMake version required for this project.
+cmake_minimum_required(VERSION 3.22.1)
+
+# Declares the project name. The project name can be accessed via $&#123; PROJECT_NAME&#125;,
+# Since this is the top level CMakeLists.txt, the project name is also accessible
+# with $&#123;CMAKE_PROJECT_NAME&#125; (both CMake variables are in-sync within the top level
+# build script scope).
+project(&quot;cppapptest&quot;)
+
+# Creates and names a library, sets it as either STATIC
+# or SHARED, and provides the relative paths to its source code.
+# You can define multiple libraries, and CMake builds them for you.
+# Gradle automatically packages shared libraries with your APK.
+#
+# In this top level CMakeLists.txt, $&#123;CMAKE_PROJECT_NAME&#125; is used to define
+# the target library name; in the sub-module&#39;s CMakeLists.txt, $&#123;PROJECT_NAME&#125;
+# is preferred for the same purpose.
+#
+# In order to load a library into your app from Java&#x2F;Kotlin, you must call
+# System.loadLibrary() and pass the name of the library defined here;
+# for GameActivity&#x2F;NativeActivity derived applications, the same library name must be
+# used in the AndroidManifest.xml file.
+add_library($&#123;CMAKE_PROJECT_NAME&#125; SHARED
+        # List C&#x2F;C++ source files with relative paths to this CMakeLists.txt.
+        native-lib.cpp)
+
+# Specifies libraries CMake should link to your target library. You
+# can link libraries from various origins, such as libraries defined in this
+# build script, prebuilt third-party libraries, or Android system libraries.
+target_link_libraries($&#123;CMAKE_PROJECT_NAME&#125;
+        # List libraries link to the target library
+        android
+        log)</code></pre>
+
+<h3 id="Java-與-C-鏈結產生"><a href="#Java-與-C-鏈結產生" class="headerlink" title="Java 與 C++ 鏈結產生"></a>Java 與 C++ 鏈結產生</h3><p>這個模板預設提供了一個 <code>native-lib.cpp</code> 檔案。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">#include &lt;jni.h&gt;
+#include &lt;string&gt;
+
+extern &quot;C&quot; JNIEXPORT jstring JNICALL
+Java_com_bluewhaleyt_cppapptest_MainActivity_stringFromJNI(
+        JNIEnv* env,
+        jobject &#x2F;* this *&#x2F;) &#123;
+    std::string hello &#x3D; &quot;Hello from C++&quot;;
+    return env-&gt;NewStringUTF(hello.c_str());
+&#125;</code></pre>
+
+<p>而在 <code>MainActivity.java</code> 多新增了一個載入 <code>native-lib</code> C++ 本機函式庫的程式碼，而及一個 <code>native</code> 關鍵字而成的 C++ 調用函數：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">static &#123;
+    System.loadLibrary(&quot;cppapptest&quot;);
+&#125;
+
+public native String stringFromJNI();</code></pre>
+
+<hr>
+<h1 id="Java-本機介面-JNI"><a href="#Java-本機介面-JNI" class="headerlink" title="Java 本機介面 (JNI)"></a>Java 本機介面 (JNI)</h1><p>JNI 是一個編程框架，透過 Java 虛擬機 (JVM) 調用函式庫，或其他本機程序，本機程序一般使用 C、C++ 或匯編語言 (Assembly) 編寫，從而被編譯為爾件及系統操作的程序。</p>
+<p>在以上模板，你可以看到，定義一個 JNI 方法，需要這麼長的程式碼：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">extern &quot;C&quot; JNIEXPORT jstring JNICALL
+Java_ClassName_functionName(
+    JNIEnv* env,
+    jobject &#x2F;* this *&#x2F;
+) &#123; ... &#125;</code></pre>
+
+<div class="note info simple"><p>在這個範例中，<code>ClassName</code> 是項目的 Java <code>MainActivity</code> 類別 <code>com_bluewhaleyt_cppapptest_MainActivity</code></p>
+</div>
+
+<p>而在 Java 程式調用 C++ 函數 <code>functionName()</code>，就要另外定義一個附有 <code>native</code> 關鍵字的相應函數：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public native String functionName();</code></pre>
+
+<p>特別要說說 C++ 程式碼：</p>
+<ul>
+<li><code>extern &quot;C&quot;</code>: 是一個限制使用 C 語言作為命名規則，即該函數將會採用 C 語言進行定義。</li>
+<li><code>JNIEXPORT</code> 及 <code>JNICALL</code>: 是定義 JNI 函數的修飾詞。</li>
+<li><code>jstring</code>: 是指明函數傳回類型是 Java 的 <code>String</code> 型別</li>
+<li><code>JNIEnv</code>: 是一個指向 JNI 環境的指標，提供了在本地程式碼中調用 Java 方法、訪問 Java 對象等操作的方法。</li>
+<li><code>jobject</code>: 是一個代表 Java 對象的類型。它可以是任何 Java 對象的參考，並且可以在本地程式碼中用於訪問該對象的屬性和方法。</li>
+</ul>
+<div class="note info simple"><p>基本上這個 JNI 定義方法不用手動敲的，可以直接用 Android Studio 的自動完成方案：</p>
+<p>只要在 Java 定義一個 <code>native</code> 方法：</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img4.png" alt="C++ 自動完成方案"></p>
+<p>然後就會在 C++ 檔案生成了程式碼：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">extern &quot;C&quot;
+JNIEXPORT void JNICALL
+Java_com_bluewhaleyt_cppapptest_MainActivity_myTestFunc(JNIEnv *env, jobject thiz) &#123;
+    &#x2F;&#x2F; TODO: implement myTestFunc()
+&#125;</code></pre>
+
+<p>所以你大可以不用學會怎樣寫 JNI 方法，只要理解便可。</p>
+</div>
+
+<hr>
+<h1 id="動態鏈接庫-so"><a href="#動態鏈接庫-so" class="headerlink" title="動態鏈接庫 (.so)"></a>動態鏈接庫 (<code>.so</code>)</h1><p>把編譯並匯出後的 <code>.apk</code> 檔案修改為 <code>.zip</code> 檔案解壓縮，開啟 lib 資料夾就可以看到 <code>.so</code> 檔案。</p>
+<p>Android Studio 的 C++ Native 模板預設支援及提供以下 NDK 架構:</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img5.png" alt="NDK .so"></p>
+]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>Android 開發</category>
+        <category>學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Java</tag>
+        <tag>C++</tag>
+        <tag>NDK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Jetpack Compose | APK 插件化筆記</title>
     <url>/post/android-dev-plugin-system-implementation-notes.html</url>
     <content><![CDATA[<p>在以往使用 XML 架構的插件化方式，我們需要依賴 <code>AndroidManifest.xml</code> 多個附加插件的 <code>Activity</code>，再透過反射 (Reflection) API 把插件提供的 <code>Activity</code> 開放予主項目程式導入，使得 Android 碎片化。</p>
@@ -503,58 +643,6 @@ fun MainScreen() &#123;
         <category>Android 開發</category>
         <category>學習筆記</category>
         <category>Jetpack Compose</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Kotlin</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git 版本控制及操作 - JGit 筆記</title>
-    <url>/post/dev-jgit-notes.html</url>
-    <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
-<p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
-<h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
-<li>Kotlin 開發者亦可使用 <a href="https://github.com/sya-ri/KGit">KGit</a> 函式庫，該函式庫以 JGit 為基礎，但保留 Kotlin 語法的程式編寫方式</li>
-<li>Android 開發在使用 JGit 時，需要注意以下幾點：</li>
-</ol>
-<ul>
-<li>確保 <code>AndroidManifest.xml</code> 聲明權限許可，以及<strong>允許所有檔案權限</strong> (All File Access)，否則報錯 Operation Not Permitted<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;uses-permission android:name&#x3D;&quot;android.permission.READ_EXTERNAL_STORAGE&quot; &#x2F;&gt;
-&lt;uses-permission android:name&#x3D;&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
-&lt;uses-permission android:name&#x3D;&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
-&lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot;&#x2F;&gt;
-&lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_NETWORK_STATE&quot; &#x2F;&gt;</code></pre></li>
-<li>進行指令操作，如克隆遠端存儲庫至本機，需要使用<strong>異步執行緒或 <code>Executor</code> 等相關處理方式</strong>，(Kotlin 則可使用協程)，否則會在執行指令時報錯 <code>NetworkOnMainThreadException</code><pre class="line-numbers language-java" data-language="java"><code class="language-java">private final ExecutorService executor &#x3D; Executors.newSingleThreadExecutor();
-private final Handler handler &#x3D; new Handler(Looper.getMainLooper());
-
-executor.execute(() -&gt; &#123;
-    &#x2F;&#x2F; ...
-&#125;)</code></pre></li>
-</ul>
-<hr>
-<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><p>匯入依附元件至 <code>build.gradle</code></p>
-<pre class="line-numbers language-gradle" data-language="gradle"><code class="language-gradle">implementation &#39;org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r&#39;</code></pre>
-
-<h2 id="產生本機存儲庫及-git-檔案"><a href="#產生本機存儲庫及-git-檔案" class="headerlink" title="產生本機存儲庫及 .git 檔案"></a>產生本機存儲庫及 <code>.git</code> 檔案</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">try &#123;
-    this.localRepo &#x3D; new FileRepository(localPath + &quot;&#x2F;.git&quot;);
-&#125; catch (IOException e) &#123;
-    e.printStackTrace();
-&#125;
-
-git &#x3D; new Git(localRepo);</code></pre>
-
-<hr>
-<h1 id="版本控制及操作"><a href="#版本控制及操作" class="headerlink" title="版本控制及操作"></a>版本控制及操作</h1><h2 id="克隆遠端存儲庫至本機"><a href="#克隆遠端存儲庫至本機" class="headerlink" title="克隆遠端存儲庫至本機"></a>克隆遠端存儲庫至本機</h2><div class="note warning simple"><p>要克隆的目錄或資料夾<strong>需要被建立及清空</strong>才能順利克隆遠端存儲庫，不清空則報 Directory XXX is not empty</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">File dir &#x3D; new File(localPath)
-if (!dir.exists()) folder.mkdirs();</code></pre></div>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">Git.cloneRepository()
-    .setURI(remotePath)
-    .setDirectory(new File(localPath))
-    .call();</code></pre>]]></content>
-      <categories>
-        <category>實驗內容</category>
       </categories>
       <tags>
         <tag>Android</tag>
@@ -888,6 +976,58 @@ fun CodeEditor(
         <category>實驗內容</category>
         <category>Android 開發</category>
         <category>Jetpack Compose</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Kotlin</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git 版本控制及操作 - JGit 筆記</title>
+    <url>/post/dev-jgit-notes.html</url>
+    <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
+<p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
+<h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
+<li>Kotlin 開發者亦可使用 <a href="https://github.com/sya-ri/KGit">KGit</a> 函式庫，該函式庫以 JGit 為基礎，但保留 Kotlin 語法的程式編寫方式</li>
+<li>Android 開發在使用 JGit 時，需要注意以下幾點：</li>
+</ol>
+<ul>
+<li>確保 <code>AndroidManifest.xml</code> 聲明權限許可，以及<strong>允許所有檔案權限</strong> (All File Access)，否則報錯 Operation Not Permitted<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;uses-permission android:name&#x3D;&quot;android.permission.READ_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot; &#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot;&#x2F;&gt;
+&lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_NETWORK_STATE&quot; &#x2F;&gt;</code></pre></li>
+<li>進行指令操作，如克隆遠端存儲庫至本機，需要使用<strong>異步執行緒或 <code>Executor</code> 等相關處理方式</strong>，(Kotlin 則可使用協程)，否則會在執行指令時報錯 <code>NetworkOnMainThreadException</code><pre class="line-numbers language-java" data-language="java"><code class="language-java">private final ExecutorService executor &#x3D; Executors.newSingleThreadExecutor();
+private final Handler handler &#x3D; new Handler(Looper.getMainLooper());
+
+executor.execute(() -&gt; &#123;
+    &#x2F;&#x2F; ...
+&#125;)</code></pre></li>
+</ul>
+<hr>
+<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><p>匯入依附元件至 <code>build.gradle</code></p>
+<pre class="line-numbers language-gradle" data-language="gradle"><code class="language-gradle">implementation &#39;org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r&#39;</code></pre>
+
+<h2 id="產生本機存儲庫及-git-檔案"><a href="#產生本機存儲庫及-git-檔案" class="headerlink" title="產生本機存儲庫及 .git 檔案"></a>產生本機存儲庫及 <code>.git</code> 檔案</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">try &#123;
+    this.localRepo &#x3D; new FileRepository(localPath + &quot;&#x2F;.git&quot;);
+&#125; catch (IOException e) &#123;
+    e.printStackTrace();
+&#125;
+
+git &#x3D; new Git(localRepo);</code></pre>
+
+<hr>
+<h1 id="版本控制及操作"><a href="#版本控制及操作" class="headerlink" title="版本控制及操作"></a>版本控制及操作</h1><h2 id="克隆遠端存儲庫至本機"><a href="#克隆遠端存儲庫至本機" class="headerlink" title="克隆遠端存儲庫至本機"></a>克隆遠端存儲庫至本機</h2><div class="note warning simple"><p>要克隆的目錄或資料夾<strong>需要被建立及清空</strong>才能順利克隆遠端存儲庫，不清空則報 Directory XXX is not empty</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">File dir &#x3D; new File(localPath)
+if (!dir.exists()) folder.mkdirs();</code></pre></div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">Git.cloneRepository()
+    .setURI(remotePath)
+    .setDirectory(new File(localPath))
+    .call();</code></pre>]]></content>
+      <categories>
+        <category>實驗內容</category>
       </categories>
       <tags>
         <tag>Android</tag>
