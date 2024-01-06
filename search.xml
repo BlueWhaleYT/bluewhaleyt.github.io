@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Android | CICD 工作流程及報告測試</title>
-    <url>/post/android-dev-android-ci-cd.html</url>
+    <url>/blog/post/android-dev-android-ci-cd.html</url>
     <content><![CDATA[<p>編程及開發，有一個尤關重要的工序就是進行實作工作流程，例如把程式碼的測試報告交託到 Github 工作流程，供用戶或其他開發者使用。</p>
 <div class="note warning simple"><p>工作流程應用及用途廣泛，不限於於 Android 程式開發的範疇，<strong>但不同的範疇如網頁編寫、軟件開發都有不同的工作流程的配置</strong>。</p>
 </div>
@@ -17,7 +17,7 @@
 <hr>
 <h1 id="建立一個工作流程執行檔"><a href="#建立一個工作流程執行檔" class="headerlink" title="建立一個工作流程執行檔"></a>建立一個工作流程執行檔</h1><p>有兩種方法</p>
 <ol>
-<li>利用 Github 平台，你可以按 setup a workflow yourself 由零開始建立，或者找到 Android CI 按 Configure 使用 Android 程式流程配置執行模版檔案<br><img src="/post/android-dev-android-ci-cd/img1.png" alt="使用 Github 建立流程執行檔"></li>
+<li>利用 Github 平台，你可以按 setup a workflow yourself 由零開始建立，或者找到 Android CI 按 Configure 使用 Android 程式流程配置執行模版檔案<br><img src="/blog/blog/post/android-dev-android-ci-cd/img1.png" alt="使用 Github 建立流程執行檔"></li>
 <li>直接在 IDE (整合開發環境) 軟件，如 Android Studio 建立，你可以在項目的根位置新增 <code>.github/workflows/android.yml</code>，例如 <code>android.yml</code>，或者任意檔案名稱，但是資料夾結構和名稱就要一樣。</li>
 </ol>
 <h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>工作流程有五大部分：</p>
@@ -54,7 +54,7 @@
     runs-on: ubuntu-latest</code></pre>
 
 <h4 id="定義步驟"><a href="#定義步驟" class="headerlink" title="定義步驟"></a>定義步驟</h4><p>接下來你可以使用 Github Workflow 編輯器旁邊的 Marketplace 提供的擬定步驟</p>
-<p><img src="/post/android-dev-android-ci-cd/img2.png" alt="Github Workflow 的 Marketplace"></p>
+<p><img src="/blog/blog/post/android-dev-android-ci-cd/img2.png" alt="Github Workflow 的 Marketplace"></p>
 <pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">jobs:
   build:
     runs-on: ubuntu-latest
@@ -92,7 +92,7 @@
   </entry>
   <entry>
     <title>Android | 建立密鑰庫並以發佈模式運行程序</title>
-    <url>/post/android-dev-keystore-and-release-mode.html</url>
+    <url>/blog/post/android-dev-keystore-and-release-mode.html</url>
     <content><![CDATA[<p>密鑰庫 (Keystore) 是一個<strong>存儲密鑰和證書的安全文件</strong>，Keystore 被用於對應用程式進行簽名，以確保應用程式的完整性和安全性。它包含了一個私鑰和與之相對應的公鑰。</p>
 <p>在開發階段，我們通常會使用調試密鑰庫 (Debug Keystore)，它是由 Android SDK 自動生成的，並且不需要我們主動管理。Debug Keystore 用於在開發期間對應用程式進行簽名，方便我們在<strong>測試和調試應用程式時使用</strong>。</p>
 <p>當我們要將應用程式發布到 Google Play 商店或其他渠道時，我們需要使用發佈密鑰庫 (Release Keystore)。Release Keystore 是<strong>由開發者自己生成的</strong>，並且需要妥善保管。它將用於對應用程式<strong>進行正式簽名</strong>，以確保應用程式的安全性和真實性。</p>
@@ -102,11 +102,11 @@
 <hr>
 <h1 id="構建及簽署應用程式"><a href="#構建及簽署應用程式" class="headerlink" title="構建及簽署應用程式"></a>構建及簽署應用程式</h1><p>要進行 <code>release</code> 版本，最重要的就是要範為應用程式簽署，在 Android Studio，上面選單列的 <code>Build</code> 找 <code>Generate Signed Bundle / APK</code></p>
 <p>它會問你選擇 AAB (Android App Bundle) 或是 APK，這裏選擇 APK</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img1.png" alt="img1"></p>
+<p><img src="/blog/blog/post/android-dev-keystore-and-release-mode/img1.png" alt="img1"></p>
 <p>如果你之前已經有建立了的 Keystore 就按 Choose existing… 不然就按 Create new</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img2.png" alt="img2"></p>
+<p><img src="/blog/blog/post/android-dev-keystore-and-release-mode/img2.png" alt="img2"></p>
 <h2 id="建立-Keystore"><a href="#建立-Keystore" class="headerlink" title="建立 Keystore"></a>建立 Keystore</h2><p>建立一個 Keystore 需要填妥表格，包括以下項目</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img3.png" alt="img3"></p>
+<p><img src="/blog/blog/post/android-dev-keystore-and-release-mode/img3.png" alt="img3"></p>
 <ul>
 <li><code>Key store path</code>: Keystore 檔案 (副檔名為 <code>.keystore</code>) 存放位置，通常如果是獨立只為獨有應用程式用的 Keystore，這個檔案路徑可以存放到專案的根目錄位置 e.g. <code>AndroidStudioProjects/MyApp/myapp_release.keystore</code></li>
 <li><code>Password</code>: 設置 Keystore 的密碼</li>
@@ -123,9 +123,9 @@
 </ul>
 <p>其餘的按需要就填。</p>
 <h2 id="完成-Keystore"><a href="#完成-Keystore" class="headerlink" title="完成 Keystore"></a>完成 Keystore</h2><p>例如完成好的 Keystore，再按 Next</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img4.png" alt="img4"></p>
+<p><img src="/blog/blog/post/android-dev-keystore-and-release-mode/img4.png" alt="img4"></p>
 <p>這裏會問 Keystore 應用到 <code>debug</code> 或是 <code>release</code>，選擇 <code>release</code>，按 Create</p>
-<p><img src="/post/android-dev-keystore-and-release-mode/img5.png" alt="img5"></p>
+<p><img src="/blog/blog/post/android-dev-keystore-and-release-mode/img5.png" alt="img5"></p>
 <hr>
 <h1 id="配置-release-構建代碼"><a href="#配置-release-構建代碼" class="headerlink" title="配置 release 構建代碼"></a>配置 <code>release</code> 構建代碼</h1><p>在 <code>app</code> 模塊的 <code>build.gradle.kts</code> 加入代碼：</p>
 <pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">buildTypes &#123;
@@ -167,7 +167,7 @@ storePassword RELEASE_STORE_PASSWORD</code></pre></div>
 <div class="note info simple"><p>一旦改 <code>app</code> 的 <code>Build Variant</code> (構建模式)，其他的模塊都會用該構建模式，即一併使用 <code>release</code> 模式。</p>
 </div>
 
-<p><img src="/post/android-dev-keystore-and-release-mode/img6.png" alt="img6"></p>
+<p><img src="/blog/blog/post/android-dev-keystore-and-release-mode/img6.png" alt="img6"></p>
 <p>現在 Run 程式就是用 <code>release</code> 模式了</p>
 ]]></content>
       <categories>
@@ -180,7 +180,7 @@ storePassword RELEASE_STORE_PASSWORD</code></pre></div>
   </entry>
   <entry>
     <title>Android | NDK 及 C++ Native 程式開發筆記</title>
-    <url>/post/android-dev-ndk-cpp-project-notes.html</url>
+    <url>/blog/post/android-dev-ndk-cpp-project-notes.html</url>
     <content><![CDATA[<p>C++ 是一種中階程式語言，主要用於遊戲和視覺開發。它也是眾所周知的難以理解的程式語法之一。對於初學者來說，C++ 可以這樣開始：</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -192,9 +192,9 @@ int main(int argc, char * argv[]) &#123;
 <p>這種語言與 Android 開發密切相關，因為大多數手機遊戲都是用 C++ 進行編寫和開發的。作為開發 Android 程式的我們，也可以使用 Android Studio 來寫 C++ Native 程式，就像跨領域使用 Java 和 C++ 一樣。</p>
 <hr>
 <h1 id="初建-C-Native-項目"><a href="#初建-C-Native-項目" class="headerlink" title="初建 C++ Native 項目"></a>初建 C++ Native 項目</h1><p>基本上，如果你是用 Android Studio，可以使用 C++ Native 項目模板建立 C++ Native 程式。</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img1.png" alt="C++ 項目模板"></p>
+<p><img src="/blog/blog/post/android-dev-ndk-cpp-project-notes/img1.png" alt="C++ 項目模板"></p>
 <p>這裏它會要你選擇使用什麼 C++ 版本，通常選擇 Toolchain Default 便可。</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img2.png" alt="選擇 C++ 版本"></p>
+<p><img src="/blog/blog/post/android-dev-ndk-cpp-project-notes/img2.png" alt="選擇 C++ 版本"></p>
 <h2 id="項目-app-模塊-build-gradle"><a href="#項目-app-模塊-build-gradle" class="headerlink" title="項目 app 模塊 build.gradle"></a>項目 <code>app</code> 模塊 <code>build.gradle</code></h2><p>在 <code>app</code> 模塊的 <code>build.gradle</code> 內的 <code>android</code> 區塊多定義了使用 C++ 函式庫的配置：</p>
 <pre class="line-numbers language-gradle" data-language="gradle"><code class="language-gradle">externalNativeBuild &#123;
     cmake &#123;
@@ -204,7 +204,7 @@ int main(int argc, char * argv[]) &#123;
 &#125;</code></pre>
 
 <h2 id="項目樹狀結構變更"><a href="#項目樹狀結構變更" class="headerlink" title="項目樹狀結構變更"></a>項目樹狀結構變更</h2><p>因為這是一個 C++ Native 項目，所以它會較一般的 Android 項目多附加了一些預設元素，如果你沒有 C++ Native 模板或 Android Studio，可考慮以下樹狀結構變更。</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img3.png" alt="樹狀結構變更"></p>
+<p><img src="/blog/blog/post/android-dev-ndk-cpp-project-notes/img3.png" alt="樹狀結構變更"></p>
 <p>在 app 目錄會多新增了一個 <code>cpp</code> 資料夾，顧名思義，這個資料夾是用來管理及編寫 C++ 語言。</p>
 <h3 id="CMake-建構指令碼"><a href="#CMake-建構指令碼" class="headerlink" title="CMake 建構指令碼"></a>CMake 建構指令碼</h3><p>CMake 建構指令碼是一個純文字檔案，檔案名必須為 <code>CMakeLists.txt</code>。就是負責為 C 或 C++ 程式定義要用的函式庫，相當於 Java 的 <code>build.gradle</code>。</p>
 <p>根據這個模板，預設的 <code>CMakeLists.txt</code> 內容是這樣的：</p>
@@ -290,7 +290,7 @@ Java_ClassName_functionName(
 </ul>
 <div class="note info simple"><p>基本上這個 JNI 定義方法不用手動敲的，可以直接用 Android Studio 的自動完成方案：</p>
 <p>只要在 Java 定義一個 <code>native</code> 方法：</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img4.png" alt="C++ 自動完成方案"></p>
+<p><img src="/blog/blog/post/android-dev-ndk-cpp-project-notes/img4.png" alt="C++ 自動完成方案"></p>
 <p>然後就會在 C++ 檔案生成了程式碼：</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">extern &quot;C&quot;
 JNIEXPORT void JNICALL
@@ -304,7 +304,7 @@ Java_com_bluewhaleyt_cppapptest_MainActivity_myTestFunc(JNIEnv *env, jobject thi
 <hr>
 <h1 id="動態鏈接庫-so"><a href="#動態鏈接庫-so" class="headerlink" title="動態鏈接庫 (.so)"></a>動態鏈接庫 (<code>.so</code>)</h1><p>把編譯並匯出後的 <code>.apk</code> 檔案修改為 <code>.zip</code> 檔案解壓縮，開啟 lib 資料夾就可以看到 <code>.so</code> 檔案。</p>
 <p>Android Studio 的 C++ Native 模板預設支援及提供以下 NDK 架構:</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img5.png" alt="NDK .so"></p>
+<p><img src="/blog/blog/post/android-dev-ndk-cpp-project-notes/img5.png" alt="NDK .so"></p>
 ]]></content>
       <categories>
         <category>實驗內容</category>
@@ -320,7 +320,7 @@ Java_com_bluewhaleyt_cppapptest_MainActivity_myTestFunc(JNIEnv *env, jobject thi
   </entry>
   <entry>
     <title>Jetpack Compose | APK 插件化筆記</title>
-    <url>/post/android-dev-plugin-system-implementation-notes.html</url>
+    <url>/blog/post/android-dev-plugin-system-implementation-notes.html</url>
     <content><![CDATA[<p>在以往使用 XML 架構的插件化方式，我們需要依賴 <code>AndroidManifest.xml</code> 多個附加插件的 <code>Activity</code>，再透過反射 (Reflection) API 把插件提供的 <code>Activity</code> 開放予主項目程式導入，使得 Android 碎片化。</p>
 <p>現在來到新型 Jetpack Compose 架構，因為 Compose 基本上要編寫的 UI 都是一個可組合項 (<code>Composable</code>)，所以事情變得簡單多了。</p>
 <div class="note info simple"><p>這個方法仍可應用於傳統的 XML 架構佈局。</p>
@@ -652,7 +652,7 @@ fun MainScreen() &#123;
   </entry>
   <entry>
     <title>Android | 多功能的 sora-editor 函式庫綜合使用筆記</title>
-    <url>/post/android-dev-sora-editor-library-notes.html</url>
+    <url>/blog/post/android-dev-sora-editor-library-notes.html</url>
     <content><![CDATA[<div class="note warning simple"><p>這篇筆記是純粹為個人而寫的筆記，因為 sora-editor 函式庫太多 API，然而目前為止還沒有正式的 API 文檔，所以唯有自己記下。如果內容有用，我會考慮加上英文翻譯，但我的英文很爛，謝謝。</p>
 </div>
 
@@ -985,7 +985,7 @@ fun CodeEditor(
   </entry>
   <entry>
     <title>Git 版本控制及操作 - JGit 筆記</title>
-    <url>/post/dev-jgit-notes.html</url>
+    <url>/blog/post/dev-jgit-notes.html</url>
     <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
 <p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
 <h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
@@ -1037,10 +1037,10 @@ if (!dir.exists()) folder.mkdirs();</code></pre></div>
   </entry>
   <entry>
     <title>Jetpack Compose | 多樣化的動畫實現方式</title>
-    <url>/post/jetpack-compose-dev-animation-in-compose.html</url>
+    <url>/blog/post/jetpack-compose-dev-animation-in-compose.html</url>
     <content><![CDATA[<p>Jetpack Compose 是一個新興的 UI 構建技術框架，除了著重於 UI 靜態方面的實現，都有支援到輕鬆使用動畫的一環。</p>
 <p>這個是大家初嘗 Jetpack Compose 時，想必會看過這個官方圖：</p>
-<p><img src="/post/jetpack-compose-dev-animation-in-compose/img1.gif" alt="official showcase gif"></p>
+<p><img src="/blog/blog/post/jetpack-compose-dev-animation-in-compose/img1.gif" alt="official showcase gif"></p>
 <p>你會看到，只要執行了 <code>Column</code> 的點擊事件，就可以有一個展開的動畫。這個只是其中一種動畫實現方式，接下來會說說更多其他不同處理動畫的方式。</p>
 <p>官方有一個建議，判斷用哪一種方式最為適合：</p>
 <ul>
@@ -1151,7 +1151,7 @@ Box(
 <td><img alt="with animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NoNGdieGN1dHN2engyZmZkZnFjbGwzbms2b3F4ZXpxZTFucWl6ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gx3PbwaTAnU8L2T90E/giphy.gif"></td>
 </tr>
 </tbody></table>
-<div class="note warning simple"><p><img src="/post/jetpack-compose-dev-animation-in-compose/img2.png" alt="label parameter warning"></p>
+<div class="note warning simple"><p><img src="/blog/blog/post/jetpack-compose-dev-animation-in-compose/img2.png" alt="label parameter warning"></p>
 <p>這裏 Android Studio 會警告你在使用 <code>animate*AsState</code> 或其他關於動畫範疇的情況下沒有用 <code>label</code> 參數，這個 <code>label</code> 參數純粹是在 IDE 的動畫製作時候，方便辨認的，如果不是特別重要，可選擇忽略。</p>
 </div>]]></content>
       <categories>
@@ -1165,7 +1165,7 @@ Box(
   </entry>
   <entry>
     <title>Jetpack Compose | 客製化主題實作筆記</title>
-    <url>/post/jetpack-compose-dev-custom-theme-implementation-notes.html</url>
+    <url>/blog/post/jetpack-compose-dev-custom-theme-implementation-notes.html</url>
     <content><![CDATA[<p>在編寫 Jetpack Compose 程式時，常常會使用到質感設計 2 或質感設計 3 的設計框架，作為應用程式的基本設計風格。這是因為質感設計 2 和質感設計 3 提供了許多簡潔明瞭的組件，官方建議在構建 Jetpack Compose 程式時，盡量使用這些框架進行開發。</p>
 <p>然而，一些知名的大型公司可能會選擇採用與質感設計不同的設計風格，來<strong>展現他們自家應用程式的獨特性</strong>。這也反映了應用程式的多樣性，避免出現與其他應用程式相似的情況。有些公司會<strong>在質感設計的框架基礎上進行改革</strong>，有些則會<strong>從頭開始自己撰寫設計框架</strong>。</p>
 <p>不可否認的是，官方為 Jetpack Compose 所撰寫的質感設計主題都是使用他們自家開發的 API。因此，我們可以<strong>參考原始的質感設計實現程式碼，來撰寫自己的設計主題</strong>。這樣我們就可以擁有自己定制的設計風格了。</p>
@@ -1179,8 +1179,8 @@ Box(
 </tr>
 </thead>
 <tbody><tr>
-<td><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img1.png" alt="Showcase = Light mode"></td>
-<td><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img2.png" alt="Showcase = Dark mode"></td>
+<td><img src="/blog/blog/post/jetpack-compose-dev-custom-theme-implementation-notes/img1.png" alt="Showcase = Light mode"></td>
+<td><img src="/blog/blog/post/jetpack-compose-dev-custom-theme-implementation-notes/img2.png" alt="Showcase = Dark mode"></td>
 </tr>
 </tbody></table>
 <p>以上是製成品，這篇筆記會記下有關自訂主題的實現方式。</p>
@@ -1240,7 +1240,7 @@ val White &#x3D; Color.White
 val Black &#x3D; Color.Black</code></pre>
 
 <div class="note info simple"><p>我是使用 <a href="https://colors.eva.design/">Eva Design System</a> 來生成以上的調色，為了較簡單，這裏只採用 <code>500</code> 和 <code>300</code> 色調碼，如果想要再完整的，基本上就是 <code>100</code> 至 <code>900</code> 全都使用。</p>
-<p><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img3.png" alt="Eva Design System"></p>
+<p><img src="/blog/blog/post/jetpack-compose-dev-custom-theme-implementation-notes/img3.png" alt="Eva Design System"></p>
 </div>
 
 <p>寫一個數據類定義要用的顏色指標，然後把顏色向分予不同的主題模式。</p>
@@ -1529,7 +1529,7 @@ fun ExtendedTheme(
   </entry>
   <entry>
     <title>Jetpack Compose | 導航的基本應用</title>
-    <url>/post/jetpack-compose-dev-navigation.html</url>
+    <url>/blog/post/jetpack-compose-dev-navigation.html</url>
     <content><![CDATA[<p>在編寫 Jetpack Compose 程式的我們，不再像以前使用 XML 的傳統架構方式來設計程式的不同介面，而是透過編寫多個可組合函式來實現介面的設計。然而，這樣一來就帶出了一個問題，既然在 Compose 中不再使用 <code>Activity</code>，也不能使用 <code>Intent</code> 來切換介面了，那要怎麼做呢？</p>
 <p>答案就是使用 Navigation。雖然 Navigation 在傳統的 XML 架構中也有使用，例如在 Fragment 中會用到 <code>NavController</code>，但在 Compose 中也存在並且非常有用。</p>
 <p>Navigation 的作用是<strong>持續追蹤應用程式畫面的可組合項返回堆疊</strong>以及各個畫面的狀態。簡單來說，它就是用來切換不同頁面的工具。使用 Navigation 可以輕鬆地定義和管理應用程式的畫面流程，讓我們能夠更方便地控制和切換介面。</p>
@@ -1703,7 +1703,7 @@ onClick &#x3D; &#123;
 <div class="note danger simple"><p>目前 <code>NavHost</code> 的過渡動畫特性 API 尚未穩定。</p>
 </div>
 
-<p><img src="/post/jetpack-compose-dev-navigation/img1.png" alt="NavHost default animation"></p>
+<p><img src="/blog/blog/post/jetpack-compose-dev-navigation/img1.png" alt="NavHost default animation"></p>
 <p>可見設置自訂的過渡動畫需要理解 4 個參數：</p>
 <ul>
 <li><code>enterTransition</code>：進入目的地時的過渡效果，可以設置目的地進入畫面的動畫效果。</li>
@@ -1748,7 +1748,7 @@ popExitTransition &#x3D; &#123;
   </entry>
   <entry>
     <title>Jetpack Compose | 有效管理 UI 介面的狀態</title>
-    <url>/post/jetpack-compose-ui-state-sealed-class-notes.html</url>
+    <url>/blog/post/jetpack-compose-ui-state-sealed-class-notes.html</url>
     <content><![CDATA[<p>在 Jetpack Compose 中，官方強調的是狀態管理的重要性。一般情況下，我們使用 ViewModel 將商業邏輯放在其中，以減少組合函式中的邏輯程式碼，從而提供更好的使用者體驗。</p>
 <p>然而，有時我們需要處理一些進階的管理程式，例如 API 請求、檔案讀取等，這時候可能會用到以下三個基本狀態：</p>
 <ul>
@@ -1972,6 +1972,222 @@ fun EditorScreenPreview(
       <tags>
         <tag>Android</tag>
         <tag>Kotlin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Roblox 體驗開發 | 入手編寫筆記</title>
+    <url>/blog/post/roblox-dev-get-started-notes.html</url>
+    <content><![CDATA[<div class="note info simple"><p>這篇基本上是我入手編寫 Roblox 體驗手稿的筆記，這裏公開出來，給大家可以一起參透一下。<br>更何況，我在這個範疇 (Roblox 體驗手稿開發) 單純是「業餘」意思，只是輕輕接觸一下而已，順便嘗一嘗我未曾接觸過的 Luau （又稱 Lua，Roblox 官方稱其為 Luau）手稿語言。</p>
+</div>
+
+<hr>
+<h1 id="Lua，對我而言，是新的程式語言"><a href="#Lua，對我而言，是新的程式語言" class="headerlink" title="Lua，對我而言，是新的程式語言"></a>Lua，對我而言，是新的程式語言</h1><p>在 Roblox 體驗開發中，無論是編寫客戶端（即是玩家自己），或是伺服器端，都要用到 Lua 手稿語言編寫。</p>
+<p>Roblox 使用 Lua 的原因：</p>
+<ol>
+<li>一個仿似 C、C# 或 C++ 的程式語言，但省略繁瑣的工序，例如毋須起始定義 <code>Main</code>，而是可以直接在手稿程式中立即編寫。</li>
+<li>Roblox 認受性以及對象絕大多數都是來自較年輕的玩家，所以以這種<strong>高階程式語言</strong>編寫，有助輕鬆處理遊戲邏輯。</li>
+</ol>
+<p>Lua 不只應用於編寫 Roblox 體驗及遊戲，還可以進行：</p>
+<ul>
+<li>網頁開發：因為 Lua 能與伺服器端溝通，所以可以建置及編寫網上應用程式以及開發人員工具。</li>
+<li>數據分析：常應用於<strong>機器學習</strong>，建構數據預測的模型及算法。</li>
+<li>軟件開發：編寫邏輯複雜的遊戲之餘，亦可以為手機應用程序編寫伺服器端的邏輯。</li>
+<li>學術研究：<strong>原型開發</strong>及<strong>概念驗證</strong>實作，如<strong>領域特定語言</strong> (DSL) 就是其中一項成功的試驗。</li>
+</ul>
+<hr>
+<h1 id="萬變不離其宗：界面與編程"><a href="#萬變不離其宗：界面與編程" class="headerlink" title="萬變不離其宗：界面與編程"></a>萬變不離其宗：界面與編程</h1><h2 id="界面"><a href="#界面" class="headerlink" title="界面"></a>界面</h2><p>在 Roblox Studio 中，我們可以在總管內的 <code>StarterGui</code> 新建一個新的 <code>ScreenGui</code>，來設計界面。</p>
+<p>常用組件：</p>
+<ul>
+<li><code>Frame</code>：一個仿似容器的框，用來顯示特定的 UI 元素，亦可使用框來分類，如： <code>MainFrame</code>、<code>TopBarFrame</code>、<code>ContentFrame</code>。</li>
+<li><code>TextLabel</code>：顯示文字的基本元素。</li>
+<li><code>TextButton</code>：與 <code>TextLabel</code> 一樣，不過增設了點擊事件等的附加操作。</li>
+<li><code>TextBox</code>：輸入文本的框。</li>
+<li><code>ImageLabel</code>：顯示圖像的基本元素。</li>
+<li><code>ImageButton</code>：<code>ImageLabel</code> 及 <code>TextButton</code> 的結合品。</li>
+</ul>
+<p>設計界面時要注意的要點：</p>
+<ol>
+<li>因為 Roblox 是跨平台的，所以要同時考慮其他裝置的屏幕顯示界面的結果。</li>
+<li>拖曳 UI 元素的時候，預設更改的值是 <code>Offset</code> (偏移量)，要同時兼顧所有屏幕，需要改用 <code>Scale</code> 比例 (<code>0</code> 至 <code>1</code>)。</li>
+</ol>
+<h2 id="編程"><a href="#編程" class="headerlink" title="編程"></a>編程</h2><h3 id="界面編程"><a href="#界面編程" class="headerlink" title="界面編程"></a>界面編程</h3><p>剛剛才說完界面拖曳 UI 元素，其實都可以編寫客戶端手稿來構建界面。</p>
+<div class="note info simple"><p>在 Lua 的單行註釋 (comment) 中，因為用的語法符是 <code>--</code>，不太輕易閱讀，所以我會以 <code>--&gt;</code> 樣式進行註解（某些開發者的偏好以 <code>--//</code> 樣式），用哪個都沒差，看個人偏好而已。</p>
+</div>
+
+<pre class="line-numbers language-lua" data-language="lua"><code class="language-lua">--&gt; 服務 (Services)
+local Players &#x3D; game:GetService(&quot;Players&quot;)
+
+--&gt; 獲取目前的玩家 (玩家自己)
+local Player &#x3D; Players.LocalPlayer
+
+--&gt; 從玩家自己中獲取 PlayerGui
+local PlayerGui &#x3D; Players.LocalPlayer:WaitForChild(&quot;PlayerGui&quot;)</code></pre>
+
+<div class="note danger simple"><p>常見的通病：</p>
+<pre class="line-numbers language-diff" data-language="diff"><code class="language-diff">-local StarterGui &#x3D; game:GetService(&quot;StarterGui&quot;)
++local PlayerGui &#x3D; Players.LocalPlayer:WaitForChild(&quot;PlayerGui&quot;)</code></pre>
+
+<p>用了 <code>StarterGui</code> 而不是 <code>PlayerGui</code>，所以<strong>寫完出來的界面依舊沒有顯示</strong>，因為 <code>StarterGui</code> 在運行遊戲時是不存在的，如果在 <code>StarterGui</code> <strong>利用拖曳 UI 元素方式構建界面，最終是會被遷移到玩家的 <code>PlayerGui</code> 的</strong>，所以要用的是 <code>PlayerGui</code>。</p>
+<p>至於為什麼要 <code>WaitForChild(&quot;PlayerGui&quot;)</code> 呢？因為這個 <code>PlayerGui</code> 不是即時出來的，需要等待玩家加入遊戲了，然後玩家的角色模型加載好了，才有 <code>PlayerGui</code>。</p>
+</div>
+
+<h2 id="客戶端與伺服器端"><a href="#客戶端與伺服器端" class="headerlink" title="客戶端與伺服器端"></a>客戶端與伺服器端</h2><p>剛剛都講到。寫這門程式是分客戶端和伺服器端，官方提供了 3 類 Scripts：</p>
+<ol>
+<li><code>LocalScript</code> 客戶端</li>
+<li><code>Script</code> 伺服器端</li>
+<li><code>ModuleScript</code>：如果在客戶端執行模塊內函數程式，就是客戶端，反之就是伺服器端</li>
+</ol>
+<h3 id="客戶端"><a href="#客戶端" class="headerlink" title="客戶端"></a>客戶端</h3><p>客戶端寫的程式就是只會對玩家自己，不會對所有玩家造成影響，例如：</p>
+<pre class="line-numbers language-lua" data-language="lua"><code class="language-lua">local function setSkinHeadColor(player, brickColor)
+    local Character &#x3D; player.Character
+    for _, _ in pairs(Character:GetChildren()) do
+        local bodyColors &#x3D; Character:FindFirstChild(&quot;Body Colors&quot;)
+        if bodyColors then
+            bodyColors.HeadColor &#x3D; brickColor
+        end
+    end
+end
+
+setSkinHeadColor(Players.LocalPlayer, BrickColor.Red())</code></pre>
+
+<p>改變了的頭部顏色，只有你看到，其他玩家看不到你有這個外觀改變。如果你想其他玩家都看到，就要學會寫伺服器端和遠端事件。</p>
+<h3 id="伺服器端-遠端事件"><a href="#伺服器端-遠端事件" class="headerlink" title="伺服器端 - 遠端事件"></a>伺服器端 - 遠端事件</h3><p>遠端事件是伺服器端最常用的一個東西，就是當某些官方提供的 API，例如你在客戶端執行它創，可能會報錯：</p>
+<pre class="line-numbers language-none"><code class="language-none">xxx can only be called from the Server</code></pre>
+
+<p>這個時候，遠端事件就大派用場了。</p>
+<p>你可以直接在工作區總管在 <code>ReplicatedStorage</code> 加入 <code>RemoteEvent</code> 或者直接用程式新增一個：</p>
+<pre class="line-numbers language-lua" data-language="lua"><code class="language-lua">local MyRemoteEvent &#x3D; Instance.new(&quot;RemoteEvent&quot;, ReplicatedStorage)
+MyRemoteEvent.Name &#x3D; &quot;MyRemoteEvent&quot;</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="center">客戶端 → 伺服器端</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">客戶端</td>
+<td><code>RemoteEvent:FireServer(args)</code></td>
+</tr>
+<tr>
+<td align="center">伺服器端</td>
+<td><code>RemoteEvent.OnServerEvent:Connect(function(player, args))</code></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center">伺服器端 → 客戶端</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">伺服器端</td>
+<td><code>RemoteEvent:FireClient(player, args)</code></td>
+</tr>
+<tr>
+<td align="center">客戶端</td>
+<td><code>RemoteEvent.OnClientEvent:Connect(function(args))</code></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center">伺服器端 → 所有客戶端（所有玩家）</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">伺服器端</td>
+<td><code>RemoteEvent:FireAllClients(args)</code></td>
+</tr>
+<tr>
+<td align="center">客戶端</td>
+<td><code>RemoteEvent.OnClientEvent:Connect(function(args))</code></td>
+</tr>
+</tbody></table>
+<h4 id="客戶端-→-伺服器端"><a href="#客戶端-→-伺服器端" class="headerlink" title="客戶端 → 伺服器端"></a>客戶端 → 伺服器端</h4><p>在 <code>LocalScript</code> 用 <code>FireServer()</code> 觸發在伺服器端的遠端事件所寫程式</p>
+<div class="note warning simple"><p><code>OnServerEvent:Connect()</code> 接受的參數首先一定要是 <code>Player</code> 類型的參數。</p>
+</div>
+
+<div class="tabs" id="c2s_code"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="c2s_code-1">伺服器端</button><button type="button" class="tab " data-href="c2s_code-2">客戶端</button></ul><div class="tab-contents"><div class="tab-item-content active" id="c2s_code-1"><pre class="line-numbers language-lua" data-language="lua"><code class="language-lua">ReplicatedStorage.MyRemoteEvent:Connect(function(player, brickColor)
+    setSkinHeadColor(player, brickColor)
+end)</code></pre></div><div class="tab-item-content" id="c2s_code-2"><pre class="line-numbers language-lua" data-language="lua"><code class="language-lua">ReplicatedStorage.MyRemoteEvent:FireServer(BrickColor.Red())</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>Roblox 體驗開發</category>
+      </categories>
+      <tags>
+        <tag>Lua</tag>
+        <tag>Roblox</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>輕鬆架設免費且有 HTTPS 安全認證網站的多種方案</title>
+    <url>/blog/post/web-dev-build-and-host-website-notes.html</url>
+    <content><![CDATA[<p>當你完成網站內容的編寫後，想要預覽並準備將網站上傳至網路時，這裡提供了幾種免費且有 HTTPS 安全認證的網站寄存平台供你選擇。</p>
+<hr>
+<h1 id="事前準備"><a href="#事前準備" class="headerlink" title="事前準備"></a>事前準備</h1><h2 id="建立-Github-存儲庫項目"><a href="#建立-Github-存儲庫項目" class="headerlink" title="建立 Github 存儲庫項目"></a>建立 Github 存儲庫項目</h2><div class="note info simple"><p>存儲庫名稱會影響 Github Page 寄存網頁的 URL，這點要注意。另外，如果你想寄存非特定存儲庫網頁的鏈結，就要把存儲庫命名為 <code>&lt;Github 用戶名稱&gt;.github.io</code>。</p>
+<p>例如：<br><a href="https://username.github.io/blog">https://username.github.io/blog</a> 這裏的 <code>blog</code> 就是一個特定存儲庫，意味著首頁就應該是 <a href="https://username.github.io./">https://username.github.io。</a></p>
+</div>
+
+<p>例如在這個範例中，建立一個名為 TestWeb 的存儲庫，並把 .git 鏈結複製到剪貼簿。</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img1.png" alt="建立存儲庫"></p>
+<p>這裏會使用 VSCode 展示，開啟 VSCode，把複製了的鏈結貼上，然後選擇要把所克隆的項目存放到的檔案路徑。</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img2.png" alt="貼上存儲庫 URL 克隆項目"></p>
+<h2 id="編寫網頁程式碼"><a href="#編寫網頁程式碼" class="headerlink" title="編寫網頁程式碼"></a>編寫網頁程式碼</h2><p>假設現在我有這樣的網頁程式碼：</p>
+<div class="tabs" id="code_site"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_site-1">HTML</button><button type="button" class="tab " data-href="code_site-2">CSS</button><button type="button" class="tab " data-href="code_site-3">JavaScript</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_site-1"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang&#x3D;&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;
+
+    &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;assets&#x2F;style.css&quot; &#x2F;&gt;
+    &lt;title&gt;Document&lt;&#x2F;title&gt;
+&lt;&#x2F;head&gt;
+&lt;body&gt;
+
+    &lt;h1&gt;Hello World&lt;&#x2F;h1&gt;
+    This is a test website.
+    
+    &lt;script src&#x3D;&quot;assets&#x2F;script.js&quot;&gt;&lt;&#x2F;script&gt;
+&lt;&#x2F;body&gt;
+&lt;&#x2F;html&gt;</code></pre></div><div class="tab-item-content" id="code_site-2"><pre class="line-numbers language-css" data-language="css"><code class="language-css">body &#123;
+    font-family: &#39;Courier New&#39;, Courier, monospace;
+&#125;</code></pre></div><div class="tab-item-content" id="code_site-3"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console.log(&quot;Hello World&quot;);</code></pre></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h2 id="發佈及變更程式碼"><a href="#發佈及變更程式碼" class="headerlink" title="發佈及變更程式碼"></a>發佈及變更程式碼</h2><p>當你把程式碼檔案寫好後，你會發現左方工作板的「原始檔控制」有更新檔案的變更，這個時候，就可以提交並推送變更，例如輸入 Initial commit 作為初始提交訊息。</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img3.png" alt="提交程式碼"></p>
+<p>如果成功提交並推送變更，就會在 Github 存儲庫中看到檔案更新。</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img4.png" alt="成功提交並推送變更"></p>
+<hr>
+<h1 id="使用-Github-Page-寄存"><a href="#使用-Github-Page-寄存" class="headerlink" title="使用 Github Page 寄存"></a>使用 Github Page 寄存</h1><p>開啟存儲庫的 Settings，導向左側選單的 Pages 頁面。</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img5.png" alt="建置設定"></p>
+<p>選擇 <code>main</code> 分支 (或你所命名的其他分支 e.g. <code>master</code>) 作為網頁寄存源,然後點擊 <code>Save</code> 按鈕即可。</p>
+<p>完成後，就可以在 Deployment 看到部署結果，如果沒有發生錯誤，就可以開啟網頁了！</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img6.png" alt="部署結果"></p>
+<hr>
+<h1 id="使用-Netlify-寄存"><a href="#使用-Netlify-寄存" class="headerlink" title="使用 Netlify 寄存"></a>使用 Netlify 寄存</h1><p><a href="https://www.netlify.com/">Netlify</a> 亦是一個免費，架設靜態網頁的寄存服務</p>
+<h2 id="建立新的網站"><a href="#建立新的網站" class="headerlink" title="建立新的網站"></a>建立新的網站</h2><p>同樣都會使用 Github 存儲庫作為網頁程式碼的存儲。</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img7.png" alt="使用 Github 部署"></p>
+<p>點擊 Deploy with Github 部署網站。</p>
+<h2 id="選擇使用的存儲庫"><a href="#選擇使用的存儲庫" class="headerlink" title="選擇使用的存儲庫"></a>選擇使用的存儲庫</h2><p>完成好驗證後，就選擇要使用的存儲庫。</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img8.png" alt="選擇使用的存儲庫"></p>
+<h2 id="完成部署設定"><a href="#完成部署設定" class="headerlink" title="完成部署設定"></a>完成部署設定</h2><p>同樣選擇分支，如果沒有特別的構建及部署設定，就按 Depoly 按鈕。</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img9.png" alt="完成部署設定"></p>
+<p>部署成功後，就可以開啟網頁。</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img10.png" alt="部署成功結果"></p>
+<p>如果想修改網頁 URL，可按 Site configuration &gt; Change site name</p>
+<p><img src="/blog/blog/post/web-dev-build-and-host-website-notes/img11.png" alt="修改網頁 URL"></p>
+]]></content>
+      <categories>
+        <category>網頁開發</category>
+      </categories>
+      <tags>
+        <tag>HTML</tag>
+        <tag>CSS</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
 </search>
