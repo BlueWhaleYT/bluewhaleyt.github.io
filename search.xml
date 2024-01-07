@@ -1,68 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Android | CICD 工作流程及報告測試</title>
-    <url>/post/android-dev-android-ci-cd.html</url>
-    <content><![CDATA[<p>編程及開發，有一個尤關重要的工序就是進行實作工作流程，例如把程式碼的測試報告交託到 Github 工作流程，供用戶或其他開發者使用。</p>
-<div class="note warning simple"><p>工作流程應用及用途廣泛，不限於於 Android 程式開發的範疇，<strong>但不同的範疇如網頁編寫、軟件開發都有不同的工作流程的配置</strong>。</p>
-</div>
-
-<hr>
-<h1 id="什麼是-CICD"><a href="#什麼是-CICD" class="headerlink" title="什麼是 CICD"></a>什麼是 CICD</h1><p>CICD 這個字其實要分拆出來兩個部分 CI 及 CD。CICD 代表<strong>持續整合和持續交付</strong> (Continuous Integration and Continuous Delivery)。它是一種軟體開發實踐方法，旨在自動化軟體的建置、測試和部署過程。</p>
-<ul>
-<li>CI (持續整合): 開發人員將他們的程式碼<strong>頻繁地整合到共享的版本控制庫</strong>中，以便及早發現和解決衝突或問題。這樣可以確保團隊成員的程式碼<strong>相互協調</strong>，並<strong>提高開發效率</strong>。</li>
-<li>CD (持續交付): 在程式碼經過持續整合後，<strong>自動進行測試和部署</strong>，以便快速且可靠地將軟體交付到生產環境中。這種<strong>自動化過程可以減少人為錯誤並提高交付速度</strong>。</li>
-</ul>
-<p>而通常要流程自動化，就會用到 Github 提供的一個功能：Github Workflow</p>
-<hr>
-<h1 id="建立一個工作流程執行檔"><a href="#建立一個工作流程執行檔" class="headerlink" title="建立一個工作流程執行檔"></a>建立一個工作流程執行檔</h1><p>有兩種方法</p>
-<ol>
-<li>利用 Github 平台，你可以按 setup a workflow yourself 由零開始建立，或者找到 Android CI 按 Configure 使用 Android 程式流程配置執行模版檔案<br><img src="/post/android-dev-android-ci-cd/img1.png" alt="使用 Github 建立流程執行檔"></li>
-<li>直接在 IDE (整合開發環境) 軟件，如 Android Studio 建立，你可以在項目的根位置新增 <code>.github/workflows/android.yml</code>，例如 <code>android.yml</code>，或者任意檔案名稱，但是資料夾結構和名稱就要一樣。</li>
-</ol>
-<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>工作流程有五大部分：</p>
-<ol>
-<li>Event（事件）：事件是觸發 Workflow 執行的觸發器。常見的事件包括 push（推送程式碼到版本控制庫）、pull_request（發起拉取請求）、schedule（定期觸發）等。當發生指定的事件時，Workflow 就會開始執行。</li>
-<li>Jobs（工作）：工作是 Workflow 中的單個單元，用於執行特定的任務。一個 Workflow 可以包含一個或多個工作。每個工作通常都是並行執行的，並且可以在不同的運行環境（如不同的作業系統、不同的容器等）中執行。</li>
-<li>Steps（步驟）：步驟是工作中的具體操作步驟，用於定義需要執行的指令和命令。每個步驟都是獨立的，可以在同一工作中按順序執行，也可以在不同工作之間共享資源和數據。</li>
-<li>Actions（動作）：動作是事先定義好的可重複使用的操作，用於執行特定的任務。GitHub 提供了許多內建的動作，如建置應用程式、執行測試、部署到雲端等。您也可以自定義自己的動作，或使用其他人分享的動作。</li>
-<li>Runners（執行者）是 GitHub Workflow 中用於執行工作的運行環境。它們可以理解為虛擬或實體的主機或容器，用於運行工作中的步驟和動作。<br>GitHub 提供了兩種類型的 Runners：<ul>
-<li>Self-hosted Runners（自託管執行者）：這種執行者是由您自己託管的運行環境，可以是實體主機、虛擬機器或容器。您可以在自己的環境中設定和管理這些執行者，以滿足特定的需求和限制。自託管執行者可以與您的內部系統和資源進行交互，並提供更大的靈活性和控制權。</li>
-<li>GitHub-hosted Runners（GitHub 托管執行者）：這種執行者是由 GitHub 托管的運行環境，提供了預先配置和管理的虛擬機器或容器。您可以選擇使用這些執行者，並無需擔心配置和管理的細節。GitHub 托管執行者具有多個運行環境選項，包括不同的作業系統（如 Ubuntu、Windows、macOS）和硬體配置（如不同的處理器和內存）。</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li>使用執行者，您可以在 Workflow 中指定運行環境，並在這些環境中執行步驟和動作。這使您能夠控制和配置工作的運行環境，以確保應用程式在所需的平台上正確運行和測試。另外，執行者還可以與其他 GitHub 功能（如密鑰、存取權杖等）進行集成，以實現更安全的執行環境。</li>
-</ul>
-<p>在檔案表頭，需要先定義工作流程的名稱，例如是 Android CI</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Android</span> <span class="string">CI</span></span><br></pre></td></tr></table></figure>
-
-<div class="note danger simple"><p>CICD 工作流程的 yml 配置執行檔<strong>需要嚴謹的語法及縮排</strong>。</p>
-</div>
-
-<h3 id="定義事件"><a href="#定義事件" class="headerlink" title="定義事件"></a>定義事件</h3><p>接下來就要定義事件，我們可以用 <code>on</code> 定義事件，例如最常用的是 <code>pull_request</code> 和 <code>push</code> 事件。</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">pull_request:</span> </span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br></pre></td></tr></table></figure>
-
-<h3 id="定義工作"><a href="#定義工作" class="headerlink" title="定義工作"></a>定義工作</h3><p>你需要選擇要使用的操作系統進行構建，這裏可以直接選用 <code>ubuntu-latest</code>，這樣接下來要執行的工作都會使用 Ubuntu 最新版本的操作系統運行。</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="定義步驟"><a href="#定義步驟" class="headerlink" title="定義步驟"></a>定義步驟</h4><p>接下來你可以使用 Github Workflow 編輯器旁邊的 Marketplace 提供的擬定步驟</p>
-<p><img src="/post/android-dev-android-ci-cd/img2.png" alt="Github Workflow 的 Marketplace"></p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v4.1.0</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Java</span> <span class="string">JDK</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-java@v3.13.0</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">with</span> <span class="string">Gradle</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">./gradlew</span> <span class="string">build</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Upload</span> <span class="string">a</span> <span class="string">Build</span> <span class="string">artifact</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/upload-artifact@v3.1.3</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">app-debug.apk</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">app/build/outputs/apk/debug/app-debug.apk</span></span><br></pre></td></tr></table></figure>
-
-<div class="note info simple"><p>如果你的項目使用更高的 JDK 版本，如 JDK 11 或 JDK 17，需要手動修改 JDK 配置</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Java</span> <span class="string">JDK</span></span><br><span class="line">  <span class="attr">uses:</span> <span class="string">actions/setup-java@v3.13.0</span></span><br><span class="line">  <span class="attr">with:</span></span><br><span class="line">    <span class="attr">java-version:</span> <span class="string">&#x27;17&#x27;</span></span><br><span class="line">    <span class="attr">distribution:</span> <span class="string">&#x27;temurin&#x27;</span> <span class="comment"># JDK，如 oracle, temurin 等</span></span><br><span class="line">    <span class="attr">cache:</span> <span class="string">gradle</span></span><br></pre></td></tr></table></figure></div>]]></content>
-      <categories>
-        <category>實驗內容</category>
-        <category>Android 開發</category>
-      </categories>
-      <tags>
-        <tag>YAML</tag>
-        <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Android | 建立密鑰庫並以發佈模式運行程序</title>
     <url>/post/android-dev-keystore-and-release-mode.html</url>
     <content><![CDATA[<p>密鑰庫 (Keystore) 是一個<strong>存儲密鑰和證書的安全文件</strong>，Keystore 被用於對應用程式進行簽名，以確保應用程式的完整性和安全性。它包含了一個私鑰和與之相對應的公鑰。</p>
@@ -123,81 +61,8 @@
         <category>Android 開發</category>
       </categories>
       <tags>
-        <tag>Android</tag>
         <tag>Kotlin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Android | NDK 及 C++ Native 程式開發筆記</title>
-    <url>/post/android-dev-ndk-cpp-project-notes.html</url>
-    <content><![CDATA[<p>C++ 是一種中階程式語言，主要用於遊戲和視覺開發。它也是眾所周知的難以理解的程式語法之一。對於初學者來說，C++ 可以這樣開始：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello World&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>這種語言與 Android 開發密切相關，因為大多數手機遊戲都是用 C++ 進行編寫和開發的。作為開發 Android 程式的我們，也可以使用 Android Studio 來寫 C++ Native 程式，就像跨領域使用 Java 和 C++ 一樣。</p>
-<hr>
-<h1 id="初建-C-Native-項目"><a href="#初建-C-Native-項目" class="headerlink" title="初建 C++ Native 項目"></a>初建 C++ Native 項目</h1><p>基本上，如果你是用 Android Studio，可以使用 C++ Native 項目模板建立 C++ Native 程式。</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img1.png" alt="C++ 項目模板"></p>
-<p>這裏它會要你選擇使用什麼 C++ 版本，通常選擇 Toolchain Default 便可。</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img2.png" alt="選擇 C++ 版本"></p>
-<h2 id="項目-app-模塊-build-gradle"><a href="#項目-app-模塊-build-gradle" class="headerlink" title="項目 app 模塊 build.gradle"></a>項目 <code>app</code> 模塊 <code>build.gradle</code></h2><p>在 <code>app</code> 模塊的 <code>build.gradle</code> 內的 <code>android</code> 區塊多定義了使用 C++ 函式庫的配置：</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">externalNativeBuild &#123;</span><br><span class="line">    cmake &#123;</span><br><span class="line">        path <span class="keyword">file</span>(<span class="string">&#x27;src/main/cpp/CMakeLists.txt&#x27;</span>)</span><br><span class="line">        version <span class="string">&#x27;3.22.1&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="項目樹狀結構變更"><a href="#項目樹狀結構變更" class="headerlink" title="項目樹狀結構變更"></a>項目樹狀結構變更</h2><p>因為這是一個 C++ Native 項目，所以它會較一般的 Android 項目多附加了一些預設元素，如果你沒有 C++ Native 模板或 Android Studio，可考慮以下樹狀結構變更。</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img3.png" alt="樹狀結構變更"></p>
-<p>在 app 目錄會多新增了一個 <code>cpp</code> 資料夾，顧名思義，這個資料夾是用來管理及編寫 C++ 語言。</p>
-<h3 id="CMake-建構指令碼"><a href="#CMake-建構指令碼" class="headerlink" title="CMake 建構指令碼"></a>CMake 建構指令碼</h3><p>CMake 建構指令碼是一個純文字檔案，檔案名必須為 <code>CMakeLists.txt</code>。就是負責為 C 或 C++ 程式定義要用的函式庫，相當於 Java 的 <code>build.gradle</code>。</p>
-<p>根據這個模板，預設的 <code>CMakeLists.txt</code> 內容是這樣的：</p>
-<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="comment"># For more information about using CMake with Android Studio, read the</span></span><br><span class="line"><span class="comment"># documentation: https://d.android.com/studio/projects/add-native-code.html.</span></span><br><span class="line"><span class="comment"># For more examples on how to use CMake, see https://github.com/android/ndk-samples.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Sets the minimum CMake version required for this project.</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.22</span>.<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Declares the project name. The project name can be accessed via $&#123; PROJECT_NAME&#125;,</span></span><br><span class="line"><span class="comment"># Since this is the top level CMakeLists.txt, the project name is also accessible</span></span><br><span class="line"><span class="comment"># with $&#123;CMAKE_PROJECT_NAME&#125; (both CMake variables are in-sync within the top level</span></span><br><span class="line"><span class="comment"># build script scope).</span></span><br><span class="line"><span class="keyword">project</span>(<span class="string">&quot;cppapptest&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Creates and names a library, sets it as either STATIC</span></span><br><span class="line"><span class="comment"># or SHARED, and provides the relative paths to its source code.</span></span><br><span class="line"><span class="comment"># You can define multiple libraries, and CMake builds them for you.</span></span><br><span class="line"><span class="comment"># Gradle automatically packages shared libraries with your APK.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># In this top level CMakeLists.txt, $&#123;CMAKE_PROJECT_NAME&#125; is used to define</span></span><br><span class="line"><span class="comment"># the target library name; in the sub-module&#x27;s CMakeLists.txt, $&#123;PROJECT_NAME&#125;</span></span><br><span class="line"><span class="comment"># is preferred for the same purpose.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># In order to load a library into your app from Java/Kotlin, you must call</span></span><br><span class="line"><span class="comment"># System.loadLibrary() and pass the name of the library defined here;</span></span><br><span class="line"><span class="comment"># for GameActivity/NativeActivity derived applications, the same library name must be</span></span><br><span class="line"><span class="comment"># used in the AndroidManifest.xml file.</span></span><br><span class="line"><span class="keyword">add_library</span>(<span class="variable">$&#123;CMAKE_PROJECT_NAME&#125;</span> SHARED</span><br><span class="line">        <span class="comment"># List C/C++ source files with relative paths to this CMakeLists.txt.</span></span><br><span class="line">        native-lib.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Specifies libraries CMake should link to your target library. You</span></span><br><span class="line"><span class="comment"># can link libraries from various origins, such as libraries defined in this</span></span><br><span class="line"><span class="comment"># build script, prebuilt third-party libraries, or Android system libraries.</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(<span class="variable">$&#123;CMAKE_PROJECT_NAME&#125;</span></span><br><span class="line">        <span class="comment"># List libraries link to the target library</span></span><br><span class="line">        android</span><br><span class="line">        log)</span><br></pre></td></tr></table></figure>
-
-<h3 id="Java-與-C-鏈結產生"><a href="#Java-與-C-鏈結產生" class="headerlink" title="Java 與 C++ 鏈結產生"></a>Java 與 C++ 鏈結產生</h3><p>這個模板預設提供了一個 <code>native-lib.cpp</code> 檔案。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> <span class="function">JNIEXPORT jstring JNICALL</span></span><br><span class="line"><span class="function"><span class="title">Java_com_bluewhaleyt_cppapptest_MainActivity_stringFromJNI</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        JNIEnv* env,</span></span></span><br><span class="line"><span class="params"><span class="function">        jobject <span class="comment">/* this */</span>)</span> </span>&#123;</span><br><span class="line">    std::string hello = <span class="string">&quot;Hello from C++&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> env-&gt;<span class="built_in">NewStringUTF</span>(hello.<span class="built_in">c_str</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>而在 <code>MainActivity.java</code> 多新增了一個載入 <code>native-lib</code> C++ 本機函式庫的程式碼，而及一個 <code>native</code> 關鍵字而成的 C++ 調用函數：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    System.loadLibrary(<span class="string">&quot;cppapptest&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title function_">stringFromJNI</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="Java-本機介面-JNI"><a href="#Java-本機介面-JNI" class="headerlink" title="Java 本機介面 (JNI)"></a>Java 本機介面 (JNI)</h1><p>JNI 是一個編程框架，透過 Java 虛擬機 (JVM) 調用函式庫，或其他本機程序，本機程序一般使用 C、C++ 或匯編語言 (Assembly) 編寫，從而被編譯為爾件及系統操作的程序。</p>
-<p>在以上模板，你可以看到，定義一個 JNI 方法，需要這麼長的程式碼：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> <span class="function">JNIEXPORT jstring JNICALL</span></span><br><span class="line"><span class="function"><span class="title">Java_ClassName_functionName</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    JNIEnv* env,</span></span></span><br><span class="line"><span class="params"><span class="function">    jobject <span class="comment">/* this */</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
-
-<div class="note info simple"><p>在這個範例中，<code>ClassName</code> 是項目的 Java <code>MainActivity</code> 類別 <code>com_bluewhaleyt_cppapptest_MainActivity</code></p>
-</div>
-
-<p>而在 Java 程式調用 C++ 函數 <code>functionName()</code>，就要另外定義一個附有 <code>native</code> 關鍵字的相應函數：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title function_">functionName</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
-
-<p>特別要說說 C++ 程式碼：</p>
-<ul>
-<li><code>extern &quot;C&quot;</code>: 是一個限制使用 C 語言作為命名規則，即該函數將會採用 C 語言進行定義。</li>
-<li><code>JNIEXPORT</code> 及 <code>JNICALL</code>: 是定義 JNI 函數的修飾詞。</li>
-<li><code>jstring</code>: 是指明函數傳回類型是 Java 的 <code>String</code> 型別</li>
-<li><code>JNIEnv</code>: 是一個指向 JNI 環境的指標，提供了在本地程式碼中調用 Java 方法、訪問 Java 對象等操作的方法。</li>
-<li><code>jobject</code>: 是一個代表 Java 對象的類型。它可以是任何 Java 對象的參考，並且可以在本地程式碼中用於訪問該對象的屬性和方法。</li>
-</ul>
-<div class="note info simple"><p>基本上這個 JNI 定義方法不用手動敲的，可以直接用 Android Studio 的自動完成方案：</p>
-<p>只要在 Java 定義一個 <code>native</code> 方法：</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img4.png" alt="C++ 自動完成方案"></p>
-<p>然後就會在 C++ 檔案生成了程式碼：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="function">JNIEXPORT <span class="type">void</span> JNICALL</span></span><br><span class="line"><span class="function"><span class="title">Java_com_bluewhaleyt_cppapptest_MainActivity_myTestFunc</span><span class="params">(JNIEnv *env, jobject thiz)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> implement myTestFunc()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>所以你大可以不用學會怎樣寫 JNI 方法，只要理解便可。</p>
-</div>
-
-<hr>
-<h1 id="動態鏈接庫-so"><a href="#動態鏈接庫-so" class="headerlink" title="動態鏈接庫 (.so)"></a>動態鏈接庫 (<code>.so</code>)</h1><p>把編譯並匯出後的 <code>.apk</code> 檔案修改為 <code>.zip</code> 檔案解壓縮，開啟 lib 資料夾就可以看到 <code>.so</code> 檔案。</p>
-<p>Android Studio 的 C++ Native 模板預設支援及提供以下 NDK 架構:</p>
-<p><img src="/post/android-dev-ndk-cpp-project-notes/img5.png" alt="NDK .so"></p>
-]]></content>
-      <categories>
-        <category>實驗內容</category>
-        <category>Android 開發</category>
-        <category>學習筆記</category>
-      </categories>
-      <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
-        <tag>C++</tag>
-        <tag>NDK</tag>
       </tags>
   </entry>
   <entry>
@@ -278,14 +143,109 @@
 
 <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">MainScreen</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> context = LocalContext.current</span><br><span class="line">    Container &#123; permissionGranted, pluginsDir -&gt;</span><br><span class="line">        <span class="keyword">if</span> (permissionGranted) &#123;</span><br><span class="line">            Button(</span><br><span class="line">                onClick = &#123;</span><br><span class="line">                    loadAmazingButton(context)</span><br><span class="line">                &#125;</span><br><span class="line">            ) &#123;</span><br><span class="line">                Text(text = <span class="string">&quot;Load AmazingButton&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            AnimatedContent(</span><br><span class="line">                targetState = pluginCompose,</span><br><span class="line">                label = <span class="string">&quot;Plugin content&quot;</span></span><br><span class="line">            ) &#123; pluginContent -&gt;</span><br><span class="line">                Column(</span><br><span class="line">                    modifier = Modifier</span><br><span class="line">                        .fillMaxWidth()</span><br><span class="line">                        .clip(MaterialTheme.shapes.extraLarge)</span><br><span class="line">                        .background(color = MaterialTheme.colorScheme.primaryContainer)</span><br><span class="line">                        .padding(<span class="number">16.</span>dp)</span><br><span class="line">                ) &#123;</span><br><span class="line">                    Text(text = <span class="string">&quot;Plugins loaded area&quot;</span>)</span><br><span class="line">                    pluginContent()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>實驗內容</category>
         <category>Android 開發</category>
+        <category>實驗內容</category>
         <category>學習筆記</category>
         <category>Jetpack Compose</category>
       </categories>
       <tags>
-        <tag>Android</tag>
         <tag>Kotlin</tag>
+        <tag>Android</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android | CICD 工作流程及報告測試</title>
+    <url>/post/android-dev-android-ci-cd.html</url>
+    <content><![CDATA[<p>編程及開發，有一個尤關重要的工序就是進行實作工作流程，例如把程式碼的測試報告交託到 Github 工作流程，供用戶或其他開發者使用。</p>
+<div class="note warning simple"><p>工作流程應用及用途廣泛，不限於於 Android 程式開發的範疇，<strong>但不同的範疇如網頁編寫、軟件開發都有不同的工作流程的配置</strong>。</p>
+</div>
+
+<hr>
+<h1 id="什麼是-CICD"><a href="#什麼是-CICD" class="headerlink" title="什麼是 CICD"></a>什麼是 CICD</h1><p>CICD 這個字其實要分拆出來兩個部分 CI 及 CD。CICD 代表<strong>持續整合和持續交付</strong> (Continuous Integration and Continuous Delivery)。它是一種軟體開發實踐方法，旨在自動化軟體的建置、測試和部署過程。</p>
+<ul>
+<li>CI (持續整合): 開發人員將他們的程式碼<strong>頻繁地整合到共享的版本控制庫</strong>中，以便及早發現和解決衝突或問題。這樣可以確保團隊成員的程式碼<strong>相互協調</strong>，並<strong>提高開發效率</strong>。</li>
+<li>CD (持續交付): 在程式碼經過持續整合後，<strong>自動進行測試和部署</strong>，以便快速且可靠地將軟體交付到生產環境中。這種<strong>自動化過程可以減少人為錯誤並提高交付速度</strong>。</li>
+</ul>
+<p>而通常要流程自動化，就會用到 Github 提供的一個功能：Github Workflow</p>
+<hr>
+<h1 id="建立一個工作流程執行檔"><a href="#建立一個工作流程執行檔" class="headerlink" title="建立一個工作流程執行檔"></a>建立一個工作流程執行檔</h1><p>有兩種方法</p>
+<ol>
+<li>利用 Github 平台，你可以按 setup a workflow yourself 由零開始建立，或者找到 Android CI 按 Configure 使用 Android 程式流程配置執行模版檔案<br><img src="/post/android-dev-android-ci-cd/img1.png" alt="使用 Github 建立流程執行檔"></li>
+<li>直接在 IDE (整合開發環境) 軟件，如 Android Studio 建立，你可以在項目的根位置新增 <code>.github/workflows/android.yml</code>，例如 <code>android.yml</code>，或者任意檔案名稱，但是資料夾結構和名稱就要一樣。</li>
+</ol>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>工作流程有五大部分：</p>
+<ol>
+<li>Event（事件）：事件是觸發 Workflow 執行的觸發器。常見的事件包括 push（推送程式碼到版本控制庫）、pull_request（發起拉取請求）、schedule（定期觸發）等。當發生指定的事件時，Workflow 就會開始執行。</li>
+<li>Jobs（工作）：工作是 Workflow 中的單個單元，用於執行特定的任務。一個 Workflow 可以包含一個或多個工作。每個工作通常都是並行執行的，並且可以在不同的運行環境（如不同的作業系統、不同的容器等）中執行。</li>
+<li>Steps（步驟）：步驟是工作中的具體操作步驟，用於定義需要執行的指令和命令。每個步驟都是獨立的，可以在同一工作中按順序執行，也可以在不同工作之間共享資源和數據。</li>
+<li>Actions（動作）：動作是事先定義好的可重複使用的操作，用於執行特定的任務。GitHub 提供了許多內建的動作，如建置應用程式、執行測試、部署到雲端等。您也可以自定義自己的動作，或使用其他人分享的動作。</li>
+<li>Runners（執行者）是 GitHub Workflow 中用於執行工作的運行環境。它們可以理解為虛擬或實體的主機或容器，用於運行工作中的步驟和動作。<br>GitHub 提供了兩種類型的 Runners：<ul>
+<li>Self-hosted Runners（自託管執行者）：這種執行者是由您自己託管的運行環境，可以是實體主機、虛擬機器或容器。您可以在自己的環境中設定和管理這些執行者，以滿足特定的需求和限制。自託管執行者可以與您的內部系統和資源進行交互，並提供更大的靈活性和控制權。</li>
+<li>GitHub-hosted Runners（GitHub 托管執行者）：這種執行者是由 GitHub 托管的運行環境，提供了預先配置和管理的虛擬機器或容器。您可以選擇使用這些執行者，並無需擔心配置和管理的細節。GitHub 托管執行者具有多個運行環境選項，包括不同的作業系統（如 Ubuntu、Windows、macOS）和硬體配置（如不同的處理器和內存）。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>使用執行者，您可以在 Workflow 中指定運行環境，並在這些環境中執行步驟和動作。這使您能夠控制和配置工作的運行環境，以確保應用程式在所需的平台上正確運行和測試。另外，執行者還可以與其他 GitHub 功能（如密鑰、存取權杖等）進行集成，以實現更安全的執行環境。</li>
+</ul>
+<p>在檔案表頭，需要先定義工作流程的名稱，例如是 Android CI</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Android</span> <span class="string">CI</span></span><br></pre></td></tr></table></figure>
+
+<div class="note danger simple"><p>CICD 工作流程的 yml 配置執行檔<strong>需要嚴謹的語法及縮排</strong>。</p>
+</div>
+
+<h3 id="定義事件"><a href="#定義事件" class="headerlink" title="定義事件"></a>定義事件</h3><p>接下來就要定義事件，我們可以用 <code>on</code> 定義事件，例如最常用的是 <code>pull_request</code> 和 <code>push</code> 事件。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">pull_request:</span> </span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br></pre></td></tr></table></figure>
+
+<h3 id="定義工作"><a href="#定義工作" class="headerlink" title="定義工作"></a>定義工作</h3><p>你需要選擇要使用的操作系統進行構建，這裏可以直接選用 <code>ubuntu-latest</code>，這樣接下來要執行的工作都會使用 Ubuntu 最新版本的操作系統運行。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="定義步驟"><a href="#定義步驟" class="headerlink" title="定義步驟"></a>定義步驟</h4><p>接下來你可以使用 Github Workflow 編輯器旁邊的 Marketplace 提供的擬定步驟</p>
+<p><img src="/post/android-dev-android-ci-cd/img2.png" alt="Github Workflow 的 Marketplace"></p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v4.1.0</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Java</span> <span class="string">JDK</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-java@v3.13.0</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">with</span> <span class="string">Gradle</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">./gradlew</span> <span class="string">build</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Upload</span> <span class="string">a</span> <span class="string">Build</span> <span class="string">artifact</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/upload-artifact@v3.1.3</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">app-debug.apk</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">app/build/outputs/apk/debug/app-debug.apk</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>如果你的項目使用更高的 JDK 版本，如 JDK 11 或 JDK 17，需要手動修改 JDK 配置</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Java</span> <span class="string">JDK</span></span><br><span class="line">  <span class="attr">uses:</span> <span class="string">actions/setup-java@v3.13.0</span></span><br><span class="line">  <span class="attr">with:</span></span><br><span class="line">    <span class="attr">java-version:</span> <span class="string">&#x27;17&#x27;</span></span><br><span class="line">    <span class="attr">distribution:</span> <span class="string">&#x27;temurin&#x27;</span> <span class="comment"># JDK，如 oracle, temurin 等</span></span><br><span class="line">    <span class="attr">cache:</span> <span class="string">gradle</span></span><br></pre></td></tr></table></figure></div>]]></content>
+      <categories>
+        <category>Android 開發</category>
+        <category>實驗內容</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>YAML</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git 版本控制及操作 - JGit 筆記</title>
+    <url>/post/dev-jgit-notes.html</url>
+    <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
+<p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
+<h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
+<li>Kotlin 開發者亦可使用 <a href="https://github.com/sya-ri/KGit">KGit</a> 函式庫，該函式庫以 JGit 為基礎，但保留 Kotlin 語法的程式編寫方式</li>
+<li>Android 開發在使用 JGit 時，需要注意以下幾點：</li>
+</ol>
+<ul>
+<li>確保 <code>AndroidManifest.xml</code> 聲明權限許可，以及<strong>允許所有檔案權限</strong> (All File Access)，否則報錯 Operation Not Permitted<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>進行指令操作，如克隆遠端存儲庫至本機，需要使用<strong>異步執行緒或 <code>Executor</code> 等相關處理方式</strong>，(Kotlin 則可使用協程)，否則會在執行指令時報錯 <code>NetworkOnMainThreadException</code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">ExecutorService</span> <span class="variable">executor</span> <span class="operator">=</span> Executors.newSingleThreadExecutor();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Handler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Handler</span>(Looper.getMainLooper());</span><br><span class="line"></span><br><span class="line">executor.execute(() -&gt; &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><p>匯入依附元件至 <code>build.gradle</code></p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">implementation <span class="string">&#x27;org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="產生本機存儲庫及-git-檔案"><a href="#產生本機存儲庫及-git-檔案" class="headerlink" title="產生本機存儲庫及 .git 檔案"></a>產生本機存儲庫及 <code>.git</code> 檔案</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.localRepo = <span class="keyword">new</span> <span class="title class_">FileRepository</span>(localPath + <span class="string">&quot;/.git&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">git = <span class="keyword">new</span> <span class="title class_">Git</span>(localRepo);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="版本控制及操作"><a href="#版本控制及操作" class="headerlink" title="版本控制及操作"></a>版本控制及操作</h1><h2 id="克隆遠端存儲庫至本機"><a href="#克隆遠端存儲庫至本機" class="headerlink" title="克隆遠端存儲庫至本機"></a>克隆遠端存儲庫至本機</h2><div class="note warning simple"><p>要克隆的目錄或資料夾<strong>需要被建立及清空</strong>才能順利克隆遠端存儲庫，不清空則報 Directory XXX is not empty</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">File</span> <span class="variable">dir</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(localPath)</span><br><span class="line"><span class="keyword">if</span> (!dir.exists()) folder.mkdirs();</span><br></pre></td></tr></table></figure></div>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Git.cloneRepository()</span><br><span class="line">    .setURI(remotePath)</span><br><span class="line">    .setDirectory(<span class="keyword">new</span> <span class="title class_">File</span>(localPath))</span><br><span class="line">    .call();</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>實驗內容</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Android</tag>
         <tag>Java</tag>
       </tags>
   </entry>
@@ -391,246 +351,87 @@
 </ol>
 ]]></content>
       <categories>
-        <category>實驗內容</category>
         <category>Android 開發</category>
-        <category>Jetpack Compose</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Kotlin</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git 版本控制及操作 - JGit 筆記</title>
-    <url>/post/dev-jgit-notes.html</url>
-    <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
-<p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
-<h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
-<li>Kotlin 開發者亦可使用 <a href="https://github.com/sya-ri/KGit">KGit</a> 函式庫，該函式庫以 JGit 為基礎，但保留 Kotlin 語法的程式編寫方式</li>
-<li>Android 開發在使用 JGit 時，需要注意以下幾點：</li>
-</ol>
-<ul>
-<li>確保 <code>AndroidManifest.xml</code> 聲明權限許可，以及<strong>允許所有檔案權限</strong> (All File Access)，否則報錯 Operation Not Permitted<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></li>
-<li>進行指令操作，如克隆遠端存儲庫至本機，需要使用<strong>異步執行緒或 <code>Executor</code> 等相關處理方式</strong>，(Kotlin 則可使用協程)，否則會在執行指令時報錯 <code>NetworkOnMainThreadException</code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">ExecutorService</span> <span class="variable">executor</span> <span class="operator">=</span> Executors.newSingleThreadExecutor();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Handler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Handler</span>(Looper.getMainLooper());</span><br><span class="line"></span><br><span class="line">executor.execute(() -&gt; &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><p>匯入依附元件至 <code>build.gradle</code></p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">implementation <span class="string">&#x27;org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="產生本機存儲庫及-git-檔案"><a href="#產生本機存儲庫及-git-檔案" class="headerlink" title="產生本機存儲庫及 .git 檔案"></a>產生本機存儲庫及 <code>.git</code> 檔案</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.localRepo = <span class="keyword">new</span> <span class="title class_">FileRepository</span>(localPath + <span class="string">&quot;/.git&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">git = <span class="keyword">new</span> <span class="title class_">Git</span>(localRepo);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="版本控制及操作"><a href="#版本控制及操作" class="headerlink" title="版本控制及操作"></a>版本控制及操作</h1><h2 id="克隆遠端存儲庫至本機"><a href="#克隆遠端存儲庫至本機" class="headerlink" title="克隆遠端存儲庫至本機"></a>克隆遠端存儲庫至本機</h2><div class="note warning simple"><p>要克隆的目錄或資料夾<strong>需要被建立及清空</strong>才能順利克隆遠端存儲庫，不清空則報 Directory XXX is not empty</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">File</span> <span class="variable">dir</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(localPath)</span><br><span class="line"><span class="keyword">if</span> (!dir.exists()) folder.mkdirs();</span><br></pre></td></tr></table></figure></div>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Git.cloneRepository()</span><br><span class="line">    .setURI(remotePath)</span><br><span class="line">    .setDirectory(<span class="keyword">new</span> <span class="title class_">File</span>(localPath))</span><br><span class="line">    .call();</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>實驗內容</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Kotlin</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Jetpack Compose | 多樣化的動畫實現方式</title>
-    <url>/post/jetpack-compose-dev-animation-in-compose.html</url>
-    <content><![CDATA[<p>Jetpack Compose 是一個新興的 UI 構建技術框架，除了著重於 UI 靜態方面的實現，都有支援到輕鬆使用動畫的一環。</p>
-<p>這個是大家初嘗 Jetpack Compose 時，想必會看過這個官方圖：</p>
-<p><img src="/post/jetpack-compose-dev-animation-in-compose/img1.gif" alt="official showcase gif"></p>
-<p>你會看到，只要執行了 <code>Column</code> 的點擊事件，就可以有一個展開的動畫。這個只是其中一種動畫實現方式，接下來會說說更多其他不同處理動畫的方式。</p>
-<p>官方有一個建議，判斷用哪一種方式最為適合：</p>
-<ul>
-<li>如果要在版面配置中為內容變更建立動畫效果：<ul>
-<li>如果要建立顯示與消失的動畫效果：<ul>
-<li>使用 <code>AnimatedVisibility</code>。</li>
-</ul>
-</li>
-<li>根據狀態替換內容：<ul>
-<li>如果要為內容建立淡出淡入效果：<ul>
-<li>使用 <code>Crossfade</code>。</li>
-</ul>
-</li>
-<li>否則，請使用 <code>AnimatedContent</code>。</li>
-</ul>
-</li>
-<li>否則，請使用 <code>Modifier.animateContentSize</code>。</li>
-</ul>
-</li>
-<li>如果要依據狀態顯示動畫：<ul>
-<li>如果要在組合期間顯示動畫：<ul>
-<li>如要讓動畫持續顯示：<ul>
-<li>使用 <code>rememberInfiniteTransition</code>。</li>
-</ul>
-</li>
-<li>如果您同時為多個值建立動畫效果：<ul>
-<li>使用 <code>updateTransition</code>。</li>
-</ul>
-</li>
-<li>否則，請使用 <code>animate*AsState</code>。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>如果要精確控制動畫時間：<ul>
-<li>使用 <code>Animation</code>，例如 <code>TargetBasedAnimation</code> 或 <code>DecayAnimation</code>。</li>
-</ul>
-</li>
-<li>如果動畫是事實的唯一來源：<ul>
-<li>使用 <code>Animatable</code>。</li>
-</ul>
-</li>
-<li>否則，請使用 <code>AnimationState</code> 或 <code>animate</code>。</li>
-</ul>
-<hr>
-<h1 id="高階動畫-API"><a href="#高階動畫-API" class="headerlink" title="高階動畫 API"></a>高階動畫 API</h1><p>配合質感設計的簡易高階動畫</p>
-<h2 id="AnimatedVisibility"><a href="#AnimatedVisibility" class="headerlink" title="AnimatedVisibility"></a><code>AnimatedVisibility</code></h2><p>主要是以動畫方式呈現內容的顯示與消失。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> visible <span class="keyword">by</span> remember &#123; mutableStateOf(<span class="literal">false</span>) &#125;</span><br><span class="line"></span><br><span class="line">Column &#123;</span><br><span class="line">    AnimatedVisibility(visible = visible) &#123;</span><br><span class="line">        Text(text = <span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    Button(onClick = &#123; visible = !visible &#125;) &#123;</span><br><span class="line">        Text(<span class="string">&quot;show text&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="AnimatedContent-實驗功能"><a href="#AnimatedContent-實驗功能" class="headerlink" title="AnimatedContent (實驗功能)"></a><code>AnimatedContent</code> (實驗功能)</h2><div class="note danger simple"><p>實驗性 API 未來可能會變更，或完全移除。</p>
-</div>
-
-<div class="note info simple"><p><code>AnimatedContent</code> 與 <code>AnimatedVisibility</code> 有點相似，前者控制切換，後者則控制顯隱。</p>
-</div>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> count <span class="keyword">by</span> remember &#123; mutableIntStateOf(<span class="number">0</span>) &#125;</span><br><span class="line"></span><br><span class="line">Column &#123;</span><br><span class="line">    AnimatedContent(targetState = count) &#123; targetCount -&gt;</span><br><span class="line">        Text(</span><br><span class="line">            text = &#123; Text(text = targetCount) &#125;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    Button(onClick = &#123; count++ &#125; )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>Text</code> 應用了隸屬於 <code>AnimatedContent</code> 的 <code>targetCount</code> 傳入參數，這個時候當內容更改時，就會有動畫的改變。</p>
-<h2 id="animate-AsState"><a href="#animate-AsState" class="headerlink" title="animate*AsState"></a><code>animate*AsState</code></h2><p>可用於為單一值建立動畫效果。您只需提供結束值 (或目標值)，該 API 就會從現值開始播放動畫，直到達到指定值。</p>
-<p>假如現在有一個小方塊 (預設的正常大小是 <code>70.dp</code>)，當按它就會長大一點，再按就長大多一點。</p>
-<div class="note info simple"><p><code>animate*AsState</code> 這裏指的 <code>*</code> 是有許多不同的至別，如 <code>Dp</code>, <code>Int</code>, <code>Float</code>, <code>Color</code> 等。</p>
-<p>因為現在是在用 <code>Dp</code> 值為狀態提升的基準，所以這裏會用的是 <code>animateDpAsState</code>，因此剛才所指的 <code>*</code> 是按情況而選擇用哪一個型別的。</p>
-</div>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> size <span class="keyword">by</span> remember &#123; mutableStateOf(<span class="number">70.</span>dp) &#125;</span><br><span class="line"><span class="keyword">val</span> animatedSize <span class="keyword">by</span> animateDpAsState(                           <span class="comment">// 新增一個狀態動畫提升</span></span><br><span class="line">    targetValue = size,</span><br><span class="line">    animationSpec = tween(<span class="number">1000</span>)                                 <span class="comment">// 動畫執行時間</span></span><br><span class="line">)        </span><br><span class="line"></span><br><span class="line">Box(</span><br><span class="line">    modifier = Modifier</span><br><span class="line">        .background(MaterialTheme.colorScheme.primary)</span><br><span class="line">        .size(animatedSize)                                     <span class="comment">// 使用狀態動畫提升值</span></span><br><span class="line">        .clickable &#123; size *= <span class="number">2</span> &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<div class="note warning simple"><p>使用 <code>animate*AsState</code> 的變量一定只能是 <code>val</code> 唯讀變量，意味著<strong>這個變量不會進行任何計算</strong>，只會用作最後顯示到目標位置。</p>
-</div>
-
-<table>
-<thead>
-<tr>
-<th>沒有動畫</th>
-<th>有動畫</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><img alt="without animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXBlODFzcDZmNXZxM3kyaDN4a2dqdDNidzRmbWdjdTdtbXUyZmlnciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GZ4XaWk930NDcq2ljI/giphy.gif"></td>
-<td><img alt="with animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NoNGdieGN1dHN2engyZmZkZnFjbGwzbms2b3F4ZXpxZTFucWl6ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gx3PbwaTAnU8L2T90E/giphy.gif"></td>
-</tr>
-</tbody></table>
-<div class="note warning simple"><p><img src="/post/jetpack-compose-dev-animation-in-compose/img2.png" alt="label parameter warning"></p>
-<p>這裏 Android Studio 會警告你在使用 <code>animate*AsState</code> 或其他關於動畫範疇的情況下沒有用 <code>label</code> 參數，這個 <code>label</code> 參數純粹是在 IDE 的動畫製作時候，方便辨認的，如果不是特別重要，可選擇忽略。</p>
-</div>]]></content>
-      <categories>
         <category>實驗內容</category>
         <category>Jetpack Compose</category>
       </categories>
       <tags>
-        <tag>Android</tag>
         <tag>Kotlin</tag>
+        <tag>Android</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
-    <title>Jetpack Compose | 客製化主題實作筆記</title>
-    <url>/post/jetpack-compose-dev-custom-theme-implementation-notes.html</url>
-    <content><![CDATA[<p>在編寫 Jetpack Compose 程式時，常常會使用到質感設計 2 或質感設計 3 的設計框架，作為應用程式的基本設計風格。這是因為質感設計 2 和質感設計 3 提供了許多簡潔明瞭的組件，官方建議在構建 Jetpack Compose 程式時，盡量使用這些框架進行開發。</p>
-<p>然而，一些知名的大型公司可能會選擇採用與質感設計不同的設計風格，來<strong>展現他們自家應用程式的獨特性</strong>。這也反映了應用程式的多樣性，避免出現與其他應用程式相似的情況。有些公司會<strong>在質感設計的框架基礎上進行改革</strong>，有些則會<strong>從頭開始自己撰寫設計框架</strong>。</p>
-<p>不可否認的是，官方為 Jetpack Compose 所撰寫的質感設計主題都是使用他們自家開發的 API。因此，我們可以<strong>參考原始的質感設計實現程式碼，來撰寫自己的設計主題</strong>。這樣我們就可以擁有自己定制的設計風格了。</p>
-<p>這裏有官方教學，不過是以質感設計 2 為基礎的，有興趣看可按此：<a href="https://developer.android.com/jetpack/compose/designsystems/custom?hl=zh-tw#implementing-fully-custom">官方教學文案</a>，這裏會著重於使用質感設計 3 的實作方式。</p>
-<hr>
-<table>
-<thead>
-<tr>
-<th>明亮主題</th>
-<th>黑暗主題</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img1.png" alt="Showcase = Light mode"></td>
-<td><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img2.png" alt="Showcase = Dark mode"></td>
-</tr>
-</tbody></table>
-<p>以上是製成品，這篇筆記會記下有關自訂主題的實現方式。</p>
-<hr>
-<h1 id="參照-MaterialTheme-程式碼"><a href="#參照-MaterialTheme-程式碼" class="headerlink" title="參照 MaterialTheme 程式碼"></a>參照 <code>MaterialTheme</code> 程式碼</h1><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> MaterialTheme &#123;</span><br><span class="line">    <span class="keyword">val</span> colorScheme: ColorScheme</span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalColorScheme.current</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> typography: Typography</span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalTypography.current</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> shapes: Shapes</span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalShapes.current</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>Android | NDK 及 C++ Native 程式開發筆記</title>
+    <url>/post/android-dev-ndk-cpp-project-notes.html</url>
+    <content><![CDATA[<p>C++ 是一種中階程式語言，主要用於遊戲和視覺開發。它也是眾所周知的難以理解的程式語法之一。對於初學者來說，C++ 可以這樣開始：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello World&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>預設的質感設計 3 提供了三個設計指標</p>
-<ul>
-<li><code>colorScheme</code>: 要應用的色彩配置</li>
-<li><code>typography</code>: 要應用的字型及字體</li>
-<li><code>shapes</code>: 要應用的形狀，如形狀的弧度</li>
-</ul>
-<p>然後你會發現。。。<strong>其實沒有內置像素密度、尺寸 (dimension)、間距 (spacing) 等常用指標</strong>，有見及此，我們可以自己參照原型，寫一個更好用的主題。</p>
+<p>這種語言與 Android 開發密切相關，因為大多數手機遊戲都是用 C++ 進行編寫和開發的。作為開發 Android 程式的我們，也可以使用 Android Studio 來寫 C++ Native 程式，就像跨領域使用 Java 和 C++ 一樣。</p>
 <hr>
-<h1 id="導入自訂主題"><a href="#導入自訂主題" class="headerlink" title="導入自訂主題"></a>導入自訂主題</h1><p>姑且命名新主題為 <strong>「BabyWhale」</strong>。</p>
-<h2 id="多範疇指標建立"><a href="#多範疇指標建立" class="headerlink" title="多範疇指標建立"></a>多範疇指標建立</h2><h3 id="色彩調色指標"><a href="#色彩調色指標" class="headerlink" title="色彩調色指標"></a>色彩調色指標</h3><p>建立一個 <code>BabyWhaleColor.kt</code>，這個檔案是定義不同主題的顏色配置，例如是淺色和深色主題。</p>
-<p>這裏是一個簡單的顏色色板，作用大概是</p>
-<ul>
-<li><code>Blue</code>: Primary 主色</li>
-<li><code>Cyan</code>: Info 提示色</li>
-<li><code>Green</code>: Success 成功色</li>
-<li><code>Orange</code>: Warning 警告色</li>
-<li><code>Red</code>: Error 錯誤&#x2F;危險色</li>
-</ul>
-<p><code>500</code> 是供淺色主題用的，而 <code>300</code> 則是深色主題。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> Blue_500 = Color(<span class="number">0xFF3366FF</span>)</span><br><span class="line"><span class="keyword">val</span> Blue_300 = Color(<span class="number">0xFF84A9FF</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> Cyan_500 = Color(<span class="number">0xFF3CC6FC</span>)</span><br><span class="line"><span class="keyword">val</span> Cyan_300 = Color(<span class="number">0xFF89EDFE</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> Green_500 = Color(<span class="number">0xFF98E01D</span>)</span><br><span class="line"><span class="keyword">val</span> Green_300 = Color(<span class="number">0xFFCFF575</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> Orange_500 = Color(<span class="number">0xFFFFAF3F</span>)</span><br><span class="line"><span class="keyword">val</span> Orange_300 = Color(<span class="number">0xFFFFD88B</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> Red_500 = Color(<span class="number">0xFFFF4130</span>)</span><br><span class="line"><span class="keyword">val</span> Red_300 = Color(<span class="number">0xFFFFA182</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> White = Color.White</span><br><span class="line"><span class="keyword">val</span> Black = Color.Black</span><br></pre></td></tr></table></figure>
+<h1 id="初建-C-Native-項目"><a href="#初建-C-Native-項目" class="headerlink" title="初建 C++ Native 項目"></a>初建 C++ Native 項目</h1><p>基本上，如果你是用 Android Studio，可以使用 C++ Native 項目模板建立 C++ Native 程式。</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img1.png" alt="C++ 項目模板"></p>
+<p>這裏它會要你選擇使用什麼 C++ 版本，通常選擇 Toolchain Default 便可。</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img2.png" alt="選擇 C++ 版本"></p>
+<h2 id="項目-app-模塊-build-gradle"><a href="#項目-app-模塊-build-gradle" class="headerlink" title="項目 app 模塊 build.gradle"></a>項目 <code>app</code> 模塊 <code>build.gradle</code></h2><p>在 <code>app</code> 模塊的 <code>build.gradle</code> 內的 <code>android</code> 區塊多定義了使用 C++ 函式庫的配置：</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">externalNativeBuild &#123;</span><br><span class="line">    cmake &#123;</span><br><span class="line">        path <span class="keyword">file</span>(<span class="string">&#x27;src/main/cpp/CMakeLists.txt&#x27;</span>)</span><br><span class="line">        version <span class="string">&#x27;3.22.1&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<div class="note info simple"><p>我是使用 <a href="https://colors.eva.design/">Eva Design System</a> 來生成以上的調色，為了較簡單，這裏只採用 <code>500</code> 和 <code>300</code> 色調碼，如果想要再完整的，基本上就是 <code>100</code> 至 <code>900</code> 全都使用。</p>
-<p><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img3.png" alt="Eva Design System"></p>
+<h2 id="項目樹狀結構變更"><a href="#項目樹狀結構變更" class="headerlink" title="項目樹狀結構變更"></a>項目樹狀結構變更</h2><p>因為這是一個 C++ Native 項目，所以它會較一般的 Android 項目多附加了一些預設元素，如果你沒有 C++ Native 模板或 Android Studio，可考慮以下樹狀結構變更。</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img3.png" alt="樹狀結構變更"></p>
+<p>在 app 目錄會多新增了一個 <code>cpp</code> 資料夾，顧名思義，這個資料夾是用來管理及編寫 C++ 語言。</p>
+<h3 id="CMake-建構指令碼"><a href="#CMake-建構指令碼" class="headerlink" title="CMake 建構指令碼"></a>CMake 建構指令碼</h3><p>CMake 建構指令碼是一個純文字檔案，檔案名必須為 <code>CMakeLists.txt</code>。就是負責為 C 或 C++ 程式定義要用的函式庫，相當於 Java 的 <code>build.gradle</code>。</p>
+<p>根據這個模板，預設的 <code>CMakeLists.txt</code> 內容是這樣的：</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="comment"># For more information about using CMake with Android Studio, read the</span></span><br><span class="line"><span class="comment"># documentation: https://d.android.com/studio/projects/add-native-code.html.</span></span><br><span class="line"><span class="comment"># For more examples on how to use CMake, see https://github.com/android/ndk-samples.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Sets the minimum CMake version required for this project.</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.22</span>.<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Declares the project name. The project name can be accessed via $&#123; PROJECT_NAME&#125;,</span></span><br><span class="line"><span class="comment"># Since this is the top level CMakeLists.txt, the project name is also accessible</span></span><br><span class="line"><span class="comment"># with $&#123;CMAKE_PROJECT_NAME&#125; (both CMake variables are in-sync within the top level</span></span><br><span class="line"><span class="comment"># build script scope).</span></span><br><span class="line"><span class="keyword">project</span>(<span class="string">&quot;cppapptest&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Creates and names a library, sets it as either STATIC</span></span><br><span class="line"><span class="comment"># or SHARED, and provides the relative paths to its source code.</span></span><br><span class="line"><span class="comment"># You can define multiple libraries, and CMake builds them for you.</span></span><br><span class="line"><span class="comment"># Gradle automatically packages shared libraries with your APK.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># In this top level CMakeLists.txt, $&#123;CMAKE_PROJECT_NAME&#125; is used to define</span></span><br><span class="line"><span class="comment"># the target library name; in the sub-module&#x27;s CMakeLists.txt, $&#123;PROJECT_NAME&#125;</span></span><br><span class="line"><span class="comment"># is preferred for the same purpose.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># In order to load a library into your app from Java/Kotlin, you must call</span></span><br><span class="line"><span class="comment"># System.loadLibrary() and pass the name of the library defined here;</span></span><br><span class="line"><span class="comment"># for GameActivity/NativeActivity derived applications, the same library name must be</span></span><br><span class="line"><span class="comment"># used in the AndroidManifest.xml file.</span></span><br><span class="line"><span class="keyword">add_library</span>(<span class="variable">$&#123;CMAKE_PROJECT_NAME&#125;</span> SHARED</span><br><span class="line">        <span class="comment"># List C/C++ source files with relative paths to this CMakeLists.txt.</span></span><br><span class="line">        native-lib.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Specifies libraries CMake should link to your target library. You</span></span><br><span class="line"><span class="comment"># can link libraries from various origins, such as libraries defined in this</span></span><br><span class="line"><span class="comment"># build script, prebuilt third-party libraries, or Android system libraries.</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(<span class="variable">$&#123;CMAKE_PROJECT_NAME&#125;</span></span><br><span class="line">        <span class="comment"># List libraries link to the target library</span></span><br><span class="line">        android</span><br><span class="line">        log)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Java-與-C-鏈結產生"><a href="#Java-與-C-鏈結產生" class="headerlink" title="Java 與 C++ 鏈結產生"></a>Java 與 C++ 鏈結產生</h3><p>這個模板預設提供了一個 <code>native-lib.cpp</code> 檔案。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> <span class="function">JNIEXPORT jstring JNICALL</span></span><br><span class="line"><span class="function"><span class="title">Java_com_bluewhaleyt_cppapptest_MainActivity_stringFromJNI</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        JNIEnv* env,</span></span></span><br><span class="line"><span class="params"><span class="function">        jobject <span class="comment">/* this */</span>)</span> </span>&#123;</span><br><span class="line">    std::string hello = <span class="string">&quot;Hello from C++&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> env-&gt;<span class="built_in">NewStringUTF</span>(hello.<span class="built_in">c_str</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而在 <code>MainActivity.java</code> 多新增了一個載入 <code>native-lib</code> C++ 本機函式庫的程式碼，而及一個 <code>native</code> 關鍵字而成的 C++ 調用函數：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    System.loadLibrary(<span class="string">&quot;cppapptest&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title function_">stringFromJNI</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Java-本機介面-JNI"><a href="#Java-本機介面-JNI" class="headerlink" title="Java 本機介面 (JNI)"></a>Java 本機介面 (JNI)</h1><p>JNI 是一個編程框架，透過 Java 虛擬機 (JVM) 調用函式庫，或其他本機程序，本機程序一般使用 C、C++ 或匯編語言 (Assembly) 編寫，從而被編譯為爾件及系統操作的程序。</p>
+<p>在以上模板，你可以看到，定義一個 JNI 方法，需要這麼長的程式碼：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> <span class="function">JNIEXPORT jstring JNICALL</span></span><br><span class="line"><span class="function"><span class="title">Java_ClassName_functionName</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    JNIEnv* env,</span></span></span><br><span class="line"><span class="params"><span class="function">    jobject <span class="comment">/* this */</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>在這個範例中，<code>ClassName</code> 是項目的 Java <code>MainActivity</code> 類別 <code>com_bluewhaleyt_cppapptest_MainActivity</code></p>
 </div>
 
-<p>寫一個數據類定義要用的顏色指標，然後把顏色向分予不同的主題模式。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Immutable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleColors</span>(</span><br><span class="line">    <span class="keyword">val</span> primary: Color,</span><br><span class="line">    <span class="keyword">val</span> info: Color,</span><br><span class="line">    <span class="keyword">val</span> success: Color,</span><br><span class="line">    <span class="keyword">val</span> warning: Color,</span><br><span class="line">    <span class="keyword">val</span> error: Color,</span><br><span class="line">    <span class="keyword">val</span> background: Color,</span><br><span class="line">    <span class="keyword">val</span> onBackground: Color,</span><br><span class="line">    <span class="keyword">val</span> onPrimary: Color</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LightColorScheme = BabyWhaleColors(</span><br><span class="line">    primary = Blue_500,</span><br><span class="line">    info = Cyan_500,</span><br><span class="line">    success = Green_500,</span><br><span class="line">    warning = Orange_500,</span><br><span class="line">    error = Red_500,</span><br><span class="line">    background = White,</span><br><span class="line">    onBackground = Black,</span><br><span class="line">    onPrimary = White</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> DarkColorScheme = BabyWhaleColors(</span><br><span class="line">    primary = Blue_300,</span><br><span class="line">    info = Cyan_300,</span><br><span class="line">    success = Green_300,</span><br><span class="line">    warning = Orange_300,</span><br><span class="line">    error = Red_300,</span><br><span class="line">    background = Black,</span><br><span class="line">    onBackground = White,</span><br><span class="line">    onPrimary = Black</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalBabyWhaleColors = staticCompositionLocalOf &#123; LightColorScheme &#125;</span><br></pre></td></tr></table></figure>
+<p>而在 Java 程式調用 C++ 函數 <code>functionName()</code>，就要另外定義一個附有 <code>native</code> 關鍵字的相應函數：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title function_">functionName</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="字型指標"><a href="#字型指標" class="headerlink" title="字型指標"></a>字型指標</h3><p>建立一個 <code>BabyWhaleTypography.kt</code>，用來管理主題的應用字型</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Immutable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleTypography</span>(</span><br><span class="line">    <span class="keyword">val</span> headline: TextStyle,</span><br><span class="line">    <span class="keyword">val</span> title: TextStyle,</span><br><span class="line">    <span class="keyword">val</span> subtitle: TextStyle,</span><br><span class="line">    <span class="keyword">val</span> body: TextStyle,</span><br><span class="line">    <span class="keyword">val</span> label: TextStyle</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> babyWhaleTypography = BabyWhaleTypography(</span><br><span class="line">    headline = TextStyle(</span><br><span class="line">        fontSize = <span class="number">27.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Black,</span><br><span class="line">    ),</span><br><span class="line">    title = TextStyle(</span><br><span class="line">        fontSize = <span class="number">21.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Bold,</span><br><span class="line">    ),</span><br><span class="line">    subtitle = TextStyle(</span><br><span class="line">        fontSize = <span class="number">19.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Normal,</span><br><span class="line">    ),</span><br><span class="line">    body = TextStyle(</span><br><span class="line">        fontSize = <span class="number">18.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Normal,</span><br><span class="line">    ),</span><br><span class="line">    label = TextStyle(</span><br><span class="line">        fontSize = <span class="number">16.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Bold,</span><br><span class="line">    ),</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalBabyWhaleTypography = staticCompositionLocalOf &#123; babyWhaleTypography &#125;</span><br></pre></td></tr></table></figure>
+<p>特別要說說 C++ 程式碼：</p>
+<ul>
+<li><code>extern &quot;C&quot;</code>: 是一個限制使用 C 語言作為命名規則，即該函數將會採用 C 語言進行定義。</li>
+<li><code>JNIEXPORT</code> 及 <code>JNICALL</code>: 是定義 JNI 函數的修飾詞。</li>
+<li><code>jstring</code>: 是指明函數傳回類型是 Java 的 <code>String</code> 型別</li>
+<li><code>JNIEnv</code>: 是一個指向 JNI 環境的指標，提供了在本地程式碼中調用 Java 方法、訪問 Java 對象等操作的方法。</li>
+<li><code>jobject</code>: 是一個代表 Java 對象的類型。它可以是任何 Java 對象的參考，並且可以在本地程式碼中用於訪問該對象的屬性和方法。</li>
+</ul>
+<div class="note info simple"><p>基本上這個 JNI 定義方法不用手動敲的，可以直接用 Android Studio 的自動完成方案：</p>
+<p>只要在 Java 定義一個 <code>native</code> 方法：</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img4.png" alt="C++ 自動完成方案"></p>
+<p>然後就會在 C++ 檔案生成了程式碼：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="function">JNIEXPORT <span class="type">void</span> JNICALL</span></span><br><span class="line"><span class="function"><span class="title">Java_com_bluewhaleyt_cppapptest_MainActivity_myTestFunc</span><span class="params">(JNIEnv *env, jobject thiz)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> implement myTestFunc()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="形狀指標"><a href="#形狀指標" class="headerlink" title="形狀指標"></a>形狀指標</h3><p>建立一個 <code>BabyWhaleShape.kt</code></p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Immutable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleShape</span>(</span><br><span class="line">    <span class="keyword">val</span> extraSmall: RoundedCornerShape = RoundedCornerShape(<span class="number">4.</span>dp),</span><br><span class="line">    <span class="keyword">val</span> small: RoundedCornerShape = RoundedCornerShape(<span class="number">8.</span>dp),</span><br><span class="line">    <span class="keyword">val</span> medium: RoundedCornerShape = RoundedCornerShape(<span class="number">16.</span>dp),</span><br><span class="line">    <span class="keyword">val</span> large: RoundedCornerShape = RoundedCornerShape(<span class="number">24.</span>dp),</span><br><span class="line">    <span class="keyword">val</span> extraLarge: RoundedCornerShape = RoundedCornerShape(<span class="number">28.</span>dp)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalBabyWhaleShape = staticCompositionLocalOf &#123; BabyWhaleShape() &#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="自訂間距指標"><a href="#自訂間距指標" class="headerlink" title="自訂間距指標"></a>自訂間距指標</h3><p>新建 <code>BabyWhaleSpacing.kt</code></p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleSpacing</span>(</span><br><span class="line">    <span class="keyword">val</span> small: Dp = <span class="number">8.</span>dp,</span><br><span class="line">    <span class="keyword">val</span> medium: Dp = <span class="number">16.</span>dp,</span><br><span class="line">    <span class="keyword">val</span> large: Dp = <span class="number">24.</span>dp</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalBabyWhaleSpacing = staticCompositionLocalOf &#123; BabyWhaleSpacing() &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="套用指標至主題"><a href="#套用指標至主題" class="headerlink" title="套用指標至主題"></a>套用指標至主題</h2><p>把指標全都寫好後，就可以新建 <code>BabyWhaleTheme.kt</code> ，把主題相關的邏輯通通寫進去。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> BabyWhaleTheme &#123;</span><br><span class="line">    <span class="keyword">val</span> colors: BabyWhaleColors</span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalBabyWhaleColors.current</span><br><span class="line">    <span class="keyword">val</span> typography: BabyWhaleTypography</span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalBabyWhaleTypography.current</span><br><span class="line">    <span class="keyword">val</span> shapes: BabyWhaleShape</span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalBabyWhaleShape.current</span><br><span class="line">    <span class="keyword">val</span> spacing: BabyWhaleSpacing</span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalBabyWhaleSpacing.current</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然後寫 <code>BabyWhaleTheme()</code> 主要用的主題應用函數</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">BabyWhaleTheme</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    isDarkMode: <span class="type">Boolean</span> = isSystemInDarkTheme()</span></span>,</span><br><span class="line">    typography: BabyWhaleTypography = BabyWhaleTheme.typography,</span><br><span class="line">    shapes: BabyWhaleShape = BabyWhaleTheme.shapes,</span><br><span class="line">    spacing: BabyWhaleSpacing = BabyWhaleTheme.spacing,</span><br><span class="line">    content: <span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span></span><br><span class="line">) &#123;</span><br><span class="line">    <span class="keyword">val</span> colorScheme = <span class="keyword">if</span> (isDarkMode) DarkColorScheme <span class="keyword">else</span> LightColorScheme</span><br><span class="line">    CompositionLocalProvider(</span><br><span class="line">        LocalBabyWhaleColors provides colorScheme,</span><br><span class="line">        LocalBabyWhaleTypography provides typography,</span><br><span class="line">        LocalBabyWhaleShape provides shapes,</span><br><span class="line">        LocalBabyWhaleSpacing provides spacing</span><br><span class="line">    ) &#123;</span><br><span class="line">        Box(</span><br><span class="line">            modifier = Modifier</span><br><span class="line">                .background(colorScheme.background)</span><br><span class="line">                .fillMaxSize()</span><br><span class="line">        ) &#123;</span><br><span class="line">            content()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<details class="folding-tag"><summary> 主題函式庫提供方法 </summary>
-              <div class="content">
-              <p>如果你是想將主題封裝成依附元件，供不同項目使用，用法其實就像 <code>MaterialTheme</code> 一樣。</p><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">AppTheme</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    isDarkMode: <span class="type">Boolean</span> = isSystemInDarkTheme,</span></span></span><br><span class="line"><span class="params"><span class="function">    content: @<span class="type">Composable</span> () -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    BabyWhaleTheme(</span><br><span class="line">        isDarkMode = isDarkMode,</span><br><span class="line">        content = content</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-              </div>
-            </details>
-
-<h2 id="自訂組件"><a href="#自訂組件" class="headerlink" title="自訂組件"></a>自訂組件</h2><p>因為 Jetpack Compose 內置提供的大部份組件都是使用質感設計為基礎的，所以如果你要寫一個與這個自訂主題相容的組件，就必須要自己另外再寫，這裏展示例如寫一個不同級別程度的按鈕</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleButtonType</span> &#123;</span><br><span class="line">    Primary, Info, Success, Warning, Error</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="keyword">internal</span> <span class="function"><span class="keyword">fun</span> <span class="title">getTypeColor</span><span class="params">(type: <span class="type">BabyWhaleButtonType</span>)</span></span> = <span class="keyword">when</span> (type) &#123;</span><br><span class="line">    BabyWhaleButtonType.Primary -&gt; BabyWhaleTheme.colors.primary</span><br><span class="line">    BabyWhaleButtonType.Info -&gt; BabyWhaleTheme.colors.info</span><br><span class="line">    BabyWhaleButtonType.Success -&gt; BabyWhaleTheme.colors.success</span><br><span class="line">    BabyWhaleButtonType.Warning -&gt; BabyWhaleTheme.colors.warning</span><br><span class="line">    BabyWhaleButtonType.Error -&gt; BabyWhaleTheme.colors.error</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">BabyWhaleButton</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    modifier: <span class="type">Modifier</span> = Modifier,</span></span></span><br><span class="line"><span class="params"><span class="function">    type: <span class="type">BabyWhaleButtonType</span> = BabyWhaleButtonType.Primary,</span></span></span><br><span class="line"><span class="params"><span class="function">    onClick: () -&gt; <span class="type">Unit</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    content: @<span class="type">Composable</span> () -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    Button(</span><br><span class="line">        modifier = modifier,</span><br><span class="line">        onClick = onClick,</span><br><span class="line">        colors = ButtonDefaults.buttonColors(</span><br><span class="line">            containerColor = getTypeColor(type = type),</span><br><span class="line">            contentColor = BabyWhaleTheme.colors.onPrimary</span><br><span class="line">        )</span><br><span class="line">    ) &#123;</span><br><span class="line">        content()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>用法：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainActivity</span> : <span class="type">ComponentActivity</span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContent &#123;</span><br><span class="line">            BabyWhaleTheme &#123;</span><br><span class="line">                Column &#123;</span><br><span class="line">                    <span class="keyword">val</span> types = BabyWhaleButtonType.entries     <span class="comment">// 注意：需要 Kotlin 1.9.10 版本</span></span><br><span class="line">                    types.forEach &#123;</span><br><span class="line">                        BabyWhaleButton(</span><br><span class="line">                            type = it,</span><br><span class="line">                            onClick = &#123; <span class="comment">/*TODO*/</span> &#125;</span><br><span class="line">                        ) &#123;</span><br><span class="line">                            Text(text = <span class="string">&quot;<span class="subst">$&#123;it.name&#125;</span> Button&quot;</span>)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以你大可以不用學會怎樣寫 JNI 方法，只要理解便可。</p>
+</div>
 
 <hr>
-<h1 id="擴充質感主題"><a href="#擴充質感主題" class="headerlink" title="擴充質感主題"></a>擴充質感主題</h1><p>或許你對質感主題仍然情有獨鍾，只是對部分的顏色或其他的指標有點執着。甚至是想另外新增一個第 N 個副色，這裏可考慮用擴充形式，一來不會影響整個主題，二來實現到你的目的，無傷大雅。</p>
-<h2 id="擴充屬性"><a href="#擴充屬性" class="headerlink" title="擴充屬性"></a>擴充屬性</h2><p>說好是擴充了，所以就真的是單純用擴展函式來對指標物件進行擴充。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Use with MaterialTheme.colorScheme.snackbarAction</span></span><br><span class="line"><span class="keyword">val</span> ColorScheme.snackbarAction: Color</span><br><span class="line">    <span class="keyword">get</span>() = <span class="keyword">if</span> (isLight) Red300 <span class="keyword">else</span> Red700</span><br><span class="line"></span><br><span class="line"><span class="comment">// Use with MaterialTheme.typography.textFieldInput</span></span><br><span class="line"><span class="keyword">val</span> Typography.textFieldInput: TextStyle</span><br><span class="line">    <span class="keyword">get</span>() = TextStyle(<span class="comment">/* ... */</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Use with MaterialTheme.shapes.card</span></span><br><span class="line"><span class="keyword">val</span> Shapes.card: Shape</span><br><span class="line">    <span class="keyword">get</span>() = RoundedCornerShape(size = <span class="number">20.</span>dp)</span><br></pre></td></tr></table></figure>
-
-<h2 id="擴充質感主題-1"><a href="#擴充質感主題-1" class="headerlink" title="擴充質感主題"></a>擴充質感主題</h2><p>這個會用到 <code>CompositionLocalProvider</code> 把定義好的擴充顏色作為本機資料。再把這些顏色「包裝」到現有的 <code>MaterialTheme</code>。</p>
-<p>假如現在質感設計 3 有 <code>error</code>, <code>onError</code>, <code>errorContainer</code>, <code>onErrorContainer</code>，你覺得不夠，你想看到「成功」，就可以寫一個數據類再加以把顏色定義。</p>
-<p>預設會先用 <code>Color.Unspecified</code> (未下定義的顏色值)。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Immutable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">ExtendedColorScheme</span>(</span><br><span class="line">    <span class="keyword">val</span> success: Color,</span><br><span class="line">    <span class="keyword">val</span> onSuccess: Color,</span><br><span class="line">    <span class="keyword">val</span> successContainer: Color,</span><br><span class="line">    <span class="keyword">val</span> onSuccessContainer: Color</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalExtendedColorScheme = staticCompositionLocalOf &#123;</span><br><span class="line">    ExtendedColorScheme(</span><br><span class="line">        success = Color.Unspecified,</span><br><span class="line">        onSuccess = Color.Unspecified,</span><br><span class="line">        successContainer = Color.Unspecified,</span><br><span class="line">        onSuccessContainer = Color.Unspecified,</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然後像 <code>MaterialTheme</code> 一樣寫一個 <code>object</code> 和可組合函式，但不同的是，我們仍然會用到 <code>MaterialTheme</code>。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> ExtendedTheme &#123;</span><br><span class="line">    <span class="keyword">val</span> colorScheme: ExtendedColorScheme</span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalExtendedColorScheme.current</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">ExtendedTheme</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="comment">/* 這裏如常處理其他參數 */</span></span></span></span><br><span class="line"><span class="params"><span class="function">    content: @<span class="type">Composable</span> () -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 這裏的顏色值沒有進行特別測試</span></span><br><span class="line">    <span class="keyword">val</span> extendedColors = ExtendedColorScheme(</span><br><span class="line">        success = Color(<span class="number">0xFF98e01d</span>),</span><br><span class="line">        onSuccess = Color(<span class="number">0xFF366B05</span>),</span><br><span class="line">        successContainer = Color(<span class="number">0xFF366B05</span>),</span><br><span class="line">        onSuccessContainer = Color(<span class="number">0xFF7AC015</span>),</span><br><span class="line">    )</span><br><span class="line">    CompositionLocalProvider(LocalExtendedColorScheme provides extendedColors) &#123;</span><br><span class="line">        MaterialTheme(</span><br><span class="line">            <span class="comment">/* 這裏如常處理其他參數 */</span></span><br><span class="line">            content = content</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<h1 id="動態鏈接庫-so"><a href="#動態鏈接庫-so" class="headerlink" title="動態鏈接庫 (.so)"></a>動態鏈接庫 (<code>.so</code>)</h1><p>把編譯並匯出後的 <code>.apk</code> 檔案修改為 <code>.zip</code> 檔案解壓縮，開啟 lib 資料夾就可以看到 <code>.so</code> 檔案。</p>
+<p>Android Studio 的 C++ Native 模板預設支援及提供以下 NDK 架構:</p>
+<p><img src="/post/android-dev-ndk-cpp-project-notes/img5.png" alt="NDK .so"></p>
+]]></content>
       <categories>
+        <category>Android 開發</category>
+        <category>實驗內容</category>
         <category>學習筆記</category>
-        <category>Jetpack Compose</category>
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Kotlin</tag>
+        <tag>Java</tag>
+        <tag>C++</tag>
+        <tag>NDK</tag>
       </tags>
   </entry>
   <entry>
@@ -714,92 +515,8 @@
         <category>Jetpack Compose</category>
       </categories>
       <tags>
-        <tag>Android</tag>
         <tag>Kotlin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Jetpack Compose | 有效管理 UI 介面的狀態</title>
-    <url>/post/jetpack-compose-ui-state-sealed-class-notes.html</url>
-    <content><![CDATA[<p>在 Jetpack Compose 中，官方強調的是狀態管理的重要性。一般情況下，我們使用 ViewModel 將商業邏輯放在其中，以減少組合函式中的邏輯程式碼，從而提供更好的使用者體驗。</p>
-<p>然而，有時我們需要處理一些進階的管理程式，例如 API 請求、檔案讀取等，這時候可能會用到以下三個基本狀態：</p>
-<ul>
-<li><code>Loading</code>（載入中）：表示資料正在載入的過程中，可以顯示一個載入中的動畫或提示訊息。</li>
-<li><code>Success</code>（成功）：表示資料載入成功，可以將資料顯示在介面上或執行相應的操作。</li>
-<li><code>Error</code>（錯誤）：表示資料載入過程中發生錯誤，可以顯示錯誤訊息或提供用戶重新嘗試的選項。</li>
-</ul>
-<p>這三個狀態可以<strong>幫助我們更好地管理資料載入的過程</strong>，並提供更好的使用者反饋。在實作中，我們可以使用<strong>相應的狀態來更新介面</strong>，以反映當前的狀態。</p>
-<p>接下來會以一個檔案文本編輯器作範例</p>
-<hr>
-<h1 id="定義封裝類狀態"><a href="#定義封裝類狀態" class="headerlink" title="定義封裝類狀態"></a>定義封裝類狀態</h1><div class="note warning simple"><p><code>UIState</code> 封裝類會因應程式的目的而有所不同，現在這個範例是檔案文本編輯器，所以稱作 <code>EditorUIState</code></p>
-</div>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">sealed</span> <span class="keyword">class</span> <span class="title class_">EditorUIState</span> &#123;</span><br><span class="line">    <span class="keyword">data</span> <span class="keyword">object</span> Loading : EditorUIState()</span><br><span class="line">    <span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Error</span>(<span class="keyword">val</span> message: String? = <span class="literal">null</span>) : EditorUIState()</span><br><span class="line">    <span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Success</span>(<span class="keyword">val</span> file: File? = <span class="literal">null</span>) : EditorUIState()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在這個 <code>EditorUIState</code>，其中 <code>Error</code> 及 <code>Success</code> 需要傳入參數，<code>Error</code> 是用來顯示錯誤訊息，而 <code>Success</code> 是只有傳入參數的物件是有效，才會執行，在這個範例中，唯獨只有 <code>Success</code> 這個狀態需要獲取要用的資料。</p>
-<h2 id="不同狀態應用的介面"><a href="#不同狀態應用的介面" class="headerlink" title="不同狀態應用的介面"></a>不同狀態應用的介面</h2><p>在這個範例中，我們的 <code>Loading</code>, <code>Success</code> 及 <code>Error</code> 狀態會分別以以下方式顯示：</p>
-<ul>
-<li><code>Loading</code>: 會顯示一個載入對話框，當載入完成，對話框便會自動關閉</li>
-<li><code>Error</code>: 把錯誤訊息顯示在 <code>Scaffold</code> 內的 <code>Snackbar</code>，當發生錯誤，<code>Snackbar</code> 便會彈出，同時會附加一個重試按鈕，重新再獲取資料</li>
-<li><code>Success</code>: 成功獲取資料的內容就會在 <code>Scaffold</code> 的主佈局呈現</li>
-</ul>
-<hr>
-<h1 id="編寫-ViewModel"><a href="#編寫-ViewModel" class="headerlink" title="編寫 ViewModel"></a>編寫 ViewModel</h1><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">EditorViewModel</span> : <span class="type">ViewModel</span>()</span><br></pre></td></tr></table></figure>
-
-<p>在這個範例中，需要定義三個狀態，狀態分別需要可變及不可變型態。</p>
-<div class="note info simple"><p>定義可變狀態時，一般我們在 ViewModel 定義可變 (mutable) 狀態都會在變量名稱加上 <code>_</code> 前綴，而定義不可變狀態會宣告 <code>State</code> 型別，即不可變狀態作賦值。</p>
-</div>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _file = mutableStateOf(File(<span class="string">&quot;&quot;</span>)) <span class="comment">// 無效檔案範例</span></span><br><span class="line"><span class="keyword">val</span> file: State&lt;File&gt; = _file</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _uiState = MutableStateFlow&lt;EditorUIState&gt;(EditorUIState.Loading)</span><br><span class="line"><span class="keyword">val</span> uiState = _uiState.asStateFlow()</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _editorText = mutableStateOf(_file.value.getFileContent())</span><br><span class="line"><span class="keyword">val</span> editorText: State&lt;String&gt; = _editorText</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> snackbarHostState = SnackbarHostState()</span><br></pre></td></tr></table></figure>
-
-<p>正常情況下，都會以 <code>Loading</code> 狀態為初始 UI 狀態，<code>Success</code> 或 <code>Error</code> 狀態是待 <code>Loading</code> 完成才判斷的。</p>
-<h2 id="初始化狀態程序"><a href="#初始化狀態程序" class="headerlink" title="初始化狀態程序"></a>初始化狀態程序</h2><div class="note info simple"><p>因為我們想確保 ViewModel 能夠順利被載入及執行，所以加上了 2 秒延遲 (<code>delay(2000L)</code>)。</p>
-</div>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">init</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">    viewModelScope.launch &#123;</span><br><span class="line">        delay(<span class="number">2000L</span>)</span><br><span class="line"></span><br><span class="line">        _uiState.value = <span class="keyword">if</span> (_file.value.exists()) &#123;</span><br><span class="line">            EditorUIState.Success(file = _file.value)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            EditorUIState.Error(message = <span class="string">&quot;Invalid file&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在這個範例中，我們判斷如果所獲取的檔案是存在的，則視為成功，否則視為錯誤。</p>
-<h2 id="顯示錯誤訊息的-Snackbar"><a href="#顯示錯誤訊息的-Snackbar" class="headerlink" title="顯示錯誤訊息的 Snackbar"></a>顯示錯誤訊息的 <code>Snackbar</code></h2><p>剛才都說過，當發生錯誤，就會彈出 <code>Snackbar</code> 訊息</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showErrorSnackbar</span><span class="params">(message: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    viewModelScope.launch &#123;</span><br><span class="line">        snackbarHostState.showSnackbar(message)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>而且有一個重試按鈕的點擊事件，重新再獲取資料，其實就是把狀態歸零，再初始化一遍。</p>
-<div class="note info simple"><p>這裏的歸零是重置為 <code>Loading</code> 狀態。</p>
-</div>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">refresh</span><span class="params">()</span></span> &#123;</span><br><span class="line">    _uiState.value = EditorUIState.Loading</span><br><span class="line">    <span class="keyword">init</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="編寫不同狀態的介面"><a href="#編寫不同狀態的介面" class="headerlink" title="編寫不同狀態的介面"></a>編寫不同狀態的介面</h1><p><code>Success</code> 的含義本來就是當資料獲取成功後就會導向該介面，意昧着你只要把主要的介面內容寫進 <code>Success</code> 介面便可，因為理論上<strong>用戶提供的檔案路徑均屬有效。只要檔案有效才可以繼續使用編輯器</strong>。</p>
-<p>在這個範例中，<code>Loading</code> 及 <code>Error</code> 分別使用了對話框及 Snackbar 形式，其實這個可以很自由，你喜歡的話都可以都以介面形式處理：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">when</span> (state) &#123;</span><br><span class="line">    <span class="keyword">is</span> EditorUIState.Loading -&gt; LoadingScreen()</span><br><span class="line">    <span class="keyword">is</span> EditorUIState.Error -&gt; ErrorScreen()</span><br><span class="line">    <span class="keyword">is</span> EditorUIState.Success -&gt; ReadyScreen()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<div class="note warning simple"><p>記得 <code>state</code> 參數要設置 <code>collectAsState()</code>，否則只會一直處於 <code>Loading</code> 狀態，一直顯示載入對話框。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">EditorScreen</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    viewModel: <span class="type">EditorViewModel</span> = viewModel()</span></span>,</span><br><span class="line">    navController: NavController</span><br><span class="line">) &#123;</span><br><span class="line">    Content(</span><br><span class="line">        state = viewModel.uiState.collectAsState().value</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">Content</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    viewModel: <span class="type">EditorViewModel</span> = viewModel()</span></span>,</span><br><span class="line">    state: EditorUIState,</span><br><span class="line">) &#123;</span><br><span class="line">    <span class="keyword">val</span> scope = rememberCoroutineScope()</span><br><span class="line"></span><br><span class="line">    Container(</span><br><span class="line">        onRetry = &#123;</span><br><span class="line">            viewModel.refresh()</span><br><span class="line">        &#125;</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">when</span> (state) &#123;</span><br><span class="line">            <span class="keyword">is</span> EditorUIState.Loading -&gt; &#123;</span><br><span class="line">                LoadingDialog()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">is</span> EditorUIState.Error -&gt; &#123;</span><br><span class="line">                scope.launch &#123;</span><br><span class="line">                    viewModel.showErrorSnackbar(state.message ?: <span class="string">&quot;Unexpected Error&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">is</span> EditorUIState.Success -&gt; &#123;</span><br><span class="line">                Text(text = state.file?.path.toString())</span><br><span class="line">                TextField(</span><br><span class="line">                    value = viewModel.editorText.value,</span><br><span class="line">                    onValueChange = &#123; viewModel.editorText.value = it &#125;</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<div class="tabs" id="container_loadingdialog"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="container_loadingdialog-1">Container</button><button type="button" class="tab " data-href="container_loadingdialog-2">LoadingDialog</button></ul><div class="tab-contents"><div class="tab-item-content active" id="container_loadingdialog-1"><p><code>Container</code> 可組合函式主要是用來封裝整個 <code>Scaffold</code>，連同顯示錯誤訊息的 Snackbar。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">Container</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    viewModel: <span class="type">EditorViewModel</span> = viewModel()</span></span>,</span><br><span class="line">    onRetry: () -&gt; <span class="built_in">Unit</span>,</span><br><span class="line">    content: <span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span></span><br><span class="line">) &#123;</span><br><span class="line">    Scaffold(</span><br><span class="line">        snackbarHost = &#123;</span><br><span class="line">            SnackbarHost(</span><br><span class="line">                hostState = viewModel.snackbarHostState,</span><br><span class="line">                snackbar = &#123; <span class="keyword">data</span> -&gt;</span><br><span class="line">                    Snackbar(</span><br><span class="line">                        modifier = Modifier.padding(<span class="number">16.</span>dp),</span><br><span class="line">                        action = &#123;</span><br><span class="line">                            TextButton(</span><br><span class="line">                                onClick = onRetry,</span><br><span class="line">                                colors = ButtonDefaults.textButtonColors(</span><br><span class="line">                                    contentColor = SnackbarDefaults.actionColor</span><br><span class="line">                                )</span><br><span class="line">                            ) &#123;</span><br><span class="line">                                Text(text = <span class="string">&quot;Retry&quot;</span>)</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    ) &#123;</span><br><span class="line">                        Text(text = <span class="keyword">data</span>.visuals.message)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    ) &#123;</span><br><span class="line">        Column(</span><br><span class="line">            modifier = Modifier.padding(it)</span><br><span class="line">        ) &#123;</span><br><span class="line">            content()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="container_loadingdialog-2"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">LoadingDialog</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Dialog(</span><br><span class="line">        onDismissRequest = &#123;&#125;</span><br><span class="line">    ) &#123;</span><br><span class="line">        Box(</span><br><span class="line">            modifier = Modifier</span><br><span class="line">                .width(<span class="number">100.</span>dp)</span><br><span class="line">                .height(<span class="number">100.</span>dp)</span><br><span class="line">                .clip(MaterialTheme.shapes.extraLarge)</span><br><span class="line">                .background(MaterialTheme.colorScheme.surfaceContainer),</span><br><span class="line">            contentAlignment = Alignment.Center</span><br><span class="line">        ) &#123;</span><br><span class="line">            CircularProgressIndicator()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
-
-<hr>
-<h1 id="實驗及預覽所有狀態介面"><a href="#實驗及預覽所有狀態介面" class="headerlink" title="實驗及預覽所有狀態介面"></a>實驗及預覽所有狀態介面</h1><p>在這個範例中，如果要實驗一個成功導向 <code>Success</code> 狀態的介面，就需要提供一個有效的檔案路徑：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _file = mutableStateOf(File(<span class="string">&quot;/storage/emulated/0/BlueWhaleYT/Hello.js&quot;</span>)) <span class="comment">// 有效檔案範例</span></span><br><span class="line"><span class="keyword">val</span> file: State&lt;File&gt; = _file</span><br></pre></td></tr></table></figure>
-
-<p>如果要實驗導向 <code>Error</code> 狀態介面，則可以提供無效檔案：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _file = mutableStateOf(File(<span class="string">&quot;&quot;</span>)) <span class="comment">// 無效檔案範例</span></span><br><span class="line"><span class="keyword">val</span> file: State&lt;File&gt; = _file</span><br></pre></td></tr></table></figure>
-
-<p>不過有時候，你可能會想借助 Compose Preview 功能來預覽不同狀態的介面，我們可以寫一個繼承 <code>PreviewParameterProvider</code> 介面，例如：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">internal</span> <span class="keyword">class</span> <span class="title class_">EditorUIStateProvider</span> : <span class="type">PreviewParameterProvider</span>&lt;<span class="type">EditorUIState</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> values: Sequence&lt;EditorUIState&gt; = sequenceOf(</span><br><span class="line">        EditorUIState.Loading,</span><br><span class="line">        EditorUIState.Success(),</span><br><span class="line">        EditorUIState.Error()</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然後在你的預覽可組合函式中：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Preview(showSystemUi = true)</span></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">EditorScreenPreview</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="meta">@PreviewParameter(EditorUIStateProvider::class)</span> state: <span class="type">EditorUIState</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    MyAppTheme &#123;</span><br><span class="line">        Content(state = state)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>實驗內容</category>
-        <category>學習筆記</category>
-        <category>Jetpack Compose</category>
-      </categories>
-      <tags>
         <tag>Android</tag>
-        <tag>Kotlin</tag>
       </tags>
   </entry>
   <entry>
@@ -928,6 +645,106 @@
       <tags>
         <tag>Lua</tag>
         <tag>Roblox</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose | 客製化主題實作筆記</title>
+    <url>/post/jetpack-compose-dev-custom-theme-implementation-notes.html</url>
+    <content><![CDATA[<p>在編寫 Jetpack Compose 程式時，常常會使用到質感設計 2 或質感設計 3 的設計框架，作為應用程式的基本設計風格。這是因為質感設計 2 和質感設計 3 提供了許多簡潔明瞭的組件，官方建議在構建 Jetpack Compose 程式時，盡量使用這些框架進行開發。</p>
+<p>然而，一些知名的大型公司可能會選擇採用與質感設計不同的設計風格，來<strong>展現他們自家應用程式的獨特性</strong>。這也反映了應用程式的多樣性，避免出現與其他應用程式相似的情況。有些公司會<strong>在質感設計的框架基礎上進行改革</strong>，有些則會<strong>從頭開始自己撰寫設計框架</strong>。</p>
+<p>不可否認的是，官方為 Jetpack Compose 所撰寫的質感設計主題都是使用他們自家開發的 API。因此，我們可以<strong>參考原始的質感設計實現程式碼，來撰寫自己的設計主題</strong>。這樣我們就可以擁有自己定制的設計風格了。</p>
+<p>這裏有官方教學，不過是以質感設計 2 為基礎的，有興趣看可按此：<a href="https://developer.android.com/jetpack/compose/designsystems/custom?hl=zh-tw#implementing-fully-custom">官方教學文案</a>，這裏會著重於使用質感設計 3 的實作方式。</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>明亮主題</th>
+<th>黑暗主題</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img1.png" alt="Showcase = Light mode"></td>
+<td><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img2.png" alt="Showcase = Dark mode"></td>
+</tr>
+</tbody></table>
+<p>以上是製成品，這篇筆記會記下有關自訂主題的實現方式。</p>
+<hr>
+<h1 id="參照-MaterialTheme-程式碼"><a href="#參照-MaterialTheme-程式碼" class="headerlink" title="參照 MaterialTheme 程式碼"></a>參照 <code>MaterialTheme</code> 程式碼</h1><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> MaterialTheme &#123;</span><br><span class="line">    <span class="keyword">val</span> colorScheme: ColorScheme</span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalColorScheme.current</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> typography: Typography</span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalTypography.current</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> shapes: Shapes</span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalShapes.current</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>預設的質感設計 3 提供了三個設計指標</p>
+<ul>
+<li><code>colorScheme</code>: 要應用的色彩配置</li>
+<li><code>typography</code>: 要應用的字型及字體</li>
+<li><code>shapes</code>: 要應用的形狀，如形狀的弧度</li>
+</ul>
+<p>然後你會發現。。。<strong>其實沒有內置像素密度、尺寸 (dimension)、間距 (spacing) 等常用指標</strong>，有見及此，我們可以自己參照原型，寫一個更好用的主題。</p>
+<hr>
+<h1 id="導入自訂主題"><a href="#導入自訂主題" class="headerlink" title="導入自訂主題"></a>導入自訂主題</h1><p>姑且命名新主題為 <strong>「BabyWhale」</strong>。</p>
+<h2 id="多範疇指標建立"><a href="#多範疇指標建立" class="headerlink" title="多範疇指標建立"></a>多範疇指標建立</h2><h3 id="色彩調色指標"><a href="#色彩調色指標" class="headerlink" title="色彩調色指標"></a>色彩調色指標</h3><p>建立一個 <code>BabyWhaleColor.kt</code>，這個檔案是定義不同主題的顏色配置，例如是淺色和深色主題。</p>
+<p>這裏是一個簡單的顏色色板，作用大概是</p>
+<ul>
+<li><code>Blue</code>: Primary 主色</li>
+<li><code>Cyan</code>: Info 提示色</li>
+<li><code>Green</code>: Success 成功色</li>
+<li><code>Orange</code>: Warning 警告色</li>
+<li><code>Red</code>: Error 錯誤&#x2F;危險色</li>
+</ul>
+<p><code>500</code> 是供淺色主題用的，而 <code>300</code> 則是深色主題。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> Blue_500 = Color(<span class="number">0xFF3366FF</span>)</span><br><span class="line"><span class="keyword">val</span> Blue_300 = Color(<span class="number">0xFF84A9FF</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> Cyan_500 = Color(<span class="number">0xFF3CC6FC</span>)</span><br><span class="line"><span class="keyword">val</span> Cyan_300 = Color(<span class="number">0xFF89EDFE</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> Green_500 = Color(<span class="number">0xFF98E01D</span>)</span><br><span class="line"><span class="keyword">val</span> Green_300 = Color(<span class="number">0xFFCFF575</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> Orange_500 = Color(<span class="number">0xFFFFAF3F</span>)</span><br><span class="line"><span class="keyword">val</span> Orange_300 = Color(<span class="number">0xFFFFD88B</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> Red_500 = Color(<span class="number">0xFFFF4130</span>)</span><br><span class="line"><span class="keyword">val</span> Red_300 = Color(<span class="number">0xFFFFA182</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> White = Color.White</span><br><span class="line"><span class="keyword">val</span> Black = Color.Black</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>我是使用 <a href="https://colors.eva.design/">Eva Design System</a> 來生成以上的調色，為了較簡單，這裏只採用 <code>500</code> 和 <code>300</code> 色調碼，如果想要再完整的，基本上就是 <code>100</code> 至 <code>900</code> 全都使用。</p>
+<p><img src="/post/jetpack-compose-dev-custom-theme-implementation-notes/img3.png" alt="Eva Design System"></p>
+</div>
+
+<p>寫一個數據類定義要用的顏色指標，然後把顏色向分予不同的主題模式。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Immutable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleColors</span>(</span><br><span class="line">    <span class="keyword">val</span> primary: Color,</span><br><span class="line">    <span class="keyword">val</span> info: Color,</span><br><span class="line">    <span class="keyword">val</span> success: Color,</span><br><span class="line">    <span class="keyword">val</span> warning: Color,</span><br><span class="line">    <span class="keyword">val</span> error: Color,</span><br><span class="line">    <span class="keyword">val</span> background: Color,</span><br><span class="line">    <span class="keyword">val</span> onBackground: Color,</span><br><span class="line">    <span class="keyword">val</span> onPrimary: Color</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LightColorScheme = BabyWhaleColors(</span><br><span class="line">    primary = Blue_500,</span><br><span class="line">    info = Cyan_500,</span><br><span class="line">    success = Green_500,</span><br><span class="line">    warning = Orange_500,</span><br><span class="line">    error = Red_500,</span><br><span class="line">    background = White,</span><br><span class="line">    onBackground = Black,</span><br><span class="line">    onPrimary = White</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> DarkColorScheme = BabyWhaleColors(</span><br><span class="line">    primary = Blue_300,</span><br><span class="line">    info = Cyan_300,</span><br><span class="line">    success = Green_300,</span><br><span class="line">    warning = Orange_300,</span><br><span class="line">    error = Red_300,</span><br><span class="line">    background = Black,</span><br><span class="line">    onBackground = White,</span><br><span class="line">    onPrimary = Black</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalBabyWhaleColors = staticCompositionLocalOf &#123; LightColorScheme &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="字型指標"><a href="#字型指標" class="headerlink" title="字型指標"></a>字型指標</h3><p>建立一個 <code>BabyWhaleTypography.kt</code>，用來管理主題的應用字型</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Immutable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleTypography</span>(</span><br><span class="line">    <span class="keyword">val</span> headline: TextStyle,</span><br><span class="line">    <span class="keyword">val</span> title: TextStyle,</span><br><span class="line">    <span class="keyword">val</span> subtitle: TextStyle,</span><br><span class="line">    <span class="keyword">val</span> body: TextStyle,</span><br><span class="line">    <span class="keyword">val</span> label: TextStyle</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> babyWhaleTypography = BabyWhaleTypography(</span><br><span class="line">    headline = TextStyle(</span><br><span class="line">        fontSize = <span class="number">27.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Black,</span><br><span class="line">    ),</span><br><span class="line">    title = TextStyle(</span><br><span class="line">        fontSize = <span class="number">21.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Bold,</span><br><span class="line">    ),</span><br><span class="line">    subtitle = TextStyle(</span><br><span class="line">        fontSize = <span class="number">19.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Normal,</span><br><span class="line">    ),</span><br><span class="line">    body = TextStyle(</span><br><span class="line">        fontSize = <span class="number">18.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Normal,</span><br><span class="line">    ),</span><br><span class="line">    label = TextStyle(</span><br><span class="line">        fontSize = <span class="number">16.</span>sp,</span><br><span class="line">        fontFamily = FontFamily.SansSerif,</span><br><span class="line">        fontWeight = FontWeight.Bold,</span><br><span class="line">    ),</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalBabyWhaleTypography = staticCompositionLocalOf &#123; babyWhaleTypography &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="形狀指標"><a href="#形狀指標" class="headerlink" title="形狀指標"></a>形狀指標</h3><p>建立一個 <code>BabyWhaleShape.kt</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Immutable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleShape</span>(</span><br><span class="line">    <span class="keyword">val</span> extraSmall: RoundedCornerShape = RoundedCornerShape(<span class="number">4.</span>dp),</span><br><span class="line">    <span class="keyword">val</span> small: RoundedCornerShape = RoundedCornerShape(<span class="number">8.</span>dp),</span><br><span class="line">    <span class="keyword">val</span> medium: RoundedCornerShape = RoundedCornerShape(<span class="number">16.</span>dp),</span><br><span class="line">    <span class="keyword">val</span> large: RoundedCornerShape = RoundedCornerShape(<span class="number">24.</span>dp),</span><br><span class="line">    <span class="keyword">val</span> extraLarge: RoundedCornerShape = RoundedCornerShape(<span class="number">28.</span>dp)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalBabyWhaleShape = staticCompositionLocalOf &#123; BabyWhaleShape() &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自訂間距指標"><a href="#自訂間距指標" class="headerlink" title="自訂間距指標"></a>自訂間距指標</h3><p>新建 <code>BabyWhaleSpacing.kt</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleSpacing</span>(</span><br><span class="line">    <span class="keyword">val</span> small: Dp = <span class="number">8.</span>dp,</span><br><span class="line">    <span class="keyword">val</span> medium: Dp = <span class="number">16.</span>dp,</span><br><span class="line">    <span class="keyword">val</span> large: Dp = <span class="number">24.</span>dp</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalBabyWhaleSpacing = staticCompositionLocalOf &#123; BabyWhaleSpacing() &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="套用指標至主題"><a href="#套用指標至主題" class="headerlink" title="套用指標至主題"></a>套用指標至主題</h2><p>把指標全都寫好後，就可以新建 <code>BabyWhaleTheme.kt</code> ，把主題相關的邏輯通通寫進去。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> BabyWhaleTheme &#123;</span><br><span class="line">    <span class="keyword">val</span> colors: BabyWhaleColors</span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalBabyWhaleColors.current</span><br><span class="line">    <span class="keyword">val</span> typography: BabyWhaleTypography</span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalBabyWhaleTypography.current</span><br><span class="line">    <span class="keyword">val</span> shapes: BabyWhaleShape</span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalBabyWhaleShape.current</span><br><span class="line">    <span class="keyword">val</span> spacing: BabyWhaleSpacing</span><br><span class="line">        <span class="meta">@ReadOnlyComposable</span></span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalBabyWhaleSpacing.current</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後寫 <code>BabyWhaleTheme()</code> 主要用的主題應用函數</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">BabyWhaleTheme</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    isDarkMode: <span class="type">Boolean</span> = isSystemInDarkTheme()</span></span>,</span><br><span class="line">    typography: BabyWhaleTypography = BabyWhaleTheme.typography,</span><br><span class="line">    shapes: BabyWhaleShape = BabyWhaleTheme.shapes,</span><br><span class="line">    spacing: BabyWhaleSpacing = BabyWhaleTheme.spacing,</span><br><span class="line">    content: <span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span></span><br><span class="line">) &#123;</span><br><span class="line">    <span class="keyword">val</span> colorScheme = <span class="keyword">if</span> (isDarkMode) DarkColorScheme <span class="keyword">else</span> LightColorScheme</span><br><span class="line">    CompositionLocalProvider(</span><br><span class="line">        LocalBabyWhaleColors provides colorScheme,</span><br><span class="line">        LocalBabyWhaleTypography provides typography,</span><br><span class="line">        LocalBabyWhaleShape provides shapes,</span><br><span class="line">        LocalBabyWhaleSpacing provides spacing</span><br><span class="line">    ) &#123;</span><br><span class="line">        Box(</span><br><span class="line">            modifier = Modifier</span><br><span class="line">                .background(colorScheme.background)</span><br><span class="line">                .fillMaxSize()</span><br><span class="line">        ) &#123;</span><br><span class="line">            content()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<details class="folding-tag"><summary> 主題函式庫提供方法 </summary>
+              <div class="content">
+              <p>如果你是想將主題封裝成依附元件，供不同項目使用，用法其實就像 <code>MaterialTheme</code> 一樣。</p><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">AppTheme</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    isDarkMode: <span class="type">Boolean</span> = isSystemInDarkTheme,</span></span></span><br><span class="line"><span class="params"><span class="function">    content: @<span class="type">Composable</span> () -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    BabyWhaleTheme(</span><br><span class="line">        isDarkMode = isDarkMode,</span><br><span class="line">        content = content</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+              </div>
+            </details>
+
+<h2 id="自訂組件"><a href="#自訂組件" class="headerlink" title="自訂組件"></a>自訂組件</h2><p>因為 Jetpack Compose 內置提供的大部份組件都是使用質感設計為基礎的，所以如果你要寫一個與這個自訂主題相容的組件，就必須要自己另外再寫，這裏展示例如寫一個不同級別程度的按鈕</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title class_">BabyWhaleButtonType</span> &#123;</span><br><span class="line">    Primary, Info, Success, Warning, Error</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="keyword">internal</span> <span class="function"><span class="keyword">fun</span> <span class="title">getTypeColor</span><span class="params">(type: <span class="type">BabyWhaleButtonType</span>)</span></span> = <span class="keyword">when</span> (type) &#123;</span><br><span class="line">    BabyWhaleButtonType.Primary -&gt; BabyWhaleTheme.colors.primary</span><br><span class="line">    BabyWhaleButtonType.Info -&gt; BabyWhaleTheme.colors.info</span><br><span class="line">    BabyWhaleButtonType.Success -&gt; BabyWhaleTheme.colors.success</span><br><span class="line">    BabyWhaleButtonType.Warning -&gt; BabyWhaleTheme.colors.warning</span><br><span class="line">    BabyWhaleButtonType.Error -&gt; BabyWhaleTheme.colors.error</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">BabyWhaleButton</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    modifier: <span class="type">Modifier</span> = Modifier,</span></span></span><br><span class="line"><span class="params"><span class="function">    type: <span class="type">BabyWhaleButtonType</span> = BabyWhaleButtonType.Primary,</span></span></span><br><span class="line"><span class="params"><span class="function">    onClick: () -&gt; <span class="type">Unit</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    content: @<span class="type">Composable</span> () -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    Button(</span><br><span class="line">        modifier = modifier,</span><br><span class="line">        onClick = onClick,</span><br><span class="line">        colors = ButtonDefaults.buttonColors(</span><br><span class="line">            containerColor = getTypeColor(type = type),</span><br><span class="line">            contentColor = BabyWhaleTheme.colors.onPrimary</span><br><span class="line">        )</span><br><span class="line">    ) &#123;</span><br><span class="line">        content()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用法：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainActivity</span> : <span class="type">ComponentActivity</span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContent &#123;</span><br><span class="line">            BabyWhaleTheme &#123;</span><br><span class="line">                Column &#123;</span><br><span class="line">                    <span class="keyword">val</span> types = BabyWhaleButtonType.entries     <span class="comment">// 注意：需要 Kotlin 1.9.10 版本</span></span><br><span class="line">                    types.forEach &#123;</span><br><span class="line">                        BabyWhaleButton(</span><br><span class="line">                            type = it,</span><br><span class="line">                            onClick = &#123; <span class="comment">/*TODO*/</span> &#125;</span><br><span class="line">                        ) &#123;</span><br><span class="line">                            Text(text = <span class="string">&quot;<span class="subst">$&#123;it.name&#125;</span> Button&quot;</span>)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="擴充質感主題"><a href="#擴充質感主題" class="headerlink" title="擴充質感主題"></a>擴充質感主題</h1><p>或許你對質感主題仍然情有獨鍾，只是對部分的顏色或其他的指標有點執着。甚至是想另外新增一個第 N 個副色，這裏可考慮用擴充形式，一來不會影響整個主題，二來實現到你的目的，無傷大雅。</p>
+<h2 id="擴充屬性"><a href="#擴充屬性" class="headerlink" title="擴充屬性"></a>擴充屬性</h2><p>說好是擴充了，所以就真的是單純用擴展函式來對指標物件進行擴充。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Use with MaterialTheme.colorScheme.snackbarAction</span></span><br><span class="line"><span class="keyword">val</span> ColorScheme.snackbarAction: Color</span><br><span class="line">    <span class="keyword">get</span>() = <span class="keyword">if</span> (isLight) Red300 <span class="keyword">else</span> Red700</span><br><span class="line"></span><br><span class="line"><span class="comment">// Use with MaterialTheme.typography.textFieldInput</span></span><br><span class="line"><span class="keyword">val</span> Typography.textFieldInput: TextStyle</span><br><span class="line">    <span class="keyword">get</span>() = TextStyle(<span class="comment">/* ... */</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Use with MaterialTheme.shapes.card</span></span><br><span class="line"><span class="keyword">val</span> Shapes.card: Shape</span><br><span class="line">    <span class="keyword">get</span>() = RoundedCornerShape(size = <span class="number">20.</span>dp)</span><br></pre></td></tr></table></figure>
+
+<h2 id="擴充質感主題-1"><a href="#擴充質感主題-1" class="headerlink" title="擴充質感主題"></a>擴充質感主題</h2><p>這個會用到 <code>CompositionLocalProvider</code> 把定義好的擴充顏色作為本機資料。再把這些顏色「包裝」到現有的 <code>MaterialTheme</code>。</p>
+<p>假如現在質感設計 3 有 <code>error</code>, <code>onError</code>, <code>errorContainer</code>, <code>onErrorContainer</code>，你覺得不夠，你想看到「成功」，就可以寫一個數據類再加以把顏色定義。</p>
+<p>預設會先用 <code>Color.Unspecified</code> (未下定義的顏色值)。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Immutable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">ExtendedColorScheme</span>(</span><br><span class="line">    <span class="keyword">val</span> success: Color,</span><br><span class="line">    <span class="keyword">val</span> onSuccess: Color,</span><br><span class="line">    <span class="keyword">val</span> successContainer: Color,</span><br><span class="line">    <span class="keyword">val</span> onSuccessContainer: Color</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> LocalExtendedColorScheme = staticCompositionLocalOf &#123;</span><br><span class="line">    ExtendedColorScheme(</span><br><span class="line">        success = Color.Unspecified,</span><br><span class="line">        onSuccess = Color.Unspecified,</span><br><span class="line">        successContainer = Color.Unspecified,</span><br><span class="line">        onSuccessContainer = Color.Unspecified,</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後像 <code>MaterialTheme</code> 一樣寫一個 <code>object</code> 和可組合函式，但不同的是，我們仍然會用到 <code>MaterialTheme</code>。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> ExtendedTheme &#123;</span><br><span class="line">    <span class="keyword">val</span> colorScheme: ExtendedColorScheme</span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalExtendedColorScheme.current</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">ExtendedTheme</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="comment">/* 這裏如常處理其他參數 */</span></span></span></span><br><span class="line"><span class="params"><span class="function">    content: @<span class="type">Composable</span> () -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 這裏的顏色值沒有進行特別測試</span></span><br><span class="line">    <span class="keyword">val</span> extendedColors = ExtendedColorScheme(</span><br><span class="line">        success = Color(<span class="number">0xFF98e01d</span>),</span><br><span class="line">        onSuccess = Color(<span class="number">0xFF366B05</span>),</span><br><span class="line">        successContainer = Color(<span class="number">0xFF366B05</span>),</span><br><span class="line">        onSuccessContainer = Color(<span class="number">0xFF7AC015</span>),</span><br><span class="line">    )</span><br><span class="line">    CompositionLocalProvider(LocalExtendedColorScheme provides extendedColors) &#123;</span><br><span class="line">        MaterialTheme(</span><br><span class="line">            <span class="comment">/* 這裏如常處理其他參數 */</span></span><br><span class="line">            content = content</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>學習筆記</category>
+        <category>Jetpack Compose</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Android</tag>
       </tags>
   </entry>
   <entry>
@@ -1197,6 +1014,189 @@
         <tag>Node.js</tag>
         <tag>Express</tag>
         <tag>EJS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose | 有效管理 UI 介面的狀態</title>
+    <url>/post/jetpack-compose-ui-state-sealed-class-notes.html</url>
+    <content><![CDATA[<p>在 Jetpack Compose 中，官方強調的是狀態管理的重要性。一般情況下，我們使用 ViewModel 將商業邏輯放在其中，以減少組合函式中的邏輯程式碼，從而提供更好的使用者體驗。</p>
+<p>然而，有時我們需要處理一些進階的管理程式，例如 API 請求、檔案讀取等，這時候可能會用到以下三個基本狀態：</p>
+<ul>
+<li><code>Loading</code>（載入中）：表示資料正在載入的過程中，可以顯示一個載入中的動畫或提示訊息。</li>
+<li><code>Success</code>（成功）：表示資料載入成功，可以將資料顯示在介面上或執行相應的操作。</li>
+<li><code>Error</code>（錯誤）：表示資料載入過程中發生錯誤，可以顯示錯誤訊息或提供用戶重新嘗試的選項。</li>
+</ul>
+<p>這三個狀態可以<strong>幫助我們更好地管理資料載入的過程</strong>，並提供更好的使用者反饋。在實作中，我們可以使用<strong>相應的狀態來更新介面</strong>，以反映當前的狀態。</p>
+<p>接下來會以一個檔案文本編輯器作範例</p>
+<hr>
+<h1 id="定義封裝類狀態"><a href="#定義封裝類狀態" class="headerlink" title="定義封裝類狀態"></a>定義封裝類狀態</h1><div class="note warning simple"><p><code>UIState</code> 封裝類會因應程式的目的而有所不同，現在這個範例是檔案文本編輯器，所以稱作 <code>EditorUIState</code></p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">sealed</span> <span class="keyword">class</span> <span class="title class_">EditorUIState</span> &#123;</span><br><span class="line">    <span class="keyword">data</span> <span class="keyword">object</span> Loading : EditorUIState()</span><br><span class="line">    <span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Error</span>(<span class="keyword">val</span> message: String? = <span class="literal">null</span>) : EditorUIState()</span><br><span class="line">    <span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Success</span>(<span class="keyword">val</span> file: File? = <span class="literal">null</span>) : EditorUIState()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在這個 <code>EditorUIState</code>，其中 <code>Error</code> 及 <code>Success</code> 需要傳入參數，<code>Error</code> 是用來顯示錯誤訊息，而 <code>Success</code> 是只有傳入參數的物件是有效，才會執行，在這個範例中，唯獨只有 <code>Success</code> 這個狀態需要獲取要用的資料。</p>
+<h2 id="不同狀態應用的介面"><a href="#不同狀態應用的介面" class="headerlink" title="不同狀態應用的介面"></a>不同狀態應用的介面</h2><p>在這個範例中，我們的 <code>Loading</code>, <code>Success</code> 及 <code>Error</code> 狀態會分別以以下方式顯示：</p>
+<ul>
+<li><code>Loading</code>: 會顯示一個載入對話框，當載入完成，對話框便會自動關閉</li>
+<li><code>Error</code>: 把錯誤訊息顯示在 <code>Scaffold</code> 內的 <code>Snackbar</code>，當發生錯誤，<code>Snackbar</code> 便會彈出，同時會附加一個重試按鈕，重新再獲取資料</li>
+<li><code>Success</code>: 成功獲取資料的內容就會在 <code>Scaffold</code> 的主佈局呈現</li>
+</ul>
+<hr>
+<h1 id="編寫-ViewModel"><a href="#編寫-ViewModel" class="headerlink" title="編寫 ViewModel"></a>編寫 ViewModel</h1><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">EditorViewModel</span> : <span class="type">ViewModel</span>()</span><br></pre></td></tr></table></figure>
+
+<p>在這個範例中，需要定義三個狀態，狀態分別需要可變及不可變型態。</p>
+<div class="note info simple"><p>定義可變狀態時，一般我們在 ViewModel 定義可變 (mutable) 狀態都會在變量名稱加上 <code>_</code> 前綴，而定義不可變狀態會宣告 <code>State</code> 型別，即不可變狀態作賦值。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _file = mutableStateOf(File(<span class="string">&quot;&quot;</span>)) <span class="comment">// 無效檔案範例</span></span><br><span class="line"><span class="keyword">val</span> file: State&lt;File&gt; = _file</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _uiState = MutableStateFlow&lt;EditorUIState&gt;(EditorUIState.Loading)</span><br><span class="line"><span class="keyword">val</span> uiState = _uiState.asStateFlow()</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _editorText = mutableStateOf(_file.value.getFileContent())</span><br><span class="line"><span class="keyword">val</span> editorText: State&lt;String&gt; = _editorText</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> snackbarHostState = SnackbarHostState()</span><br></pre></td></tr></table></figure>
+
+<p>正常情況下，都會以 <code>Loading</code> 狀態為初始 UI 狀態，<code>Success</code> 或 <code>Error</code> 狀態是待 <code>Loading</code> 完成才判斷的。</p>
+<h2 id="初始化狀態程序"><a href="#初始化狀態程序" class="headerlink" title="初始化狀態程序"></a>初始化狀態程序</h2><div class="note info simple"><p>因為我們想確保 ViewModel 能夠順利被載入及執行，所以加上了 2 秒延遲 (<code>delay(2000L)</code>)。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">init</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">    viewModelScope.launch &#123;</span><br><span class="line">        delay(<span class="number">2000L</span>)</span><br><span class="line"></span><br><span class="line">        _uiState.value = <span class="keyword">if</span> (_file.value.exists()) &#123;</span><br><span class="line">            EditorUIState.Success(file = _file.value)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            EditorUIState.Error(message = <span class="string">&quot;Invalid file&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在這個範例中，我們判斷如果所獲取的檔案是存在的，則視為成功，否則視為錯誤。</p>
+<h2 id="顯示錯誤訊息的-Snackbar"><a href="#顯示錯誤訊息的-Snackbar" class="headerlink" title="顯示錯誤訊息的 Snackbar"></a>顯示錯誤訊息的 <code>Snackbar</code></h2><p>剛才都說過，當發生錯誤，就會彈出 <code>Snackbar</code> 訊息</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showErrorSnackbar</span><span class="params">(message: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    viewModelScope.launch &#123;</span><br><span class="line">        snackbarHostState.showSnackbar(message)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而且有一個重試按鈕的點擊事件，重新再獲取資料，其實就是把狀態歸零，再初始化一遍。</p>
+<div class="note info simple"><p>這裏的歸零是重置為 <code>Loading</code> 狀態。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">refresh</span><span class="params">()</span></span> &#123;</span><br><span class="line">    _uiState.value = EditorUIState.Loading</span><br><span class="line">    <span class="keyword">init</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="編寫不同狀態的介面"><a href="#編寫不同狀態的介面" class="headerlink" title="編寫不同狀態的介面"></a>編寫不同狀態的介面</h1><p><code>Success</code> 的含義本來就是當資料獲取成功後就會導向該介面，意昧着你只要把主要的介面內容寫進 <code>Success</code> 介面便可，因為理論上<strong>用戶提供的檔案路徑均屬有效。只要檔案有效才可以繼續使用編輯器</strong>。</p>
+<p>在這個範例中，<code>Loading</code> 及 <code>Error</code> 分別使用了對話框及 Snackbar 形式，其實這個可以很自由，你喜歡的話都可以都以介面形式處理：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">when</span> (state) &#123;</span><br><span class="line">    <span class="keyword">is</span> EditorUIState.Loading -&gt; LoadingScreen()</span><br><span class="line">    <span class="keyword">is</span> EditorUIState.Error -&gt; ErrorScreen()</span><br><span class="line">    <span class="keyword">is</span> EditorUIState.Success -&gt; ReadyScreen()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note warning simple"><p>記得 <code>state</code> 參數要設置 <code>collectAsState()</code>，否則只會一直處於 <code>Loading</code> 狀態，一直顯示載入對話框。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">EditorScreen</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    viewModel: <span class="type">EditorViewModel</span> = viewModel()</span></span>,</span><br><span class="line">    navController: NavController</span><br><span class="line">) &#123;</span><br><span class="line">    Content(</span><br><span class="line">        state = viewModel.uiState.collectAsState().value</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">Content</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    viewModel: <span class="type">EditorViewModel</span> = viewModel()</span></span>,</span><br><span class="line">    state: EditorUIState,</span><br><span class="line">) &#123;</span><br><span class="line">    <span class="keyword">val</span> scope = rememberCoroutineScope()</span><br><span class="line"></span><br><span class="line">    Container(</span><br><span class="line">        onRetry = &#123;</span><br><span class="line">            viewModel.refresh()</span><br><span class="line">        &#125;</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">when</span> (state) &#123;</span><br><span class="line">            <span class="keyword">is</span> EditorUIState.Loading -&gt; &#123;</span><br><span class="line">                LoadingDialog()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">is</span> EditorUIState.Error -&gt; &#123;</span><br><span class="line">                scope.launch &#123;</span><br><span class="line">                    viewModel.showErrorSnackbar(state.message ?: <span class="string">&quot;Unexpected Error&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">is</span> EditorUIState.Success -&gt; &#123;</span><br><span class="line">                Text(text = state.file?.path.toString())</span><br><span class="line">                TextField(</span><br><span class="line">                    value = viewModel.editorText.value,</span><br><span class="line">                    onValueChange = &#123; viewModel.editorText.value = it &#125;</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="tabs" id="container_loadingdialog"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="container_loadingdialog-1">Container</button><button type="button" class="tab " data-href="container_loadingdialog-2">LoadingDialog</button></ul><div class="tab-contents"><div class="tab-item-content active" id="container_loadingdialog-1"><p><code>Container</code> 可組合函式主要是用來封裝整個 <code>Scaffold</code>，連同顯示錯誤訊息的 Snackbar。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">Container</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    viewModel: <span class="type">EditorViewModel</span> = viewModel()</span></span>,</span><br><span class="line">    onRetry: () -&gt; <span class="built_in">Unit</span>,</span><br><span class="line">    content: <span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span></span><br><span class="line">) &#123;</span><br><span class="line">    Scaffold(</span><br><span class="line">        snackbarHost = &#123;</span><br><span class="line">            SnackbarHost(</span><br><span class="line">                hostState = viewModel.snackbarHostState,</span><br><span class="line">                snackbar = &#123; <span class="keyword">data</span> -&gt;</span><br><span class="line">                    Snackbar(</span><br><span class="line">                        modifier = Modifier.padding(<span class="number">16.</span>dp),</span><br><span class="line">                        action = &#123;</span><br><span class="line">                            TextButton(</span><br><span class="line">                                onClick = onRetry,</span><br><span class="line">                                colors = ButtonDefaults.textButtonColors(</span><br><span class="line">                                    contentColor = SnackbarDefaults.actionColor</span><br><span class="line">                                )</span><br><span class="line">                            ) &#123;</span><br><span class="line">                                Text(text = <span class="string">&quot;Retry&quot;</span>)</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    ) &#123;</span><br><span class="line">                        Text(text = <span class="keyword">data</span>.visuals.message)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    ) &#123;</span><br><span class="line">        Column(</span><br><span class="line">            modifier = Modifier.padding(it)</span><br><span class="line">        ) &#123;</span><br><span class="line">            content()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="container_loadingdialog-2"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">LoadingDialog</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Dialog(</span><br><span class="line">        onDismissRequest = &#123;&#125;</span><br><span class="line">    ) &#123;</span><br><span class="line">        Box(</span><br><span class="line">            modifier = Modifier</span><br><span class="line">                .width(<span class="number">100.</span>dp)</span><br><span class="line">                .height(<span class="number">100.</span>dp)</span><br><span class="line">                .clip(MaterialTheme.shapes.extraLarge)</span><br><span class="line">                .background(MaterialTheme.colorScheme.surfaceContainer),</span><br><span class="line">            contentAlignment = Alignment.Center</span><br><span class="line">        ) &#123;</span><br><span class="line">            CircularProgressIndicator()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<hr>
+<h1 id="實驗及預覽所有狀態介面"><a href="#實驗及預覽所有狀態介面" class="headerlink" title="實驗及預覽所有狀態介面"></a>實驗及預覽所有狀態介面</h1><p>在這個範例中，如果要實驗一個成功導向 <code>Success</code> 狀態的介面，就需要提供一個有效的檔案路徑：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _file = mutableStateOf(File(<span class="string">&quot;/storage/emulated/0/BlueWhaleYT/Hello.js&quot;</span>)) <span class="comment">// 有效檔案範例</span></span><br><span class="line"><span class="keyword">val</span> file: State&lt;File&gt; = _file</span><br></pre></td></tr></table></figure>
+
+<p>如果要實驗導向 <code>Error</code> 狀態介面，則可以提供無效檔案：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> _file = mutableStateOf(File(<span class="string">&quot;&quot;</span>)) <span class="comment">// 無效檔案範例</span></span><br><span class="line"><span class="keyword">val</span> file: State&lt;File&gt; = _file</span><br></pre></td></tr></table></figure>
+
+<p>不過有時候，你可能會想借助 Compose Preview 功能來預覽不同狀態的介面，我們可以寫一個繼承 <code>PreviewParameterProvider</code> 介面，例如：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">internal</span> <span class="keyword">class</span> <span class="title class_">EditorUIStateProvider</span> : <span class="type">PreviewParameterProvider</span>&lt;<span class="type">EditorUIState</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> values: Sequence&lt;EditorUIState&gt; = sequenceOf(</span><br><span class="line">        EditorUIState.Loading,</span><br><span class="line">        EditorUIState.Success(),</span><br><span class="line">        EditorUIState.Error()</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後在你的預覽可組合函式中：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Preview(showSystemUi = true)</span></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">EditorScreenPreview</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="meta">@PreviewParameter(EditorUIStateProvider::class)</span> state: <span class="type">EditorUIState</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    MyAppTheme &#123;</span><br><span class="line">        Content(state = state)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>學習筆記</category>
+        <category>Jetpack Compose</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose | 多樣化的動畫實現方式</title>
+    <url>/post/jetpack-compose-dev-animation-in-compose.html</url>
+    <content><![CDATA[<p>Jetpack Compose 是一個新興的 UI 構建技術框架，除了著重於 UI 靜態方面的實現，都有支援到輕鬆使用動畫的一環。</p>
+<p>這個是大家初嘗 Jetpack Compose 時，想必會看過這個官方圖：</p>
+<p><img src="/post/jetpack-compose-dev-animation-in-compose/img1.gif" alt="official showcase gif"></p>
+<p>你會看到，只要執行了 <code>Column</code> 的點擊事件，就可以有一個展開的動畫。這個只是其中一種動畫實現方式，接下來會說說更多其他不同處理動畫的方式。</p>
+<p>官方有一個建議，判斷用哪一種方式最為適合：</p>
+<ul>
+<li>如果要在版面配置中為內容變更建立動畫效果：<ul>
+<li>如果要建立顯示與消失的動畫效果：<ul>
+<li>使用 <code>AnimatedVisibility</code>。</li>
+</ul>
+</li>
+<li>根據狀態替換內容：<ul>
+<li>如果要為內容建立淡出淡入效果：<ul>
+<li>使用 <code>Crossfade</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>AnimatedContent</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>Modifier.animateContentSize</code>。</li>
+</ul>
+</li>
+<li>如果要依據狀態顯示動畫：<ul>
+<li>如果要在組合期間顯示動畫：<ul>
+<li>如要讓動畫持續顯示：<ul>
+<li>使用 <code>rememberInfiniteTransition</code>。</li>
+</ul>
+</li>
+<li>如果您同時為多個值建立動畫效果：<ul>
+<li>使用 <code>updateTransition</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>animate*AsState</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果要精確控制動畫時間：<ul>
+<li>使用 <code>Animation</code>，例如 <code>TargetBasedAnimation</code> 或 <code>DecayAnimation</code>。</li>
+</ul>
+</li>
+<li>如果動畫是事實的唯一來源：<ul>
+<li>使用 <code>Animatable</code>。</li>
+</ul>
+</li>
+<li>否則，請使用 <code>AnimationState</code> 或 <code>animate</code>。</li>
+</ul>
+<hr>
+<h1 id="高階動畫-API"><a href="#高階動畫-API" class="headerlink" title="高階動畫 API"></a>高階動畫 API</h1><p>配合質感設計的簡易高階動畫</p>
+<h2 id="AnimatedVisibility"><a href="#AnimatedVisibility" class="headerlink" title="AnimatedVisibility"></a><code>AnimatedVisibility</code></h2><p>主要是以動畫方式呈現內容的顯示與消失。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> visible <span class="keyword">by</span> remember &#123; mutableStateOf(<span class="literal">false</span>) &#125;</span><br><span class="line"></span><br><span class="line">Column &#123;</span><br><span class="line">    AnimatedVisibility(visible = visible) &#123;</span><br><span class="line">        Text(text = <span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    Button(onClick = &#123; visible = !visible &#125;) &#123;</span><br><span class="line">        Text(<span class="string">&quot;show text&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="AnimatedContent-實驗功能"><a href="#AnimatedContent-實驗功能" class="headerlink" title="AnimatedContent (實驗功能)"></a><code>AnimatedContent</code> (實驗功能)</h2><div class="note danger simple"><p>實驗性 API 未來可能會變更，或完全移除。</p>
+</div>
+
+<div class="note info simple"><p><code>AnimatedContent</code> 與 <code>AnimatedVisibility</code> 有點相似，前者控制切換，後者則控制顯隱。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> count <span class="keyword">by</span> remember &#123; mutableIntStateOf(<span class="number">0</span>) &#125;</span><br><span class="line"></span><br><span class="line">Column &#123;</span><br><span class="line">    AnimatedContent(targetState = count) &#123; targetCount -&gt;</span><br><span class="line">        Text(</span><br><span class="line">            text = &#123; Text(text = targetCount) &#125;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    Button(onClick = &#123; count++ &#125; )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Text</code> 應用了隸屬於 <code>AnimatedContent</code> 的 <code>targetCount</code> 傳入參數，這個時候當內容更改時，就會有動畫的改變。</p>
+<h2 id="animate-AsState"><a href="#animate-AsState" class="headerlink" title="animate*AsState"></a><code>animate*AsState</code></h2><p>可用於為單一值建立動畫效果。您只需提供結束值 (或目標值)，該 API 就會從現值開始播放動畫，直到達到指定值。</p>
+<p>假如現在有一個小方塊 (預設的正常大小是 <code>70.dp</code>)，當按它就會長大一點，再按就長大多一點。</p>
+<div class="note info simple"><p><code>animate*AsState</code> 這裏指的 <code>*</code> 是有許多不同的至別，如 <code>Dp</code>, <code>Int</code>, <code>Float</code>, <code>Color</code> 等。</p>
+<p>因為現在是在用 <code>Dp</code> 值為狀態提升的基準，所以這裏會用的是 <code>animateDpAsState</code>，因此剛才所指的 <code>*</code> 是按情況而選擇用哪一個型別的。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> size <span class="keyword">by</span> remember &#123; mutableStateOf(<span class="number">70.</span>dp) &#125;</span><br><span class="line"><span class="keyword">val</span> animatedSize <span class="keyword">by</span> animateDpAsState(                           <span class="comment">// 新增一個狀態動畫提升</span></span><br><span class="line">    targetValue = size,</span><br><span class="line">    animationSpec = tween(<span class="number">1000</span>)                                 <span class="comment">// 動畫執行時間</span></span><br><span class="line">)        </span><br><span class="line"></span><br><span class="line">Box(</span><br><span class="line">    modifier = Modifier</span><br><span class="line">        .background(MaterialTheme.colorScheme.primary)</span><br><span class="line">        .size(animatedSize)                                     <span class="comment">// 使用狀態動畫提升值</span></span><br><span class="line">        .clickable &#123; size *= <span class="number">2</span> &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<div class="note warning simple"><p>使用 <code>animate*AsState</code> 的變量一定只能是 <code>val</code> 唯讀變量，意味著<strong>這個變量不會進行任何計算</strong>，只會用作最後顯示到目標位置。</p>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>沒有動畫</th>
+<th>有動畫</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img alt="without animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXBlODFzcDZmNXZxM3kyaDN4a2dqdDNidzRmbWdjdTdtbXUyZmlnciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GZ4XaWk930NDcq2ljI/giphy.gif"></td>
+<td><img alt="with animation" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NoNGdieGN1dHN2engyZmZkZnFjbGwzbms2b3F4ZXpxZTFucWl6ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gx3PbwaTAnU8L2T90E/giphy.gif"></td>
+</tr>
+</tbody></table>
+<div class="note warning simple"><p><img src="/post/jetpack-compose-dev-animation-in-compose/img2.png" alt="label parameter warning"></p>
+<p>這裏 Android Studio 會警告你在使用 <code>animate*AsState</code> 或其他關於動畫範疇的情況下沒有用 <code>label</code> 參數，這個 <code>label</code> 參數純粹是在 IDE 的動畫製作時候，方便辨認的，如果不是特別重要，可選擇忽略。</p>
+</div>]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>Jetpack Compose</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Android</tag>
       </tags>
   </entry>
 </search>

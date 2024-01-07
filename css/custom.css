@@ -21,7 +21,7 @@ h1,h2,h3,h4,h5,h6 {
     display: none !important;
 }
 
-/* Adjust post Header cover / banner ] */
+/* Adjust post Header cover / banner */
 @media (min-width:600px) {
     #page-header.post-bg #post-top-cover {
         filter: initial !important;
@@ -29,6 +29,13 @@ h1,h2,h3,h4,h5,h6 {
         height: auto !important;
         margin: auto !important;
         transform: translateX(10px) !important;
+    }
+}
+
+/* Adjust post content padding */
+@media screen and (max-width: 768px) {
+    #post {
+        padding: 30px !important;
     }
 }
 
