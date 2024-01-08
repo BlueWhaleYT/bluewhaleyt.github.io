@@ -186,6 +186,11 @@ h1,h2,h3,h4,h5,h6 {
     font-style: italic;
 }
 
+/* Local search */
+.search-keyword {
+    color: var(--anzhiyu-main) !important
+}
+
 /* Adjust google translate widget */
 .goog-logo-link,
 .skiptranslate span {
