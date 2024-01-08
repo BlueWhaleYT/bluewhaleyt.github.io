@@ -201,128 +201,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Jetpack Compose | APK 插件化筆記</title>
-    <url>/post/android-dev-plugin-system-implementation-notes.html</url>
-    <content><![CDATA[<p>在以往使用 XML 架構的插件化方式，我們需要依賴 <code>AndroidManifest.xml</code> 多個附加插件的 <code>Activity</code>，再透過反射 (Reflection) API 把插件提供的 <code>Activity</code> 開放予主項目程式導入，使得 Android 碎片化。</p>
-<p>現在來到新型 Jetpack Compose 架構，因為 Compose 基本上要編寫的 UI 都是一個可組合項 (<code>Composable</code>)，所以事情變得簡單多了。</p>
-<div class="note info simple"><p>這個方法仍可應用於傳統的 XML 架構佈局。</p>
-</div>
-
-<hr>
-<h1 id="插件的配置"><a href="#插件的配置" class="headerlink" title="插件的配置"></a>插件的配置</h1><p>在這個範例中，我們會製作一個 <code>plugin-amazingbutton</code> 插件，提供一個漸變色按鈕作範例。</p>
-<p>要記得 <code>plugin-*</code> 模塊 <code>build.gradle.kts</code> 是 Application 而不是 Library 製式，因為插件最終會以 APK 形成。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    alias(libs.plugins.androidApplication)</span><br><span class="line">    alias(libs.plugins.kotlinGradlePlugin)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果你的插件 APK 是可以開啟的，可以在 <code>plugin-*</code> 模塊的 <code>AndroidManifest.xml</code> 設定應用程式基本配置。</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">&quot;@android:mipmap/sym_def_app_icon&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">&quot;PluginSystemTest - AmazingButton Plugin&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;.MainActivity&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="插件提供的可組合組件"><a href="#插件提供的可組合組件" class="headerlink" title="插件提供的可組合組件"></a>插件提供的可組合組件</h2><p>在這個範例中，這個 <code>plugin-amazingbutton</code> 插件會提供一個製作漸變色按鈕的函式。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AmazingButton</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> AmazingButton: (<span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span>) = &#123;</span><br><span class="line">        GradientButton(</span><br><span class="line">            text = <span class="string">&quot;Button text&quot;</span>,</span><br><span class="line">            gradient = Brush.horizontalGradient(listOf(Color(<span class="number">0xFF28D8A3</span>), Color(<span class="number">0xFF00BEB2</span>)))</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">GradientButton</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    text: <span class="type">String</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    gradient : <span class="type">Brush</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    modifier: <span class="type">Modifier</span> = Modifier,</span></span></span><br><span class="line"><span class="params"><span class="function">    onClick: () -&gt; <span class="type">Unit</span> = &#123; &#125;,</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    Button(</span><br><span class="line">        modifier = modifier,</span><br><span class="line">        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),</span><br><span class="line">        contentPadding = PaddingValues(),</span><br><span class="line">        onClick = &#123; onClick() &#125;,</span><br><span class="line">    ) &#123;</span><br><span class="line">        Box(</span><br><span class="line">            modifier = Modifier</span><br><span class="line">                .background(gradient)</span><br><span class="line">                .padding(<span class="number">12.</span>dp)</span><br><span class="line">                .then(modifier),</span><br><span class="line">            contentAlignment = Alignment.Center,</span><br><span class="line">        ) &#123;</span><br><span class="line">            Text(text = text)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<div class="note info simple"><p>你可能會問，為什麼 <code>AmazingButton</code> 不是用平時的函式方式建立，而是用 Lambda 方式建立呢？</p>
-<p>因為 Jetpack Compose 的可組合函式經過 JVM 編譯後會生成附加 2 個參數項：<code>Composer</code> 及 <code>Int</code>。如果沿用以下這個方式定義可組合項，可能會因為導致傳入參數錯誤而無法成功重組。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">AmazingButton</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果你用的是這個方式建立，那麼反射做法：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> method: Method =</span><br><span class="line">    plugin.getDeclaredMethod(</span><br><span class="line">        <span class="string">&quot;AmazingButton&quot;</span>,</span><br><span class="line">        Composer::<span class="keyword">class</span>.java,</span><br><span class="line">        <span class="built_in">Int</span>::<span class="keyword">class</span>.java</span><br><span class="line">    )</span><br><span class="line">method.isAccessible = <span class="literal">true</span></span><br><span class="line"><span class="keyword">val</span> obj = plugin.getDeclaredConstructor().newInstance()</span><br></pre></td></tr></table></figure></div>
-
-<hr>
-<h1 id="獲取檔案存取請求"><a href="#獲取檔案存取請求" class="headerlink" title="獲取檔案存取請求"></a>獲取檔案存取請求</h1><p>在 <code>app</code> 模塊的 <code>AndroidManifest.xml</code> 記得加上使用權限設定：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:requestLegacyExternalStorage</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="允許存取所有檔案"><a href="#允許存取所有檔案" class="headerlink" title="允許存取所有檔案"></a>允許存取所有檔案</h2><div class="note warning simple"><p>所有檔案存取 (All File Access) 權限只限於 SDK 30 (Android 11) 或以上使用。</p>
-</div>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequiresApi(Build.VERSION_CODES.R)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">requestAllFileAccess</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    context: <span class="type">Context</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!Environment.isExternalStorageManager()) &#123;</span><br><span class="line">        <span class="keyword">val</span> intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)</span><br><span class="line">        <span class="keyword">val</span> uri = Uri.fromParts(<span class="string">&quot;package&quot;</span>, context.packageName, <span class="literal">null</span>)</span><br><span class="line">        intent.setData(uri)</span><br><span class="line">        context.startActivity(intent)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="管理權限的內容容器"><a href="#管理權限的內容容器" class="headerlink" title="管理權限的內容容器"></a>管理權限的內容容器</h2><p>這個內容容器是用來簡易對權限處理的佈局進行操作，理想用法如下：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">Container &#123; permissionGranted -&gt;</span><br><span class="line">    <span class="keyword">if</span> (permissionGranted) -&gt; Comp1() <span class="keyword">else</span> Comp2()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>Container</code> 可組合函式會處理好關於權限讀取的程序，我們還會預設把 <code>plugins</code> 資料夾建立到 <code>storage/emulated/0/&lt;程式名稱&gt;/</code> 路徑內。</p>
-<details class="folding-tag"><summary> 瀏覽 Container 可組合函式程式碼 </summary>
-              <div class="content">
-              <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">Container</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    content: @<span class="type">Composable</span> <span class="type">ColumnScope</span>.(</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">permissionGranted</span>: <span class="type">Boolean</span>, <span class="type">pluginsDir</span>: <span class="type">File</span></span></span></span><br><span class="line"><span class="params"><span class="function">    ) -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> context = LocalContext.current</span><br><span class="line">    <span class="keyword">val</span> permissions = arrayOf(</span><br><span class="line">        Manifest.permission.READ_EXTERNAL_STORAGE,</span><br><span class="line">        Manifest.permission.WRITE_EXTERNAL_STORAGE</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">val</span> readWritePermissionGranted = permissions.all &#123;</span><br><span class="line">        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> permissionsGranted = <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S) &#123;</span><br><span class="line">        Environment.isExternalStorageManager() &amp;&amp; readWritePermissionGranted</span><br><span class="line">    &#125; <span class="keyword">else</span> readWritePermissionGranted</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> launcher = rememberLauncherForActivityResult(</span><br><span class="line">        contract = ActivityResultContracts.RequestMultiplePermissions(),</span><br><span class="line">        onResult = &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    LaunchedEffect(<span class="built_in">Unit</span>) &#123;</span><br><span class="line">        launcher.launch(permissions)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.R) &#123;</span><br><span class="line">        requestAllFileAccess(context)</span><br><span class="line">        <span class="keyword">val</span> pluginsDir = File(Environment.getExternalStorageDirectory().absolutePath + <span class="string">&quot;/PluginSystemTest/plugins/&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> (permissionsGranted) &#123;</span><br><span class="line">            pluginsDir.takeIf &#123; !it.exists()</span><br><span class="line">                it.mkdirs()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Column(</span><br><span class="line">            modifier = Modifier.padding(<span class="number">16.</span>dp)</span><br><span class="line">        ) &#123;</span><br><span class="line">            content(permissionsGranted, pluginsDir)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-              </div>
-            </details>
-
-<hr>
-<h1 id="下載插件-APK-安裝檔"><a href="#下載插件-APK-安裝檔" class="headerlink" title="下載插件 APK 安裝檔"></a>下載插件 APK 安裝檔</h1><h2 id="測試用途：直接編譯-plugin-並匯出"><a href="#測試用途：直接編譯-plugin-並匯出" class="headerlink" title="測試用途：直接編譯 plugin-* 並匯出"></a>測試用途：直接編譯 <code>plugin-*</code> 並匯出</h2><p>你可以直接把其匯出，獲取插件 APK 安裝檔，再手動存放到目標路徑運行，<strong>但只僅作初始測試用途</strong>。</p>
-<h2 id="實際用途：把插件-APK-安裝檔存放到-URL-或伺服器端"><a href="#實際用途：把插件-APK-安裝檔存放到-URL-或伺服器端" class="headerlink" title="實際用途：把插件 APK 安裝檔存放到 URL 或伺服器端"></a>實際用途：把插件 APK 安裝檔存放到 URL 或伺服器端</h2><ol>
-<li>你可以把插件 APK 安裝檔存放到檔案存放平台，再獲取其下載鏈結，藉由 <code>DownloadManager</code> 把檔案下載並存放到目標路徑。</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">”android.permission.INTERNET”/</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">downloadFile</span><span class="params">(context: <span class="type">Context</span>, url: <span class="type">String</span>, file: <span class="type">File</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> request = DownloadManager.Request(Uri.parse(url))</span><br><span class="line">    request.apply &#123;</span><br><span class="line">        setDestinationUri(file.toUri())</span><br><span class="line">        setTitle(file.name)</span><br><span class="line">        setDescription(<span class="string">&quot;Downloading...&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) <span class="keyword">as</span> DownloadManager</span><br><span class="line">    downloadManager.enqueue(request)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>自已架設伺服器</li>
-</ol>
-<hr>
-<h1 id="顯示並遍歷已下載插件"><a href="#顯示並遍歷已下載插件" class="headerlink" title="顯示並遍歷已下載插件"></a>顯示並遍歷已下載插件</h1><p>基本上就是遍歷檔案路徑的所有檔案，但唯獨只顯示所有屬於 APK 安裝檔的檔案。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">MainScreen</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Container &#123; permissionGranted, pluginsDir -&gt;</span><br><span class="line">        <span class="keyword">if</span> (permissionGranted) &#123;</span><br><span class="line">            LazyColumn &#123;</span><br><span class="line">                pluginsDir.listFiles()?.let &#123;</span><br><span class="line">                    items(it) &#123; file -&gt;</span><br><span class="line">                        <span class="keyword">if</span> (file.extension == <span class="string">&quot;apk&quot;</span>) &#123;</span><br><span class="line">                            FileItem(file = file)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">FileItem</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    modifier: <span class="type">Modifier</span> = Modifier,</span></span></span><br><span class="line"><span class="params"><span class="function">    file: <span class="type">File</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    Row(</span><br><span class="line">        modifier = modifier</span><br><span class="line">            .fillMaxWidth()</span><br><span class="line">            .clip(MaterialTheme.shapes.extraLarge)</span><br><span class="line">            .background(MaterialTheme.colorScheme.surfaceContainer)</span><br><span class="line">            .padding(<span class="number">16.</span>dp)</span><br><span class="line">    ) &#123;</span><br><span class="line">        Icon(</span><br><span class="line">            imageVector = Icons.Outlined.Android,</span><br><span class="line">            contentDescription = <span class="literal">null</span>,</span><br><span class="line">            tint = MaterialTheme.colorScheme.primary</span><br><span class="line">        )</span><br><span class="line">        Spacer(modifier = Modifier.width(<span class="number">16.</span>dp))</span><br><span class="line">        Column &#123;</span><br><span class="line">            Text(text = file.nameWithoutExtension, style = MaterialTheme.typography.titleLarge)</span><br><span class="line">            Text(text = file.path, style = MaterialTheme.typography.bodyMedium.copy(color = LocalContentColor.current.copy(<span class="number">0.38f</span>)))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="載入插件"><a href="#載入插件" class="headerlink" title="載入插件"></a>載入插件</h1><h2 id="載入插件安裝檔"><a href="#載入插件安裝檔" class="headerlink" title="載入插件安裝檔"></a>載入插件安裝檔</h2><p>我們會透過用 Java 類加載器 (<code>DexClassLoader</code>) 動態載入要使用的插件 APK。另外，我們會為插件存放 Dex 檔案，用於存儲編譯後的 Java 程式碼和資源。當加載插件時，<code>DexClassLoader</code> 會需要在指定的路徑中尋找並加載 Dex 檔案。如果不創建 Dex 目錄，或會導致應用程式在執行時出現錯誤或異常情況。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> PluginManager &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> pluginClassLoader: DexClassLoader? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">loadPluginFromFile</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        context: <span class="type">Context</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">        file: <span class="type">File</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    )</span></span>: DexClassLoader? &#123;</span><br><span class="line">        <span class="keyword">val</span> filesDir = context.externalCacheDir</span><br><span class="line">        <span class="keyword">val</span> apkFile = File(filesDir?.absolutePath, file.name)</span><br><span class="line">        file.copyTo(apkFile, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> dexFile = File(filesDir, <span class="string">&quot;dex&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> (!dexFile.exists()) &#123;</span><br><span class="line">            dexFile.mkdirs()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pluginClassLoader = DexClassLoader(</span><br><span class="line">            apkFile.absolutePath,</span><br><span class="line">            apkFile.absolutePath,</span><br><span class="line">            <span class="literal">null</span>,</span><br><span class="line">            context.classLoader</span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">return</span> pluginClassLoader</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="載入插件的程式"><a href="#載入插件的程式" class="headerlink" title="載入插件的程式"></a>載入插件的程式</h2><p>在這個範例中，我們會透過點擊一個按鈕來載入插件提供的漸變色按鈕。</p>
-<p>我們可以宣告兩個狀態：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> pluginApplySuccess <span class="keyword">by</span> mutableStateOf(<span class="literal">false</span>)</span><br><span class="line"><span class="keyword">var</span> pluginCompose <span class="keyword">by</span> mutableStateOf&lt;<span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span>&gt;(&#123;&#125;)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>pluginApplySuccess</code>: 用來更新插件成功載入與否的狀態</li>
-<li><code>pluginCompose</code>: 用來顯示載入插件後的可組合項</li>
-</ul>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">loadAmazingButton</span><span class="params">(context: <span class="type">Context</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (pluginApplySuccess) <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> pluginsDir = Environment.getExternalStorageDirectory().absolutePath + <span class="string">&quot;/PluginSystemTest/plugins/&quot;</span></span><br><span class="line">    <span class="keyword">val</span> pluginFile = PluginManager.loadPluginFromFile(context, File(<span class="string">&quot;<span class="variable">$pluginsDir</span>/plugin-amazingbutton.apk&quot;</span>))</span><br><span class="line">    <span class="keyword">val</span> plugin = pluginFile?.loadClass(<span class="string">&quot;com.bluewhaleyt.plugin.amazingbutton.AmazingButton&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    plugin?.let &#123;</span><br><span class="line">        <span class="keyword">val</span> method = plugin.getDeclaredMethod(<span class="string">&quot;getAmazingButton&quot;</span>)</span><br><span class="line">        method.isAccessible = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">val</span> obj = plugin.getDeclaredConstructor().newInstance()</span><br><span class="line">        pluginCompose = method.invoke(obj) <span class="keyword">as</span> (<span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span>)</span><br><span class="line">        pluginApplySuccess = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<div class="note danger simple"><p>經過 JVM 編譯後的 <code>AmazingButton</code> Lambda <code>get()</code> 屬性會變成 Java 的 <code>getAmazingButton()</code> 方法。</p>
-</div>
-
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">MainScreen</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> context = LocalContext.current</span><br><span class="line">    Container &#123; permissionGranted, pluginsDir -&gt;</span><br><span class="line">        <span class="keyword">if</span> (permissionGranted) &#123;</span><br><span class="line">            Button(</span><br><span class="line">                onClick = &#123;</span><br><span class="line">                    loadAmazingButton(context)</span><br><span class="line">                &#125;</span><br><span class="line">            ) &#123;</span><br><span class="line">                Text(text = <span class="string">&quot;Load AmazingButton&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            AnimatedContent(</span><br><span class="line">                targetState = pluginCompose,</span><br><span class="line">                label = <span class="string">&quot;Plugin content&quot;</span></span><br><span class="line">            ) &#123; pluginContent -&gt;</span><br><span class="line">                Column(</span><br><span class="line">                    modifier = Modifier</span><br><span class="line">                        .fillMaxWidth()</span><br><span class="line">                        .clip(MaterialTheme.shapes.extraLarge)</span><br><span class="line">                        .background(color = MaterialTheme.colorScheme.primaryContainer)</span><br><span class="line">                        .padding(<span class="number">16.</span>dp)</span><br><span class="line">                ) &#123;</span><br><span class="line">                    Text(text = <span class="string">&quot;Plugins loaded area&quot;</span>)</span><br><span class="line">                    pluginContent()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>實驗內容</category>
-        <category>Android 開發</category>
-        <category>學習筆記</category>
-        <category>Jetpack Compose</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Kotlin</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git 版本控制及操作 - JGit 筆記</title>
-    <url>/post/dev-jgit-notes.html</url>
-    <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
-<p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
-<h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
-<li>Kotlin 開發者亦可使用 <a href="https://github.com/sya-ri/KGit">KGit</a> 函式庫，該函式庫以 JGit 為基礎，但保留 Kotlin 語法的程式編寫方式</li>
-<li>Android 開發在使用 JGit 時，需要注意以下幾點：</li>
-</ol>
-<ul>
-<li>確保 <code>AndroidManifest.xml</code> 聲明權限許可，以及<strong>允許所有檔案權限</strong> (All File Access)，否則報錯 Operation Not Permitted<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></li>
-<li>進行指令操作，如克隆遠端存儲庫至本機，需要使用<strong>異步執行緒或 <code>Executor</code> 等相關處理方式</strong>，(Kotlin 則可使用協程)，否則會在執行指令時報錯 <code>NetworkOnMainThreadException</code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">ExecutorService</span> <span class="variable">executor</span> <span class="operator">=</span> Executors.newSingleThreadExecutor();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Handler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Handler</span>(Looper.getMainLooper());</span><br><span class="line"></span><br><span class="line">executor.execute(() -&gt; &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><p>匯入依附元件至 <code>build.gradle</code></p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">implementation <span class="string">&#x27;org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="產生本機存儲庫及-git-檔案"><a href="#產生本機存儲庫及-git-檔案" class="headerlink" title="產生本機存儲庫及 .git 檔案"></a>產生本機存儲庫及 <code>.git</code> 檔案</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.localRepo = <span class="keyword">new</span> <span class="title class_">FileRepository</span>(localPath + <span class="string">&quot;/.git&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">git = <span class="keyword">new</span> <span class="title class_">Git</span>(localRepo);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="版本控制及操作"><a href="#版本控制及操作" class="headerlink" title="版本控制及操作"></a>版本控制及操作</h1><h2 id="克隆遠端存儲庫至本機"><a href="#克隆遠端存儲庫至本機" class="headerlink" title="克隆遠端存儲庫至本機"></a>克隆遠端存儲庫至本機</h2><div class="note warning simple"><p>要克隆的目錄或資料夾<strong>需要被建立及清空</strong>才能順利克隆遠端存儲庫，不清空則報 Directory XXX is not empty</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">File</span> <span class="variable">dir</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(localPath)</span><br><span class="line"><span class="keyword">if</span> (!dir.exists()) folder.mkdirs();</span><br></pre></td></tr></table></figure></div>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Git.cloneRepository()</span><br><span class="line">    .setURI(remotePath)</span><br><span class="line">    .setDirectory(<span class="keyword">new</span> <span class="title class_">File</span>(localPath))</span><br><span class="line">    .call();</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>實驗內容</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Kotlin</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Android | 多功能的 sora-editor 函式庫綜合使用筆記</title>
     <url>/post/android-dev-sora-editor-library-notes.html</url>
     <content><![CDATA[<div class="note warning simple"><p>這篇筆記是純粹為個人而寫的筆記，因為 sora-editor 函式庫太多 API，然而目前為止還沒有正式的 API 文檔，所以唯有自己記下。如果內容有用，我會考慮加上英文翻譯，但我的英文很爛，謝謝。</p>
@@ -534,6 +412,128 @@
       </tags>
   </entry>
   <entry>
+    <title>Git 版本控制及操作 - JGit 筆記</title>
+    <url>/post/dev-jgit-notes.html</url>
+    <content><![CDATA[<p>在現代軟體開發中，版本控制是一個不可或缺的工具，它可以幫助我們追蹤和管理程式碼的變化。而 Git 是目前最受歡迎的版本控制系統之一。相信編寫員及開發者對它絕對不陌生，甚至耳熟能詳。</p>
+<p>不過這裏最主要，並不是講解 Git 版本控制的操作，而是透過 Java 語言使用 JGit 函式庫進行版本控制的處理。</p>
+<h1 id="開始前注意事項"><a href="#開始前注意事項" class="headerlink" title="開始前注意事項"></a>開始前注意事項</h1><ol>
+<li>Kotlin 開發者亦可使用 <a href="https://github.com/sya-ri/KGit">KGit</a> 函式庫，該函式庫以 JGit 為基礎，但保留 Kotlin 語法的程式編寫方式</li>
+<li>Android 開發在使用 JGit 時，需要注意以下幾點：</li>
+</ol>
+<ul>
+<li>確保 <code>AndroidManifest.xml</code> 聲明權限許可，以及<strong>允許所有檔案權限</strong> (All File Access)，否則報錯 Operation Not Permitted<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>進行指令操作，如克隆遠端存儲庫至本機，需要使用<strong>異步執行緒或 <code>Executor</code> 等相關處理方式</strong>，(Kotlin 則可使用協程)，否則會在執行指令時報錯 <code>NetworkOnMainThreadException</code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">ExecutorService</span> <span class="variable">executor</span> <span class="operator">=</span> Executors.newSingleThreadExecutor();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Handler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Handler</span>(Looper.getMainLooper());</span><br><span class="line"></span><br><span class="line">executor.execute(() -&gt; &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h1 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h1><p>匯入依附元件至 <code>build.gradle</code></p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">implementation <span class="string">&#x27;org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="產生本機存儲庫及-git-檔案"><a href="#產生本機存儲庫及-git-檔案" class="headerlink" title="產生本機存儲庫及 .git 檔案"></a>產生本機存儲庫及 <code>.git</code> 檔案</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.localRepo = <span class="keyword">new</span> <span class="title class_">FileRepository</span>(localPath + <span class="string">&quot;/.git&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">git = <span class="keyword">new</span> <span class="title class_">Git</span>(localRepo);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="版本控制及操作"><a href="#版本控制及操作" class="headerlink" title="版本控制及操作"></a>版本控制及操作</h1><h2 id="克隆遠端存儲庫至本機"><a href="#克隆遠端存儲庫至本機" class="headerlink" title="克隆遠端存儲庫至本機"></a>克隆遠端存儲庫至本機</h2><div class="note warning simple"><p>要克隆的目錄或資料夾<strong>需要被建立及清空</strong>才能順利克隆遠端存儲庫，不清空則報 Directory XXX is not empty</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">File</span> <span class="variable">dir</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(localPath)</span><br><span class="line"><span class="keyword">if</span> (!dir.exists()) folder.mkdirs();</span><br></pre></td></tr></table></figure></div>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Git.cloneRepository()</span><br><span class="line">    .setURI(remotePath)</span><br><span class="line">    .setDirectory(<span class="keyword">new</span> <span class="title class_">File</span>(localPath))</span><br><span class="line">    .call();</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>實驗內容</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Kotlin</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose | APK 插件化筆記</title>
+    <url>/post/android-dev-plugin-system-implementation-notes.html</url>
+    <content><![CDATA[<p>在以往使用 XML 架構的插件化方式，我們需要依賴 <code>AndroidManifest.xml</code> 多個附加插件的 <code>Activity</code>，再透過反射 (Reflection) API 把插件提供的 <code>Activity</code> 開放予主項目程式導入，使得 Android 碎片化。</p>
+<p>現在來到新型 Jetpack Compose 架構，因為 Compose 基本上要編寫的 UI 都是一個可組合項 (<code>Composable</code>)，所以事情變得簡單多了。</p>
+<div class="note info simple"><p>這個方法仍可應用於傳統的 XML 架構佈局。</p>
+</div>
+
+<hr>
+<h1 id="插件的配置"><a href="#插件的配置" class="headerlink" title="插件的配置"></a>插件的配置</h1><p>在這個範例中，我們會製作一個 <code>plugin-amazingbutton</code> 插件，提供一個漸變色按鈕作範例。</p>
+<p>要記得 <code>plugin-*</code> 模塊 <code>build.gradle.kts</code> 是 Application 而不是 Library 製式，因為插件最終會以 APK 形成。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    alias(libs.plugins.androidApplication)</span><br><span class="line">    alias(libs.plugins.kotlinGradlePlugin)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果你的插件 APK 是可以開啟的，可以在 <code>plugin-*</code> 模塊的 <code>AndroidManifest.xml</code> 設定應用程式基本配置。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">&quot;@android:mipmap/sym_def_app_icon&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">&quot;PluginSystemTest - AmazingButton Plugin&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;.MainActivity&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="插件提供的可組合組件"><a href="#插件提供的可組合組件" class="headerlink" title="插件提供的可組合組件"></a>插件提供的可組合組件</h2><p>在這個範例中，這個 <code>plugin-amazingbutton</code> 插件會提供一個製作漸變色按鈕的函式。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AmazingButton</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> AmazingButton: (<span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span>) = &#123;</span><br><span class="line">        GradientButton(</span><br><span class="line">            text = <span class="string">&quot;Button text&quot;</span>,</span><br><span class="line">            gradient = Brush.horizontalGradient(listOf(Color(<span class="number">0xFF28D8A3</span>), Color(<span class="number">0xFF00BEB2</span>)))</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">GradientButton</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    text: <span class="type">String</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    gradient : <span class="type">Brush</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    modifier: <span class="type">Modifier</span> = Modifier,</span></span></span><br><span class="line"><span class="params"><span class="function">    onClick: () -&gt; <span class="type">Unit</span> = &#123; &#125;,</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    Button(</span><br><span class="line">        modifier = modifier,</span><br><span class="line">        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),</span><br><span class="line">        contentPadding = PaddingValues(),</span><br><span class="line">        onClick = &#123; onClick() &#125;,</span><br><span class="line">    ) &#123;</span><br><span class="line">        Box(</span><br><span class="line">            modifier = Modifier</span><br><span class="line">                .background(gradient)</span><br><span class="line">                .padding(<span class="number">12.</span>dp)</span><br><span class="line">                .then(modifier),</span><br><span class="line">            contentAlignment = Alignment.Center,</span><br><span class="line">        ) &#123;</span><br><span class="line">            Text(text = text)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>你可能會問，為什麼 <code>AmazingButton</code> 不是用平時的函式方式建立，而是用 Lambda 方式建立呢？</p>
+<p>因為 Jetpack Compose 的可組合函式經過 JVM 編譯後會生成附加 2 個參數項：<code>Composer</code> 及 <code>Int</code>。如果沿用以下這個方式定義可組合項，可能會因為導致傳入參數錯誤而無法成功重組。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">AmazingButton</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果你用的是這個方式建立，那麼反射做法：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> method: Method =</span><br><span class="line">    plugin.getDeclaredMethod(</span><br><span class="line">        <span class="string">&quot;AmazingButton&quot;</span>,</span><br><span class="line">        Composer::<span class="keyword">class</span>.java,</span><br><span class="line">        <span class="built_in">Int</span>::<span class="keyword">class</span>.java</span><br><span class="line">    )</span><br><span class="line">method.isAccessible = <span class="literal">true</span></span><br><span class="line"><span class="keyword">val</span> obj = plugin.getDeclaredConstructor().newInstance()</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h1 id="獲取檔案存取請求"><a href="#獲取檔案存取請求" class="headerlink" title="獲取檔案存取請求"></a>獲取檔案存取請求</h1><p>在 <code>app</code> 模塊的 <code>AndroidManifest.xml</code> 記得加上使用權限設定：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.MANAGE_EXTERNAL_STORAGE&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:requestLegacyExternalStorage</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="允許存取所有檔案"><a href="#允許存取所有檔案" class="headerlink" title="允許存取所有檔案"></a>允許存取所有檔案</h2><div class="note warning simple"><p>所有檔案存取 (All File Access) 權限只限於 SDK 30 (Android 11) 或以上使用。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequiresApi(Build.VERSION_CODES.R)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">requestAllFileAccess</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    context: <span class="type">Context</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!Environment.isExternalStorageManager()) &#123;</span><br><span class="line">        <span class="keyword">val</span> intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)</span><br><span class="line">        <span class="keyword">val</span> uri = Uri.fromParts(<span class="string">&quot;package&quot;</span>, context.packageName, <span class="literal">null</span>)</span><br><span class="line">        intent.setData(uri)</span><br><span class="line">        context.startActivity(intent)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="管理權限的內容容器"><a href="#管理權限的內容容器" class="headerlink" title="管理權限的內容容器"></a>管理權限的內容容器</h2><p>這個內容容器是用來簡易對權限處理的佈局進行操作，理想用法如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">Container &#123; permissionGranted -&gt;</span><br><span class="line">    <span class="keyword">if</span> (permissionGranted) -&gt; Comp1() <span class="keyword">else</span> Comp2()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Container</code> 可組合函式會處理好關於權限讀取的程序，我們還會預設把 <code>plugins</code> 資料夾建立到 <code>storage/emulated/0/&lt;程式名稱&gt;/</code> 路徑內。</p>
+<details class="folding-tag"><summary> 瀏覽 Container 可組合函式程式碼 </summary>
+              <div class="content">
+              <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">Container</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    content: @<span class="type">Composable</span> <span class="type">ColumnScope</span>.(</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">permissionGranted</span>: <span class="type">Boolean</span>, <span class="type">pluginsDir</span>: <span class="type">File</span></span></span></span><br><span class="line"><span class="params"><span class="function">    ) -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> context = LocalContext.current</span><br><span class="line">    <span class="keyword">val</span> permissions = arrayOf(</span><br><span class="line">        Manifest.permission.READ_EXTERNAL_STORAGE,</span><br><span class="line">        Manifest.permission.WRITE_EXTERNAL_STORAGE</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">val</span> readWritePermissionGranted = permissions.all &#123;</span><br><span class="line">        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> permissionsGranted = <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S) &#123;</span><br><span class="line">        Environment.isExternalStorageManager() &amp;&amp; readWritePermissionGranted</span><br><span class="line">    &#125; <span class="keyword">else</span> readWritePermissionGranted</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> launcher = rememberLauncherForActivityResult(</span><br><span class="line">        contract = ActivityResultContracts.RequestMultiplePermissions(),</span><br><span class="line">        onResult = &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    LaunchedEffect(<span class="built_in">Unit</span>) &#123;</span><br><span class="line">        launcher.launch(permissions)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.R) &#123;</span><br><span class="line">        requestAllFileAccess(context)</span><br><span class="line">        <span class="keyword">val</span> pluginsDir = File(Environment.getExternalStorageDirectory().absolutePath + <span class="string">&quot;/PluginSystemTest/plugins/&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> (permissionsGranted) &#123;</span><br><span class="line">            pluginsDir.takeIf &#123; !it.exists()</span><br><span class="line">                it.mkdirs()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Column(</span><br><span class="line">            modifier = Modifier.padding(<span class="number">16.</span>dp)</span><br><span class="line">        ) &#123;</span><br><span class="line">            content(permissionsGranted, pluginsDir)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+              </div>
+            </details>
+
+<hr>
+<h1 id="下載插件-APK-安裝檔"><a href="#下載插件-APK-安裝檔" class="headerlink" title="下載插件 APK 安裝檔"></a>下載插件 APK 安裝檔</h1><h2 id="測試用途：直接編譯-plugin-並匯出"><a href="#測試用途：直接編譯-plugin-並匯出" class="headerlink" title="測試用途：直接編譯 plugin-* 並匯出"></a>測試用途：直接編譯 <code>plugin-*</code> 並匯出</h2><p>你可以直接把其匯出，獲取插件 APK 安裝檔，再手動存放到目標路徑運行，<strong>但只僅作初始測試用途</strong>。</p>
+<h2 id="實際用途：把插件-APK-安裝檔存放到-URL-或伺服器端"><a href="#實際用途：把插件-APK-安裝檔存放到-URL-或伺服器端" class="headerlink" title="實際用途：把插件 APK 安裝檔存放到 URL 或伺服器端"></a>實際用途：把插件 APK 安裝檔存放到 URL 或伺服器端</h2><ol>
+<li>你可以把插件 APK 安裝檔存放到檔案存放平台，再獲取其下載鏈結，藉由 <code>DownloadManager</code> 把檔案下載並存放到目標路徑。</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">”android.permission.INTERNET”/</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">downloadFile</span><span class="params">(context: <span class="type">Context</span>, url: <span class="type">String</span>, file: <span class="type">File</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> request = DownloadManager.Request(Uri.parse(url))</span><br><span class="line">    request.apply &#123;</span><br><span class="line">        setDestinationUri(file.toUri())</span><br><span class="line">        setTitle(file.name)</span><br><span class="line">        setDescription(<span class="string">&quot;Downloading...&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) <span class="keyword">as</span> DownloadManager</span><br><span class="line">    downloadManager.enqueue(request)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>自已架設伺服器</li>
+</ol>
+<hr>
+<h1 id="顯示並遍歷已下載插件"><a href="#顯示並遍歷已下載插件" class="headerlink" title="顯示並遍歷已下載插件"></a>顯示並遍歷已下載插件</h1><p>基本上就是遍歷檔案路徑的所有檔案，但唯獨只顯示所有屬於 APK 安裝檔的檔案。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">MainScreen</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Container &#123; permissionGranted, pluginsDir -&gt;</span><br><span class="line">        <span class="keyword">if</span> (permissionGranted) &#123;</span><br><span class="line">            LazyColumn &#123;</span><br><span class="line">                pluginsDir.listFiles()?.let &#123;</span><br><span class="line">                    items(it) &#123; file -&gt;</span><br><span class="line">                        <span class="keyword">if</span> (file.extension == <span class="string">&quot;apk&quot;</span>) &#123;</span><br><span class="line">                            FileItem(file = file)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">FileItem</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    modifier: <span class="type">Modifier</span> = Modifier,</span></span></span><br><span class="line"><span class="params"><span class="function">    file: <span class="type">File</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    Row(</span><br><span class="line">        modifier = modifier</span><br><span class="line">            .fillMaxWidth()</span><br><span class="line">            .clip(MaterialTheme.shapes.extraLarge)</span><br><span class="line">            .background(MaterialTheme.colorScheme.surfaceContainer)</span><br><span class="line">            .padding(<span class="number">16.</span>dp)</span><br><span class="line">    ) &#123;</span><br><span class="line">        Icon(</span><br><span class="line">            imageVector = Icons.Outlined.Android,</span><br><span class="line">            contentDescription = <span class="literal">null</span>,</span><br><span class="line">            tint = MaterialTheme.colorScheme.primary</span><br><span class="line">        )</span><br><span class="line">        Spacer(modifier = Modifier.width(<span class="number">16.</span>dp))</span><br><span class="line">        Column &#123;</span><br><span class="line">            Text(text = file.nameWithoutExtension, style = MaterialTheme.typography.titleLarge)</span><br><span class="line">            Text(text = file.path, style = MaterialTheme.typography.bodyMedium.copy(color = LocalContentColor.current.copy(<span class="number">0.38f</span>)))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="載入插件"><a href="#載入插件" class="headerlink" title="載入插件"></a>載入插件</h1><h2 id="載入插件安裝檔"><a href="#載入插件安裝檔" class="headerlink" title="載入插件安裝檔"></a>載入插件安裝檔</h2><p>我們會透過用 Java 類加載器 (<code>DexClassLoader</code>) 動態載入要使用的插件 APK。另外，我們會為插件存放 Dex 檔案，用於存儲編譯後的 Java 程式碼和資源。當加載插件時，<code>DexClassLoader</code> 會需要在指定的路徑中尋找並加載 Dex 檔案。如果不創建 Dex 目錄，或會導致應用程式在執行時出現錯誤或異常情況。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> PluginManager &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> pluginClassLoader: DexClassLoader? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">loadPluginFromFile</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        context: <span class="type">Context</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">        file: <span class="type">File</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    )</span></span>: DexClassLoader? &#123;</span><br><span class="line">        <span class="keyword">val</span> filesDir = context.externalCacheDir</span><br><span class="line">        <span class="keyword">val</span> apkFile = File(filesDir?.absolutePath, file.name)</span><br><span class="line">        file.copyTo(apkFile, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> dexFile = File(filesDir, <span class="string">&quot;dex&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> (!dexFile.exists()) &#123;</span><br><span class="line">            dexFile.mkdirs()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pluginClassLoader = DexClassLoader(</span><br><span class="line">            apkFile.absolutePath,</span><br><span class="line">            apkFile.absolutePath,</span><br><span class="line">            <span class="literal">null</span>,</span><br><span class="line">            context.classLoader</span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">return</span> pluginClassLoader</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="載入插件的程式"><a href="#載入插件的程式" class="headerlink" title="載入插件的程式"></a>載入插件的程式</h2><p>在這個範例中，我們會透過點擊一個按鈕來載入插件提供的漸變色按鈕。</p>
+<p>我們可以宣告兩個狀態：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> pluginApplySuccess <span class="keyword">by</span> mutableStateOf(<span class="literal">false</span>)</span><br><span class="line"><span class="keyword">var</span> pluginCompose <span class="keyword">by</span> mutableStateOf&lt;<span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span>&gt;(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>pluginApplySuccess</code>: 用來更新插件成功載入與否的狀態</li>
+<li><code>pluginCompose</code>: 用來顯示載入插件後的可組合項</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">loadAmazingButton</span><span class="params">(context: <span class="type">Context</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (pluginApplySuccess) <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> pluginsDir = Environment.getExternalStorageDirectory().absolutePath + <span class="string">&quot;/PluginSystemTest/plugins/&quot;</span></span><br><span class="line">    <span class="keyword">val</span> pluginFile = PluginManager.loadPluginFromFile(context, File(<span class="string">&quot;<span class="variable">$pluginsDir</span>/plugin-amazingbutton.apk&quot;</span>))</span><br><span class="line">    <span class="keyword">val</span> plugin = pluginFile?.loadClass(<span class="string">&quot;com.bluewhaleyt.plugin.amazingbutton.AmazingButton&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    plugin?.let &#123;</span><br><span class="line">        <span class="keyword">val</span> method = plugin.getDeclaredMethod(<span class="string">&quot;getAmazingButton&quot;</span>)</span><br><span class="line">        method.isAccessible = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">val</span> obj = plugin.getDeclaredConstructor().newInstance()</span><br><span class="line">        pluginCompose = method.invoke(obj) <span class="keyword">as</span> (<span class="meta">@Composable</span> () -&gt; <span class="built_in">Unit</span>)</span><br><span class="line">        pluginApplySuccess = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note danger simple"><p>經過 JVM 編譯後的 <code>AmazingButton</code> Lambda <code>get()</code> 屬性會變成 Java 的 <code>getAmazingButton()</code> 方法。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">MainScreen</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> context = LocalContext.current</span><br><span class="line">    Container &#123; permissionGranted, pluginsDir -&gt;</span><br><span class="line">        <span class="keyword">if</span> (permissionGranted) &#123;</span><br><span class="line">            Button(</span><br><span class="line">                onClick = &#123;</span><br><span class="line">                    loadAmazingButton(context)</span><br><span class="line">                &#125;</span><br><span class="line">            ) &#123;</span><br><span class="line">                Text(text = <span class="string">&quot;Load AmazingButton&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            AnimatedContent(</span><br><span class="line">                targetState = pluginCompose,</span><br><span class="line">                label = <span class="string">&quot;Plugin content&quot;</span></span><br><span class="line">            ) &#123; pluginContent -&gt;</span><br><span class="line">                Column(</span><br><span class="line">                    modifier = Modifier</span><br><span class="line">                        .fillMaxWidth()</span><br><span class="line">                        .clip(MaterialTheme.shapes.extraLarge)</span><br><span class="line">                        .background(color = MaterialTheme.colorScheme.primaryContainer)</span><br><span class="line">                        .padding(<span class="number">16.</span>dp)</span><br><span class="line">                ) &#123;</span><br><span class="line">                    Text(text = <span class="string">&quot;Plugins loaded area&quot;</span>)</span><br><span class="line">                    pluginContent()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>實驗內容</category>
+        <category>Android 開發</category>
+        <category>Jetpack Compose</category>
+        <category>學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Kotlin</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Jetpack Compose | 客製化主題實作筆記</title>
     <url>/post/jetpack-compose-dev-custom-theme-implementation-notes.html</url>
     <content><![CDATA[<p>在編寫 Jetpack Compose 程式時，常常會使用到質感設計 2 或質感設計 3 的設計框架，作為應用程式的基本設計風格。這是因為質感設計 2 和質感設計 3 提供了許多簡潔明瞭的組件，官方建議在構建 Jetpack Compose 程式時，盡量使用這些框架進行開發。</p>
@@ -625,8 +625,8 @@
 <p>然後像 <code>MaterialTheme</code> 一樣寫一個 <code>object</code> 和可組合函式，但不同的是，我們仍然會用到 <code>MaterialTheme</code>。</p>
 <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> ExtendedTheme &#123;</span><br><span class="line">    <span class="keyword">val</span> colorScheme: ExtendedColorScheme</span><br><span class="line">        <span class="meta">@Composable</span></span><br><span class="line">        <span class="keyword">get</span>() = LocalExtendedColorScheme.current</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">ExtendedTheme</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="comment">/* 這裏如常處理其他參數 */</span></span></span></span><br><span class="line"><span class="params"><span class="function">    content: @<span class="type">Composable</span> () -&gt; <span class="type">Unit</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 這裏的顏色值沒有進行特別測試</span></span><br><span class="line">    <span class="keyword">val</span> extendedColors = ExtendedColorScheme(</span><br><span class="line">        success = Color(<span class="number">0xFF98e01d</span>),</span><br><span class="line">        onSuccess = Color(<span class="number">0xFF366B05</span>),</span><br><span class="line">        successContainer = Color(<span class="number">0xFF366B05</span>),</span><br><span class="line">        onSuccessContainer = Color(<span class="number">0xFF7AC015</span>),</span><br><span class="line">    )</span><br><span class="line">    CompositionLocalProvider(LocalExtendedColorScheme provides extendedColors) &#123;</span><br><span class="line">        MaterialTheme(</span><br><span class="line">            <span class="comment">/* 這裏如常處理其他參數 */</span></span><br><span class="line">            content = content</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>學習筆記</category>
         <category>Jetpack Compose</category>
+        <category>學習筆記</category>
       </categories>
       <tags>
         <tag>Android</tag>
@@ -710,8 +710,8 @@
 <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">enterTransition = &#123;</span><br><span class="line">    slideIntoContainer(</span><br><span class="line">        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Left,</span><br><span class="line">        animationSpec = tween(<span class="number">700</span>)</span><br><span class="line">    )</span><br><span class="line">&#125;,</span><br><span class="line">exitTransition = &#123;</span><br><span class="line">    slideOutOfContainer(</span><br><span class="line">        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Left,</span><br><span class="line">        animationSpec = tween(<span class="number">700</span>)</span><br><span class="line">    )</span><br><span class="line">&#125;,</span><br><span class="line">popEnterTransition = &#123;</span><br><span class="line">    slideIntoContainer(</span><br><span class="line">        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Right,</span><br><span class="line">        animationSpec = tween(<span class="number">700</span>)</span><br><span class="line">    )</span><br><span class="line">&#125;,</span><br><span class="line">popExitTransition = &#123;</span><br><span class="line">    slideOutOfContainer(</span><br><span class="line">        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Right,</span><br><span class="line">        animationSpec = tween(<span class="number">700</span>)</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>實驗內容</category>
-        <category>學習筆記</category>
         <category>Jetpack Compose</category>
+        <category>學習筆記</category>
       </categories>
       <tags>
         <tag>Android</tag>
@@ -794,12 +794,186 @@
 <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Preview(showSystemUi = true)</span></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">EditorScreenPreview</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="meta">@PreviewParameter(EditorUIStateProvider::class)</span> state: <span class="type">EditorUIState</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    MyAppTheme &#123;</span><br><span class="line">        Content(state = state)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>實驗內容</category>
-        <category>學習筆記</category>
         <category>Jetpack Compose</category>
+        <category>學習筆記</category>
       </categories>
       <tags>
         <tag>Android</tag>
         <tag>Kotlin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React | JSX 及全面 SPA 單頁應用筆記</title>
+    <url>/post/react-dev-spa-notes.html</url>
+    <content><![CDATA[<p>React 是一個用於編寫用戶介面的 JavaScript 函式庫，主要用於構建單頁應用 (SPA) 的網站。</p>
+<ul>
+<li><strong>網站部分</strong>由 React 管理: 可以讓初學者把 React 程式碼一部分的寫在 HTML 檔案，如<strong>將 React 元件嵌入到現有的 HTML</strong> 中，增強網站的互動性和功能，而<strong>不需要重寫整個網站</strong>。</li>
+<li><strong>網站全部</strong>由 React 管理: 完全使用 React 建構整個網站。這意味著你的網站所有頁面和元件都是使用 React 來開發和渲染。</li>
+</ul>
+<hr>
+<h1 id="單頁應用-SPA-VS-多頁應用-MPA"><a href="#單頁應用-SPA-VS-多頁應用-MPA" class="headerlink" title="單頁應用 (SPA) VS 多頁應用 (MPA)"></a>單頁應用 (SPA) VS 多頁應用 (MPA)</h1><ul>
+<li>多頁應用: 在絕大多數的網站都是使用多頁應用的，這個網站會有許多個 HTML 頁面，<strong>每個頁面都需要從伺服器重新加載</strong>。</li>
+<li>單頁應用: 在第一次請求時，會向伺服器獲取需要加載的頁面以及資源，當再要<strong>進行下一次加載時，不需要再從伺服器加載</strong>，而是經由路由動態加載。</li>
+</ul>
+<hr>
+<h1 id="初始配置-React-項目"><a href="#初始配置-React-項目" class="headerlink" title="初始配置 React 項目"></a>初始配置 React 項目</h1><div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="/post/web-dev-nodejs-express-notes">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">React 需要 Node.js 環境</div>
+            <div class="tag-link-sitename"> 看這篇文章可以瞭解配置 Node.js 環境</div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>
+
+<p>要安裝 <code>react</code> 及 <code>react-dom</code> 套件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i react react-dom</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="React-元件"><a href="#React-元件" class="headerlink" title="React 元件"></a>React 元件</h1><p>React 元件封裝了獨立的功能和狀態，並可以接受輸入的屬性，可以被視為獨立的模塊，可以在應用程式中多次使用。每個元件都有自己的<strong>生命週期方法和狀態管理</strong>，使得開發者可以方便地將 UI 功能分為小塊，並且可以很容易地維護和測試這些元件。</p>
+<p>React 元件有兩種函式構建方式：</p>
+<ol>
+<li>類別型元件 (Class-based Component): 需要使用 <code>extends</code> 和 <code>render()</code> 額外語法來渲染 React 介面</li>
+<li>函式型元件 (Functional Component): 不需要寫 <code>render()</code>，編譯後會自動在 <code>return</code> JSX 時叫用 React 提供的函式轉成元件</li>
+</ol>
+<p>比較表如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>函式型元件</th>
+<th>類別型元件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>語法</td>
+<td>定義為 JavaScript 函式</td>
+<td>定義為 JavaScript 類別</td>
+</tr>
+<tr>
+<td>狀態管理</td>
+<td>使用 React Hooks (例如 <code>useState</code>)</td>
+<td>使用 <code>this.state</code> 和 <code>this.setState</code></td>
+</tr>
+<tr>
+<td>生命週期方法</td>
+<td>使用 React Hooks (例如 <code>useEffect</code>)</td>
+<td>有存取生命週期方法 (例如 <code>componentDidMount</code>)</td>
+</tr>
+<tr>
+<td>代碼複雜度</td>
+<td>語法簡潔、簡明</td>
+<td>需要更多樣板代碼</td>
+</tr>
+<tr>
+<td>可重用性</td>
+<td>容易重用和組</td>
+<td>可以重用，但需要更多努力</td>
+</tr>
+<tr>
+<td>效能</td>
+<td>由於較少的額外開銷，效能稍好</td>
+<td>由於額外的開銷，效能稍低</td>
+</tr>
+<tr>
+<td>Context API</td>
+<td>使用 <code>useContext</code> Hook</td>
+<td>使用 <code>this.context</code></td>
+</tr>
+<tr>
+<td>實例變數</td>
+<td>不支援實例變數</td>
+<td>支援實例變數</td>
+</tr>
+<tr>
+<td>代碼組織</td>
+<td>函式導向，更容易組織代碼</td>
+<td>類別導向，傳統的物件導向程式設計風格</td>
+</tr>
+<tr>
+<td>社群偏好</td>
+<td>在近年來越來越受歡迎</td>
+<td>已成熟且廣泛使用</td>
+</tr>
+</tbody></table>
+<p>程式碼對照：</p>
+<div class="tabs" id="code_react_func_vs_class_comp"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_react_func_vs_class_comp-1">函式型元件</button><button type="button" class="tab " data-href="code_react_func_vs_class_comp-2">類別型元件</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_react_func_vs_class_comp-1"><figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">FunctionalComponent</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">handleClick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">setCount</span>(<span class="function"><span class="params">prevCount</span> =&gt;</span> prevCount + <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Functional Component<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>Count: &#123;count&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;handleClick&#125;</span>&gt;</span>Increment<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">FunctionalComponent</span>;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_react_func_vs_class_comp-2"><figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; <span class="title class_">Component</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ClassComponent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">props</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(props);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">state</span> = &#123;</span><br><span class="line">      <span class="attr">count</span>: <span class="number">0</span></span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleClick = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">setState</span>(<span class="function"><span class="params">prevState</span> =&gt;</span> (&#123;</span><br><span class="line">      <span class="attr">count</span>: prevState.<span class="property">count</span> + <span class="number">1</span></span><br><span class="line">    &#125;));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Class-based Component<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Count: &#123;this.state.count&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.handleClick&#125;</span>&gt;</span>Increment<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">ClassComponent</span>;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<p>現在通常都會改用函式型元件。</p>
+<hr>
+<h1 id="React-網頁實作"><a href="#React-網頁實作" class="headerlink" title="React 網頁實作"></a>React 網頁實作</h1><h2 id="網站部分由-React-管理"><a href="#網站部分由-React-管理" class="headerlink" title="網站部分由 React 管理"></a>網站部分由 React 管理</h2><p>只管理網頁內的內容部分，把 React 元件加入到 HTML 網頁中顯示，不需要重寫網站。</p>
+<p>加入 React 函式庫：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>因為 React 需要使用 JSX (JavaScript XML) 語法，一個把邏輯及變量程式操作加入到 HTML 檔案中，而一般的 JavaScript 是不支援 JSX 的，所以還需要在 <a href="https://babeljs.io/setup#installation">Babel</a> 官網安裝 <code>babel</code> 相關套件:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://unpkg.com/@babel/standalone/babel.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>當要在 <code>&lt;script&gt;</code> 標記寫 JSX 程式碼時，就需要加上 <code>text/babel</code> 的 <code>type</code>，註明該程式碼將會使用 Babel 轉譯，在這個 React 環境，就會是把 JSX 語法轉譯為瀏覽器看的懂的 JavaScript 程式碼。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/babel&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// ...</span></span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在 HTML 加上一個 <code>&lt;div&gt;</code> 以及賦予一個作為 React 容器的 ID，例如 <code>app</code>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然後在 <code>&lt;script type=&#39;text/babel&#39;&gt;</code> 內加入 JSX 代碼渲染 React 元件至 HTML 網頁。</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">App</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">App</span>/&gt;</span></span>,</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#app&#x27;</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="編寫-JSX-要注意的地方"><a href="#編寫-JSX-要注意的地方" class="headerlink" title="編寫 JSX 要注意的地方"></a>編寫 JSX 要注意的地方</h3><ul>
+<li>元素必須只有一個根元素，通常會用 <code>&lt;div&gt;</code> 包起來<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span>(</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>I am an error<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+這個程式碼是錯誤的，因為它存在了兩個根元素，一個是 <code>&lt;div&gt;</code>，而另一個是 <code>&lt;p&gt;</code>。</li>
+<li>定義 <code>class</code> 屬性應改用 <code>className</code>，<strong>雖然在 JSX 渲染 React 元件沒有問題</strong>，但是當要全面使用 React，即不是單純嵌入 React 元件至 HTML 時候就會報錯，所以最好養成習慣，改為 <code>className</code><figure class="highlight diff"><table><tr><td class="code"><pre><span class="line"><span class="deletion">- &lt;p class=&quot;test&quot;&gt;Test&lt;/p&gt;</span></span><br><span class="line"><span class="addition">+ &lt;p className=&quot;test&quot;&gt;Test&lt;/p&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>JSX 的區域部分，如果要在元件內定義註解 (comment)，可以用一組 <code>&#123; /* */ &#125;</code> 定義註解。另外，在 JavaScript 語法部分可以編寫 JavaScript 程式碼，在 HTML 可以用一組 <code>&#123; &#125;</code> 接收。<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">App</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 目前是 JavaScript 語法部分</span></span><br><span class="line">    <span class="keyword">const</span> str = <span class="string">&quot;World&quot;</span></span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            &#123; /* 目前是 HTML 語法部分 */&#125;</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello &#123;str.toUpperCase()&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<div class="note info simple"><p><code>{ }</code> 是有直接運行的意思。</p>
+</div>
+
+<h2 id="網站全部由-React-管理"><a href="#網站全部由-React-管理" class="headerlink" title="網站全部由 React 管理"></a>網站全部由 React 管理</h2><p>讓我們來把 HTML 扔出窗外，來全面寫一個 React，一般來說，如果要全面開發一個 React 網頁，會使用 <code>create-react-app</code> 套件工具：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx create-react-app 項目名稱</span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p><code>public</code> 資料夾內的 <code>robots.txt</code> 是用來管理 SEO 搜尋，你可以在這檔案訂立規則。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># https://www.robotstxt.org/robotstxt.html</span></span><br><span class="line"><span class="attr">User-agent:</span> <span class="string">*</span></span><br><span class="line"><span class="attr">Disallow:</span></span><br></pre></td></tr></table></figure></div>
+
+<p>基本上已經是一個完整的 React 網站，可以嘗試運行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+
+<h3 id="加入-CSS-樣式"><a href="#加入-CSS-樣式" class="headerlink" title="加入 CSS 樣式"></a>加入 CSS 樣式</h3><p>React 有幾種加入 CSS 樣式的方法：</p>
+<ol>
+<li>單行 CSS：需要一對 <code>&#123;&#123; &#125;&#125;</code>，寫的是 JavaScript CSS 屬性<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line">&lt;p style=&#123;&#123;<span class="attr">color</span>: <span class="string">&#x27;red&#x27;</span>&#125;&#125;&gt;<span class="title class_">Hello</span> <span class="title class_">World</span>&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="http://www.sitestepper.be/en/css-properties-to-javascript-properties-reference-list.htm">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">CSS 屬性與 JavaScript CSS 屬性對照</div>
+            <div class="tag-link-sitename"> </div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div></li>
+<li>匯入 CSS 檔案：<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./index.css&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li>匯入 CSS Modules：新建一個例如名為 <code>MyList.module.css</code>，然後在 <code>MyList.js</code><figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">&#x27;./MyList.module.css&#x27;</span></span><br></pre></td></tr></table></figure>
+要用的時候，例如：<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line">&lt;div className=&#123;styles.<span class="property">container</span>&#125;&gt;</span><br></pre></td></tr></table></figure>
+建議使用 CSS Modules，因為通過 CSS Modules，我們可以：<ul>
+<li>確保單個組件（元件）的所有樣式集中在同一個地方</li>
+<li>確保元件樣式只應用於該組件</li>
+<li>解決 CSS 全局作用域的問題</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>React</category>
+        <category>網頁開發</category>
+        <category>前端技術</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+        <tag>JSX</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -974,9 +1148,9 @@
         <category>網頁開發</category>
       </categories>
       <tags>
+        <tag>JavaScript</tag>
         <tag>HTML</tag>
         <tag>CSS</tag>
-        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -997,6 +1171,7 @@
     </div>
     </a></div>
 
+<p>因為 Express 就是以路由構建的形式編寫的，所以當要實作一個 RESTful API，使用 Express 是較 Node.js 為簡單的。</p>
 <hr>
 <h1 id="JSON-數據庫建立"><a href="#JSON-數據庫建立" class="headerlink" title="JSON 數據庫建立"></a>JSON 數據庫建立</h1><p>基於一個 JSON 數據庫的 <code>data.json</code> 作為 API 獲取的資料來源。</p>
 <div class="note info simple"><p>這個 <code>data.json</code> 的內容會經過<strong>增刪查改而有所變更</strong>。</p>
@@ -1045,26 +1220,33 @@
 <h1 id="初始-Express-程序"><a href="#初始-Express-程序" class="headerlink" title="初始 Express 程序"></a>初始 Express 程序</h1><p>這個是一個簡單的 Express 程序，我們將會在其中加上對應的 API 路由。</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>()</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">3000</span></span><br><span class="line"><span class="keyword">const</span> file = <span class="string">`<span class="subst">$&#123;__dirname&#125;</span>/data.json`</span></span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>())</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span> , <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">send</span>(<span class="string">&#x27;Hello World!&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(port, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`API server listening on port <span class="subst">$&#123;port&#125;</span>`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<h2 id="listUsers-獲取所有用戶"><a href="#listUsers-獲取所有用戶" class="headerlink" title="listUsers - 獲取所有用戶"></a><code>listUsers</code> - 獲取所有用戶</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/listUsers&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    fs.<span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(err)</span><br><span class="line">            res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">                <span class="attr">error</span>: <span class="string">&#x27;Unable to load data&#x27;</span></span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            res.<span class="title function_">end</span>(data)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="重用函數"><a href="#重用函數" class="headerlink" title="重用函數"></a>重用函數</h2><p>為了能集中處理增刪查改的程式實現，這裏會編寫幾個重用函數，方便處理：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">showError</span>(<span class="params">status, res, err</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(err)</span><br><span class="line">    res.<span class="title function_">status</span>(status).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">error</span>: err</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">readFile</span>(<span class="params">file, callback</span>) &#123;</span><br><span class="line">    fs.<span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">callback</span>(err);</span><br><span class="line">        <span class="keyword">else</span> <span class="title function_">callback</span>(<span class="literal">null</span>, <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data));</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">writeFile</span>(<span class="params">file, data, callback</span>) &#123;</span><br><span class="line">    fs.<span class="title function_">writeFile</span>(file, data, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">callback</span>(err)</span><br><span class="line">        <span class="keyword">else</span> <span class="title function_">callback</span>(<span class="literal">null</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="listUsers-獲取所有用戶"><a href="#listUsers-獲取所有用戶" class="headerlink" title="listUsers - 獲取所有用戶"></a><code>listUsers</code> - 獲取所有用戶</h2><p>這個 API 會獲取所有用戶資料。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/listUsers&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to load data&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span> res.<span class="title function_">send</span>(data)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p><img src="/post/web-dev-express-restful-api-notes/img1.png" alt="獲取所有用戶"></p>
-<h2 id="getUser-獲取指定用戶"><a href="#getUser-獲取指定用戶" class="headerlink" title="getUser - 獲取指定用戶"></a><code>getUser</code> - 獲取指定用戶</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/getUser/:id&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> id = req.<span class="property">params</span>.<span class="property">id</span>;</span><br><span class="line">    fs.<span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">            res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">                <span class="attr">error</span>: <span class="string">&#x27;Unable to load data&#x27;</span></span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> jsonData = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data);</span><br><span class="line">            <span class="keyword">const</span> user = jsonData.<span class="property">users</span>[<span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>];</span><br><span class="line">            <span class="keyword">if</span> (user) &#123;</span><br><span class="line">                res.<span class="title function_">json</span>(user);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">                    <span class="attr">error</span>: <span class="string">&#x27;Invalid user&#x27;</span></span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="getUser-獲取指定用戶"><a href="#getUser-獲取指定用戶" class="headerlink" title="getUser - 獲取指定用戶"></a><code>getUser</code> - 獲取指定用戶</h2><p>這個 API 會根據在查詢參數 (query parameter) 所提供的用戶 ID 來獲取該用戶的個別資料。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/getUser/:id&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> id = req.<span class="property">params</span>.<span class="property">id</span></span><br><span class="line">    <span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to load data&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> user = data.<span class="property">users</span>[<span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>]</span><br><span class="line">            <span class="keyword">if</span> (user) res.<span class="title function_">json</span>(user)</span><br><span class="line">            <span class="keyword">else</span> <span class="title function_">showError</span>(<span class="number">404</span>, res, <span class="string">&#x27;Invalid user&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
+<p>在調用 <code>getUser</code> API 時要提供用戶 ID 作為查詢參數。例如這裏獲取用戶 ID 為 <code>2</code> 的資料：</p>
 <p><img src="/post/web-dev-express-restful-api-notes/img2.png" alt="獲取指定用戶"></p>
-<h2 id="addUser-新增用戶"><a href="#addUser-新增用戶" class="headerlink" title="addUser - 新增用戶"></a><code>addUser</code> - 新增用戶</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/addUser&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> newUser = req.<span class="property">body</span>;</span><br><span class="line">    fs.<span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">            res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">                <span class="attr">error</span>: <span class="string">&#x27;Unable to load data&#x27;</span></span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> jsonData = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data);</span><br><span class="line">            <span class="keyword">const</span> id = <span class="title class_">Object</span>.<span class="title function_">keys</span>(jsonData.<span class="property">users</span>).<span class="property">length</span> + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">const</span> newUserId = <span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>;</span><br><span class="line">            jsonData.<span class="property">users</span>[newUserId] = newUser;</span><br><span class="line">            <span class="keyword">const</span> newData = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(jsonData, <span class="literal">null</span>, <span class="number">2</span>);</span><br><span class="line">            fs.<span class="title function_">writeFile</span>(file, newData, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">                    res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">                        <span class="attr">error</span>: <span class="string">&#x27;Unable to write data&#x27;</span></span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    res.<span class="title function_">json</span>(jsonData.<span class="property">users</span>[newUserId]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="addUser-新增用戶"><a href="#addUser-新增用戶" class="headerlink" title="addUser - 新增用戶"></a><code>addUser</code> - 新增用戶</h2><p>這個 API 會根據請求主體 (request body) 中的新用戶資料進行新增</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/addUser&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> newUser = req.<span class="property">body</span></span><br><span class="line">    <span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to load data&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> id = <span class="title class_">Object</span>.<span class="title function_">keys</span>(data.<span class="property">users</span>).<span class="property">length</span> + <span class="number">1</span></span><br><span class="line">            <span class="keyword">const</span> newUserId = <span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span></span><br><span class="line">            data.<span class="property">users</span>[newUserId] = newUser</span><br><span class="line">            <span class="keyword">const</span> newData = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data, <span class="literal">null</span>, <span class="number">2</span>)</span><br><span class="line">            <span class="title function_">writeFile</span>(file, newData, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to write data&#x27;</span>)</span><br><span class="line">                <span class="keyword">else</span> res.<span class="title function_">json</span>(data.<span class="property">users</span>[newUserId])</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>例如，在 Postman 的請求主體中加入以下的 JSON:</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;John&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">25</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;isMarried&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;John&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">25</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;isMarried&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/post/web-dev-express-restful-api-notes/img3.png" alt="新增用戶"></p>
-<p>現在再嘗試獲取所有用戶：</p>
+<p>現在再嘗試獲取所有用戶，你會發現新的用戶 (ID 為 <code>4</code>) 已經被新增至用戶列表中，因為原本的 <code>data.json</code> 內容已經被更新。</p>
 <p><img src="/post/web-dev-express-restful-api-notes/img4.png" alt="再次獲取所有用戶"></p>
-<h2 id="deleteUser-刪除指定用戶"><a href="#deleteUser-刪除指定用戶" class="headerlink" title="deleteUser - 刪除指定用戶"></a><code>deleteUser</code> - 刪除指定用戶</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">delete</span>(<span class="string">&#x27;/deleteUser/:id&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> id = req.<span class="property">params</span>.<span class="property">id</span>;</span><br><span class="line">    fs.<span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">            res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">                <span class="attr">error</span>: <span class="string">&#x27;Unable to load data&#x27;</span></span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> jsonData = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data);</span><br><span class="line">            <span class="keyword">const</span> user = jsonData.<span class="property">users</span>[<span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>];</span><br><span class="line">            <span class="keyword">if</span> (user) &#123;</span><br><span class="line">                <span class="keyword">delete</span> jsonData.<span class="property">users</span>[<span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>];</span><br><span class="line">                <span class="keyword">const</span> newData = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(jsonData, <span class="literal">null</span>, <span class="number">2</span>);</span><br><span class="line">                fs.<span class="title function_">writeFile</span>(file, newData, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                        <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">                        res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">                            <span class="attr">error</span>: <span class="string">&#x27;Unable to write data&#x27;</span></span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        res.<span class="title function_">json</span>(&#123;</span><br><span class="line">                            <span class="attr">message</span>: <span class="string">&#x27;This user is now deleted&#x27;</span></span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">                    <span class="attr">error</span>: <span class="string">&#x27;Invalid user&#x27;</span></span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="deleteUser-刪除指定用戶"><a href="#deleteUser-刪除指定用戶" class="headerlink" title="deleteUser - 刪除指定用戶"></a><code>deleteUser</code> - 刪除指定用戶</h2><p>這個 API 跟 <code>getUser</code> 實際用法差不多，都是需要提供查詢參數來指定用戶 ID，不過這回是刪除指定用戶的資料。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">delete</span>(<span class="string">&#x27;/deleteUser/:id&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> id = req.<span class="property">params</span>.<span class="property">id</span></span><br><span class="line">    <span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to load data&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> user = data.<span class="property">users</span>[<span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>]</span><br><span class="line">            <span class="keyword">if</span> (user) &#123;</span><br><span class="line">                <span class="keyword">delete</span> data.<span class="property">users</span>[<span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>]</span><br><span class="line">                <span class="keyword">const</span> newData = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data, <span class="literal">null</span>, <span class="number">2</span>)</span><br><span class="line">                <span class="title function_">writeFile</span>(file, newData, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to write data&#x27;</span>)</span><br><span class="line">                    <span class="keyword">else</span> res.<span class="title function_">json</span>(&#123;</span><br><span class="line">                        <span class="attr">message</span>: <span class="string">&#x27;This user is now deleted&#x27;</span></span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">showError</span>(<span class="number">404</span>, res, <span class="string">&#x27;Invalid user&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p><img src="/post/web-dev-express-restful-api-notes/img5.png" alt="刪除指定用戶"></p>
-<p>現在再嘗試獲取所有用戶：</p>
+<p>現在再嘗試獲取所有用戶，ID 為 <code>3</code> 的用戶已被刪除：</p>
 <p><img src="/post/web-dev-express-restful-api-notes/img6.png" alt="再次獲取所有用戶"></p>
-<p>ID <code>3</code> 的用戶已成功刪除。</p>
 ]]></content>
       <categories>
         <category>網頁開發</category>
@@ -1072,109 +1254,9 @@
       </categories>
       <tags>
         <tag>Node.js</tag>
+        <tag>JavaScript</tag>
         <tag>Express</tag>
         <tag>Bash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用 Hexo 建立及寄存網誌</title>
-    <url>/post/web-dev-hexo-blog-setup-notes.html</url>
-    <content><![CDATA[<p>Hexo 是一個快速、簡單且強大的網誌框架。Hexo 使用 Markdown（或其他標記語言）解析您的文章，並在幾秒鐘內，透過漂亮的主題產生靜態檔案。</p>
-<div class="note warning simple"><p>我用的是 macOS，Windows 用戶可參考 <a href="https://hexo.io/zh-tw/docs/" target="_blank">官方文案</a>（但其實與 macOS 的差不多，可作以下內容參考）。</p>
-<p>以下我的安裝教學是使用 Homebrew，請預必先安裝 Homebrew 以繼續接下來的教學，請到 <a href="https://brew.sh/" target="_blank">官方網站</a> 瞭解安裝 Homebrew。</p>
-</div>
-
-<p>本文章將會根據以下規格建立 Hexo 網誌。</p>
-<table>
-<thead>
-<tr>
-<th align="center">軟體&#x2F;作業系統</th>
-<th align="center">版本號碼</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">作業系統</td>
-<td align="center">macOS Ventura 13</td>
-</tr>
-<tr>
-<td align="center"><a href="https://git-scm.com/">Git</a></td>
-<td align="center">v2.39.0</td>
-</tr>
-<tr>
-<td align="center"><a href="https://nodejs.org/en">Nodejs</a></td>
-<td align="center">v18.12.1</td>
-</tr>
-<tr>
-<td align="center">hexo</td>
-<td align="center">v6.3.0</td>
-</tr>
-<tr>
-<td align="center">hexo-cli</td>
-<td align="center">v4.3.0</td>
-</tr>
-<tr>
-<td align="center">文本編輯軟件</td>
-<td align="center"><a href="https://code.visualstudio.com/">Visual Studio Code</a></td>
-</tr>
-</tbody></table>
-<hr>
-<h1 id="初始安裝及使用"><a href="#初始安裝及使用" class="headerlink" title="初始安裝及使用"></a>初始安裝及使用</h1><p>若你曾經並沒有安裝 Git 及 Nodejs 就要現在安裝。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install git</span><br><span class="line">brew install git-gui</span><br></pre></td></tr></table></figure>
-
-<p>可到官方下載 Nodejs 軟件包，<a href="http://nodejs.org/" target="_blank">按此下載</a>。</p>
-<p>如果以上的都安裝好了，便可以在終端機執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-
-<details class="folding-tag"><summary> 解決 EACCES 權限問題 </summary>
-              <div class="content">
-              <p>不過，如果在嘗試安裝 Hexo 的過程中出現 EACCES 權限錯誤，請遵循由 npmjs 發布的指導修復該問題。官方強烈建議不要使用 <code>root</code>、<code>sudo</code> 等方法覆蓋權限。</p><div class="note danger simple"><p>通常 macOS 都會出現 EACCES 權限錯誤，你可以在執行解決方法前先備份電腦，以免不慎出錯。<br>就算你真的想逆官方的意願，都有機會是使用 <code>sudo</code> 方法都不可行。</p></div><p>在執行 <code>npx install -g hexo-cli</code> 時會報錯：</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error: EACCES: permission denied, access <span class="string">&#x27;/usr/local/lib/node_modules&#x27;</span></span><br><span class="line">npm ERR!  &#123; Error: EACCES: permission denied, access <span class="string">&#x27;/usr/local/lib/node_modules&#x27;</span></span><br><span class="line">npm ERR!   stack: <span class="string">&#x27;Error: EACCES: permission denied, access \&#x27;</span>/usr/local/lib/node_modules\<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">npm ERR!   errno: -13,</span><br><span class="line">npm ERR!   code: <span class="string">&#x27;EACCES&#x27;</span>,</span><br><span class="line">npm ERR!   syscall: <span class="string">&#x27;access&#x27;</span>,</span><br><span class="line">npm ERR!   path: <span class="string">&#x27;/usr/local/lib/node_modules&#x27;</span> &#125;</span><br><span class="line">npm ERR!</span><br><span class="line">npm ERR! Please try running this <span class="built_in">command</span> again as root/Administrator.</span><br><span class="line">npm ERR! A complete <span class="built_in">log</span> of this run can be found <span class="keyword">in</span>:</span><br><span class="line">npm ERR!     /Users/nieyuling/.npm/_logs/2019-02-14T07_10_39_923Z-debug.log</span><br></pre></td></tr></table></figure><p>簡而言之，因為沒有權限，這裏有簡單的解決方法：在終端機輸入。</p><p>首先，先在根目錄裏建立新資料夾 <code>npm-global</code>。</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/.npm-global</span><br></pre></td></tr></table></figure><p>然後把新資料夾 <code>npm-global</code> 設定為 <code>npm</code> 預設路徑。</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">NPM_CONFIG_PREFIX=~/.npm-global</span><br></pre></td></tr></table></figure><div class="note info simple"><p>詳情可見 <a href="https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally" target="_blank">npmjs 指導</a> 。</p></div>
-              </div>
-            </details>
-
-<h2 id="初始化網誌"><a href="#初始化網誌" class="headerlink" title="初始化網誌"></a>初始化網誌</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init myblog</span><br></pre></td></tr></table></figure>
-
-<h2 id="新增文章"><a href="#新增文章" class="headerlink" title="新增文章"></a>新增文章</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new hello-world</span><br></pre></td></tr></table></figure>
-
-<div class="note warning simple"><p>文章名稱是將會應用並命名到檔案名稱，所以請以<strong>英文為主</strong>，慎防和遲免程式因亂碼出錯，還有<strong>不需要加上副檔名</strong>，因為會自動以 <code>.md</code> 格式生成，例如 <code>HelloWorld.md</code>。</p>
-</div>
-
-<h2 id="本機預覽網誌"><a href="#本機預覽網誌" class="headerlink" title="本機預覽網誌"></a>本機預覽網誌</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
-
-<h2 id="發佈及部署網誌"><a href="#發佈及部署網誌" class="headerlink" title="發佈及部署網誌"></a>發佈及部署網誌</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-
-<div class="note info simple"><p><code>cl</code> 是 <code>clean</code>，清除快取檔案 <code>db.json</code> 和 <code>public</code> 已產生靜態檔案。<br><code>g</code> 是 <code>generate</code>，產生靜態檔案。<br><code>d</code> 是 <code>deploy</code>，部署網站。<br><code>s</code> 是 <code>server</code>，以本機伺服器 <code>localhost:4000</code> 預覽網站。</p>
-</div>
-
-<hr>
-<h1 id="發佈並部署到-Github-頁面"><a href="#發佈並部署到-Github-頁面" class="headerlink" title="發佈並部署到 Github 頁面"></a>發佈並部署到 Github 頁面</h1><h2 id="建立-Repository"><a href="#建立-Repository" class="headerlink" title="建立 Repository"></a>建立 Repository</h2><p>進入 <a href="https://github.com" target="_blank">GitHub</a> 網頁，點擊 <code>New</code> 按鈕新建專案，把 <code>Repository name</code> 命名為 <code>username.github.io</code>。</p>
-<div class="note info simple"><p><code>username</code> 是你的用戶名稱。</p>
-</div>
-
-<p>然後按 <code>Create repository</code>。那就成功建立網域 <code>username.github.io</code>。</p>
-<h2 id="把檔案推送到-GitHub"><a href="#把檔案推送到-GitHub" class="headerlink" title="把檔案推送到 GitHub"></a>把檔案推送到 GitHub</h2><p>回到 <code>hexo</code> 資料夾，在終端機輸入：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-<p>修改 <code>_config.yml</code> 檔案的 <code>deploy</code> 設定：</p>
-<div class="note warning simple"><p>這個 <code>_config.yml</code> 是 <code>hexo</code> 根目錄內，並非 <code>hexo/themes/</code> 內那個。</p>
-</div>
-
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">    <span class="attr">repo:</span> <span class="string">https://github.com/username/username.github.io.git</span></span><br><span class="line">    <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-
-<div class="note info simple"><p><code>type</code>：選擇部屬模式，這裡填 <code>git</code><br><code>repo</code>：GitHub repository 的連結，記得將 <code>username</code> 修改成自己的帳號名稱<br><code>branch</code>：選擇分支，預設為 <code>master</code></p>
-</div>
-
-<p>然後再執行部署指令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-
-<div class="note warning simple"><p>你一旦更新網誌內容後，你需要稍等片刻，因為 Github <strong>需要時間才能夠成功部署</strong>。</p>
-</div>]]></content>
-      <categories>
-        <category>網頁開發</category>
-      </categories>
-      <tags>
-        <tag>YAML</tag>
-        <tag>Bash</tag>
-        <tag>Markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -1296,8 +1378,110 @@
       </categories>
       <tags>
         <tag>Node.js</tag>
+        <tag>JavaScript</tag>
         <tag>Express</tag>
         <tag>EJS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 Hexo 建立及寄存網誌</title>
+    <url>/post/web-dev-hexo-blog-setup-notes.html</url>
+    <content><![CDATA[<p>Hexo 是一個快速、簡單且強大的網誌框架。Hexo 使用 Markdown（或其他標記語言）解析您的文章，並在幾秒鐘內，透過漂亮的主題產生靜態檔案。</p>
+<div class="note warning simple"><p>我用的是 macOS，Windows 用戶可參考 <a href="https://hexo.io/zh-tw/docs/" target="_blank">官方文案</a>（但其實與 macOS 的差不多，可作以下內容參考）。</p>
+<p>以下我的安裝教學是使用 Homebrew，請預必先安裝 Homebrew 以繼續接下來的教學，請到 <a href="https://brew.sh/" target="_blank">官方網站</a> 瞭解安裝 Homebrew。</p>
+</div>
+
+<p>本文章將會根據以下規格建立 Hexo 網誌。</p>
+<table>
+<thead>
+<tr>
+<th align="center">軟體&#x2F;作業系統</th>
+<th align="center">版本號碼</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">作業系統</td>
+<td align="center">macOS Ventura 13</td>
+</tr>
+<tr>
+<td align="center"><a href="https://git-scm.com/">Git</a></td>
+<td align="center">v2.39.0</td>
+</tr>
+<tr>
+<td align="center"><a href="https://nodejs.org/en">Nodejs</a></td>
+<td align="center">v18.12.1</td>
+</tr>
+<tr>
+<td align="center">hexo</td>
+<td align="center">v6.3.0</td>
+</tr>
+<tr>
+<td align="center">hexo-cli</td>
+<td align="center">v4.3.0</td>
+</tr>
+<tr>
+<td align="center">文本編輯軟件</td>
+<td align="center"><a href="https://code.visualstudio.com/">Visual Studio Code</a></td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="初始安裝及使用"><a href="#初始安裝及使用" class="headerlink" title="初始安裝及使用"></a>初始安裝及使用</h1><p>若你曾經並沒有安裝 Git 及 Nodejs 就要現在安裝。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install git</span><br><span class="line">brew install git-gui</span><br></pre></td></tr></table></figure>
+
+<p>可到官方下載 Nodejs 軟件包，<a href="http://nodejs.org/" target="_blank">按此下載</a>。</p>
+<p>如果以上的都安裝好了，便可以在終端機執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<details class="folding-tag"><summary> 解決 EACCES 權限問題 </summary>
+              <div class="content">
+              <p>不過，如果在嘗試安裝 Hexo 的過程中出現 EACCES 權限錯誤，請遵循由 npmjs 發布的指導修復該問題。官方強烈建議不要使用 <code>root</code>、<code>sudo</code> 等方法覆蓋權限。</p><div class="note danger simple"><p>通常 macOS 都會出現 EACCES 權限錯誤，你可以在執行解決方法前先備份電腦，以免不慎出錯。<br>就算你真的想逆官方的意願，都有機會是使用 <code>sudo</code> 方法都不可行。</p></div><p>在執行 <code>npx install -g hexo-cli</code> 時會報錯：</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error: EACCES: permission denied, access <span class="string">&#x27;/usr/local/lib/node_modules&#x27;</span></span><br><span class="line">npm ERR!  &#123; Error: EACCES: permission denied, access <span class="string">&#x27;/usr/local/lib/node_modules&#x27;</span></span><br><span class="line">npm ERR!   stack: <span class="string">&#x27;Error: EACCES: permission denied, access \&#x27;</span>/usr/local/lib/node_modules\<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">npm ERR!   errno: -13,</span><br><span class="line">npm ERR!   code: <span class="string">&#x27;EACCES&#x27;</span>,</span><br><span class="line">npm ERR!   syscall: <span class="string">&#x27;access&#x27;</span>,</span><br><span class="line">npm ERR!   path: <span class="string">&#x27;/usr/local/lib/node_modules&#x27;</span> &#125;</span><br><span class="line">npm ERR!</span><br><span class="line">npm ERR! Please try running this <span class="built_in">command</span> again as root/Administrator.</span><br><span class="line">npm ERR! A complete <span class="built_in">log</span> of this run can be found <span class="keyword">in</span>:</span><br><span class="line">npm ERR!     /Users/nieyuling/.npm/_logs/2019-02-14T07_10_39_923Z-debug.log</span><br></pre></td></tr></table></figure><p>簡而言之，因為沒有權限，這裏有簡單的解決方法：在終端機輸入。</p><p>首先，先在根目錄裏建立新資料夾 <code>npm-global</code>。</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/.npm-global</span><br></pre></td></tr></table></figure><p>然後把新資料夾 <code>npm-global</code> 設定為 <code>npm</code> 預設路徑。</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">NPM_CONFIG_PREFIX=~/.npm-global</span><br></pre></td></tr></table></figure><div class="note info simple"><p>詳情可見 <a href="https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally" target="_blank">npmjs 指導</a> 。</p></div>
+              </div>
+            </details>
+
+<h2 id="初始化網誌"><a href="#初始化網誌" class="headerlink" title="初始化網誌"></a>初始化網誌</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init myblog</span><br></pre></td></tr></table></figure>
+
+<h2 id="新增文章"><a href="#新增文章" class="headerlink" title="新增文章"></a>新增文章</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new hello-world</span><br></pre></td></tr></table></figure>
+
+<div class="note warning simple"><p>文章名稱是將會應用並命名到檔案名稱，所以請以<strong>英文為主</strong>，慎防和遲免程式因亂碼出錯，還有<strong>不需要加上副檔名</strong>，因為會自動以 <code>.md</code> 格式生成，例如 <code>HelloWorld.md</code>。</p>
+</div>
+
+<h2 id="本機預覽網誌"><a href="#本機預覽網誌" class="headerlink" title="本機預覽網誌"></a>本機預覽網誌</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+
+<h2 id="發佈及部署網誌"><a href="#發佈及部署網誌" class="headerlink" title="發佈及部署網誌"></a>發佈及部署網誌</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p><code>cl</code> 是 <code>clean</code>，清除快取檔案 <code>db.json</code> 和 <code>public</code> 已產生靜態檔案。<br><code>g</code> 是 <code>generate</code>，產生靜態檔案。<br><code>d</code> 是 <code>deploy</code>，部署網站。<br><code>s</code> 是 <code>server</code>，以本機伺服器 <code>localhost:4000</code> 預覽網站。</p>
+</div>
+
+<hr>
+<h1 id="發佈並部署到-Github-頁面"><a href="#發佈並部署到-Github-頁面" class="headerlink" title="發佈並部署到 Github 頁面"></a>發佈並部署到 Github 頁面</h1><h2 id="建立-Repository"><a href="#建立-Repository" class="headerlink" title="建立 Repository"></a>建立 Repository</h2><p>進入 <a href="https://github.com" target="_blank">GitHub</a> 網頁，點擊 <code>New</code> 按鈕新建專案，把 <code>Repository name</code> 命名為 <code>username.github.io</code>。</p>
+<div class="note info simple"><p><code>username</code> 是你的用戶名稱。</p>
+</div>
+
+<p>然後按 <code>Create repository</code>。那就成功建立網域 <code>username.github.io</code>。</p>
+<h2 id="把檔案推送到-GitHub"><a href="#把檔案推送到-GitHub" class="headerlink" title="把檔案推送到 GitHub"></a>把檔案推送到 GitHub</h2><p>回到 <code>hexo</code> 資料夾，在終端機輸入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>_config.yml</code> 檔案的 <code>deploy</code> 設定：</p>
+<div class="note warning simple"><p>這個 <code>_config.yml</code> 是 <code>hexo</code> 根目錄內，並非 <code>hexo/themes/</code> 內那個。</p>
+</div>
+
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">    <span class="attr">repo:</span> <span class="string">https://github.com/username/username.github.io.git</span></span><br><span class="line">    <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p><code>type</code>：選擇部屬模式，這裡填 <code>git</code><br><code>repo</code>：GitHub repository 的連結，記得將 <code>username</code> 修改成自己的帳號名稱<br><code>branch</code>：選擇分支，預設為 <code>master</code></p>
+</div>
+
+<p>然後再執行部署指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+
+<div class="note warning simple"><p>你一旦更新網誌內容後，你需要稍等片刻，因為 Github <strong>需要時間才能夠成功部署</strong>。</p>
+</div>]]></content>
+      <categories>
+        <category>網頁開發</category>
+      </categories>
+      <tags>
+        <tag>YAML</tag>
+        <tag>Bash</tag>
+        <tag>Markdown</tag>
       </tags>
   </entry>
 </search>
