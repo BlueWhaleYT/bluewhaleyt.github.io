@@ -186,14 +186,23 @@ h1,h2,h3,h4,h5,h6 {
     font-style: italic;
 }
 
-/* Local search */
-.search-keyword {
+/* Search */
+.search-keyword,  /* local search */
+#algolia-search .search-dialog .ais-Hits-list mark {
     color: var(--anzhiyu-main) !important
 }
 
 /* Related post */
 .relatedPosts img {
     opacity: 0.4 !important;
+}
+
+/* 即刻短文 */
+.bbTimeList * {
+    pointer-events: none !important;
+}
+i.bber-logo, .bber-gotobb {
+    display: none !important;
 }
 
 /* Adjust google translate widget */
@@ -227,4 +236,17 @@ h1,h2,h3,h4,h5,h6 {
 
 #recent-posts>.recent-post-item>.recent-post-info .sticky-warp .sticky {
     color: white !important;
+}
+
+/* Run code HTML */
+.runcode_text {
+    display: none !important;
+}
+
+.runcode_button {
+    background: var(--anzhiyu-secondbg) !important;
+    padding: 10px 20px !important;
+    margin-right: 10px;
+    color: var(--anzhiyu-font-color) !important;
+    text-shadow: none !important;
 }

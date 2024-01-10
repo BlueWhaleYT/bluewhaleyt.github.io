@@ -1,0 +1,8 @@
+figure.highlight pre .addition {
+    color: #20bf6b !important;
+}
+
+figure.highlight pre .deletion {
+    color: #eb3b5a !important;
+    text-decoration: line-through !important;
+}
