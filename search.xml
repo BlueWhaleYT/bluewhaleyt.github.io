@@ -1,6 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python | PIP | 安裝及編寫 Python 及應用 PIP 第三方套件筆記</title>
+    <url>/post/dev-python-notes.html</url>
+    <content><![CDATA[<div class="note info simple" data-content="Python"></div>
+
+<p>Python，相信對你來說，一點都不陌生，因為 Python 在不同的學習領域都有提供課程，而且因為語法較簡單，甚至是適合小學生學習的手稿語言。雖然 Python 語法很簡單，但是箇中的用途相當廣泛，因為它<strong>擁有豐富的標準函式庫和第三方庫</strong>，所以如果你懂得編寫 Python，就可以小至編寫及實作一些輕便小工具程式，大至可以配合使用數據庫，進行數據分析及開發，或應用於各種不同的應用領域。</p>
+<p>Python 是一種高階程式語言，具有<strong>簡潔明瞭的語法</strong>，易於閱讀和學習。它使用<strong>英語般 (English-like) 的句法</strong>和結構，使得寫程式變得更加直觀和自然。這使得初學者能夠輕鬆上手並快速入門。</p>
+<hr>
+<h1 id="安裝-Python"><a href="#安裝-Python" class="headerlink" title="安裝 Python"></a>安裝 Python</h1><p>在開始編寫 Python 之前，你需要把 Python 軟件包安裝到你的電腦上，請到 <a href="https://python.org/">Python 官網</a> 安裝 Python 軟件包。</p>
+<p>找出 Downloads 然後按你的電腦操作系統，安裝對應安裝檔。</p>
+<p><img src="/post/dev-python-notes/img1.png" alt="安裝 Python 軟件包"></p>
+<hr>
+<h1 id="資料類別"><a href="#資料類別" class="headerlink" title="資料類別"></a>資料類別</h1><h2 id="串列-List"><a href="#串列-List" class="headerlink" title="串列 List"></a>串列 <code>List</code></h2><p>有時候，如果我們想把一堆數據存放起來，我們可以使用 <code>List</code>，<code>List</code> 是相當於一個<strong>索引陣列</strong> (Indexed Array)，用來把相同或不同數據類型的值集合在一個串列中，並能夠利用這個串列<strong>進行刪改及計算</strong>。</p>
+<p>在 Python，你可以雜項定義：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="string">&#x27;foo&#x27;</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="string">&#x27;bar&#x27;</span>, <span class="number">0.4</span>]</span><br></pre></td></tr></table></figure>
+
+<p>在這個 <code>my_list</code> 串列，使用了兩種不同的資料類型，分別是字串及布爾值。</p>
+<p>假設，現在有一個串列是列出所有分數，定義一個串列會用 <code>[ ]</code> 括住：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks = [<span class="number">12</span>, <span class="number">55</span>, <span class="number">98</span>, <span class="number">70</span>, <span class="number">40</span>, <span class="number">60</span>]</span><br></pre></td></tr></table></figure>
+
+<p>在這個 <code>marks</code> 串列中，定義了 6 個元素 (Element)，第一個元素是 <code>12</code>，索引值是 <code>0</code>，因為 <strong>索引是由 <code>0</code> 開始</strong>的，所以<strong>第一個元素的索引是 <code>0</code></strong> 。</p>
+<h3 id="讀取串列的值"><a href="#讀取串列的值" class="headerlink" title="讀取串列的值"></a>讀取串列的值</h3><p>我們可以使用索引，把指定的值輸出出來，<code>[ ]</code> 內的數字就是要指定的索引值。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(marks[<span class="number">0</span>])     <span class="comment"># 輸出：12</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">1</span>])     <span class="comment"># 輸出：55</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">2</span>])     <span class="comment"># 輸出：98</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">3</span>])     <span class="comment"># 輸出：70</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">4</span>])     <span class="comment"># 輸出：40</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">5</span>])     <span class="comment"># 輸出：60</span></span><br></pre></td></tr></table></figure>
+
+<div class="note warning simple"><p>因為現在這個 <code>marks</code> 串列只有 6 個元素，如果嘗試輸出第 7 個元素 (索引為 <code>6</code>)，會輸出 <code>IndexError</code>：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">IndexError: <span class="built_in">list</span> index out of <span class="built_in">range</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="由尾端讀取串列的值"><a href="#由尾端讀取串列的值" class="headerlink" title="由尾端讀取串列的值"></a>由尾端讀取串列的值</h3><p>我們亦可以在索引以負數輸入，如 <code>marks[-n]</code>，即是這個串列<strong>由尾端數上來</strong>的第 <code>n</code> 個位。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(marks[-<span class="number">1</span>])    <span class="comment"># 輸出：60</span></span><br><span class="line"><span class="built_in">print</span>(marks[-<span class="number">2</span>])    <span class="comment"># 輸出：40</span></span><br></pre></td></tr></table></figure>
+
+<p><code>-1</code> 即是這個串列<strong>由尾端數上來</strong>的第一個位，即是最後一個元素，而 <code>-2</code> 就是由尾端數上來的第二個位，如此類推。</p>
+<h3 id="使用範圍讀取串列的值"><a href="#使用範圍讀取串列的值" class="headerlink" title="使用範圍讀取串列的值"></a>使用範圍讀取串列的值</h3><p>除了讀取單個值，我們亦可以讀取多個值，這個方法輸出將會返回一個串列。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(marks[<span class="number">2</span>:<span class="number">5</span>])   <span class="comment"># 輸出 [98, 70, 40]</span></span><br></pre></td></tr></table></figure>
+
+<p>這個 <code>:</code> 用於定義讀取索引的範圍，<strong>由索引 <code>2</code> 讀取到索引 <code>5</code>的話就結束</strong>的值，即是不包括讀取索引 <code>5</code>。</p>
+<h3 id="修改串列的值"><a href="#修改串列的值" class="headerlink" title="修改串列的值"></a>修改串列的值</h3><p>例如現在想把索引 <code>0</code> 的 <code>12</code> 改成 <code>43</code>，可以直接使用賦值方法：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks[<span class="number">0</span>] = <span class="number">43</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">0</span>])     <span class="comment"># 輸出：43</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="新增串列的值"><a href="#新增串列的值" class="headerlink" title="新增串列的值"></a>新增串列的值</h3><p>新增串列的值有兩種方法，就是按情況而決定的，你可以是在最後一個元素開始，接著附加一個新的元素，又或者新加一個元素在指定的索引值。</p>
+<ol>
+<li>在最後一個元素開始，接著附加一個新的元素：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.append(<span class="number">95</span>)</span><br><span class="line"><span class="built_in">print</span>(marks)        <span class="comment"># 輸出：[12, 55, 98, 70, 40, 60, 95]</span></span><br></pre></td></tr></table></figure></li>
+<li>例如：你想把新加入元素放在索引 <code>1</code>：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.insert(<span class="number">1</span>, <span class="number">30</span>)</span><br><span class="line"><span class="built_in">print</span>(marks)        <span class="comment"># 輸出：[12, 30, 55, 98, 70, 40, 60]</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="刪除串列的值"><a href="#刪除串列的值" class="headerlink" title="刪除串列的值"></a>刪除串列的值</h3><p>在 Python，有幾種不同的刪除串列的值的方法。</p>
+<ol>
+<li>刪除指定串列內的值（不是指定索引）：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.remove(<span class="number">40</span>)</span><br><span class="line"><span class="built_in">print</span>(marks)        <span class="comment"># 輸出：[12, 55, 98, 70, 60]</span></span><br></pre></td></tr></table></figure>
+<div class="note danger simple"><p><strong><code>remove()</code> 函數只會刪除找到的第一個對應值</strong>，假如串列有兩個 <code>40</code>，它只會刪除第一次找到的第一個。</p>
+</div></li>
+<li>刪除指定索引的串列的值：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.pop(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(marks)        <span class="comment"># 輸出：[12, 55, 70, 40, 60]</span></span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p>如果 <code>pop()</code> 函數沒有指定索引，就會預設刪除串列的最後一個元素。</p>
+</div></li>
+</ol>
+<h3 id="刪除及清空串列所有值"><a href="#刪除及清空串列所有值" class="headerlink" title="刪除及清空串列所有值"></a>刪除及清空串列所有值</h3><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.clear()</span><br><span class="line"><span class="built_in">print</span>(marks)       <span class="comment"># 輸出 []</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="迭代所有串列的值"><a href="#迭代所有串列的值" class="headerlink" title="迭代所有串列的值"></a>迭代所有串列的值</h3><p>有時候你需要迭代 (Iteration) 所有串列的值，你總不可能逐個元素獲取，這個時候就可以使用 <code>for</code> 循環迭代所有串列的值。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> mark <span class="keyword">in</span> marks:</span><br><span class="line">    <span class="built_in">print</span>(mark)</span><br></pre></td></tr></table></figure>
+
+<p>這個 <code>mark</code> 是一個迭代 <code>marks</code> 串列每一個元素的變量，<code>mark</code> 一開始是第一個元素。</p>
+<div class="note info simple"><p>如果提供或返回了一個空陣列，從而無法進行迭代，可以使用 <code>else</code> 把相關訊息告知用戶，好比輸出一個空陣列：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> mark <span class="keyword">in</span> marks:</span><br><span class="line">    <span class="built_in">print</span>(mark)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;沒有資料&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="字典-Dictionary"><a href="#字典-Dictionary" class="headerlink" title="字典 Dictionary"></a>字典 <code>Dictionary</code></h2><p>剛才都說過，串列是使用索引的，但是在字典，使用的方式是<strong>鍵值對</strong> (Key-value) 方式，而定義一個字典會用 <code>&#123; &#125;</code> 括住比如：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">student = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Steve&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">13</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在這個範例中，<code>&quot;name&quot;</code> 及 <code>&quot;age&quot;</code> 是一個鍵 (Key)，而 <code>&quot;Steve&quot;</code> 及 <code>13</code> 是一個值 (Value)</p>
+<h3 id="讀取字典的值"><a href="#讀取字典的值" class="headerlink" title="讀取字典的值"></a>讀取字典的值</h3><p>要在鍵值對方式，那很簡單，指定要的值的那鍵就行了。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">name = student[<span class="string">&quot;name&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改及新增字典的值"><a href="#修改及新增字典的值" class="headerlink" title="修改及新增字典的值"></a>修改及新增字典的值</h3><p>比如，你想在 <code>student</code> 字典新增一個新的值，例如鍵是 <code>form</code>，值是 <code>1</code>，表示這名是中一級學生。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">student[<span class="string">&quot;form&quot;</span>] = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>亦可用這方式來修改目前現有的值，例如 Steve 想改名，改作 Steven：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">student[<span class="string">&quot;name&quot;</span>] = <span class="string">&quot;Steven&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="刪除字典的值"><a href="#刪除字典的值" class="headerlink" title="刪除字典的值"></a>刪除字典的值</h3><p>跟串列一樣，都可以使用 <code>pop()</code> 函數，不過指明的是鍵：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">student.pop(<span class="string">&quot;name&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="元組-Tuple"><a href="#元組-Tuple" class="headerlink" title="元組 Tuple"></a>元組 <code>Tuple</code></h2><p>元組相當於一個串列，亦是另一種序列結構 (串列都是一種序列結構)。<strong>元組的使用方式跟串列是極為相似的</strong>，但它具有一個獨有的特性就是<strong>這個元組一旦被初始定義了，其順序及元素的值不能被更改</strong>。你亦可以理解為<strong>元組是不可變的，串列是可變的</strong>。比如：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">data = (<span class="string">&#x27;people&#x27;</span>, <span class="literal">True</span>, <span class="number">1997</span>, <span class="number">2022</span>)</span><br><span class="line">data[<span class="number">0</span>] = <span class="string">&quot;person&quot;</span>      <span class="comment"># 會報錯 TypeError: &#x27;tuple&#x27; object does not support item assignment</span></span><br></pre></td></tr></table></figure>
+
+<p>另外，當<strong>元組是只有一個元素</strong>，它<strong>返回的是第一個元素的資料類型</strong>，例如這個是字串，就會返回字串：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">data = (<span class="string">&#x27;first&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(data))       <span class="comment"># 輸出：&lt;class &#x27;str&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果真的要 <strong>返回為元組，就要加上 <code>,</code></strong> ：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">data = (<span class="string">&#x27;first&#x27;</span>,)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(data))       <span class="comment"># 輸出：&lt;class &#x27;tuple&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>Python 的元組是有條件的，就是需要加上 <code>,</code> 把元素分開，才能成為一個元組，簡單來說，<strong>元組是看有沒有 <code>,</code> 的存在，有就建立為元組</strong>，沒有就看第一個元素作返回其資料型別，忽略了 <code>( )</code> 。</p>
+</div>
+
+<hr>
+<h1 id="模組"><a href="#模組" class="headerlink" title="模組"></a>模組</h1><p>當你發現手稿檔案遍幅太長，有太多的函數及程式碼，可以考慮編寫一個模組 (Module)，一方面可以減少代碼量，另一方面可以重用程式碼，使得整個程式更具彈性，維護時亦更加容易。</p>
+<p>例如，你可以把要重複使用的變量及函數寫在一個模組，你可以新建一個名為 <code>TestModule.py</code> 的檔案，是用來編寫模組的實作。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">lang = <span class="string">&#x27;Python&#x27;</span></span><br><span class="line">name = <span class="string">&#x27;Steve&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say</span>(<span class="params"><span class="built_in">str</span></span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">str</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然後當你要使用這個 TestModule 的時候，就需要使用 <code>import</code> 把模組匯入：</p>
+<ol>
+<li>你可以選擇匯入整個模組<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> TestModule</span><br><span class="line"></span><br><span class="line">lang = TestModule.lang</span><br><span class="line">TestModule.say(lang)</span><br></pre></td></tr></table></figure></li>
+<li>亦可以只匯入單個或多個模組部分，比如，你只想匯入 <code>TestModule</code> 的 <code>name</code> 及 <code>say()</code>：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> TestModule <span class="keyword">import</span> lang, name</span><br><span class="line"></span><br><span class="line">newLang = lang</span><br><span class="line">say(newLang)</span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p>如果你是用 <code>from</code> … <code>import</code> 方式，你是<strong>不需要在模組變量或函數指明使用的模組</strong>，另外，如果你想匯入這個模組的所有功能，可以用 <code>*</code> 把所有功能匯入：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> TestModule <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>所以，匯入模組所有功能有兩種方法：</p>
+<ol>
+<li><code>from TestModule import *</code></li>
+<li><code>import TestModule</code></li>
+</ol>
+<p>分別就主要是你<strong>需不需要在模組變量或函數指明使用的模組</strong>，純粹看你個人喜好。</p>
+<hr>
+<h1 id="第三方套件"><a href="#第三方套件" class="headerlink" title="第三方套件"></a>第三方套件</h1><p>不過，雖然 Python 預設提供了許多內建模組，但不代表所有功能都可以實現，如果沒有你需要用的功能，就要使用第三方套件 (Third-party Package)。</p>
+<p>而要在哪裏找第三方套件，可以到 <a href="https://pypi.org/">Pypi</a> (Python Package Index)，這個網頁提供了許多由社群分享和編寫的工具可以免費使用。</p>
+<div class="note info simple"><p>模組 (Module) VS 套件 (Package)</p>
+<ul>
+<li>模組：單個檔案內有許多函數及複用程式碼</li>
+<li>套件：由許多個模組（許多個單個模組檔案）所組成的</li>
+</ul>
+</div>
+
+<h2 id="Python-套件管理工具"><a href="#Python-套件管理工具" class="headerlink" title="Python 套件管理工具"></a>Python 套件管理工具</h2><p>與 Node.js 的 NPM 一樣，Python 管理套件都需要一個套件管理工具，這個工具是 PIP (Pip Installs Packages)，其實說白一點就是 Python Package Manager。</p>
+<p>PIP 常用指令如下：</p>
+<ul>
+<li><code>pip install &lt;套件名稱&gt;</code>：通常都是該套件說明檔提供給你的，然後複製貼上，來完成安裝。</li>
+<li><code>pip uninstall &lt;套件名稱&gt;</code>：把該套件解除安裝。</li>
+<li><code>pip show &lt;套件名稱&gt;</code>：查詢該套件的相關資料。</li>
+<li><code>pip list</code>：列出所有已安裝的套件。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>詳細筆記</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【React】JSX 語言 | SPA 單頁應用 | React 前端網頁開發學習筆記</title>
     <url>/post/react-dev-spa-notes.html</url>
     <content><![CDATA[<div class="note info simple" data-content="React"></div>
@@ -156,19 +290,19 @@
               </div>
             </details>]]></content>
       <categories>
+        <category>詳細筆記</category>
         <category>React</category>
         <category>網頁開發</category>
         <category>前端開發</category>
-        <category>詳細筆記</category>
       </categories>
       <tags>
+        <tag>Bash</tag>
         <tag>Node.js</tag>
         <tag>JSX</tag>
         <tag>JavaScript</tag>
         <tag>TypeScript</tag>
         <tag>HTML</tag>
         <tag>CSS</tag>
-        <tag>Bash</tag>
       </tags>
   </entry>
   <entry>
@@ -215,8 +349,8 @@
         <category>後端開發</category>
       </categories>
       <tags>
-        <tag>Node.js</tag>
         <tag>Bash</tag>
+        <tag>Node.js</tag>
       </tags>
   </entry>
   <entry>
@@ -321,9 +455,9 @@
         <category>後端開發</category>
       </categories>
       <tags>
+        <tag>Bash</tag>
         <tag>Node.js</tag>
         <tag>JavaScript</tag>
-        <tag>Bash</tag>
         <tag>Express</tag>
         <tag>JSON</tag>
       </tags>
@@ -526,15 +660,15 @@
 
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">render</span>(<span class="string">&#x27;index&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">title</span>: <span class="string">&#x27;Home&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/about&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">render</span>(<span class="string">&#x27;about&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">title</span>: <span class="string">&#x27;About&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">app.<span class="title function_">use</span>(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">render</span>(<span class="string">&#x27;404&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">title</span>: <span class="string">&#x27;404&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
+        <category>詳細筆記</category>
         <category>網頁開發</category>
         <category>後端開發</category>
-        <category>詳細筆記</category>
       </categories>
       <tags>
+        <tag>Bash</tag>
         <tag>Node.js</tag>
         <tag>JavaScript</tag>
         <tag>HTML</tag>
-        <tag>Bash</tag>
         <tag>Express</tag>
         <tag>EJS</tag>
       </tags>
