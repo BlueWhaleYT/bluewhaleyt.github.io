@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>React | JSX 及全面 SPA 單頁應用筆記</title>
+    <title>【React】JSX 語言 | SPA 單頁應用 | React 前端網頁開發學習筆記</title>
     <url>/post/react-dev-spa-notes.html</url>
-    <content><![CDATA[<div class="note info simple"><p>這篇是我邊學 React 邊寫的筆記，筆記最初是很散亂的，但經過我的一番調整後，部分的筆記內容已被擴展。筆記內容不排除是有錯漏的，所以只供參考，如筆記內容有錯漏，請於下方的留言區告知有關錯處，當我知悉時，便會在有空時作修改。</p>
-</div>
+    <content><![CDATA[<div class="note info simple" data-content="React"></div>
 
 <p>當你想編寫集中處理 UI 形式的介面設計及邏輯，你可以嘗嘗 React 這個框架，React 是一個編寫靜態網頁的前端框架，但有別於 HTML，React 可以<strong>單方面嵌入 React 元件到既有的 HTML 檔案</strong>，不影響整個網站之外，亦可以嘗試一下 React 元件的功能，當你慢慢熟練了 React 怎樣用，就可以開始「砍掉重練」，由零開始全面編寫一個使用 React 框架的前端靜態網頁。</p>
 <p>React 的特點如下：</p>
@@ -160,6 +159,7 @@
         <category>React</category>
         <category>網頁開發</category>
         <category>前端開發</category>
+        <category>詳細筆記</category>
       </categories>
       <tags>
         <tag>Node.js</tag>
@@ -168,6 +168,375 @@
         <tag>TypeScript</tag>
         <tag>HTML</tag>
         <tag>CSS</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>靜態網頁 | 動態網頁 | 輕鬆寄存免費且有 HTTPS 安全認證網站的多種方案集錄筆記</title>
+    <url>/post/web-dev-build-and-host-website-notes.html</url>
+    <content><![CDATA[<p>假設你現在完成好你的網頁編寫，無論你是編寫怎樣的網頁，都可以在這篇筆記找到寄存網頁的方案。</p>
+<div class="note warning simple"><p>目前筆記集錄暫時僅收錄 HTML 及 React 方案，使用其他框架可作參考。如你知道其他框架寄存方式，可於下方留言，或會被取錄為筆記部分。</p>
+</div>
+
+<hr>
+<h1 id="事前準備"><a href="#事前準備" class="headerlink" title="事前準備"></a>事前準備</h1><p>這裏<strong>不會說關於編寫網頁的程式碼</strong>，因為理論上你只會想知道怎樣寄存網頁。你需要建立一個 Github 存儲庫，這裏可以稍為記錄一下。</p>
+<details class="folding-tag"><summary> Github 存儲庫配置 </summary>
+              <div class="content">
+              <div class="note info simple"><p>存儲庫名稱會影響 Github Page 寄存網頁的 URL，這點要注意。另外，如果你想寄存非特定存儲庫網頁的鏈結，就要把存儲庫命名為 <code>&lt;Github 用戶名稱&gt;.github.io</code>。</p><p>例如：<br><a href="https://username.github.io/blog">https://username.github.io/blog</a> 這裏的 <code>blog</code> 就是一個特定存儲庫，意味著首頁就應該是 <a href="https://username.github.io./">https://username.github.io。</a></p></div><p>例如在這個範例中，建立一個名為 TestWeb 的存儲庫，並把 .git 鏈結複製到剪貼簿。</p><p><img src="/post/web-dev-build-and-host-website-notes/img1.png" alt="建立存儲庫"></p><p>這裏會使用 VSCode 展示，開啟 VSCode，把複製了的鏈結貼上，然後選擇要把所克隆的項目存放到的檔案路徑。</p><p><img src="/post/web-dev-build-and-host-website-notes/img2.png" alt="貼上存儲庫 URL 克隆項目"></p><p>當你把程式碼檔案寫好後，你會發現左方工作板的「原始檔控制」有更新檔案的變更，這個時候，就可以提交並推送變更，例如輸入 Initial commit 作為初始提交訊息。</p><p><img src="/post/web-dev-build-and-host-website-notes/img3.png" alt="提交程式碼"></p><p>如果成功提交並推送變更，就會在 Github 存儲庫中看到檔案更新。</p><p><img src="/post/web-dev-build-and-host-website-notes/img4.png" alt="成功提交並推送變更"></p>
+              </div>
+            </details>
+
+<hr>
+<h1 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h1><p>因為編寫 HTML 大部分都是初學網頁編寫的用戶，這部分會盡量提供更多圖片。</p>
+<h2 id="Github-Page"><a href="#Github-Page" class="headerlink" title="Github Page"></a>Github Page</h2><ol>
+<li>開啟存儲庫的 Settings，導向左側選單的 Pages 頁面。<br><img src="/post/web-dev-build-and-host-website-notes/img5.png" alt="建置設定"></li>
+<li>選擇 <code>main</code> 分支 (或你所命名的其他分支 e.g. <code>master</code>) 作為網頁寄存源,然後點擊 <code>Save</code> 按鈕即可。<br>完成後，就可以在 Deployment 看到部署結果，如果沒有發生錯誤，就可以開啟網頁了！<br><img src="/post/web-dev-build-and-host-website-notes/img6.png" alt="部署結果"></li>
+</ol>
+<h2 id="Netlify"><a href="#Netlify" class="headerlink" title="Netlify"></a>Netlify</h2><ol>
+<li>點擊 Deploy with Github 部署網站。<br><img src="/post/web-dev-build-and-host-website-notes/img7.png" alt="使用 Github 部署"></li>
+<li>完成好驗證後，就選擇要使用的存儲庫。<br><img src="/post/web-dev-build-and-host-website-notes/img8.png" alt="選擇使用的存儲庫"></li>
+<li>同樣選擇分支，如果沒有特別的構建及部署設定，就按 Depoly 按鈕。<br><img src="/post/web-dev-build-and-host-website-notes/img9.png" alt="完成部署設定"><br>部署成功後，就可以開啟網頁。<br><img src="/post/web-dev-build-and-host-website-notes/img10.png" alt="部署成功結果"></li>
+<li>如果想修改網頁 URL，可按 Site configuration &gt; Change site name<br><img src="/post/web-dev-build-and-host-website-notes/img11.png" alt="修改網頁 URL"></li>
+</ol>
+<hr>
+<h1 id="React"><a href="#React" class="headerlink" title="React"></a>React</h1><h2 id="Github-Page-1"><a href="#Github-Page-1" class="headerlink" title="Github Page"></a>Github Page</h2><ol>
+<li>優化程式碼，bundle size 變小、移掉不必要的 CSS、React 也會拿掉一些開發才需要用到的資訊。<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure></li>
+<li>執行 Static server：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g serve</span><br><span class="line">serve -s build</span><br></pre></td></tr></table></figure></li>
+<li>在 <code>package.json</code> 新增 <code>homepage</code> 設定：<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;homepage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://用戶名字.github.io/項目名稱&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>安裝 <code>gh-pages</code> 工具<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install - save gh-pages</span><br></pre></td></tr></table></figure></li>
+<li><code>package.json</code> 新增 <code>predeploy</code> 及 <code>deploy</code> 設定：<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;predeploy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm run build&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;deploy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gh-pages -d build&quot;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure></li>
+<li>執行部署指令：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run deploy</span><br></pre></td></tr></table></figure></li>
+<li>在 Github Settings &gt; Pages 的 source 選擇 <code>gh-pages</code> 分支。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>網頁開發</category>
+        <category>前端開發</category>
+        <category>後端開發</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Node.js | Express | JSON 數據庫 | 構建 RESTful API 筆記</title>
+    <url>/post/web-dev-express-restful-api-notes.html</url>
+    <content><![CDATA[<div class="note info simple" data-content="RESTful API"></div>
+
+<p>這裏會簡單記錄一個 RESTful API 對用戶進行增刪查改的操作及處理的客戶端。建議先看了怎樣編寫 Node.js 及 Express 再回來寫 RESTful API:</p>
+<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="/post/web-dev-nodejs-express-notes">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">Node.js 及 Express 框架建置伺服器及動態網頁編寫</div>
+            <div class="tag-link-sitename"> </div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>
+
+<p>因為 Express 就是以路由構建的形式編寫的，所以當要實作一個 RESTful API，使用 Express 是較 Node.js 為簡單的。</p>
+<hr>
+<h1 id="JSON-數據庫建立"><a href="#JSON-數據庫建立" class="headerlink" title="JSON 數據庫建立"></a>JSON 數據庫建立</h1><p>基於一個 JSON 數據庫的 <code>data.json</code> 作為 API 獲取的資料來源。</p>
+<div class="note info simple"><p>這個 <code>data.json</code> 的內容會經過<strong>增刪查改而有所變更</strong>。</p>
+</div>
+
+<p>例如現在預設有 3 個用戶：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;users&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;user1&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Steve&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">12</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;isMarried&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;user2&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Heidi&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">30</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;isMarried&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;user3&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Alex&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">67</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;isMarried&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>我們會根據這個 <code>data.json</code> 而提供的 API:</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>HTTP 方法</th>
+<th>請求主體</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>listUsers</code></td>
+<td>GET</td>
+<td>空</td>
+<td>獲取所有用戶</td>
+</tr>
+<tr>
+<td><code>getUser</code></td>
+<td>GET</td>
+<td>JSON 字串</td>
+<td>獲取指定用戶</td>
+</tr>
+<tr>
+<td><code>addUser</code></td>
+<td>POST</td>
+<td>JSON 字串</td>
+<td>新增用戶</td>
+</tr>
+<tr>
+<td><code>deleteUser</code></td>
+<td>DELETE</td>
+<td>空</td>
+<td>刪除指定用戶</td>
+</tr>
+</tbody></table>
+<p>本地測試或部署後，可以使用 Postman 或其他工具來測試 API。這裏推薦使用 <a href="https://www.postman.com/downloads/">Postman</a> 軟件。</p>
+<hr>
+<h1 id="初始-Express-程序"><a href="#初始-Express-程序" class="headerlink" title="初始 Express 程序"></a>初始 Express 程序</h1><p>這個是一個簡單的 Express 程序，我們將會在其中加上對應的 API 路由。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>()</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">3000</span></span><br><span class="line"><span class="keyword">const</span> file = <span class="string">`<span class="subst">$&#123;__dirname&#125;</span>/data.json`</span></span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>())</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span> , <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">send</span>(<span class="string">&#x27;Hello World!&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(port, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`API server listening on port <span class="subst">$&#123;port&#125;</span>`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="重用函數"><a href="#重用函數" class="headerlink" title="重用函數"></a>重用函數</h2><p>為了能集中處理增刪查改的程式實現，這裏會編寫幾個重用函數，方便處理：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">showError</span>(<span class="params">status, res, err</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(err)</span><br><span class="line">    res.<span class="title function_">status</span>(status).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">error</span>: err</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">readFile</span>(<span class="params">file, callback</span>) &#123;</span><br><span class="line">    fs.<span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">callback</span>(err);</span><br><span class="line">        <span class="keyword">else</span> <span class="title function_">callback</span>(<span class="literal">null</span>, <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data));</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">writeFile</span>(<span class="params">file, data, callback</span>) &#123;</span><br><span class="line">    fs.<span class="title function_">writeFile</span>(file, data, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">callback</span>(err)</span><br><span class="line">        <span class="keyword">else</span> <span class="title function_">callback</span>(<span class="literal">null</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="listUsers-獲取所有用戶"><a href="#listUsers-獲取所有用戶" class="headerlink" title="listUsers - 獲取所有用戶"></a><code>listUsers</code> - 獲取所有用戶</h2><p>這個 API 會獲取所有用戶資料。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/listUsers&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to load data&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span> res.<span class="title function_">send</span>(data)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/post/web-dev-express-restful-api-notes/img1.png" alt="獲取所有用戶"></p>
+<h2 id="getUser-獲取指定用戶"><a href="#getUser-獲取指定用戶" class="headerlink" title="getUser - 獲取指定用戶"></a><code>getUser</code> - 獲取指定用戶</h2><p>這個 API 會根據在查詢參數 (query parameter) 所提供的用戶 ID 來獲取該用戶的個別資料。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/getUser/:id&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> id = req.<span class="property">params</span>.<span class="property">id</span></span><br><span class="line">    <span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to load data&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> user = data.<span class="property">users</span>[<span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>]</span><br><span class="line">            <span class="keyword">if</span> (user) res.<span class="title function_">json</span>(user)</span><br><span class="line">            <span class="keyword">else</span> <span class="title function_">showError</span>(<span class="number">404</span>, res, <span class="string">&#x27;Invalid user&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在調用 <code>getUser</code> API 時要提供用戶 ID 作為查詢參數。例如這裏獲取用戶 ID 為 <code>2</code> 的資料：</p>
+<p><img src="/post/web-dev-express-restful-api-notes/img2.png" alt="獲取指定用戶"></p>
+<h2 id="addUser-新增用戶"><a href="#addUser-新增用戶" class="headerlink" title="addUser - 新增用戶"></a><code>addUser</code> - 新增用戶</h2><p>這個 API 會根據請求主體 (request body) 中的新用戶資料進行新增</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/addUser&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> newUser = req.<span class="property">body</span></span><br><span class="line">    <span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to load data&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> id = <span class="title class_">Object</span>.<span class="title function_">keys</span>(data.<span class="property">users</span>).<span class="property">length</span> + <span class="number">1</span></span><br><span class="line">            <span class="keyword">const</span> newUserId = <span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span></span><br><span class="line">            data.<span class="property">users</span>[newUserId] = newUser</span><br><span class="line">            <span class="keyword">const</span> newData = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data, <span class="literal">null</span>, <span class="number">2</span>)</span><br><span class="line">            <span class="title function_">writeFile</span>(file, newData, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to write data&#x27;</span>)</span><br><span class="line">                <span class="keyword">else</span> res.<span class="title function_">json</span>(data.<span class="property">users</span>[newUserId])</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>例如，在 Postman 的請求主體中加入以下的 JSON:</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;John&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">25</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;isMarried&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/post/web-dev-express-restful-api-notes/img3.png" alt="新增用戶"></p>
+<p>現在再嘗試獲取所有用戶，你會發現新的用戶 (ID 為 <code>4</code>) 已經被新增至用戶列表中，因為原本的 <code>data.json</code> 內容已經被更新。</p>
+<p><img src="/post/web-dev-express-restful-api-notes/img4.png" alt="再次獲取所有用戶"></p>
+<h2 id="deleteUser-刪除指定用戶"><a href="#deleteUser-刪除指定用戶" class="headerlink" title="deleteUser - 刪除指定用戶"></a><code>deleteUser</code> - 刪除指定用戶</h2><p>這個 API 跟 <code>getUser</code> 實際用法差不多，都是需要提供查詢參數來指定用戶 ID，不過這回是刪除指定用戶的資料。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">delete</span>(<span class="string">&#x27;/deleteUser/:id&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> id = req.<span class="property">params</span>.<span class="property">id</span></span><br><span class="line">    <span class="title function_">readFile</span>(file, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to load data&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> user = data.<span class="property">users</span>[<span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>]</span><br><span class="line">            <span class="keyword">if</span> (user) &#123;</span><br><span class="line">                <span class="keyword">delete</span> data.<span class="property">users</span>[<span class="string">`user<span class="subst">$&#123;id&#125;</span>`</span>]</span><br><span class="line">                <span class="keyword">const</span> newData = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data, <span class="literal">null</span>, <span class="number">2</span>)</span><br><span class="line">                <span class="title function_">writeFile</span>(file, newData, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (err) <span class="title function_">showError</span>(<span class="number">500</span>, res, <span class="string">&#x27;Unable to write data&#x27;</span>)</span><br><span class="line">                    <span class="keyword">else</span> res.<span class="title function_">json</span>(&#123;</span><br><span class="line">                        <span class="attr">message</span>: <span class="string">&#x27;This user is now deleted&#x27;</span></span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">showError</span>(<span class="number">404</span>, res, <span class="string">&#x27;Invalid user&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/post/web-dev-express-restful-api-notes/img5.png" alt="刪除指定用戶"></p>
+<p>現在再嘗試獲取所有用戶，ID 為 <code>3</code> 的用戶已被刪除：</p>
+<p><img src="/post/web-dev-express-restful-api-notes/img6.png" alt="再次獲取所有用戶"></p>
+]]></content>
+      <categories>
+        <category>網頁開發</category>
+        <category>後端開發</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+        <tag>JavaScript</tag>
+        <tag>Bash</tag>
+        <tag>Express</tag>
+        <tag>JSON</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Node.js | Express | 伺服器及後端建置 | 動態網頁編寫筆記</title>
+    <url>/post/web-dev-nodejs-express-notes.html</url>
+    <content><![CDATA[<div class="note info simple" data-content="Node.js 及 Express"></div>
+
+<p>Node.js 是一個基於 Chrome V8 的 JavaScript 引擎強大的後端開發工具、跨平台的 JavaScript 執行環境，允許開發者<strong>使用 JavaScript 來編寫伺服器端應用程式</strong>，並且具有非常高效能的特點。</p>
+<p>Node.js 亦都打破了 JavaScript 對瀏覽器及伺服器之間的隔閡，在 Node.js 出現之前，JavaScript 只能在瀏覽器上運作，無法與伺服器進行溝通及數據傳輸，但自從 Node.js 出現之後，它打破了這個限制，使開發者只需要使用 JavaScript 就可以同時作為前端及後端的編寫。</p>
+<div class="note info simple"><div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="https://www.cloudflare.com/zh-tw/learning/serverless/glossary/client-side-vs-server-side/">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">參考 Cloudflare</div>
+            <div class="tag-link-sitename"> 用戶端及伺服器端</div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>
+
+<p>客戶端</p>
+<p>在 Web 開發中，「用戶端」是指 Web 應用程式中在用戶端（終端使用者裝置）上顯示或進行的所有內容。這包括使用者看到的內容，例如文字、影像和 UI 的其餘部分，以及應用程式在使用者瀏覽器中執行的任何動作。用戶端也稱為前端，但這兩個詞彙的<strong>含義並不完全相同</strong>。<strong>用戶端僅指處理序執行的位置</strong>，而<strong>前端指的是執行用戶端的處理序的類型</strong>。</p>
+<p>伺服器端</p>
+<p>與用戶端類似，「伺服器端」表示發生在伺服器而不是用戶端上的所有事件。在過去，幾乎所有業務邏輯都在伺服器端執行，這包括提供動態網頁、與資料庫互動、身分驗證和推播通知。後端也指伺服器上發生的處理序，但<strong>後端僅指代處理序的類型</strong>，而<strong>伺服器端還指代處理序執行的位置</strong>。</p>
+<p>簡而言之，客戶端和伺服器端分別指的是在用戶端和伺服器端上執行的部分 (程式碼)，而前端和後端則是分別指代客戶端和伺服器端上的處理程序類型 (程式語言和框架)。</p>
+</div>
+
+<hr>
+<h1 id="安裝-Node-js-及其環境配置"><a href="#安裝-Node-js-及其環境配置" class="headerlink" title="安裝 Node.js 及其環境配置"></a>安裝 Node.js 及其環境配置</h1><p>首先，你要到 Node.js 官網下載並安裝 Node.js 軟件包到你的電腦。</p>
+<p><img src="/post/web-dev-nodejs-express-notes/img2.png" alt="安裝 Node.js"></p>
+<p>點擊左方 (LTS) 版本下載，這個版本是適合大部分用戶使用的。</p>
+<div class="note info simple"><p>LTS 是一個簡稱，意思是長期支援 (Long Time Support)，是一個比較穩定的版本，而 Current 是最新版。</p>
+</div>
+
+<h2 id="初始化軟件套件管理器-NPM"><a href="#初始化軟件套件管理器-NPM" class="headerlink" title="初始化軟件套件管理器 (NPM)"></a>初始化軟件套件管理器 (NPM)</h2><p>軟件套件管理器 (Node Package Manager，簡稱 NPM) 是一個使用 JavaScript 編寫的管理 node 的工具，提供開發者用來分享、發布和管理 Node.js 模組的平台和工具。</p>
+<p>當我們成功安裝了 Node.js 軟件包，這個 NPM 亦會隨之連同下載了下來，你可以透過檢查 Node.js 及 NPM 的版本，來再三確認是否完成安裝：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+
+<p>如果終端機能輸出它們的版本，那就證明已經成功安裝了。</p>
+<p>一個通用使用 Node.js 環境的項目，都必定會使用 NPM 的，所以現在就來初始化 NPM 到你的項目中。預備一個空的資料夾，然後在終端機輸入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure>
+
+<p>輸入完之後，它會一步一步的詢問你設定的資料，比如專案名稱、描述、作者等等，如果對某資料不需要現在設定，可按 Enter 直接跳過即可。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">package name: (&lt;你的項目名稱&gt;)</span><br><span class="line">version: (1.0.0)</span><br><span class="line">description:</span><br><span class="line">entry point: (index.js)</span><br><span class="line"><span class="built_in">test</span> <span class="built_in">command</span>:</span><br><span class="line">git repository:</span><br><span class="line">keywords:</span><br><span class="line">author:</span><br><span class="line">license: (ISC)</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p><code>()</code> 內預設填寫了的資料即是如果跳過就會用預設 <code>()</code> 內填寫的資料。</p>
+</div>
+
+<p>完成了初始化過程後，你的資料夾便會自動增設了許多檔案，當中，你會看到有一個 <code>package.json</code>。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line"><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;nodejs-express-demo&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;main&quot;</span><span class="punctuation">:</span> <span class="string">&quot;index.js&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line"><span class="attr">&quot;test&quot;</span><span class="punctuation">:</span> <span class="string">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;author&quot;</span><span class="punctuation">:</span> <span class="string">&quot;BlueWhaleYT&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;license&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ISC&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>這個檔案很重要，當你在合作共同開發項目時，開發者可以知道你的項目正在使用了哪些 NPM 套件，要安裝所有正在使用的套件，可以直接輸入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i</span><br></pre></td></tr></table></figure>
+
+<p>不過，當然現在你尚未安裝任何套件。</p>
+</div>
+
+<hr>
+<h1 id="瀏覽器與伺服器端的-JavaScript-差異"><a href="#瀏覽器與伺服器端的-JavaScript-差異" class="headerlink" title="瀏覽器與伺服器端的 JavaScript 差異"></a>瀏覽器與伺服器端的 JavaScript 差異</h1><p>剛才所說，JavaScript 只能在瀏覽器上運作，因為它是一個客戶端語言，而 Node.js 是一個雖然都是使用 JavaScript 來編寫，但是它會成為了伺服器端語言。</p>
+<table>
+<thead>
+<tr>
+<th>差異</th>
+<th>瀏覽器 JavaScript</th>
+<th>伺服器端 JavaScript</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>預設物件 (<code>this</code>)</td>
+<td>使用的預設物件是 <code>window</code>，如 <code>window.console.log()</code>、<code>window.alert()</code> 等</td>
+<td>預設物件是 <code>global</code>，如 <code>global.console.log()</code></td>
+</tr>
+<tr>
+<td>模組系統</td>
+<td>只可以使用 ES 模組的 <code>import</code></td>
+<td>Node.js 的 JavaScript 同時支援 ES 的 <code>import</code> 及 CommonJS 模組的 <code>require()</code></td>
+</tr>
+<tr>
+<td>微任務 (Microtask)</td>
+<td>微任務會在事件循環的微任務執行之後再執行</td>
+<td>Node.js 的微任務會在事件循環的各個階段之間執行</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>console.log()</code> 是一個全域方法，所以姑勿論是靜態網頁或是 Node.js 環境，如果是前者運行，就是 <code>window.console.log()</code>，如後者則 <code>global.console.log()</code>。</li>
+<li>常用的 <code>alert()</code> 方法是由瀏覽器 JavaScript 的 <code>window</code> 提供的，那都正常，因為這個警示框是屬於向用戶顯示的前端組件，所以伺服器是無法使用 <code>alert()</code>。</li>
+</ul>
+<hr>
+<h1 id="建置伺服器"><a href="#建置伺服器" class="headerlink" title="建置伺服器"></a>建置伺服器</h1><p>當你完成了 Node.js 的安裝過程，準備好 NPM 要用的套件後，現在就可以利用 Node.js 編寫及建置伺服器端。</p>
+<p>在你的項目新建一個 JavaScript 檔案，例如 <code>index.js</code>，然後簡單在終端機輸出一個 Hello World。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Hello World&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然後使用 <code>node</code> 指令運行伺服器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node index</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>因為 Node.js 知道你如果使用 <code>node</code> 指令執行伺服器，檔案必定為 JavaScript，所以<strong>副檔名可不寫</strong>，這裏等同於：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node index.js</span><br></pre></td></tr></table></figure></div>
+
+<p>完成後你應該會看到終端機會有 Hello World 輸出出來。</p>
+<h2 id="使用-Node-js-建立網站伺服器"><a href="#使用-Node-js-建立網站伺服器" class="headerlink" title="使用 Node.js 建立網站伺服器"></a>使用 Node.js 建立網站伺服器</h2><p>現在我們就會建立一個網站伺服器，目的就是能夠在網頁上顯示內容，而不是在終端機輸出內容。</p>
+<div class="note info simple"><p>一般而言，如果是處理伺服器的檔案，可選擇使用 <code>server.js</code> 作檔案名稱。</p>
+</div>
+
+<p>在 <code>server.js</code> 建立一個伺服器需要用到 <code>http</code> 物件。我們會在兩個情況下輸出對應的訊息：</p>
+<ul>
+<li><code>Request received</code>：當伺服器開始運行，用戶嘗試加載網頁時，雖然網頁是無法加載，但是會在終端機表示了，成功獲取來自用戶的請求，無法加載網頁純粹是因為尚未為網頁加入任何內容。</li>
+<li><code>Server listening on port 3000</code>：當伺服器運行後，便會在終端機告知這段訊息。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> server = http.<span class="title function_">createServer</span>(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Request received&quot;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">server.<span class="title function_">listen</span>(<span class="number">3000</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Server listening on port 3000&#x27;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>createServer()</code> 所傳的參數 <code>req</code> 或 <code>res</code> 分別是 request (請求) 及 response (回應) 的縮寫。</li>
+<li><code>listen()</code> 第一個參數是設置伺服器端口 (port)，通常都會用 <code>3000</code>，第二個參數預設是 <code>localhost</code>，這裏省略了：<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">server.<span class="title function_">listen</span>(<span class="number">3000</span>, <span class="string">&quot;localhost&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>現在啟動伺服器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node server</span><br></pre></td></tr></table></figure>
+
+<p>會輸出 <code>Server listening on port 3000</code>。你打開網頁瀏覽器，在網址輸入 <code>localhost:3000</code>，你發現網頁載入不到，不過你再看終端機，會輸出了 <code>Request received</code>。網頁無法載入是因為我們還沒把 HTML 內容加入到網頁。</p>
+<h3 id="加入-HTML-網頁內容"><a href="#加入-HTML-網頁內容" class="headerlink" title="加入 HTML 網頁內容"></a>加入 HTML 網頁內容</h3><p>在 Node.js，我們需要彷效 HTML 源檔案並手動設置字符編碼及表頭。然後例如顯示 Hello World。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">res.<span class="title function_">setHeader</span>(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;text/html&#x27;</span>)</span><br><span class="line">res.<span class="title function_">write</span>(<span class="string">&#x27;&lt;meta charset=&quot;UTF-8&quot;&gt;&#x27;</span>)</span><br><span class="line">res.<span class="title function_">write</span>(<span class="string">&#x27;Hello World&#x27;</span>)</span><br><span class="line">res.<span class="title function_">end</span>()</span><br></pre></td></tr></table></figure>
+
+<div class="note danger simple"><p><code>UTF-8</code> 是屬於字符編碼系統的統一碼，統一碼支援繁體中文、簡體中文、英文、日文、韓文、符號等字符，如果不註明 HTML 網頁使用 <code>UTF-8</code> 編碼系統，當你想把中文字符加入到網頁時，就會顯示為亂碼，因為網頁預設使用的是 <code>ISO-8859-1</code> 編碼系統。</p>
+</div>
+
+<div class="note info simple"><p>Node.js 會自動把 <code>res.write(&#39;&lt;meta charset=&quot;UTF-8&quot;&gt;&#39;)</code> 寫在 HTML 的 <code>&lt;head&gt;</code>。</p>
+<p><img src="/post/web-dev-nodejs-express-notes/img1.png" alt="Node.js 自動寫在 head"></p>
+</div>
+
+<h3 id="回應及顯示不同-HTML-頁面"><a href="#回應及顯示不同-HTML-頁面" class="headerlink" title="回應及顯示不同 HTML 頁面"></a>回應及顯示不同 HTML 頁面</h3><p>當然，我們不會重複一直使用 <code>res.write()</code> 來寫 HTML 程式碼到網頁，<strong>這樣你不瘋，我都會瘋</strong>。我們會做的是建立多個不同的 HTML 頁面檔案，為了方便管理頁面，可以新建一個 <code>pages</code> 資料夾存放它們。</p>
+<div class="tabs" id="code_different_pages_html"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_different_pages_html-1">index.html</button><button type="button" class="tab " data-href="code_different_pages_html-2">about.html</button><button type="button" class="tab " data-href="code_different_pages_html-3">404.html</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_different_pages_html-1"><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_different_pages_html-2"><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>About<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>About<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_different_pages_html-3"><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>404<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>404<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<div class="note info simple"><p>404 頁面是用於不存在或無效的頁面所顯示的頁面。</p>
+</div>
+
+<p>要獲取不同的頁面檔案，我們可以使用 <code>fs</code> 工具，這個工具是主要用來進行檔案管理的，如基本的檔案寫入及讀取，我們可以利用 <code>fs</code> 把 HTML 檔案讀取出來。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在 Node.js，我們會使用 <code>switch</code> 進行多項條件判斷，路由可以透過 <code>req</code> 參數的 <code>url</code> 來獲取，然後手動配置狀態碼，<code>200</code> 為成功，<code>404</code> 為錯誤。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> server = http.<span class="title function_">createServer</span>(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Request received&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> path = <span class="string">&#x27;./pages/&#x27;</span></span><br><span class="line">    <span class="keyword">switch</span>(req.<span class="property">url</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>:</span><br><span class="line">            path += <span class="string">&#x27;index.html&#x27;</span></span><br><span class="line">            res.<span class="property">statusCode</span> = <span class="number">200</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;/about&#x27;</span>:</span><br><span class="line">            path += <span class="string">&#x27;about.html&#x27;</span></span><br><span class="line">            res.<span class="property">statusCode</span> = <span class="number">200</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="attr">default</span>:</span><br><span class="line">            path += <span class="string">&#x27;404.html&#x27;</span></span><br><span class="line">            res.<span class="property">statusCode</span> = <span class="number">404</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fs.<span class="title function_">readFile</span>(path, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="variable language_">console</span>.<span class="title function_">log</span>(err)</span><br><span class="line">        <span class="keyword">else</span> res.<span class="title function_">write</span>(data)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>現在，在瀏覽器的網址輸入不同的後綴，如 <code>/about</code>，就會顯示 About 頁面， <code>/hello</code> 是一個無效頁面，就會顯示 404 頁面。</p>
+<p>好了，現在寫好了，你會發現寫的程式碼挺多的，如果你想提升編程效率，減少代碼量，可選擇使用 Express 框架。</p>
+<h2 id="使用-Express-框架建立網站伺服器"><a href="#使用-Express-框架建立網站伺服器" class="headerlink" title="使用 Express 框架建立網站伺服器"></a>使用 Express 框架建立網站伺服器</h2><p>Express 框架是一個精簡 Node.js 程式碼而洐生的快捷框架，目的沒有兩樣，就是要減少程式碼，提升編程效率。</p>
+<div class="note info simple"><p><strong>建議先學習基本的 Node.js 運行及程式編寫</strong>，再來學習使用 Express 框架。</p>
+</div>
+
+<p>首先，你需要安裝 <code>express</code> 套件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i express</span><br></pre></td></tr></table></figure>
+
+<p>Express 是很<strong>講求路由處理的操作</strong>的，一般來說，起始的 Express 程式碼是大概這個樣子：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>()</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">send</span>(<span class="string">&#x27;HTML 內容&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>現在你運行伺服器，再進入網頁就可以看到內容了，是不是簡單多了！</p>
+<div class="note info simple"><p>Express 會自動幫你設置了 <code>UTF-8</code> 字符編碼以及 <code>text/html</code> 表頭。</p>
+</div>
+
+<p>現在再來簡化顯示不同頁面的邏輯及程式碼：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">sendFile</span>(<span class="string">&#x27;./pages/index.html&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">root</span>: __dirname</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/about&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">sendFile</span>(<span class="string">&#x27;./pages/about.html&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">root</span>: __dirname</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">app.<span class="title function_">use</span>(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">sendFile</span>(<span class="string">&#x27;./pages/404.html&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">root</span>: __dirname</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>app.get()</code>：需要指明路由來獲取相應資料</li>
+<li><code>app.use()</code>：不需要指明路由，這個情況下，可用來重新導向的操作，如不符合以上條件的路由，都會導定向 404 頁面。</li>
+</ul>
+<p>因為程式是由上而下運行的，所以某程度上來說已經做了條件判斷的處理，不過要注意的是 404 頁面一定要放到最後 (<code>app.listen()</code> 之上)。</p>
+<div class="note warning simple"><p><strong>Express 是不知道根目錄是在哪處的</strong>，所以在進行 <code>sendFile()</code> 的時候，要在<strong>第二個參數的物件 <code>root</code> 中註明使用的根目錄</strong>，在 CommonJS 模組（即是現在所用的），我們可以使用 <code>__dirname</code> 獲取現在的根目錄。</p>
+<p><strong>Express 預設會為你判斷選用的狀態碼</strong>，你不需要手動設置，唯獨你需要在處理 404 頁面時手動設置為 <code>404</code> 狀態碼。</p>
+</div>
+
+<h3 id="使用範本引擎"><a href="#使用範本引擎" class="headerlink" title="使用範本引擎"></a>使用範本引擎</h3><p>你有沒有想過這個基本的多個 HTML 頁面修改頁首 (Header) 或 頁尾 (Footer) 會很麻煩嗎？因為你需要每一個 HTML 頁面檔案都要做相應修改，才可以有一致的效果。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    Content here</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用 Express 框架取替 Node.js 其中一個原因，就是 Express 支援範本引擎，它可以讓我們<strong>將動態內容與靜態內容分開</strong>，讓程式碼更加整潔。</p>
+<p>比如，我們可以把 <code>&lt;title&gt;</code> 標記內的網頁標題設為動態頁面標題，<code>&lt;body&gt;</code> 部分的所有內容均為動態頁面內容！</p>
+<p>首先，你需要安裝 <code>ejs</code> 套件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i ejs</span><br></pre></td></tr></table></figure>
+
+<div class="note warning simple"><p>使用範本引擎的檔案會使用 <code>.ejs</code> 副檔名，而不會用 <code>.html</code> 或 <code>.htm</code> 。如有既有 HTML 檔案，請修改副檔名為 <code>.ejs</code>。</p>
+</div>
+
+<p>然後設置 Express 程式使用範本引擎 (View Engine)：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;view engine&#x27;</span>, <span class="string">&#x27;ejs&#x27;</span>);</span><br><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;views&#x27;</span>, <span class="string">&#x27;./pages&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="建立頁首及頁尾範本"><a href="#建立頁首及頁尾範本" class="headerlink" title="建立頁首及頁尾範本"></a>建立頁首及頁尾範本</h4><p>我們會新建兩個檔案，分別是 <code>header.ejs</code> 及 <code>footer.ejs</code> 作為頁首及頁尾的既定模板。</p>
+<div class="tabs" id="code_ejs_header_footer"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_ejs_header_footer-1">header.ejs</button><button type="button" class="tab " data-href="code_ejs_header_footer-2">footer.ejs</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_ejs_header_footer-1"><p>我們要把 <code>&lt;title&gt;</code> 的文本內容動態化，就要用 EJS 變量宣告內容為 <code>&lt;%= title %&gt;</code>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&lt;%= title %&gt;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_ejs_header_footer-2"><p>這裏你就可以加一些版權部分之類的內容。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">Footer content here</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<p>你會看到，沒錯，它是一個不完整的 HTML 語法檔案，但沒問題的，因為最後是這樣的：</p>
+<p>一個 <code>index.ejs</code> 檔案 &#x3D; <code>header.ejs</code> 內容 + 你的 body 內容 + <code>footer.ejs</code> 內容，最後始終運行的是 <code>index.ejs</code> 檔案，所以不會影響的。</p>
+<div class="tabs" id="code_ejs_embed_header_footer"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_ejs_embed_header_footer-1">index.ejs</button><button type="button" class="tab " data-href="code_ejs_embed_header_footer-2">about.ejs</button><button type="button" class="tab " data-href="code_ejs_embed_header_footer-3">404.ejs</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_ejs_embed_header_footer-1"><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;%- <span class="title function_">include</span>(<span class="string">&#x27;header.ejs&#x27;</span>) %&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">&lt;%- <span class="title function_">include</span>(<span class="string">&#x27;footer.ejs&#x27;</span>) %&gt;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_ejs_embed_header_footer-2"><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;%- <span class="title function_">include</span>(<span class="string">&#x27;header.ejs&#x27;</span>) %&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>About<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">&lt;%- <span class="title function_">include</span>(<span class="string">&#x27;footer.ejs&#x27;</span>) %&gt;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_ejs_embed_header_footer-3"><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;%- <span class="title function_">include</span>(<span class="string">&#x27;header.ejs&#x27;</span>) %&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>404<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">&lt;%- <span class="title function_">include</span>(<span class="string">&#x27;footer.ejs&#x27;</span>) %&gt;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<p>所有在 <code>pages</code> 資料夾內的頁面檔案都在受到範本引擎管理，現在就會用 <code>render()</code> 載入對應頁面：</p>
+<div class="note info simple"><p><code>server.js</code> 的 <code>render()</code> 加入要傳入的 <code>title</code> 參數，這個 <code>title</code> 參數是來自 <code>header.ejs</code> 的 <code>&lt;%= title %&gt;</code> 取出顯示。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">render</span>(<span class="string">&#x27;index&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">title</span>: <span class="string">&#x27;Home&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/about&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">render</span>(<span class="string">&#x27;about&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">title</span>: <span class="string">&#x27;About&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">app.<span class="title function_">use</span>(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">render</span>(<span class="string">&#x27;404&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">title</span>: <span class="string">&#x27;404&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>網頁開發</category>
+        <category>後端開發</category>
+        <category>詳細筆記</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+        <tag>JavaScript</tag>
+        <tag>HTML</tag>
+        <tag>Bash</tag>
+        <tag>Express</tag>
+        <tag>EJS</tag>
       </tags>
   </entry>
 </search>

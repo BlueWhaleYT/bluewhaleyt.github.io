@@ -169,6 +169,11 @@ h1,h2,h3,h4,h5,h6 {
     border: 3px solid var(--anzhiyu-main);
 }
 
+/* Post image */
+#post img {
+    display: inline-block !important;
+}
+
 /* Post selector */
 #blog-container ::selection {
     background: var(--anzhiyu-main) !important;
@@ -249,4 +254,9 @@ i.bber-logo, .bber-gotobb {
     margin-right: 10px;
     color: var(--anzhiyu-font-color) !important;
     text-shadow: none !important;
+}
+
+/* Custom */
+.note[data-content]::after {
+    content: '這篇文章是在我一邊學習 ' attr(data-content) ' 一邊撰寫的筆記，筆記最初是很散亂的，但經過我的一番調整後，部分的筆記內容已被擴展。筆記內容不排除是有錯漏的，所以只供參考，如筆記內容有錯漏，請於下方的留言區告知有關錯處，當我知悉時，便會在有空時作修改。';
 }
