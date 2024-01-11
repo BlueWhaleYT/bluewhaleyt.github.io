@@ -1,7 +1,679 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Python | PIP | 安裝及編寫 Python 及應用 PIP 第三方套件筆記</title>
+    <title>Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記</title>
+    <url>/post/dev-kotlin-notes.html</url>
+    <content><![CDATA[<div class="note info simple" data-content="Kotlin"></div>
+
+<p>Kotlin 是一個近年來相當熱門的程式語言之一，就連 Google 都對它萬分愛戴，Kotlin 是一個<strong>現代式的高階程式語言</strong>，主要是提供了<strong>許多減少程式碼的語法糖</strong> (Syntactic sugar) 以及<strong>解決許多 Java 的弊病</strong>，所以 Kotlin 亦都是一個取代 Java 語言的高效程式語言。</p>
+<p>Kotlin 的應用範疇十分廣泛，主要是因為它能夠<strong>跨平台</strong>，所以它不但可以<strong>應用於 Android 開發</strong>及 <strong>Jetpack Compose 跨平台的開發</strong>，亦可以使用 Kotlin&#x2F;JS 進行 <strong>JavaScript 的編程</strong>，從而編寫前端網頁。</p>
+<p>如果你不是想學習 Kotlin，純粹想看 Java 及 Kotlin 對照，可跳到這裏：</p>
+<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="/post/dev-kotlin-notes.html#%E9%83%A8%E5%88%86-Kotlin-%E8%88%87-Java-%E6%AF%94%E8%BC%83%E8%AA%9E%E6%B3%95%E7%A8%8B%E5%BC%8F%E7%A2%BC">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">Java 及 Kotlin 對照</div>
+            <div class="tag-link-sitename"> </div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>
+
+<hr>
+<h1 id="好端端的，為什麼要轉寫-Kotlin？"><a href="#好端端的，為什麼要轉寫-Kotlin？" class="headerlink" title="好端端的，為什麼要轉寫 Kotlin？"></a>好端端的，為什麼要轉寫 Kotlin？</h1><p>因為。。。<strong>JAVA 不爭氣，我都沒辦法！</strong></p>
+<p>其實都挺無奈的，但這個是一個<strong>別無選擇的出路</strong>。在 Android 開發中，我<strong>看不到 Java 在 Android 的未來還有立足之地</strong>。</p>
+<ol>
+<li>Java 不爭氣，在最初時期是很風光的，但往後加入的大部分特性，<strong>Android 都不支援</strong>。</li>
+<li>已經被 Google 官方斷言，往後推出的 Android 開發特性都<strong>以 Kotlin 為首</strong>，有目共睹，Jetpack Compose 就是一個 Java 開發者哭暈的鐵證。Jetpack Compose 是完全使用 Kotlin 的編譯工具及語法寫成的框架，是<strong>沒有可能在 Java 使用到的</strong>。</li>
+<li>因為 Kotlin 真的可以<strong>減少代碼量</strong>，比方你寫一個單例對象 (Singleton)，在 Kotlin 寫一個 <code>object Singleton</code> 就完事了，Java 這個實現方式我都不想說了。</li>
+</ol>
+<hr>
+<h1 id="建立-Kotlin-項目"><a href="#建立-Kotlin-項目" class="headerlink" title="建立 Kotlin 項目"></a>建立 Kotlin 項目</h1><p>要編寫及執行 Kotlin 程式，我們鮮少會使用指令在命令行介面執行程式碼，而是會用 IDE (Integrated Development Environment 整合開發環境) 的編譯程式功能。這裏推薦使用 Fleet。</p>
+<p>首先你需要到 <a href="https://www.jetbrains.com/idea/download/">JetBrains 官網</a> 下載並安裝 IntelliJ IDEA 軟件，我這裏用 Community Edition (CE)，如果你有錢可以買付費版 (Ultimate)，用來建立 Kotlin 項目。</p>
+<p>安裝完之後，按 New Project，選擇 Kotlin 語言，其他不用理會。</p>
+<p><img src="/post/dev-kotlin-notes/img10.png" alt="alt"></p>
+<p>然後可以關閉 IntelliJ IDEA 軟件，下載 <a href="https://www.jetbrains.com/fleet/">Fleet</a> 用來編寫 Kotlin 程式碼（你喜歡的話都可以只用 IntelliJ IDEA 寫 Kotlin 程式碼）。然後打開剛新建的 Kotlin 項目。</p>
+<p><img src="/post/dev-kotlin-notes/img11.png" alt="alt"></p>
+<p>在 <code>kotlin</code> 資料夾新建一個 <code>main.kt</code>，按綠色箭頭便可執行程式碼：</p>
+<p><img src="/post/dev-kotlin-notes/img12.png" alt="alt"></p>
+<hr>
+<h1 id="程式的入口點"><a href="#程式的入口點" class="headerlink" title="程式的入口點"></a>程式的入口點</h1><p>跟一般的程式語言一樣，Kotlin 都需要一個入口點，要注意的是，我們在 Kotlin 是 <strong>不需要指明是使用 <code>Main.kt</code></strong> ，只要指明是使用 <code>main()</code> 入口函數便可：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/post/dev-kotlin-notes/img1.png" alt="img1"></p>
+<div class="note info simple"><p>Kotlin 的 <code>main.kt</code> 實際上是有類別的，它叫做 <code>MainKt</code>，因為 Kotlin 的編譯器<strong>歸根到底都是最後轉換到 Java</strong>。</p>
+</div>
+
+<h2 id="修改入口點或類別名稱"><a href="#修改入口點或類別名稱" class="headerlink" title="修改入口點或類別名稱"></a>修改入口點或類別名稱</h2><p>因為一開始預設是 <code>MainKt</code>，如果你要修改的，這就要用 <code>@file:JvmName()</code> 註解，這個註解會直接修改 JVM。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@file:JvmName</span>(<span class="string">&quot;Hello World Program&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/post/dev-kotlin-notes/img2.png" alt="img2"></p>
+<hr>
+<h1 id="輸入數值"><a href="#輸入數值" class="headerlink" title="輸入數值"></a>輸入數值</h1><h2 id="使用操控台輸入"><a href="#使用操控台輸入" class="headerlink" title="使用操控台輸入"></a>使用操控台輸入</h2><p>在 Kotlin，不用 Java 這樣麻煩用 <code>Scanner</code> 來輸入數值至操控台 (console)，可以直接用 <code>readln()</code> 方法。不過，編譯器會<strong>推薦用 <code>readLineOrNull()</code></strong> ，因為這個可以檢查空指針，內部實現代碼純粹是返回一個 <code>String?</code>：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">actual</span> <span class="function"><span class="keyword">fun</span> <span class="title">readlnOrNull</span><span class="params">()</span></span>: String? = readLine()</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p><code>actual</code> 是跨平台（不限於 Compose 跨平台）用的，因為 Kotlin 語法庫支援 JVM 及 JS 編譯。</p>
+</div>
+
+<ol>
+<li><p>基本使用</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">println(<span class="string">&quot;Enter two numbers&quot;</span>)                <span class="comment">// 說明用戶輸入數值的目的</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;Enter a: &quot;</span>) </span><br><span class="line"><span class="keyword">val</span> a = readlnOrNull()                      <span class="comment">// 用戶所輸入的值再按 Enter，會賦值至 a</span></span><br><span class="line">print(<span class="string">&quot;Enter b: &quot;</span>)</span><br><span class="line"><span class="keyword">val</span> b = readlnOrNull()                      <span class="comment">// 用戶所輸入的值再按 Enter，會賦值至 b</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Result: a: <span class="variable">$a</span>, b: <span class="variable">$b</span>&quot;</span>)             <span class="comment">// 顯示結果</span></span><br></pre></td></tr></table></figure>
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Enter two numbers</span><br><span class="line">Enter a: 5  </span><br><span class="line">Enter b: 2</span><br><span class="line">Result: a: 5, b: 2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分割形式<br>例如想在單一輸入的時候，輸入多個數值，可以用 <code>split()</code> 裏面接受 <code>delimiters</code> 的 <code>vararg</code> 參數。</p>
+<div class="note info simple"><p>這裏寫的是 <code>&quot; &quot;</code>，代表以空格分割。</p>
+</div>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">println(<span class="string">&quot;Enter two numbers&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> (a, b) = readln().split(<span class="string">&quot; &quot;</span>)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Result: a: <span class="variable">$a</span>, b: <span class="variable">$b</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Enter two numbers</span><br><span class="line">3 7</span><br><span class="line">Result: a: 3, b: 7</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="使用-GUI-視窗輸入"><a href="#使用-GUI-視窗輸入" class="headerlink" title="使用 GUI 視窗輸入"></a>使用 GUI 視窗輸入</h2><p>例如是用 Javax Swing 庫</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> num1 = JOptionPane.showInputDialog(<span class="string">&quot;Enter first integer&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> num2 = JOptionPane.showInputDialog(<span class="string">&quot;Enter second integer&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> result = num1.toInt() + num2.toInt()</span><br><span class="line">JOptionPane.showMessageDialog(<span class="literal">null</span>, <span class="string">&quot;sum: <span class="variable">$result</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="套件與匯入"><a href="#套件與匯入" class="headerlink" title="套件與匯入"></a>套件與匯入</h1><p>Kotlin 預設匯入了這些套件</p>
+<ul>
+<li>Kotlin: <code>kotlin.*</code>、<code>kotlin.annotation.*</code>、<code>kotlin.collections.*</code>、<code>kotlin.comparisons.*</code>、<code>kotlin.io.*</code>、<code>kotlin.ranges.*</code>、<code>kotlin.sequences.*</code>、<code>kotlin.text.*</code></li>
+<li>JVM: <code>java.lang.*</code>、<code>kotlin.jvm.*</code></li>
+<li>JavaScript: <code>kotlin.js.*</code></li>
+</ul>
+<div class="note danger simple"><p>Kotlin 不支援靜態匯入 (<code>import static</code>)，只用 <code>import</code> 便可以。</p>
+</div>
+
+<h2 id="套件類別命名衝突"><a href="#套件類別命名衝突" class="headerlink" title="套件類別命名衝突"></a>套件類別命名衝突</h2><p>Kotlin 不支援套件類別名稱重複，需要用 <code>as</code> 關鍵字重新定義。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> foo.a.Bar</span><br><span class="line"><span class="keyword">import</span> foo.b.Bar <span class="keyword">as</span> BBar</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="存取修飾子"><a href="#存取修飾子" class="headerlink" title="存取修飾子"></a>存取修飾子</h1><table>
+<thead>
+<tr>
+<th>修飾子</th>
+<th>Kotlin</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public</code></td>
+<td>所有類可存取 <strong>（預設）</strong></td>
+<td>所有類可存取</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td>當前類可存取</td>
+<td>當前類可存取</td>
+</tr>
+<tr>
+<td><code>protected</code></td>
+<td>當前類、子類可存取</td>
+<td>當前類、子類、同一套件路徑下的類可存取</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>無</td>
+<td>同一套件路徑下的類可存取 <strong>（預設）</strong></td>
+</tr>
+<tr>
+<td><code>internal</code></td>
+<td>同一模組中的類可存取</td>
+<td>無</td>
+</tr>
+</tbody></table>
+<h2 id="可繼承類"><a href="#可繼承類" class="headerlink" title="可繼承類"></a>可繼承類</h2><p>Kotlin 預設寫的 <code>Class</code> 是不能繼承 (inherit) 的，如果要讓其他 <code>Class</code> 可繼承這個 <code>Class</code>，就要加 <code>open</code> 關鍵字。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">ClassA</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ClassB</span> : <span class="type">ClassA</span>()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="對象與建構式"><a href="#對象與建構式" class="headerlink" title="對象與建構式"></a>對象與建構式</h1><h2 id="單例模式-Singleton"><a href="#單例模式-Singleton" class="headerlink" title="單例模式 (Singleton)"></a>單例模式 (Singleton)</h2><p>我們可以使用 <code>object</code> 關鍵字來定義 Singleton，可以在其他地方使用 <code>SingletonObject</code> 來訪問其屬性和方法。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> SingletonObject &#123;</span><br><span class="line">    <span class="comment">// 屬性和方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>Java 調用 Kotlin Singleton 需要加上 <code>INSTANCE</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SingletonObject.INSTANCE.xxx</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="伴生對象"><a href="#伴生對象" class="headerlink" title="伴生對象"></a>伴生對象</h2><p>我們可以使用 <code>companion object</code> 關鍵字在類內部定義一個伴生物件。伴生物件可以訪問類的私有成員，就像是該類的靜態成員一樣，但它不同於靜態成員，因為它可以訪問類的非靜態成員。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="comment">// 屬性和方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>Java 調用 Kotlin Companion object 需要加上 <code>Companion</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">MyClass.Companion.xxx</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="建構子建構"><a href="#建構子建構" class="headerlink" title="建構子建構"></a>建構子建構</h2><h3 id="主要建構子"><a href="#主要建構子" class="headerlink" title="主要建構子"></a>主要建構子</h3><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span>(</span><br><span class="line">    <span class="keyword">val</span> str: String</span><br><span class="line">) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="次要-x2F-多個建構子"><a href="#次要-x2F-多個建構子" class="headerlink" title="次要 &#x2F; 多個建構子"></a>次要 &#x2F; 多個建構子</h3><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> prop1 = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">var</span> prop2 = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">constructor</span>(prop1: String) &#123;</span><br><span class="line">        <span class="keyword">this</span>.prop1 = prop1</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">constructor</span>(prop2: <span class="built_in">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.prop2 = prop2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化程式"><a href="#初始化程式" class="headerlink" title="初始化程式"></a>初始化程式</h3><p>用 <code>init</code> 函數可以初始化建構子執行的程式。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        println(<span class="string">&quot;<span class="subst">$&#123;this.javaClass.name&#125;</span> loaded&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> myClass = MyClass()</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">MyClass loaded</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="運算符"><a href="#運算符" class="headerlink" title="運算符"></a>運算符</h1><h2 id="位元運算符"><a href="#位元運算符" class="headerlink" title="位元運算符"></a>位元運算符</h2><ol>
+<li>按位取反 <code>inv</code>：取反後的數字會變成原數字的補數<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> num = <span class="number">10</span></span><br><span class="line"><span class="keyword">val</span> result = num.inv()</span><br><span class="line">print(result)                       <span class="comment">// 輸出：-11</span></span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p><code>inv()</code> 函數會將數字的二進位表示中的每個位元取反，也就是 <code>0</code> 變成 <code>1</code>，<code>1</code> 變成 <code>0</code>。另外，這個操作還會將數字的正負號反轉。<br><code>10</code> 的二進位表示為 <code>00001010</code>。當我們對這個數字進行取反操作時，每個位元都會取反，得到的結果為 <code>11110101</code>。這個結果在二進位中也代表著數字 <code>-11</code>。</p>
+</div></li>
+<li>左移 <code>shl</code> (<code>&lt;&lt;</code>)：將數字的二進位表示向左移動指定的位數。左移操作會在右側填入 <code>0</code>，相當於將該數字乘以 <code>2</code> 的 <code>n</code> 次方，其中 <code>n</code> 是左移的位數。<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> number = <span class="number">5</span>                      <span class="comment">// 左移的數字是 5</span></span><br><span class="line"><span class="keyword">val</span> shift = <span class="number">2</span>                       <span class="comment">// 左移的位數是 2</span></span><br><span class="line"><span class="keyword">val</span> result = number shl shift</span><br><span class="line">println(result)                     <span class="comment">// 輸出：20 (將 5 左移 2 位相當於 5 * (2^2) )</span></span><br></pre></td></tr></table></figure></li>
+<li>右移 <code>shr</code> (<code>&gt;&gt;</code>)：將數字的二進位表示向右移動指定的位數。右移操作會在左側填入原數字的最高位元，相當於將該數字除以 <code>2</code> 的 <code>n</code> 次方，其中 <code>n</code> 是右移的位數。<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> number = <span class="number">20</span>                     <span class="comment">// 右移的數字是 20</span></span><br><span class="line"><span class="keyword">val</span> shift = <span class="number">2</span>                       <span class="comment">// 右移的位數是 2</span></span><br><span class="line"><span class="keyword">val</span> result = number shr shift</span><br><span class="line">println(result)                     <span class="comment">// 輸出：5 (將 20 右移 2 位相當於 20 / (2^2) )</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h1 id="變量及常量"><a href="#變量及常量" class="headerlink" title="變量及常量"></a>變量及常量</h1><p>我們可以使用變量和常量來存儲和管理數據。變量是可以改變其值的存儲位置，而常量則是一旦被賦值就無法更改的存儲位置。</p>
+<div class="note info simple"><p>賦值語句格式，萬變不離其宗</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 變量名稱: 數據類型 = 初始值</span><br></pre></td></tr></table></figure></div>
+
+<ol>
+<li>宣告變量：使用關鍵字 <code>var</code> 來定義可變變量。<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> age: <span class="built_in">Int</span> = <span class="number">15</span></span><br></pre></td></tr></table></figure></li>
+<li>宣告常量：使用關鍵字 <code>val</code> 來定義常量 (不可變變量)。<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> age: <span class="built_in">Int</span> = <span class="number">15</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="存取與變異"><a href="#存取與變異" class="headerlink" title="存取與變異"></a>存取與變異</h2><p>考慮到用 <code>var</code> 還是 <code>val</code>，還有一個考量就是 Getter &amp; Setter</p>
+<ul>
+<li><code>var</code>：<code>private</code> 變量，但賦有 <code>public</code> 的 <code>set()</code> 和 <code>get()</code> 屬性</li>
+<li><code>val</code>：<code>private</code> 變量，賦有 <code>public</code> 的 <code>get()</code> 屬性</li>
+</ul>
+<div class="note info simple"><p>一般而言，如果不肯定變量能不能被修改，就先用 <code>val</code>，當有修改的用途就改用 <code>var</code>。</p>
+</div>
+
+<p>此外，還有 <code>const</code> 關鍵字，看似與 <code>val</code> 能混為一談</p>
+<p><code>const</code> 與 Java 的 <code>static</code> 相若，一般情況下，用不用 <code>const</code> 是絕沒太大影響，重點是</p>
+<div class="note info simple"><ol>
+<li><code>const</code> 變量必須是頂層級別 (top-level) 或者 <code>object</code> 或 <code>companion object</code> 中的屬性</li>
+<li><code>val</code> 是在運行時計算；而 <code>const</code> 則是編譯時計算。</li>
+<li>預設的 <code>val</code> 是私有 (<code>private</code>) 變量，當加上了 <code>const</code> 變成 <code>const val</code> 就會成為公共 (<code>public</code>) 變量。</li>
+</ol>
+</div>
+
+<p>例子：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> hello = test()          <span class="comment">// 編譯成功</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> DATA = test()     <span class="comment">// 編譯錯誤</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> NAME = <span class="string">&quot;&quot;</span>         <span class="comment">// 編譯成功</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> = <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="函數"><a href="#函數" class="headerlink" title="函數"></a>函數</h1><p>函數是一個重要的程式結構，它可以接受輸入參數並返回一個結果。我們可以使用 <code>fun</code> 關鍵字來定義一個函數。</p>
+<div class="note info simple"><p>函數預設返回的類型為 <code>Unit</code>，即是 Java 的 <code>void</code> 類型。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">greet1</span><span class="params">()</span></span>: <span class="built_in">Unit</span> &#123;</span><br><span class="line">    print(<span class="string">&quot;Good morning&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">greet2</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;Good morning&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>greet1()</code> 和 <code>greet2()</code> 方法是一樣的，基本上 <code>Unit</code> 可以省略不寫。</p>
+</div>
+
+<h2 id="函數類型"><a href="#函數類型" class="headerlink" title="函數類型"></a>函數類型</h2><h3 id="單行表達式"><a href="#單行表達式" class="headerlink" title="單行表達式"></a>單行表達式</h3><p>如果函數<strong>只有一行程式碼</strong>，可以使用單行表達式函數的語法簡化函數的定義。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">multiply</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> = a * b</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><ol>
+<li><p>這裏的 <code>=</code> 等同於 <code>return</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">multiply</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a * b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>返回類型可省略</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">multiply</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span> = a * b</span><br></pre></td></tr></table></figure></li>
+</ol>
+</div>
+
+<h3 id="高階函數"><a href="#高階函數" class="headerlink" title="高階函數"></a>高階函數</h3><p>函數可以作為參數傳遞給其他函數，或者作為返回值返回。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">calculate</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>, operation: (<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> operation(a, b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p><code>calculate()</code> 接受 3 個參數，其中 <code>operation</code> 參數比較複雜，這個運用了高階函數，接受兩個參數然後再返回一個 <code>Int</code> 類型的結果，至於是怎樣的結果，就是視乎 <code>operation()</code> 高階函數實現的邏輯。</p>
+<p>假如我們用 <code>calculate()</code> 函數實現一個加法及乘法計算，需要一對 <code>{}</code> 區塊，區塊內需要傳入參數，就以 <code>x</code> 和 <code>y</code> 分別是對入 <code>operation(Int, Int)</code>，接著 <code>-&gt;</code> 後寫的代碼就是要實現的邏輯。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> sum = calculate(<span class="number">3</span>, <span class="number">5</span>) &#123; x, y -&gt; x + y &#125;</span><br><span class="line"><span class="keyword">val</span> product = calculate(<span class="number">8</span>, <span class="number">3</span>) &#123; x, y -&gt; x * y &#125;</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;sum: <span class="variable">$sum</span>, product: <span class="variable">$product</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sum: 8, product: 24</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="內聯函數"><a href="#內聯函數" class="headerlink" title="內聯函數"></a>內聯函數</h4><p><code>inline</code> 函數會在代碼編譯時，將被調用處代碼直接嵌入到調用處的函數中</p>
+<div class="note warning simple"><p>過度使用 <code>inline</code> 會使字節碼膨脹。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 一般如果是這樣的程式碼，不會用 inline</span></span><br><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">hello</span><span class="params">()</span></span> = print(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果沒有用 inline 來定義 hello() 函數</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    hello()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果有用 inline 來定義 hello() 函數</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;Hello World&quot;</span>)    <span class="comment">// 直接把 hello() 函數的代碼嵌入下來</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>實際用途是用來減少創建額外對象及函數，從而減少資源消耗。亦都增加執行速度（順序執行代碼的速度會較調用函數的速度快）。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">hello</span><span class="params">(block: () -&gt; <span class="type">Unit</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    block()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 你寫的程式碼</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    hello &#123;</span><br><span class="line">        println(<span class="string">&quot;123&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 實際編譯後的程式碼</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    println(<span class="string">&quot;123&quot;</span>)          <span class="comment">// 把 hello() 函數區塊內的程式碼嵌入下來</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>為 <code>inline</code> 函數使用的參數設定</p>
+<p><code>noinline</code>：就是不內聯的意思</p>
+<p>如果我們嘗試寫</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">hello</span><span class="params">(block: () -&gt; <span class="type">Unit</span>)</span></span>: () -&gt; <span class="built_in">Unit</span> &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> block</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因為 <code>hello()</code> 函數被內聯了，如果嘗試傳回 <code>block</code>，會在編譯器拋出：</p>
+<p><img src="/post/dev-kotlin-notes/img6.png" alt="img6"></p>
+<p>所以這個時候就要用 <code>noinline</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">hello</span><span class="params">(<span class="keyword">noinline</span> block: () -&gt; <span class="type">Unit</span>)</span></span>: () -&gt; <span class="built_in">Unit</span> &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> block</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>crossinline</code>：強制內聯</p>
+<h4 id="infix-函數"><a href="#infix-函數" class="headerlink" title="infix 函數"></a><code>infix</code> 函數</h4><p>不需要用 <code>()</code> 的函數</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="function"><span class="keyword">fun</span> <span class="built_in">Int</span>.<span class="title">add</span><span class="params">(count: <span class="type">Int</span>)</span></span> = <span class="keyword">this</span> + count</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> result1 = <span class="number">5</span> add <span class="number">3</span></span><br><span class="line">println(<span class="string">&quot;Result: <span class="variable">$result1</span>&quot;</span>)     <span class="comment">// 輸出：8</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="operator-函數"><a href="#operator-函數" class="headerlink" title="operator 函數"></a><code>operator</code> 函數</h4><p>就是重載運算符的函數，例如 <code>1 + 1</code>，對應的函數是 <code>plus()</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> point = Point(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">val</span> b = a + point       <span class="comment">// 錯誤</span></span><br></pre></td></tr></table></figure>
+
+<p>假如，我們嘗試把不支援的型別與例如 <code>Int</code> 相加，會在編譯時拋出錯誤：</p>
+<p><img src="/post/dev-kotlin-notes/img5.png" alt="img5"></p>
+<p>要令到這個 <code>+</code> 運算符可以用其他類型 e.g. <code>Point</code> 進行加法，就要用 <code>operator fun</code>。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="built_in">Int</span>.<span class="title">plus</span><span class="params">(other: <span class="type">Point</span>)</span></span> = <span class="keyword">this</span> + other.x + other.y</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> point = Point(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">val</span> b = a + point</span><br><span class="line">print(<span class="string">&quot;b: <span class="variable">$b</span>&quot;</span>)      <span class="comment">// 輸出 b: 6</span></span><br></pre></td></tr></table></figure>
+
+<p>運算符函數表</p>
+<table>
+<thead>
+<tr>
+<th>運算符</th>
+<th>函數</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>+</code></td>
+<td><code>plus()</code></td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td><code>minus()</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td><code>times()</code></td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td><code>div()</code></td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td><code>mod()</code> &#x2F; <code>rem()</code></td>
+</tr>
+<tr>
+<td><code>++</code></td>
+<td><code>inc()</code></td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td><code>not()</code></td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td><code>compareTo() &gt; 0</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td><code>compareTo() &lt; 0</code></td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td><code>compareTo() &gt;= 0</code></td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td><code>compareTo &lt;= 0</code></td>
+</tr>
+<tr>
+<td><code>in</code></td>
+<td><code>contains()</code></td>
+</tr>
+</tbody></table>
+<h3 id="匿名函數"><a href="#匿名函數" class="headerlink" title="匿名函數"></a>匿名函數</h3><p>匿名函數可使用 <code>fun()</code> 定義，並作為值賦值給變數。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> sum = <span class="function"><span class="title">fun</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span> = a + b</span><br><span class="line"><span class="keyword">val</span> result = sum(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;sum: <span class="variable">$result</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sum: 10</span><br></pre></td></tr></table></figure>
+
+<h3 id="標準-x2F-作用域函數"><a href="#標準-x2F-作用域函數" class="headerlink" title="標準 &#x2F; 作用域函數"></a>標準 &#x2F; 作用域函數</h3><p>這些函數可以幫助我們<strong>簡化程式碼並提高可讀性</strong>，對代碼邏輯沒有任何意義，只是語法糖。用途很廣泛，而且看情況。</p>
+<table>
+<thead>
+<tr>
+<th>函數</th>
+<th>對象引用</th>
+<th>返回值</th>
+<th>是否擴展函數</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>let</code></td>
+<td><code>it</code></td>
+<td>Lambda 表達式</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td><code>this</code></td>
+<td>Lambda 表達式</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td>-</td>
+<td>Lambda 表達式</td>
+<td>不是，調用毋須 <code>Context</code></td>
+</tr>
+<tr>
+<td><code>with</code></td>
+<td><code>this</code></td>
+<td>Lambda 表達式</td>
+<td>不是，把 <code>Context</code> 當作參數</td>
+</tr>
+<tr>
+<td><code>apply</code></td>
+<td><code>this</code></td>
+<td><code>Context</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>also</code></td>
+<td><code>it</code></td>
+<td><code>Context</code></td>
+<td>是</td>
+</tr>
+</tbody></table>
+<div class="note info simple"><ul>
+<li><code>this</code>：當前引用的對象，例如 <code>this.text = ...</code> 可省略為 <code>text = ...</code>。</li>
+<li><code>it</code>：常用於 Lambda 表達式，作為<strong>顯式單個參數聲明</strong>的暫代名稱，只可以為單個參數的函數，才可用 <code>it</code>。</li>
+</ul>
+<p>如果暫不使用參數，可用 <code>_</code> 作為佔位，未使用的參數，不會進行處理。</p>
+</div>
+
+<h4 id="let-函數"><a href="#let-函數" class="headerlink" title="let 函數"></a><code>let</code> 函數</h4><ol>
+<li>對非空型別對象執行 Lambda 表達式<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="string">&quot;John&quot;</span></span><br><span class="line">name?.let &#123;</span><br><span class="line">    <span class="comment">// 在這裡可以使用非空的 name 變數</span></span><br><span class="line">    println(<span class="string">&quot;Hello, <span class="variable">$it</span>!&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>把表達式作為變量引入到局部作用域中<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> number = <span class="number">5</span></span><br><span class="line"><span class="keyword">val</span> doubled = number.let &#123; it * <span class="number">2</span> &#125;</span><br><span class="line">println(doubled)            <span class="comment">// 輸出：10</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="run-函數"><a href="#run-函數" class="headerlink" title="run 函數"></a><code>run</code> 函數</h4><p>跟 <code>apply</code> 函數用法相若，但 <code>run</code> 函數會傳回 Lambda 表達式，<code>apply</code> 函數沒有傳回值。而且<strong>可以為特定對象編寫邏輯</strong>，最後運算取得結果。</p>
+<ol>
+<li>擴展：對象配置並且計算結果<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> result = <span class="string">&quot;Hello, Kotlin&quot;</span>.run &#123;</span><br><span class="line">    println(<span class="keyword">this</span>)           <span class="comment">// 輸出：Hello, Kotlin</span></span><br><span class="line">    length</span><br><span class="line">&#125;</span><br><span class="line">println(result)             <span class="comment">// 輸出：13</span></span><br></pre></td></tr></table></figure></li>
+<li>非擴展：在需要表達式的地方執行語句<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> message = run &#123;</span><br><span class="line">    <span class="keyword">val</span> greeting = <span class="string">&quot;Hello&quot;</span></span><br><span class="line">    <span class="keyword">val</span> person = <span class="string">&quot;Alice&quot;</span></span><br><span class="line">    <span class="string">&quot;<span class="variable">$greeting</span>, <span class="variable">$person</span>!&quot;</span>   <span class="comment">// 返回的值一定要放最後</span></span><br><span class="line">&#125;</span><br><span class="line">println(message)            <span class="comment">// 輸出：Hello, Alice!</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="apply-函數"><a href="#apply-函數" class="headerlink" title="apply 函數"></a><code>apply</code> 函數</h4><p>可視為一種配置函數，傳入一個接收者，然後呼叫一系列函數來對接收者做設定。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: String? = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="built_in">Int</span>? = <span class="literal">null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> person = Person().apply &#123;</span><br><span class="line">    name = <span class="string">&quot;Alice&quot;</span></span><br><span class="line">    age = <span class="number">25</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="also-函數"><a href="#also-函數" class="headerlink" title="also 函數"></a><code>also</code> 函數</h4><p>附加效果，<code>also</code> 適合針對同一原始物件，透過副作用做事。當看到 <code>also</code> 的時候表示，同時還要針對該對象物件執行此動作。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = mutableListOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> doubledNumbers = numbers.also &#123;</span><br><span class="line">    it.forEachIndexed &#123; index, value -&gt;</span><br><span class="line">        it[index] = value * <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">println(doubledNumbers) <span class="comment">// 輸出：[2, 4, 6]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="with-函數"><a href="#with-函數" class="headerlink" title="with 函數"></a><code>with</code> 函數</h4><p>一個對象的一組函數調用，<code>with</code> 函數是 <code>run</code> 函數的變形：他們的功能與行為一樣，接收者是使用 <code>with</code> 的對象物件。</p>
+<div class="note warning simple"><p>但 <code>with</code> 的呼叫方式不同，使用 <code>with</code> 時，<strong>要求引數作為其第一個參數傳入</strong>，另外，若執行 <code>run</code> 的對象物件為 <code>null</code> ，則 <code>run</code> 區塊不會進入；反之， <code>with</code> 函數則是會進去操作。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Person</span>(<span class="keyword">val</span> name: String, <span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> person = Person(<span class="string">&quot;Alice&quot;</span>, <span class="number">25</span>)</span><br><span class="line">with(person) &#123;</span><br><span class="line">    println(<span class="string">&quot;Name: <span class="variable">$name</span>&quot;</span>)</span><br><span class="line">    println(<span class="string">&quot;Age: <span class="variable">$age</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="擴展函數"><a href="#擴展函數" class="headerlink" title="擴展函數"></a>擴展函數</h3><p>允許我們<strong>為現有的類型添加新的函數</strong>，而不需要修改原始類型的程式碼。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="built_in">Int</span>.<span class="title">isEven</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span> % <span class="number">2</span> == <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> number = <span class="number">5</span></span><br><span class="line">println(number.isEven())        <span class="comment">// 輸出：false</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>這裏的 <code>this</code> 是指 <code>fun Int</code> 的 <code>Int</code> 型別，這個 <code>Int</code> 是一個接收者 (receiver)。</p>
+<p>善用擴展函數可減少編寫 Utils 複用工具函數。</p>
+</div>
+
+<details class="folding-tag"><summary> 轉換為 Java 後的程式碼 </summary>
+              <div class="content">
+              <p>實際上有一個隱藏的類別會產生，根據檔案名稱如 <code>Extension.kt</code>，那就會在編譯過程生成 <code>ExtensionKt.class</code>，大概的 Java 程式碼就是：</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExtensionKt</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isEven</span><span class="params">(receiver: Int)</span> &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>receiver</code> 會在編譯過程寫入作為參數</p>
+              </div>
+            </details>
+
+<h1 id="範圍"><a href="#範圍" class="headerlink" title="範圍"></a>範圍</h1><p>範圍 (Ranges) 是一個連續的數值區間，我們可以使用範圍來表示一系列連續的數字或字符。在 Kotlin 中，我們可以使用 <code>..</code> 運算符來創建一個範圍。範圍的起始值和結束值可以是整數、字符或其他可比較的型別。</p>
+<ol>
+<li><p>升序 (ascending)</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.4</span>) print(i)            <span class="comment">// 輸出 &quot;1234&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p><img src="/post/dev-kotlin-notes/img3.png" alt="img3"></p>
+<p>如果啟用了嵌入提示 (Inlay Hint)，可以看到 <code>..</code> 有 <code>&lt;=</code> 的意思。</p>
+</div>
+</li>
+<li><p>降序 (descending)</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">4</span> downTo <span class="number">1</span>) print(i)      <span class="comment">// 輸出 &quot;4321&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p>而 <code>downTo</code> 則有 <code>&gt;=</code> 的意思。</p>
+</div>
+<div class="note danger simple"><p>降序不是這樣做：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">4.</span><span class="number">.1</span>) print(i)            <span class="comment">// 沒有輸出</span></span><br></pre></td></tr></table></figure>
+
+<p>編譯器會跟你說範圍是空的，因為 <code>4 &lt;= 1</code> 是異想天開的事。<br><img src="/post/dev-kotlin-notes/img4.png" alt="img4"></p>
+</div>
+</li>
+<li><p>略過及調整步長 <code>step</code><br>例如是偶數</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">2.</span><span class="number">.10</span> step <span class="number">2</span>) print(i)    <span class="comment">// 輸出：246810</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直至 <code>until</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span> until <span class="number">10</span>) print(i)      <span class="comment">// 輸出：123456789 (不計算 10)</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="範圍函數"><a href="#範圍函數" class="headerlink" title="範圍函數"></a>範圍函數</h2><p>不一定只用在迴圈，亦可以以函數方式使用</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> descendingNumbers = <span class="number">5.</span>downTo(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">val</span> evenNumbers = (<span class="number">2.</span><span class="number">.10</span>).step(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Descending numbers:&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> (number <span class="keyword">in</span> descendingNumbers) &#123;</span><br><span class="line">    println(number)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Even numbers:&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> (number <span class="keyword">in</span> evenNumbers) &#123;</span><br><span class="line">    println(number)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Descending numbers:</span><br><span class="line">5</span><br><span class="line">4</span><br><span class="line">3</span><br><span class="line">2</span><br><span class="line">1</span><br><span class="line">Even numbers:</span><br><span class="line">2</span><br><span class="line">4</span><br><span class="line">6</span><br><span class="line">8</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="陣列"><a href="#陣列" class="headerlink" title="陣列"></a>陣列</h1><p>陣列 (又稱數組) 是一種常用的資料結構，它可以儲存一組相同類型的元素。</p>
+<h2 id="用-arrayOf-函數建立基本陣列"><a href="#用-arrayOf-函數建立基本陣列" class="headerlink" title="用 arrayOf() 函數建立基本陣列"></a>用 <code>arrayOf()</code> 函數建立基本陣列</h2><ol>
+<li>空陣列<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> empty = arrayOf&lt;String&gt;()</span><br></pre></td></tr></table></figure></li>
+<li>一般陣列<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = arrayOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="用-Array-建立不同陣列"><a href="#用-Array-建立不同陣列" class="headerlink" title="用 Array() 建立不同陣列"></a>用 <code>Array()</code> 建立不同陣列</h2><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> names = Array(<span class="number">3</span>) &#123; <span class="string">&quot;&quot;</span> &#125;                          <span class="comment">// 預設是空陣列，設置了陣列大小為 3</span></span><br><span class="line">names[<span class="number">0</span>] = <span class="string">&quot;Alice&quot;</span></span><br><span class="line">names[<span class="number">1</span>] = <span class="string">&quot;Bob&quot;</span></span><br><span class="line">names[<span class="number">2</span>] = <span class="string">&quot;Carol&quot;</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Array of names: <span class="variable">$names</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;The first item of names: <span class="subst">$&#123;names[<span class="number">0</span>]&#125;</span>&quot;</span>)      <span class="comment">// 獲取 names 陣列首項元素</span></span><br><span class="line">println(<span class="string">&quot;The size of names array: <span class="subst">$&#123;names.size&#125;</span>&quot;</span>)    <span class="comment">// 獲取 names 陣列大小</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>陣列的索引從 <code>0</code> 開始，所以 <code>names[0]</code> 代表陣列中的第一個元素。</p>
+</div>
+
+<h3 id="二維陣列"><a href="#二維陣列" class="headerlink" title="二維陣列"></a>二維陣列</h3><p>例如一個 <code>2 x 2</code> 的二維陣列</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> matrix = Array(<span class="number">2</span>) &#123; IntArray(<span class="number">2</span>) &#125;</span><br><span class="line">matrix[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">matrix[<span class="number">0</span>][<span class="number">1</span>] = <span class="number">2</span></span><br><span class="line">matrix[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">3</span></span><br><span class="line">matrix[<span class="number">1</span>][<span class="number">1</span>] = <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> element = matrix[<span class="number">1</span>][<span class="number">0</span>]</span><br><span class="line">println(<span class="string">&quot;matrix[1][0] 的值為 <span class="variable">$element</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">matrix[1][0] 的值為 3</span><br></pre></td></tr></table></figure>
+
+<h3 id="三維陣列"><a href="#三維陣列" class="headerlink" title="三維陣列"></a>三維陣列</h3><p>例如一個 <code>2 x 3 x 4</code> 的三維陣列</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> cube = Array(<span class="number">2</span>) &#123; Array(<span class="number">3</span>) &#123; IntArray(<span class="number">4</span>) &#125; &#125;</span><br><span class="line">cube[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">cube[<span class="number">0</span>][<span class="number">1</span>][<span class="number">2</span>] = <span class="number">2</span></span><br><span class="line">cube[<span class="number">1</span>][<span class="number">2</span>][<span class="number">3</span>] = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> element = cube[<span class="number">0</span>][<span class="number">1</span>][<span class="number">2</span>]</span><br><span class="line">println(<span class="string">&quot;cube[0][1][2] 的值為 <span class="variable">$element</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>這個 <code>2 x 3 x 4</code> 是假想三維空間的 <code>x</code> 軸、<code>y</code> 軸及 <code>z</code> 軸測量指標，其中 <code>x</code> 軸有 2 個元素，<code>y</code> 軸有 3 個元素，<code>z</code> 軸有 4 個元素。</p>
+<p>以一個立方體來比喻的話，我們可以把 <code>x</code> 軸想像成立方體的寬度，<code>y</code> 軸想像成高度，<code>z</code> 軸想像成深度。而 <code>2 x 3 x 4</code> 的意思就是這個立方體有 2 個寬度、3 個高度和 4 個深度。</p>
+</div>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cube[0][1][2] 的值為 2</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><p>集合 (Collections) 是在程式開發中非常重要的一個主題，它們可以讓我們有效地儲存和操作多個元素。</p>
+<div class="note info simple"><p>集合與陣列一樣，索引由 <code>0</code> 開始，即是第一個元素。</p>
+</div>
+
+<h2 id="集合類型"><a href="#集合類型" class="headerlink" title="集合類型"></a>集合類型</h2><h3 id="有序集合-List-列表"><a href="#有序集合-List-列表" class="headerlink" title="有序集合 List (列表)"></a>有序集合 <code>List</code> (列表)</h3><p>是一個有序的集合，可以包含重複的元素。我們可以使用索引來訪問和修改列表中的元素。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)                             <span class="comment">// 定義不可變列表</span></span><br><span class="line"><span class="keyword">val</span> mutableNumbers = mutableListOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)               <span class="comment">// 定義可變列表</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;List of numbers: <span class="variable">$numbers</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;List of mutableNumbers: <span class="variable">$mutableNumbers</span>&quot;</span>)              <span class="comment">// 舊輸出</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;The first item of numbers: <span class="subst">$&#123;numbers[<span class="number">0</span>]&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">mutableNumbers.add(<span class="number">6</span>)                                           <span class="comment">// 為 mutableNumbers 新增一個元素為 6</span></span><br><span class="line">println(<span class="string">&quot;New number for mutableNumbers: <span class="subst">$&#123;mutableNumbers[<span class="number">5</span>]&#125;</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;List of mutableNumbers: <span class="variable">$mutableNumbers</span>&quot;</span>)              <span class="comment">// 新輸出</span></span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List of numbers: [1, 2, 3, 4, 5]</span><br><span class="line">List of mutableNumbers: [1, 2, 3, 4, 5]</span><br><span class="line">The first item of numbers: 1</span><br><span class="line">The newly added number for mutableNumbers: 6</span><br><span class="line">List of mutableNumbers: [1, 2, 3, 4, 5, 6]</span><br></pre></td></tr></table></figure>
+
+<h3 id="無序集合-Set-集合"><a href="#無序集合-Set-集合" class="headerlink" title="無序集合 Set (集合)"></a>無序集合 <code>Set</code> (集合)</h3><p>是一個不重複元素的集合，並且沒有特定的順序。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> fruits = setOf(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;orange&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> mutableFruits = mutableSetOf(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;orange&quot;</span>)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Set of fruits: <span class="variable">$fruits</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;Set of mutableFruits: <span class="variable">$mutableFruits</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Set of fruits: [apple, banana, orange]</span><br><span class="line">Set of mutableFruits: [apple, banana, orange]</span><br></pre></td></tr></table></figure>
+
+<p>相反，如果用 <code>List</code>，則會連同重複元素輸出：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> fruits = listOf(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;orange&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> mutableFruits = mutableListOf(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;orange&quot;</span>)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;List of fruits: <span class="variable">$fruits</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;List of mutableFruits: <span class="variable">$mutableFruits</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List of fruits: [apple, banana, orange, orange]</span><br><span class="line">List of mutableFruits: [apple, banana, orange, orange]</span><br></pre></td></tr></table></figure>
+
+<h3 id="鍵值對集合-Map-映射"><a href="#鍵值對集合-Map-映射" class="headerlink" title="鍵值對集合 Map (映射)"></a>鍵值對集合 <code>Map</code> (映射)</h3><p>是一個鍵值對 (key-value) 的集合，每個元素都有一個唯一的鍵和對應的值。我們可以使用鍵來獲取相應的值。</p>
+<div class="note info simple"><p>用 <code>to</code> 關鍵字進行鍵值對，格式：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(鍵 <span class="number">1</span> to 值 <span class="number">1</span>, 鍵 <span class="number">2</span> to 值 <span class="number">2</span>, ...)</span><br></pre></td></tr></table></figure></div>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> person = mapOf(</span><br><span class="line">    <span class="string">&quot;name&quot;</span> to <span class="string">&quot;Steve&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span> to <span class="number">15</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">val</span> mutablePerson = mutableMapOf(</span><br><span class="line">    <span class="string">&quot;name&quot;</span> to <span class="string">&quot;Heidi&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span> to <span class="number">23</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Map of person: <span class="variable">$person</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;Map of mutablePerson: <span class="variable">$mutablePerson</span>&quot;</span>)     <span class="comment">// 舊輸出</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;The name of person: <span class="subst">$&#123;person[<span class="string">&quot;name&quot;</span>]&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">mutablePerson[<span class="string">&quot;gender&quot;</span>] = <span class="string">&quot;F&quot;</span>                       <span class="comment">// 為 mutablePerson 新增 gender 屬性，並設置為 &quot;F&quot; (女性)</span></span><br><span class="line">println(<span class="string">&quot;Map of mutablePerson: <span class="variable">$mutablePerson</span>&quot;</span>)     <span class="comment">// 新輸出</span></span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Map of person: &#123;name=Steve, age=15&#125;</span><br><span class="line">Map of mutablePerson: &#123;name=Heidi, age=23&#125;</span><br><span class="line">The name of person: Steve</span><br><span class="line">Map of mutablePerson: &#123;name=Heidi, age=23, gender=F&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="集合函數操作"><a href="#集合函數操作" class="headerlink" title="集合函數操作"></a>集合函數操作</h2><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">val</span> evenNumbers = numbers.filter &#123; it % <span class="number">2</span> == <span class="number">0</span> &#125;            <span class="comment">// 篩選出偶數</span></span><br><span class="line"><span class="keyword">val</span> doubleNumbers = numbers.map &#123; it * <span class="number">2</span> &#125;                  <span class="comment">// 把每個數字都加倍</span></span><br><span class="line"><span class="keyword">val</span> sum = numbers.reduce &#123; acc, i -&gt; acc + i &#125;              <span class="comment">// 計算總和 (即 1 + 2 + 3 + 4 + 5)</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;evenNumbers: <span class="variable">$evenNumbers</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;doubleNumbers: <span class="variable">$doubleNumbers</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;sum: <span class="variable">$sum</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">evenNumbers: [2, 4]</span><br><span class="line">doubleNumbers: [2, 4, 6, 8, 10]</span><br><span class="line">sum: 15</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><ul>
+<li><code>filter</code>：返回的是 <code>Boolean</code> 型別</li>
+<li><code>map</code>：對集合進行不同操作，沒有指定返回型別</li>
+<li><code>reduce</code>：累積函數，第一個參數 <code>acc</code> (accumulation) 是用來疊加的返回值，第二個參數 <code>i</code> 是本次循環中列表的值</li>
+<li><code>fold</code>：與 <code>reduce</code> 相似，但可設定初始值</li>
+</ul>
+</div>
+
+<hr>
+<h1 id="列舉"><a href="#列舉" class="headerlink" title="列舉"></a>列舉</h1><p>列舉是一組相關的常量的集合，它們可以幫助我們更好地組織和表示程式中的數據。在 Kotlin 中，我們可以使用 <code>enum class</code> 關鍵字來定義一個列舉類。</p>
+<ol>
+<li><p>基本列舉</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title class_">Direction</span> &#123;</span><br><span class="line">    NORTH, SOUTH, EAST, WEST</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> direction = Direction.NORTH</span><br><span class="line">println(direction)      <span class="comment">// 輸出：NORTH</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>列舉初始值：可以像一般建構式擁有屬性和方法。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title class_">Color</span>(<span class="keyword">val</span> rgb: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    RED(<span class="number">0xFF0000</span>),</span><br><span class="line">    GREEN(<span class="number">0x00FF00</span>),</span><br><span class="line">    BLUE(<span class="number">0x0000FF</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">printRgb</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;RGB value: <span class="variable">$rgb</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> color = Color.RED</span><br><span class="line">println(color.rgb)      <span class="comment">// 輸出：16711680</span></span><br><span class="line">color.printRgb()        <span class="comment">// 輸出：RGB value: 16711680</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h1 id="註解"><a href="#註解" class="headerlink" title="註解"></a>註解</h1><p>註解 (Annotations) 是一種用於在程式碼中添加元數據（metadata）的特殊標記。它們可以應用於類、函數、變數等元素上，並提供額外的資訊給編譯器、工具或其他程式碼分析工具。</p>
+<ol>
+<li><p>使用 Kotlin 內建註解</p>
+<table>
+<thead>
+<tr>
+<th>註解</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@JvmStatic</code></td>
+<td>用於將 Kotlin 中的伴生對象（companion object）中的函數或屬性轉換為 Java 中的靜態函數或靜態屬性。</td>
+</tr>
+<tr>
+<td><code>@JvmOverloads</code></td>
+<td>用於在 Kotlin 中生成重載函數的所有可能的組合。</td>
+</tr>
+<tr>
+<td><code>@Deprecated</code></td>
+<td>標記已被棄用的函數、類或屬性，並提供一個建議的替代方案。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>編寫自訂註解</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">MyAnnotation</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@MyAnnotation</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="meta">@MyAnnotation</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">myFunction</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// 函數內容</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="元資訊"><a href="#元資訊" class="headerlink" title="元資訊"></a>元資訊</h2><table>
+<thead>
+<tr>
+<th>元資訊</th>
+<th>用途</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Target</code></td>
+<td>用於指定註解可以應用的元素類型</td>
+<td>如 <code>@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)</code> 可以應用於類和函數上</td>
+</tr>
+<tr>
+<td><code>@Retension</code></td>
+<td>用於指定註解在編譯後的保留策略</td>
+<td>例如 <code>@Retention(AnnotationRetention.RUNTIME)</code> 表示該註解在運行時仍然可用</td>
+</tr>
+<tr>
+<td><code>@Repeatable</code></td>
+<td>用於指定註解是否可以重複應用於同一個元素。通常，一個元素只能擁有一個特定註解的實例</td>
+<td></td>
+</tr>
+<tr>
+<td><code>@MustBeDocumented</code></td>
+<td>用於指示該註解應該包含在生成的 API 文檔中</td>
+<td></td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>@Repeatable</code><br>通常，一個元素只能擁有一個特定註解的實例。但是，如果你將 <code>@Repeatable</code> 註解應用於註解定義上，則可以多次應用該註解於同一個元素。這需要使用一個容器註解來包裹重複的註解。<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Repeatable</span></span><br><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">MyAnnotation</span>(<span class="keyword">val</span> name: String)</span><br><span class="line"></span><br><span class="line"><span class="meta">@MyAnnotation(<span class="string">&quot;A&quot;</span>)</span></span><br><span class="line"><span class="meta">@MyAnnotation(<span class="string">&quot;B&quot;</span>)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>例子</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(AnnotationTarget.CONSTRUCTOR, AnnotationTarget.LOCAL_VARIABLE)</span></span><br><span class="line"><span class="meta">@Retention(AnnotationRetention.SOURCE)</span></span><br><span class="line"><span class="meta">@MustBeDocumented</span></span><br><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">MyAnnotation</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> <span class="meta">@MyAnnotation</span> <span class="keyword">constructor</span>(<span class="keyword">val</span> count: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        println(<span class="string">&quot;Constructor annotated&quot;</span>)</span><br><span class="line">        println(<span class="string">&quot;Count is <span class="variable">$count</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> obj = MyClass(<span class="number">5</span>)</span><br><span class="line">    obj.display()</span><br><span class="line">    <span class="meta">@MyAnnotation</span> <span class="keyword">val</span> str = <span class="string">&quot;Hello&quot;</span> </span><br><span class="line">    println(<span class="string">&quot;Local parameter annotated&quot;</span>)</span><br><span class="line">    println(str)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Constructor annotated</span><br><span class="line">Count is 5</span><br><span class="line">Local parameter annotated</span><br><span class="line">Hello</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="條件判斷"><a href="#條件判斷" class="headerlink" title="條件判斷"></a>條件判斷</h1><h2 id="決策邏輯"><a href="#決策邏輯" class="headerlink" title="決策邏輯"></a>決策邏輯</h2><h3 id="if-語句"><a href="#if-語句" class="headerlink" title="if 語句"></a><code>if</code> 語句</h3><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> age = <span class="number">18</span></span><br><span class="line"><span class="keyword">if</span> (age &gt;= <span class="number">18</span>) &#123;</span><br><span class="line">    println(<span class="string">&quot;你已經成年了&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    println(<span class="string">&quot;你還未成年&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="else-if-語句"><a href="#else-if-語句" class="headerlink" title="else if 語句"></a><code>else if</code> 語句</h3><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> grade = <span class="number">75</span></span><br><span class="line"><span class="keyword">if</span> (grade &gt;= <span class="number">90</span>) &#123;</span><br><span class="line">    println(<span class="string">&quot;A&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (grade &gt;= <span class="number">80</span>) &#123;</span><br><span class="line">    println(<span class="string">&quot;B&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (grade &gt;= <span class="number">70</span>) &#123;</span><br><span class="line">    println(<span class="string">&quot;C&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    println(<span class="string">&quot;D&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="單行-if-表達式"><a href="#單行-if-表達式" class="headerlink" title="單行 if 表達式"></a>單行 <code>if</code> 表達式</h3><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> score = <span class="number">80</span></span><br><span class="line"><span class="keyword">val</span> result = <span class="keyword">if</span> (score &gt;= <span class="number">60</span>) <span class="string">&quot;及格&quot;</span> <span class="keyword">else</span> <span class="string">&quot;不及格&quot;</span></span><br><span class="line">println(result)</span><br></pre></td></tr></table></figure>
+
+<h2 id="情況邏輯"><a href="#情況邏輯" class="headerlink" title="情況邏輯"></a>情況邏輯</h2><p><code>when</code> 表達式類似於 Java 使用的 <code>switch</code> 語句，可以用於根據不同的值執行不同的程式邏輯。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> dayOfWeek = <span class="number">3</span></span><br><span class="line"><span class="keyword">when</span> (dayOfWeek) &#123;</span><br><span class="line">    <span class="number">1</span> -&gt; println(<span class="string">&quot;星期一&quot;</span>)</span><br><span class="line">    <span class="number">2</span> -&gt; println(<span class="string">&quot;星期二&quot;</span>)</span><br><span class="line">    <span class="number">3</span> -&gt; println(<span class="string">&quot;星期三&quot;</span>)</span><br><span class="line">    <span class="number">4</span> -&gt; println(<span class="string">&quot;星期四&quot;</span>)</span><br><span class="line">    <span class="number">5</span> -&gt; println(<span class="string">&quot;星期五&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span> -&gt; println(<span class="string">&quot;週末&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>when</code> 比 Java 的 <code>switch</code> 更勝一籌，表達式還可以用於檢查範圍、類型和其他條件。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> names = listOf(<span class="string">&quot;John&quot;</span>, <span class="string">&quot;Sarah&quot;</span>, <span class="string">&quot;Tim&quot;</span>, <span class="string">&quot;Maggie&quot;</span>) </span><br><span class="line"><span class="keyword">when</span> (x) &#123;</span><br><span class="line">    <span class="keyword">in</span> names -&gt; print(<span class="string">&quot;I know that name!&quot;</span>)</span><br><span class="line">    !<span class="keyword">in</span> <span class="number">1.</span><span class="number">.10</span> -&gt; print(<span class="string">&quot;Argument was not in the range from 1 to 10&quot;</span>)</span><br><span class="line">    <span class="keyword">is</span> String -&gt; print(x.length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="迴圈"><a href="#迴圈" class="headerlink" title="迴圈"></a>迴圈</h1><h2 id="while-迴圈"><a href="#while-迴圈" class="headerlink" title="while 迴圈"></a><code>while</code> 迴圈</h2><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> (i &lt; <span class="number">5</span>) &#123;</span><br><span class="line">    i++</span><br><span class="line">    println(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<h2 id="for-迴圈"><a href="#for-迴圈" class="headerlink" title="for 迴圈"></a><code>for</code> 迴圈</h2><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.5</span>) println(i)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<h2 id="forEach-迴圈"><a href="#forEach-迴圈" class="headerlink" title="forEach 迴圈"></a><code>forEach</code> 迴圈</h2><p>可以運用集合 (Collections) 與<code>forEach</code> 函數簡化 <code>for</code> 語法代碼操作。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> list = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">list.forEach &#123;</span><br><span class="line">    println(it)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="智慧轉型"><a href="#智慧轉型" class="headerlink" title="智慧轉型"></a>智慧轉型</h1><p>Kotlin 很聰明，當我們使用 <code>is</code> 關鍵字檢查一個變數是否為特定類型後，Kotlin 會自動將該變數轉型為該類型。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printLength</span><span class="params">(obj: <span class="type">Any</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (obj <span class="keyword">is</span> String) &#123;</span><br><span class="line">        <span class="comment">// 在這裡，Kotlin 自動將 obj 轉型為 String 類型</span></span><br><span class="line">        println(obj.length)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 Java 則要手動轉型</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">printLength</span><span class="params">(Object obj)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">        <span class="comment">// 在這裡，我們需要手動將 obj 轉型為 String 類型</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> (String) obj;</span><br><span class="line">        System.out.println(str.length());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="空安全"><a href="#空安全" class="headerlink" title="空安全"></a>空安全</h1><p>空安全是 Kotlin 中一個非常重要的特性，它可以幫助我們避免許多空指針異常（<code>NullPointerException</code>）。</p>
+<h2 id="從陣列中清除空值"><a href="#從陣列中清除空值" class="headerlink" title="從陣列中清除空值"></a>從陣列中清除空值</h2><p>如果你想從可為空的 <code>Iterable</code> 或陣列中消除 <code>null</code> 值，你可以使用 <code>filterNotNull()</code> 函數。這個函數將返回一個新的集合，其中不包含 <code>null</code> 值。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> listWithNulls: List&lt;<span class="built_in">Int</span>?&gt; = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="literal">null</span>, <span class="number">4</span>, <span class="literal">null</span>, <span class="number">6</span>)</span><br><span class="line"><span class="keyword">val</span> listWithoutNulls = listWithNulls.filterNotNull()</span><br><span class="line"></span><br><span class="line">println(listWithNulls)                  <span class="comment">// 輸出：[1, 2, null, 4, null, 6]</span></span><br><span class="line">println(listWithoutNulls)               <span class="comment">// 輸出：[1, 2, 4, 6]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="空合併及-Elvis-運算符"><a href="#空合併及-Elvis-運算符" class="headerlink" title="空合併及 Elvis 運算符 ?:"></a>空合併及 Elvis 運算符 <code>?:</code></h2><p>可以在變數為 <code>null</code> 時提供一個默認值。如果變數為 <code>null</code>，則 Elvis 運算符將返回其右側的表達式作為結果，否則返回變數本身。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="literal">null</span></span><br><span class="line"><span class="keyword">val</span> length1 = name?.length</span><br><span class="line"><span class="keyword">val</span> length2 = name?.length ?: <span class="string">&quot;0&quot;</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Length 1: <span class="variable">$length1</span>&quot;</span>)           <span class="comment">// 輸出：null</span></span><br><span class="line">println(<span class="string">&quot;Length 2: <span class="variable">$length2</span>&quot;</span>)           <span class="comment">// 輸出：0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="安全調用符"><a href="#安全調用符" class="headerlink" title="安全調用符 ?."></a>安全調用符 <code>?.</code></h2><p>處理可為空的變數時，我們需要使用安全調用運算符（<code>?.</code>）來訪問它的屬性或呼叫它的方法。這樣可以避免空指針異常。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="literal">null</span></span><br><span class="line"><span class="keyword">val</span> length = name?.length</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Length: <span class="variable">$length</span>&quot;</span>)              <span class="comment">// 輸出：null</span></span><br></pre></td></tr></table></figure>
+
+<p>通常會連同 <code>let</code> 標準函數一起使用</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="literal">null</span></span><br><span class="line">name?.let &#123;</span><br><span class="line">    println(<span class="string">&quot;Length: <span class="subst">$&#123;it.length&#125;</span>&quot;</span>)     <span class="comment">// 沒有輸出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="非空斷言"><a href="#非空斷言" class="headerlink" title="非空斷言 !!"></a>非空斷言 <code>!!</code></h2><p>可以在確定變數不為 <code>null</code> 的情況下強制執行操作。</p>
+<div class="note warning simple"><p>使用 <code>!!</code> 運算符需要謹慎使用，因為它可能引發空指針異常 (<code>KotlinNullPointerException</code>)。</p>
+<p>只有在你確定變數不為 <code>null</code> 的情況下才應該使用非空斷言運算符 <code>!!</code>。否則，建議使用安全調用運算符 <code>?.</code> 來處理可為空的變數，以避免空指針異常的風險。</p>
+</div>
+
+<p><img src="/post/dev-kotlin-notes/img7.png" alt="img7"></p>
+<hr>
+<h1 id="委託"><a href="#委託" class="headerlink" title="委託"></a>委託</h1><p>指物件將一個請求委派給另一個物件來處理，將其讀取和寫入操作委託給其他對象。</p>
+<ol>
+<li><p>例如現在我想要一個新的 <code>OnlyHelloClass</code> 支援 <code>AllClass</code> 的 <code>sayHello()</code> 函數，如果直接把其繼承，就有失原意，因為我只想要支援 <code>sayHello()</code> 函數，結果把 <code>sayGoodbye()</code> 都帶過來了。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">AllClass</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayHello</span><span class="params">()</span></span> = println(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayGoodbye</span><span class="params">()</span></span> = println(<span class="string">&quot;Goodbye&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">OnlyHelloClass</span> : <span class="type">AllClass</span>()</span><br></pre></td></tr></table></figure>
+<p><img src="/post/dev-kotlin-notes/img8.png" alt="img8"><br>要解決這個問題，可以用介面（interface）</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">HelloDelegate</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayHello</span><span class="params">()</span></span> = AllClass().sayHello()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">OnlyHelloClass</span> : <span class="type">HelloDelegate</span></span><br></pre></td></tr></table></figure>
+<p>現在這個 <code>OnlyHelloClass</code> 就只可以用 <code>sayHello()</code> 函數了。<br><img src="/post/dev-kotlin-notes/img9.png" alt="img9"><br>亦可以用 <code>by</code> 關鍵字委託哪一個 <code>Class</code> 去處理：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">HelloDelegate</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayHello</span><span class="params">()</span></span> = AllClass().sayHello()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">AllClass</span>: <span class="type">HelloDelegate</span> &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">sayHello</span><span class="params">()</span></span> = println(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayGoodbye</span><span class="params">()</span></span> = println(<span class="string">&quot;Goodbye&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">OnlyHelloClass</span>(<span class="keyword">private</span> <span class="keyword">val</span> delegate: HelloDelegate): HelloDelegate <span class="keyword">by</span> delegate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    OnlyHelloClass(AllClass()).sayHello()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>有些情況下，我們可能不希望立即刪除被棄用的屬性，因為有一些舊有的程式碼可能還在使用這個屬性。為了向後兼容性，我們可以將存取委託給新的屬性，這樣舊有的程式碼仍然可以使用這個屬性，同時建議開發者在新的程式碼中使用替代方案。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DelegateTest</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> newName = <span class="string">&quot;New Name&quot;</span></span><br><span class="line">    <span class="meta">@Deprecated(<span class="string">&quot;Use &#x27;newName&#x27; instead&quot;</span>, ReplaceWith(<span class="string">&quot;newName&quot;</span>))</span></span><br><span class="line">    <span class="keyword">var</span> oldName <span class="keyword">by</span> <span class="keyword">this</span>::newName</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> test = DelegateTest()</span><br><span class="line">test.oldName = <span class="string">&quot;Old Name&quot;</span></span><br><span class="line">println(test.newName)         <span class="comment">// 輸出：Old Name</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="委託屬性"><a href="#委託屬性" class="headerlink" title="委託屬性"></a>委託屬性</h2><h3 id="lazy-屬性"><a href="#lazy-屬性" class="headerlink" title="lazy 屬性"></a><code>lazy</code> 屬性</h3><p>這個委託屬性用於<strong>惰性初始化</strong>。它只有在第一次訪問屬性時才會計算其值，以後的訪問將直接返回已計算的值。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> result <span class="keyword">by</span> lazy &#123;</span><br><span class="line">    println(<span class="string">&quot;初始化&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">println(<span class="string">&quot;執行: <span class="variable">$result</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;執行: <span class="variable">$result</span>&quot;</span>)            <span class="comment">// 即使第二次執行，都不會再出現 &quot;初始化&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">初始化</span><br><span class="line">執行: kotlin.Unit</span><br><span class="line">執行: kotlin.Unit</span><br></pre></td></tr></table></figure>
+
+<h3 id="observable-屬性"><a href="#observable-屬性" class="headerlink" title="observable 屬性"></a><code>observable</code> 屬性</h3><p>這個委託屬性用於觀察屬性的變化。它接收一個初始值和一個回調函數，當屬性的值發生變化時，將調用回調函數。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ObservableTest</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name <span class="keyword">by</span> Delegates.observable(<span class="string">&quot;初始值&quot;</span>) &#123; property, oldValue, newValue -&gt;  </span><br><span class="line">        println(<span class="string">&quot;結果: <span class="variable">$oldValue</span> -&gt; <span class="variable">$newValue</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> observableTest = ObservableTest() </span><br><span class="line">observableTest.name = <span class="string">&quot;first&quot;</span></span><br><span class="line">observableTest.name = <span class="string">&quot;second&quot;</span></span><br><span class="line"></span><br><span class="line">print(observableTest)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">結果: 初始值 -&gt; first</span><br><span class="line">結果: first -&gt; second</span><br></pre></td></tr></table></figure>
+
+<h3 id="vetoable-屬性"><a href="#vetoable-屬性" class="headerlink" title="vetoable 屬性"></a><code>vetoable</code> 屬性</h3><p>這個委託屬性用於在設置屬性值之前進行驗證。它接收一個初始值和一個驗證回調函數，當設置屬性的新值時，將調用驗證回調函數以確定是否接受該值。如果驗證回調函數返回 <code>false</code>，則不接受該值並保持原始值。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> value <span class="keyword">by</span> Delegates.vetoable(<span class="number">0</span>) &#123; _, oldValue, newValue -&gt;</span><br><span class="line">    newValue &gt; oldValue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">value = <span class="number">5</span>           <span class="comment">// 設置新值，將通過驗證</span></span><br><span class="line">println(value)</span><br><span class="line"></span><br><span class="line">value = <span class="number">2</span>           <span class="comment">// 設置新值，將被驗證拒絕</span></span><br><span class="line">println(value)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">5</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="部分-Kotlin-與-Java-比較語法程式碼"><a href="#部分-Kotlin-與-Java-比較語法程式碼" class="headerlink" title="部分 Kotlin 與 Java 比較語法程式碼"></a>部分 Kotlin 與 Java 比較語法程式碼</h1><p>這裏會記錄一些<strong>變化特別顯著、不同的語法</strong>比對參照。</p>
+<p>或者會另開新文章集中說比對，這裏先暫時記錄一下。</p>
+<h2 id="Getter-amp-Setter"><a href="#Getter-amp-Setter" class="headerlink" title="Getter &amp; Setter"></a>Getter &amp; Setter</h2><div class="tabs" id="code_comp_getter_setter"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_comp_getter_setter-1">Java</button><button type="button" class="tab " data-href="code_comp_getter_setter-2">Kotlin</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_comp_getter_setter-1"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAge</span><span class="params">(<span class="type">int</span> age)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getAge</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_comp_getter_setter-2"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: String = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h2 id="單例對象"><a href="#單例對象" class="headerlink" title="單例對象"></a>單例對象</h2><div class="tabs" id="code_comp_singleton"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_comp_singleton-1">Java</button><button type="button" class="tab " data-href="code_comp_singleton-2">Kotlin</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_comp_singleton-1"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">createInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="literal">null</span>) createInstance();</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_comp_singleton-2"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> Singleton</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>]]></content>
+      <categories>
+        <category>詳細筆記</category>
+        <category>程式語言筆記</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python | PIP | 安裝及編寫 Python 及應用 PIP 第三方套件學習筆記</title>
     <url>/post/dev-python-notes.html</url>
     <content><![CDATA[<div class="note info simple" data-content="Python"></div>
 
@@ -12,54 +684,111 @@
 <p>找出 Downloads 然後按你的電腦操作系統，安裝對應安裝檔。</p>
 <p><img src="/post/dev-python-notes/img1.png" alt="安裝 Python 軟件包"></p>
 <hr>
-<h1 id="資料類別"><a href="#資料類別" class="headerlink" title="資料類別"></a>資料類別</h1><h2 id="串列-List"><a href="#串列-List" class="headerlink" title="串列 List"></a>串列 <code>List</code></h2><p>有時候，如果我們想把一堆數據存放起來，我們可以使用 <code>List</code>，<code>List</code> 是相當於一個<strong>索引陣列</strong> (Indexed Array)，用來把相同或不同數據類型的值集合在一個串列中，並能夠利用這個串列<strong>進行刪改及計算</strong>。</p>
+<h1 id="註解"><a href="#註解" class="headerlink" title="註解"></a>註解</h1><p>無論在哪種程式語言，我們都會使用註解 (Comment) 來為人類解釋一下程式的運作，幫助理解程式碼，在 Python 都不例外，寫 Python 註解同樣可以寫單行註解及多行註解，不過，語法有點不同。</p>
+<ol>
+<li><p>單行註解，在文字的開首使用 <code>#</code> 定義</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hello World</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多行註解，使用 <code>&#39;&#39;&#39;</code> 或 <code>&quot;&quot;&quot;</code> 均可以</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">This is a multiple line comment</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p>不過，我想大家都發現到了，就是在 Python，<strong>單行註解和多行註解使用的語法高亮的顏色是不相同</strong>的，為什麼？因為 Python 這個多行註解亦可以用作為表達字串的多行文本。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">paragraph = <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">I go to school by bus.</span></span><br><span class="line"><span class="string">I say this lots of time.</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>要注意的是，當<strong>作為表達字串的多行文本</strong>，程式就會編譯，只有<strong>註解不會被編譯</strong>。</p>
+</div></li>
+</ol>
+<h1 id="資料類別"><a href="#資料類別" class="headerlink" title="資料類別"></a>資料類別</h1><p>在 Python，我們可以使用以下的資料類型，來編寫 Python 程序：</p>
+<table>
+<thead>
+<tr>
+<th>資料類型</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>數字：整數 (正&#x2F;負數)、浮點數</td>
+<td>2, 2.5, 3.14</td>
+</tr>
+<tr>
+<td>字串</td>
+<td>‘hello world’, “Hello world”</td>
+</tr>
+<tr>
+<td>布爾</td>
+<td>True, False</td>
+</tr>
+<tr>
+<td>串列</td>
+<td>[‘Hello’, 12]</td>
+</tr>
+<tr>
+<td>元組</td>
+<td>(‘Hello’, 12)</td>
+</tr>
+<tr>
+<td>字典</td>
+<td>{‘word’: ‘Hello’, ‘number’: 12}</td>
+</tr>
+</tbody></table>
+<h2 id="字串"><a href="#字串" class="headerlink" title="字串"></a>字串</h2><p>字串是編寫程式經常要使用的資料類型之一，因為字串是用來提示用戶的輸入，顯示程式的輸出，那你說重要不？ 當要寫一個字串，可以使用一對 <code>&#39;</code> 或 <code>&quot;</code> 符號作為字串的覆蓋範圍，在 Python，<strong>你不需要區分字符 (<code>char</code>) 及字串 (<code>String</code>)</strong> 。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello world&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>除了單行文本，你亦可以寫多行文本，剛才說註解的時候，都有說到用一對 <code>&#39;&#39;&#39;</code> 可以定義多行文本，還有另一個方法，就是使用 <code>\n</code>，這個是逸出字元 (Escape character) 的一種，這個字元可以建立新一行：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello\nworld&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 輸出：hello</span></span><br><span class="line"><span class="comment">#      world</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="串連"><a href="#串連" class="headerlink" title="串連"></a>串連</h3><p>字串沒有什麼需要說，唯一要說的就是串連 (String concatenation)，<strong>串連即是把不同的資料類型或純字串組合起來</strong>，成為一個獨立的新字串。你有兩種方法，個人推薦用第二種。</p>
+<ol>
+<li>使用 <code>+</code> 像膠水一樣，把不同的數據黏附起來，成為獨立字串：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">name = <span class="string">&#x27;Steve&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Hello &#x27;</span> + name + <span class="string">&#x27;, welcome to my blog&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+<li>使用 F-String (格式化字串) (需要 Python 3.6 版本或以上)，在獨立字串的第一個 <code>&#39;</code> 之前加上一個 <code>f</code>，然後當要使用變量值就要用 <code>&#123; &#125;</code> 括任來獲取。<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">name = <span class="string">&#x27;Steve&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Hello <span class="subst">&#123;name&#125;</span>, welcome to my blog&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="串列-List"><a href="#串列-List" class="headerlink" title="串列 List"></a>串列 <code>List</code></h2><p>有時候，如果我們想把一堆數據存放起來，我們可以使用串列，串列是相當於一個<strong>索引陣列</strong> (Indexed Array)，用來把相同或不同數據類型的值集合在一個串列中，並能夠利用這個串列<strong>進行刪改及計算</strong>。</p>
 <p>在 Python，你可以雜項定義：</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="string">&#x27;foo&#x27;</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="string">&#x27;bar&#x27;</span>, <span class="number">0.4</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="string">&#x27;foo&#x27;</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="string">&#x27;bar&#x27;</span>, <span class="number">0.4</span>, <span class="literal">True</span>]</span><br></pre></td></tr></table></figure>
 
-<p>在這個 <code>my_list</code> 串列，使用了兩種不同的資料類型，分別是字串及布爾值。</p>
-<p>假設，現在有一個串列是列出所有分數，定義一個串列會用 <code>[ ]</code> 括住：</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks = [<span class="number">12</span>, <span class="number">55</span>, <span class="number">98</span>, <span class="number">70</span>, <span class="number">40</span>, <span class="number">60</span>]</span><br></pre></td></tr></table></figure>
+<p>在這個 <code>my_list</code> 串列，使用了不同的資料類型，分別是浮點數 (Float)、整數 (Integer)、字串 (String) 及布爾值 (Boolean)。</p>
+<p>為了簡單一點理解，這裏只用純整數串列，假設，現在有一個串列是列出所有分數，定義一個串列會用 <code>[ ]</code> 括住：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">numbers = [<span class="number">2</span>, <span class="number">13</span>, <span class="number">45</span>, <span class="number">29</span>, <span class="number">67</span>, <span class="number">88</span>]</span><br></pre></td></tr></table></figure>
 
-<p>在這個 <code>marks</code> 串列中，定義了 6 個元素 (Element)，第一個元素是 <code>12</code>，索引值是 <code>0</code>，因為 <strong>索引是由 <code>0</code> 開始</strong>的，所以<strong>第一個元素的索引是 <code>0</code></strong> 。</p>
+<p>在這個 <code>numbers</code> 串列中，定義了 6 個元素 (Element)，第一個元素是 <code>2</code>，索引值是 <code>0</code>，因為 <strong>索引是由 <code>0</code> 開始</strong>的，所以<strong>第一個元素的索引是 <code>0</code></strong> 。</p>
 <h3 id="讀取串列的值"><a href="#讀取串列的值" class="headerlink" title="讀取串列的值"></a>讀取串列的值</h3><p>我們可以使用索引，把指定的值輸出出來，<code>[ ]</code> 內的數字就是要指定的索引值。</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(marks[<span class="number">0</span>])     <span class="comment"># 輸出：12</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">1</span>])     <span class="comment"># 輸出：55</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">2</span>])     <span class="comment"># 輸出：98</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">3</span>])     <span class="comment"># 輸出：70</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">4</span>])     <span class="comment"># 輸出：40</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">5</span>])     <span class="comment"># 輸出：60</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(numbers[<span class="number">0</span>])     <span class="comment"># 輸出：2</span></span><br><span class="line"><span class="built_in">print</span>(numbers[<span class="number">1</span>])     <span class="comment"># 輸出：13</span></span><br><span class="line"><span class="built_in">print</span>(numbers[<span class="number">2</span>])     <span class="comment"># 輸出：45</span></span><br><span class="line"><span class="built_in">print</span>(numbers[<span class="number">3</span>])     <span class="comment"># 輸出：29</span></span><br><span class="line"><span class="built_in">print</span>(numbers[<span class="number">4</span>])     <span class="comment"># 輸出：67</span></span><br><span class="line"><span class="built_in">print</span>(numbers[<span class="number">5</span>])     <span class="comment"># 輸出：88</span></span><br></pre></td></tr></table></figure>
 
-<div class="note warning simple"><p>因為現在這個 <code>marks</code> 串列只有 6 個元素，如果嘗試輸出第 7 個元素 (索引為 <code>6</code>)，會輸出 <code>IndexError</code>：</p>
+<div class="note warning simple"><p>因為現在這個 <code>numbers</code> 串列只有 6 個元素，如果嘗試輸出第 7 個元素 (索引為 <code>6</code>)，會輸出 <code>IndexError</code>：</p>
 <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">IndexError: <span class="built_in">list</span> index out of <span class="built_in">range</span></span><br></pre></td></tr></table></figure></div>
 
-<h3 id="由尾端讀取串列的值"><a href="#由尾端讀取串列的值" class="headerlink" title="由尾端讀取串列的值"></a>由尾端讀取串列的值</h3><p>我們亦可以在索引以負數輸入，如 <code>marks[-n]</code>，即是這個串列<strong>由尾端數上來</strong>的第 <code>n</code> 個位。</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(marks[-<span class="number">1</span>])    <span class="comment"># 輸出：60</span></span><br><span class="line"><span class="built_in">print</span>(marks[-<span class="number">2</span>])    <span class="comment"># 輸出：40</span></span><br></pre></td></tr></table></figure>
+<h3 id="由尾端讀取串列的值"><a href="#由尾端讀取串列的值" class="headerlink" title="由尾端讀取串列的值"></a>由尾端讀取串列的值</h3><p>我們亦可以在索引以負數輸入，如 <code>numbers[-n]</code>，即是這個串列<strong>由尾端數上來</strong>的第 <code>n</code> 個位。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(numbers[-<span class="number">1</span>])    <span class="comment"># 輸出：88</span></span><br><span class="line"><span class="built_in">print</span>(numbers[-<span class="number">2</span>])    <span class="comment"># 輸出：67</span></span><br></pre></td></tr></table></figure>
 
 <p><code>-1</code> 即是這個串列<strong>由尾端數上來</strong>的第一個位，即是最後一個元素，而 <code>-2</code> 就是由尾端數上來的第二個位，如此類推。</p>
 <h3 id="使用範圍讀取串列的值"><a href="#使用範圍讀取串列的值" class="headerlink" title="使用範圍讀取串列的值"></a>使用範圍讀取串列的值</h3><p>除了讀取單個值，我們亦可以讀取多個值，這個方法輸出將會返回一個串列。</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(marks[<span class="number">2</span>:<span class="number">5</span>])   <span class="comment"># 輸出 [98, 70, 40]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(numbers[<span class="number">2</span>:<span class="number">5</span>])   <span class="comment"># 輸出 [45, 29, 67]</span></span><br></pre></td></tr></table></figure>
 
 <p>這個 <code>:</code> 用於定義讀取索引的範圍，<strong>由索引 <code>2</code> 讀取到索引 <code>5</code>的話就結束</strong>的值，即是不包括讀取索引 <code>5</code>。</p>
-<h3 id="修改串列的值"><a href="#修改串列的值" class="headerlink" title="修改串列的值"></a>修改串列的值</h3><p>例如現在想把索引 <code>0</code> 的 <code>12</code> 改成 <code>43</code>，可以直接使用賦值方法：</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks[<span class="number">0</span>] = <span class="number">43</span></span><br><span class="line"><span class="built_in">print</span>(marks[<span class="number">0</span>])     <span class="comment"># 輸出：43</span></span><br></pre></td></tr></table></figure>
+<h3 id="修改串列的值"><a href="#修改串列的值" class="headerlink" title="修改串列的值"></a>修改串列的值</h3><p>例如現在想把索引 <code>0</code> 的 <code>12</code> 改成 <code>24</code>，可以直接使用賦值方法：</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">numbers[<span class="number">0</span>] = <span class="number">24</span></span><br><span class="line"><span class="built_in">print</span>(numbers[<span class="number">0</span>])     <span class="comment"># 輸出：24</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="新增串列的值"><a href="#新增串列的值" class="headerlink" title="新增串列的值"></a>新增串列的值</h3><p>新增串列的值有兩種方法，就是按情況而決定的，你可以是在最後一個元素開始，接著附加一個新的元素，又或者新加一個元素在指定的索引值。</p>
 <ol>
-<li>在最後一個元素開始，接著附加一個新的元素：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.append(<span class="number">95</span>)</span><br><span class="line"><span class="built_in">print</span>(marks)        <span class="comment"># 輸出：[12, 55, 98, 70, 40, 60, 95]</span></span><br></pre></td></tr></table></figure></li>
-<li>例如：你想把新加入元素放在索引 <code>1</code>：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.insert(<span class="number">1</span>, <span class="number">30</span>)</span><br><span class="line"><span class="built_in">print</span>(marks)        <span class="comment"># 輸出：[12, 30, 55, 98, 70, 40, 60]</span></span><br></pre></td></tr></table></figure></li>
+<li>在最後一個元素開始，接著附加一個新的元素：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">numbers.append(<span class="number">95</span>)</span><br><span class="line"><span class="built_in">print</span>(numbers)        <span class="comment"># 輸出：[2, 13, 45, 29, 67, 88, 95]</span></span><br></pre></td></tr></table></figure></li>
+<li>例如：你想把新加入元素放在索引 <code>1</code>：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">numbers.insert(<span class="number">1</span>, <span class="number">30</span>)</span><br><span class="line"><span class="built_in">print</span>(numbers)        <span class="comment"># 輸出：[2, 30, 13, 45, 29, 67, 88]</span></span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="刪除串列的值"><a href="#刪除串列的值" class="headerlink" title="刪除串列的值"></a>刪除串列的值</h3><p>在 Python，有幾種不同的刪除串列的值的方法。</p>
 <ol>
-<li>刪除指定串列內的值（不是指定索引）：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.remove(<span class="number">40</span>)</span><br><span class="line"><span class="built_in">print</span>(marks)        <span class="comment"># 輸出：[12, 55, 98, 70, 60]</span></span><br></pre></td></tr></table></figure>
-<div class="note danger simple"><p><strong><code>remove()</code> 函數只會刪除找到的第一個對應值</strong>，假如串列有兩個 <code>40</code>，它只會刪除第一次找到的第一個。</p>
+<li>刪除指定串列內的值（不是指定索引）：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">numbers.remove(<span class="number">67</span>)</span><br><span class="line"><span class="built_in">print</span>(numbers)        <span class="comment"># 輸出：[2, 13, 45, 29, 88]</span></span><br></pre></td></tr></table></figure>
+<div class="note danger simple"><p><strong><code>remove()</code> 函數只會刪除找到的第一個對應值</strong>，假如串列有兩個 <code>67</code>，它只會刪除第一次找到的第一個。</p>
 </div></li>
-<li>刪除指定索引的串列的值：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.pop(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(marks)        <span class="comment"># 輸出：[12, 55, 70, 40, 60]</span></span><br></pre></td></tr></table></figure>
+<li>刪除指定索引的串列的值：<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">numbers.pop(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(numbers)        <span class="comment"># 輸出：[2, 13, 29, 67, 88]</span></span><br></pre></td></tr></table></figure>
 <div class="note info simple"><p>如果 <code>pop()</code> 函數沒有指定索引，就會預設刪除串列的最後一個元素。</p>
 </div></li>
 </ol>
-<h3 id="刪除及清空串列所有值"><a href="#刪除及清空串列所有值" class="headerlink" title="刪除及清空串列所有值"></a>刪除及清空串列所有值</h3><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">marks.clear()</span><br><span class="line"><span class="built_in">print</span>(marks)       <span class="comment"># 輸出 []</span></span><br></pre></td></tr></table></figure>
+<h3 id="刪除及清空串列所有值"><a href="#刪除及清空串列所有值" class="headerlink" title="刪除及清空串列所有值"></a>刪除及清空串列所有值</h3><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">numbers.clear()</span><br><span class="line"><span class="built_in">print</span>(numbers)       <span class="comment"># 輸出 []</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="迭代所有串列的值"><a href="#迭代所有串列的值" class="headerlink" title="迭代所有串列的值"></a>迭代所有串列的值</h3><p>有時候你需要迭代 (Iteration) 所有串列的值，你總不可能逐個元素獲取，這個時候就可以使用 <code>for</code> 循環迭代所有串列的值。</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> mark <span class="keyword">in</span> marks:</span><br><span class="line">    <span class="built_in">print</span>(mark)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> numbers:</span><br><span class="line">    <span class="built_in">print</span>(num)</span><br></pre></td></tr></table></figure>
 
-<p>這個 <code>mark</code> 是一個迭代 <code>marks</code> 串列每一個元素的變量，<code>mark</code> 一開始是第一個元素。</p>
+<p>這個 <code>num</code> 是一個迭代 <code>numbers</code> 串列每一個元素的變量，<code>num</code> 一開始是第一個元素。</p>
 <div class="note info simple"><p>如果提供或返回了一個空陣列，從而無法進行迭代，可以使用 <code>else</code> 把相關訊息告知用戶，好比輸出一個空陣列：</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> mark <span class="keyword">in</span> marks:</span><br><span class="line">    <span class="built_in">print</span>(mark)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;沒有資料&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> numbers:</span><br><span class="line">    <span class="built_in">print</span>(num)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;沒有資料&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
 
 <h2 id="字典-Dictionary"><a href="#字典-Dictionary" class="headerlink" title="字典 Dictionary"></a>字典 <code>Dictionary</code></h2><p>剛才都說過，串列是使用索引的，但是在字典，使用的方式是<strong>鍵值對</strong> (Key-value) 方式，而定義一個字典會用 <code>&#123; &#125;</code> 括住比如：</p>
 <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">student = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Steve&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">13</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -128,6 +857,7 @@
 ]]></content>
       <categories>
         <category>詳細筆記</category>
+        <category>程式語言筆記</category>
       </categories>
       <tags>
         <tag>Python</tag>
@@ -354,7 +1084,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Node.js | Express | JSON 數據庫 | 構建 RESTful API 筆記</title>
+    <title>Node.js | Express | JSON 數據庫 | 構建 RESTful API 學習筆記</title>
     <url>/post/web-dev-express-restful-api-notes.html</url>
     <content><![CDATA[<div class="note info simple" data-content="RESTful API"></div>
 
@@ -388,32 +1118,27 @@
 <tr>
 <th>API</th>
 <th>HTTP 方法</th>
-<th>請求主體</th>
 <th>作用</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>listUsers</code></td>
 <td>GET</td>
-<td>空</td>
 <td>獲取所有用戶</td>
 </tr>
 <tr>
 <td><code>getUser</code></td>
 <td>GET</td>
-<td>JSON 字串</td>
 <td>獲取指定用戶</td>
 </tr>
 <tr>
 <td><code>addUser</code></td>
 <td>POST</td>
-<td>JSON 字串</td>
 <td>新增用戶</td>
 </tr>
 <tr>
 <td><code>deleteUser</code></td>
 <td>DELETE</td>
-<td>空</td>
 <td>刪除指定用戶</td>
 </tr>
 </tbody></table>
@@ -463,7 +1188,118 @@
       </tags>
   </entry>
   <entry>
-    <title>Node.js | Express | 伺服器及後端建置 | 動態網頁編寫筆記</title>
+    <title>Hexo | 建立及寄存網誌 | VSCode 任務執行配置筆記</title>
+    <url>/post/web-dev-hexo-blog-setup-notes.html</url>
+    <content><![CDATA[<p>Hexo 是一個快速、簡單且強大的網誌框架。Hexo 使用 Markdown（或其他標記語言）解析您的文章，並在幾秒鐘內，透過漂亮的主題產生靜態檔案。</p>
+<div class="note warning simple"><p>我用的是 macOS，Windows 用戶可參考 <a href="https://hexo.io/zh-tw/docs/" target="_blank">官方文案</a>（但其實與 macOS 的差不多，可作以下內容參考）。</p>
+<p>以下我的安裝教學是使用 Homebrew，請預必先安裝 Homebrew 以繼續接下來的教學，請到 <a href="https://brew.sh/" target="_blank">官方網站</a> 瞭解安裝 Homebrew。</p>
+</div>
+
+<p>本文章將會根據以下規格建立 Hexo 網誌。</p>
+<table>
+<thead>
+<tr>
+<th align="center">軟體&#x2F;作業系統</th>
+<th align="center">版本號碼</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">作業系統</td>
+<td align="center">macOS Ventura 13</td>
+</tr>
+<tr>
+<td align="center"><a href="https://git-scm.com/">Git</a></td>
+<td align="center">v2.39.0</td>
+</tr>
+<tr>
+<td align="center"><a href="https://nodejs.org/en">Nodejs</a></td>
+<td align="center">v18.12.1</td>
+</tr>
+<tr>
+<td align="center">hexo</td>
+<td align="center">v6.3.0</td>
+</tr>
+<tr>
+<td align="center">hexo-cli</td>
+<td align="center">v4.3.0</td>
+</tr>
+<tr>
+<td align="center">文本編輯軟件</td>
+<td align="center"><a href="https://code.visualstudio.com/">Visual Studio Code</a></td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="初始安裝及使用"><a href="#初始安裝及使用" class="headerlink" title="初始安裝及使用"></a>初始安裝及使用</h1><p>若你曾經並沒有安裝 Git 及 Nodejs 就要現在安裝。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install git</span><br><span class="line">brew install git-gui</span><br></pre></td></tr></table></figure>
+
+<p>可到官方下載 Nodejs 軟件包，<a href="http://nodejs.org/" target="_blank">按此下載</a>。</p>
+<p>如果以上的都安裝好了，便可以在終端機執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<details class="folding-tag"><summary> 解決 EACCES 權限問題 </summary>
+              <div class="content">
+              <p>不過，如果在嘗試安裝 Hexo 的過程中出現 EACCES 權限錯誤，請遵循由 npmjs 發布的指導修復該問題。官方強烈建議不要使用 <code>root</code>、<code>sudo</code> 等方法覆蓋權限。</p><div class="note danger simple"><p>通常 macOS 都會出現 EACCES 權限錯誤，你可以在執行解決方法前先備份電腦，以免不慎出錯。<br>就算你真的想逆官方的意願，都有機會是使用 <code>sudo</code> 方法都不可行。</p></div><p>在執行 <code>npx install -g hexo-cli</code> 時會報錯：</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error: EACCES: permission denied, access <span class="string">&#x27;/usr/local/lib/node_modules&#x27;</span></span><br><span class="line">npm ERR!  &#123; Error: EACCES: permission denied, access <span class="string">&#x27;/usr/local/lib/node_modules&#x27;</span></span><br><span class="line">npm ERR!   stack: <span class="string">&#x27;Error: EACCES: permission denied, access \&#x27;</span>/usr/local/lib/node_modules\<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">npm ERR!   errno: -13,</span><br><span class="line">npm ERR!   code: <span class="string">&#x27;EACCES&#x27;</span>,</span><br><span class="line">npm ERR!   syscall: <span class="string">&#x27;access&#x27;</span>,</span><br><span class="line">npm ERR!   path: <span class="string">&#x27;/usr/local/lib/node_modules&#x27;</span> &#125;</span><br><span class="line">npm ERR!</span><br><span class="line">npm ERR! Please try running this <span class="built_in">command</span> again as root/Administrator.</span><br><span class="line">npm ERR! A complete <span class="built_in">log</span> of this run can be found <span class="keyword">in</span>:</span><br><span class="line">npm ERR!     /Users/nieyuling/.npm/_logs/2019-02-14T07_10_39_923Z-debug.log</span><br></pre></td></tr></table></figure><p>簡而言之，因為沒有權限，這裏有簡單的解決方法：在終端機輸入。</p><p>首先，先在根目錄裏建立新資料夾 <code>npm-global</code>。</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/.npm-global</span><br></pre></td></tr></table></figure><p>然後把新資料夾 <code>npm-global</code> 設定為 <code>npm</code> 預設路徑。</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">NPM_CONFIG_PREFIX=~/.npm-global</span><br></pre></td></tr></table></figure><div class="note info simple"><p>詳情可見 <a href="https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally" target="_blank">npmjs 指導</a> 。</p></div>
+              </div>
+            </details>
+
+<p>進入 NPX 介面：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化網誌"><a href="#初始化網誌" class="headerlink" title="初始化網誌"></a>初始化網誌</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init myblog</span><br></pre></td></tr></table></figure>
+
+<h2 id="新增文章"><a href="#新增文章" class="headerlink" title="新增文章"></a>新增文章</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new hello-world</span><br></pre></td></tr></table></figure>
+
+<div class="note warning simple"><p>文章名稱是將會應用並命名到檔案名稱，所以請以<strong>英文為主</strong>，慎防和遲免程式因亂碼出錯，還有<strong>不需要加上副檔名</strong>，因為會自動以 <code>.md</code> 格式生成，例如 <code>HelloWorld.md</code>。</p>
+</div>
+
+<h2 id="本機預覽網誌"><a href="#本機預覽網誌" class="headerlink" title="本機預覽網誌"></a>本機預覽網誌</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+
+<h2 id="發佈及部署網誌"><a href="#發佈及部署網誌" class="headerlink" title="發佈及部署網誌"></a>發佈及部署網誌</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p><code>cl</code> 是 <code>clean</code>，清除快取檔案 <code>db.json</code> 和 <code>public</code> 已產生靜態檔案。<br><code>g</code> 是 <code>generate</code>，產生靜態檔案。<br><code>d</code> 是 <code>deploy</code>，部署網站。<br><code>s</code> 是 <code>server</code>，以本機伺服器 <code>localhost:4000</code> 預覽網站。</p>
+</div>
+
+<hr>
+<h1 id="發佈並部署到-Github-頁面"><a href="#發佈並部署到-Github-頁面" class="headerlink" title="發佈並部署到 Github 頁面"></a>發佈並部署到 Github 頁面</h1><h2 id="建立-Repository"><a href="#建立-Repository" class="headerlink" title="建立 Repository"></a>建立 Repository</h2><p>進入 <a href="https://github.com" target="_blank">GitHub</a> 網頁，點擊 <code>New</code> 按鈕新建專案，把 <code>Repository name</code> 命名為 <code>username.github.io</code>。</p>
+<div class="note info simple"><p><code>username</code> 是你的用戶名稱。</p>
+</div>
+
+<p>然後按 <code>Create repository</code>。那就成功建立網域 <code>username.github.io</code>。</p>
+<h2 id="把檔案推送到-GitHub"><a href="#把檔案推送到-GitHub" class="headerlink" title="把檔案推送到 GitHub"></a>把檔案推送到 GitHub</h2><p>回到 <code>hexo</code> 資料夾，在終端機輸入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>_config.yml</code> 檔案的 <code>deploy</code> 設定：</p>
+<div class="note warning simple"><p>這個 <code>_config.yml</code> 是 <code>hexo</code> 根目錄內，並非 <code>hexo/themes/</code> 內那個。</p>
+</div>
+
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">    <span class="attr">repo:</span> <span class="string">https://github.com/username/username.github.io.git</span></span><br><span class="line">    <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p><code>type</code>：選擇部屬模式，這裡填 <code>git</code><br><code>repo</code>：GitHub repository 的連結，記得將 <code>username</code> 修改成自己的帳號名稱<br><code>branch</code>：選擇分支，預設為 <code>master</code></p>
+</div>
+
+<p>然後再執行部署指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+
+<div class="note warning simple"><p>你一旦更新網誌內容後，你需要稍等片刻，因為 Github <strong>需要時間才能夠成功部署</strong>。但可能會<strong>因為快取關係，更新的內容可能遲遲都不出現</strong>，這個時候要 Hard Refresh 接 Shift + Cmd + R。</p>
+</div>
+
+<hr>
+<h1 id="VSCode-任務執行配置"><a href="#VSCode-任務執行配置" class="headerlink" title="VSCode 任務執行配置"></a>VSCode 任務執行配置</h1><p>我個人就比較懶，不想每次都要打指令預覽伺服器，如果你都是的話，你可以在 VSCode 的執行與偵錯中開啟一個 <code>launch.json</code> 檔案，把這段程式碼複製及貼上：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="comment">// 使用 IntelliSense 以得知可用的屬性。</span></span><br><span class="line">    <span class="comment">// 暫留以檢視現有屬性的描述。</span></span><br><span class="line">    <span class="comment">// 如需詳細資訊，請瀏覽: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hexo 本機&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node-terminal&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npx hexo cl &amp;&amp; npx hexo g &amp;&amp; npx hexo s&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hexo 部署&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node-terminal&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npx hexo cl &amp;&amp; npx hexo g &amp;&amp; npx hexo d&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;presentation&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;reveal&quot;</span><span class="punctuation">:</span> <span class="string">&quot;silent&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;close&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hexo 新增文章&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node-terminal&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npx hexo new $&#123;input:postName&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;presentation&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;reveal&quot;</span><span class="punctuation">:</span> <span class="string">&quot;silent&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;close&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;inputs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;postName&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;promptString&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;請輸入文章檔案名稱&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>我這裏不重點說 VSCode 任務執行怎樣使用，有空再為這個範疇寫筆記。</p>
+]]></content>
+      <categories>
+        <category>網頁開發</category>
+      </categories>
+      <tags>
+        <tag>YAML</tag>
+        <tag>Bash</tag>
+        <tag>Markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Node.js | Express | 伺服器及後端建置 | 動態網頁編寫學習筆記</title>
     <url>/post/web-dev-nodejs-express-notes.html</url>
     <content><![CDATA[<div class="note info simple" data-content="Node.js 及 Express"></div>
 

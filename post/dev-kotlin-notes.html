@@ -1,0 +1,1077 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記 | 🐳 BlueWhaleYT</title><meta name="keywords" content="Kotlin,Java"><meta name="author" content="BlueWhaleYT"><meta name="copyright" content="BlueWhaleYT"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記"><meta name="application-name" content="Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記"><meta property="og:url" content="https://bluewhaleyt.github.io/post/dev-kotlin-notes.html"><meta property="og:site_name" content="🐳 BlueWhaleYT"><meta property="og:description" content="Kotlin 是一個近年來相當熱門的程式語言之一，就連 Google 都對它萬分愛戴，Kotlin 是一個現代式的高階程式語言，主要是提供了許多減少程式碼的語法糖 (Syntactic sugar) 以及解決許多 Java 的弊病，所以 Kotlin 亦都是一個取代 Java 語言的高效程式語言"><meta property="og:locale" content="zh-TW"><meta property="og:image" content="https://i.imgur.com/60yM46l.png"><meta property="article:author" content="BlueWhaleYT"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://i.imgur.com/60yM46l.png"><meta name="description" content="Kotlin 是一個近年來相當熱門的程式語言之一，就連 Google 都對它萬分愛戴，Kotlin 是一個現代式的高階程式語言，主要是提供了許多減少程式碼的語法糖 (Syntactic sugar) 以及解決許多 Java 的弊病，所以 Kotlin 亦都是一個取代 Java 語言的高效程式語言"><link rel="shortcut icon" href="https://i.ibb.co/zRvn96K/personal-icon.jpg"><link rel="canonical" href="https://bluewhaleyt.github.io/post/dev-kotlin-notes"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: undefined,
+  diytitle: undefined,
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"你好","list":[{"greeting":"凌晨時分了，怎麼還在這裏呢？","startTime":0,"endTime":5},{"greeting":"早安！新的一天又開始了！","startTime":6,"endTime":10},{"greeting":"午安！吃飽了嗎？","startTime":11,"endTime":13},{"greeting":"下午好！加油，再堅持一下！","startTime":14,"endTime":17},{"greeting":"晚上好！晚餐吃得好嗎？","startTime":18,"endTime":21},{"greeting":"夜深了，該休息了！晚安！","startTime":22,"endTime":24}]},
+  twikooEnvId: 'https://personal-blog-comment-chi.vercel.app/',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: {"mode":"both","api":"https://img2color-go.vercel.app/api?img=","cover_change":true},
+  authorStatus: {"skills":null},
+  algolia: {"appId":"H6305XRFBV","apiKey":"c7fec314f2f79c2fbcd28846bf0cfbfe","indexName":"hexo","hits":{"per_page":6},"languages":{"input_placeholder":"輸入關鍵字後按下回車查找","hits_empty":"找不到您查詢的內容：${query}","hits_stats":"找到 ${hits} 條結果，用時 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: BlueWhaleYT","link":"連結: ","source":"來源: 🐳 BlueWhaleYT","info":"著作權歸作者所有。商業轉載請聯絡作者獲得授權，非商業轉載請註明出處。","copySuccess":"複製成功，複製和轉載請標注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切換為繁體","cht_to_chs":"你已切換為簡體","day_to_night":"你已切換為深色模式","night_to_day":"你已切換為淺色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: '🐳 BlueWhaleYT',
+  title: 'Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記',
+  postAI: '',
+  pageFillDescription: '好端端的為什麼要轉寫 Kotlin？, 建立 Kotlin 項目, 程式的入口點, 修改入口點或類別名稱, 輸入數值, 使用操控台輸入, 使用 GUI 視窗輸入, 套件與匯入, 套件類別命名衝突, 存取修飾子, 可繼承類, 對象與建構式, 單例模式 (Singleton), 伴生對象, 建構子建構, 主要建構子, 次要 x2F 多個建構子, 初始化程式, 運算符, 位元運算符, 變量及常量, 存取與變異, 函數, 函數類型, 單行表達式, 高階函數, 內聯函數, infix 函數, operator 函數, 匿名函數, 標準 x2F 作用域函數, let 函數, run 函數, apply 函數, also 函數, with 函數, 擴展函數, 範圍, 範圍函數, 陣列, 用 arrayOf() 函數建立基本陣列, 用 Array() 建立不同陣列, 二維陣列, 三維陣列, 集合, 集合類型, 有序集合 List (列表), 無序集合 Set (集合), 鍵值對集合 Map (映射), 集合函數操作, 列舉, 註解, 元資訊, 條件判斷, 決策邏輯, if 語句, else if 語句, 單行 if 表達式, 情況邏輯, 迴圈, while 迴圈, for 迴圈, forEach 迴圈, 智慧轉型, 空安全, 從陣列中清除空值, 空合併及 Elvis 運算符 ?, 安全調用符 ?., 非空斷言 !!, 委託, 委託屬性, lazy 屬性, observable 屬性, vetoable 屬性, 部分 Kotlin 與 Java 比較語法程式碼, Getter amp Setter, 單例對象是一個近年來相當熱門的程式語言之一就連都對它萬分愛戴是一個現代式的高階程式語言主要是提供了許多減少程式碼的語法糖以及解決許多的弊病所以亦都是一個取代語言的高效程式語言的應用範疇十分廣泛主要是因為它能夠跨平台所以它不但可以應用於開發及跨平台的開發亦可以使用進行的編程從而編寫前端網頁如果你不是想學習純粹想看及對照可跳到這裏引用站外地址及對照好端端的為什麼要轉寫因為不爭氣我都沒辦法其實都挺無奈的但這個是一個別無選擇的出路在開發中我看不到在的未來還有立足之地不爭氣在最初時期是很風光的但往後加入的大部分特性都不支援已經被官方斷言往後推出的開發特性都以為首有目共睹就是一個開發者哭暈的鐵證是完全使用的編譯工具及語法寫成的框架是沒有可能在使用到的因為真的可以減少代碼量比方你寫一個單例對象在寫一個就完事了這個實現方式我都不想說了建立項目要編寫及執行程式我們鮮少會使用指令在命令行介面執行程式碼而是會用整合開發環境的編譯程式功能這裏推薦使用首先你需要到官網下載並安裝軟件我這裏用如果你有錢可以買付費版用來建立項目安裝完之後按選擇語言其他不用理會然後可以關閉軟件下載用來編寫程式碼你喜歡的話都可以只用寫程式碼然後打開剛新建的項目在資料夾新建一個按綠色箭頭便可執行程式碼程式的入口點跟一般的程式語言一樣都需要一個入口點要注意的是我們在是不需要指明是使用只要指明是使用入口函數便可的實際上是有類別的它叫做因為的編譯器歸根到底都是最後轉換到修改入口點或類別名稱因為一開始預設是如果你要修改的這就要用註解這個註解會直接修改輸入數值使用操控台輸入在不用這樣麻煩用來輸入數值至操控台可以直接用方法不過編譯器會推薦用因為這個可以檢查空指針內部實現代碼純粹是返回一個是跨平台不限於跨平台用的因為語法庫支援及編譯基本使用說明用戶輸入數值的目的用戶所輸入的值再按會賦值至用戶所輸入的值再按會賦值至顯示結果執行結果分割形式例如想在單一輸入的時候輸入多個數值可以用裏面接受的參數這裏寫的是代表以空格分割執行結果使用視窗輸入例如是用庫套件與匯入預設匯入了這些套件不支援靜態匯入只用便可以套件類別命名衝突不支援套件類別名稱重複需要用關鍵字重新定義存取修飾子修飾子所有類可存取預設所有類可存取當前類可存取當前類可存取當前類子類可存取當前類子類同一套件路徑下的類可存取無同一套件路徑下的類可存取預設同一模組中的類可存取無可繼承類預設寫的是不能繼承的如果要讓其他可繼承這個就要加關鍵字對象與建構式單例模式我們可以使用關鍵字來定義可以在其他地方使用來訪問其屬性和方法屬性和方法調用需要加上伴生對象我們可以使用關鍵字在類內部定義一個伴生物件伴生物件可以訪問類的私有成員就像是該類的靜態成員一樣但它不同於靜態成員因為它可以訪問類的非靜態成員屬性和方法調用需要加上建構子建構主要建構子次要多個建構子初始化程式用函數可以初始化建構子執行的程式執行結果運算符位元運算符按位取反取反後的數字會變成原數字的補數輸出函數會將數字的二進位表示中的每個位元取反也就是變成變成另外這個操作還會將數字的正負號反轉的二進位表示為當我們對這個數字進行取反操作時每個位元都會取反得到的結果為這個結果在二進位中也代表著數字左移將數字的二進位表示向左移動指定的位數左移操作會在右側填入相當於將該數字乘以的次方其中是左移的位數左移的數字是左移的位數是輸出將左移位相當於右移將數字的二進位表示向右移動指定的位數右移操作會在左側填入原數字的最高位元相當於將該數字除以的次方其中是右移的位數右移的數字是右移的位數是輸出將右移位相當於變量及常量我們可以使用變量和常量來存儲和管理數據變量是可以改變其值的存儲位置而常量則是一旦被賦值就無法更改的存儲位置賦值語句格式萬變不離其宗變量名稱數據類型初始值宣告變量使用關鍵字來定義可變變量宣告常量使用關鍵字來定義常量不可變變量存取與變異考慮到用還是還有一個考量就是變量但賦有的和屬性變量賦有的屬性一般而言如果不肯定變量能不能被修改就先用當有修改的用途就改用此外還有關鍵字看似與能混為一談與的相若一般情況下用不用是絕沒太大影響重點是變量必須是頂層級別或者或中的屬性是在運行時計算而則是編譯時計算預設的是私有變量當加上了變成就會成為公共變量例子編譯成功編譯錯誤編譯成功函數函數是一個重要的程式結構它可以接受輸入參數並返回一個結果我們可以使用關鍵字來定義一個函數函數預設返回的類型為即是的類型和方法是一樣的基本上可以省略不寫函數類型單行表達式如果函數只有一行程式碼可以使用單行表達式函數的語法簡化函數的定義這裏的等同於返回類型可省略高階函數函數可以作為參數傳遞給其他函數或者作為返回值返回接受個參數其中參數比較複雜這個運用了高階函數接受兩個參數然後再返回一個類型的結果至於是怎樣的結果就是視乎高階函數實現的邏輯假如我們用函數實現一個加法及乘法計算需要一對區塊區塊內需要傳入參數就以和分別是對入接著後寫的代碼就是要實現的邏輯執行結果內聯函數函數會在代碼編譯時將被調用處代碼直接嵌入到調用處的函數中過度使用會使字節碼膨脹一般如果是這樣的程式碼不會用如果沒有用來定義函數如果有用來定義函數直接把函數的代碼嵌入下來實際用途是用來減少創建額外對象及函數從而減少資源消耗亦都增加執行速度順序執行代碼的速度會較調用函數的速度快你寫的程式碼實際編譯後的程式碼把函數區塊內的程式碼嵌入下來為函數使用的參數設定就是不內聯的意思如果我們嘗試寫因為函數被內聯了如果嘗試傳回會在編譯器拋出所以這個時候就要用強制內聯函數不需要用的函數輸出函數就是重載運算符的函數例如對應的函數是錯誤假如我們嘗試把不支援的型別與例如相加會在編譯時拋出錯誤要令到這個運算符可以用其他類型進行加法就要用輸出運算符函數表運算符函數匿名函數匿名函數可使用定義並作為值賦值給變數執行結果標準作用域函數這些函數可以幫助我們簡化程式碼並提高可讀性對代碼邏輯沒有任何意義只是語法糖用途很廣泛而且看情況函數對象引用返回值是否擴展函數表達式是表達式是表達式不是調用毋須表達式不是把當作參數是是當前引用的對象例如可省略為常用於表達式作為顯式單個參數聲明的暫代名稱只可以為單個參數的函數才可用如果暫不使用參數可用作為佔位未使用的參數不會進行處理函數對非空型別對象執行表達式在這裡可以使用非空的變數把表達式作為變量引入到局部作用域中輸出函數跟函數用法相若但函數會傳回表達式函數沒有傳回值而且可以為特定對象編寫邏輯最後運算取得結果擴展對象配置並且計算結果輸出輸出非擴展在需要表達式的地方執行語句返回的值一定要放最後輸出函數可視為一種配置函數傳入一個接收者然後呼叫一系列函數來對接收者做設定函數附加效果適合針對同一原始物件透過副作用做事當看到的時候表示同時還要針對該對象物件執行此動作輸出函數一個對象的一組函數調用函數是函數的變形他們的功能與行為一樣接收者是使用的對象物件但的呼叫方式不同使用時要求引數作為其第一個參數傳入另外若執行的對象物件為則區塊不會進入反之函數則是會進去操作擴展函數允許我們為現有的類型添加新的函數而不需要修改原始類型的程式碼輸出這裏的是指的型別這個是一個接收者善用擴展函數可減少編寫複用工具函數轉換為後的程式碼實際上有一個隱藏的類別會產生根據檔案名稱如那就會在編譯過程生成大概的程式碼就是會在編譯過程寫入作為參數範圍範圍是一個連續的數值區間我們可以使用範圍來表示一系列連續的數字或字符在中我們可以使用運算符來創建一個範圍範圍的起始值和結束值可以是整數字符或其他可比較的型別升序輸出如果啟用了嵌入提示可以看到有的意思降序輸出而則有的意思降序不是這樣做沒有輸出編譯器會跟你說範圍是空的因為是異想天開的事略過及調整步長例如是偶數輸出直至輸出不計算範圍函數不一定只用在迴圈亦可以以函數方式使用執行結果陣列陣列又稱數組是一種常用的資料結構它可以儲存一組相同類型的元素用函數建立基本陣列空陣列一般陣列用建立不同陣列預設是空陣列設置了陣列大小為獲取陣列首項元素獲取陣列大小陣列的索引從開始所以代表陣列中的第一個元素二維陣列例如一個的二維陣列的值為執行結果的值為三維陣列例如一個的三維陣列的值為這個是假想三維空間的軸軸及軸測量指標其中軸有個元素軸有個元素軸有個元素以一個立方體來比喻的話我們可以把軸想像成立方體的寬度軸想像成高度軸想像成深度而的意思就是這個立方體有個寬度個高度和個深度執行結果的值為集合集合是在程式開發中非常重要的一個主題它們可以讓我們有效地儲存和操作多個元素集合與陣列一樣索引由開始即是第一個元素集合類型有序集合列表是一個有序的集合可以包含重複的元素我們可以使用索引來訪問和修改列表中的元素定義不可變列表定義可變列表舊輸出為新增一個元素為新輸出執行結果無序集合集合是一個不重複元素的集合並且沒有特定的順序執行結果相反如果用則會連同重複元素輸出執行結果鍵值對集合映射是一個鍵值對的集合每個元素都有一個唯一的鍵和對應的值我們可以使用鍵來獲取相應的值用關鍵字進行鍵值對格式鍵值鍵值舊輸出為新增屬性並設置為女性新輸出執行結果集合函數操作篩選出偶數把每個數字都加倍計算總和即執行結果返回的是型別對集合進行不同操作沒有指定返回型別累積函數第一個參數是用來疊加的返回值第二個參數是本次循環中列表的值與相似但可設定初始值列舉列舉是一組相關的常量的集合它們可以幫助我們更好地組織和表示程式中的數據在中我們可以使用關鍵字來定義一個列舉類基本列舉輸出列舉初始值可以像一般建構式擁有屬性和方法輸出輸出註解註解是一種用於在程式碼中添加元數據的特殊標記它們可以應用於類函數變數等元素上並提供額外的資訊給編譯器工具或其他程式碼分析工具使用內建註解註解用途用於將中的伴生對象中的函數或屬性轉換為中的靜態函數或靜態屬性用於在中生成重載函數的所有可能的組合標記已被棄用的函數類或屬性並提供一個建議的替代方案編寫自訂註解函數內容元資訊元資訊用途例子用於指定註解可以應用的元素類型如可以應用於類和函數上用於指定註解在編譯後的保留策略例如表示該註解在運行時仍然可用用於指定註解是否可以重複應用於同一個元素通常一個元素只能擁有一個特定註解的實例用於指示該註解應該包含在生成的文檔中通常一個元素只能擁有一個特定註解的實例但是如果你將註解應用於註解定義上則可以多次應用該註解於同一個元素這需要使用一個容器註解來包裹重複的註解例子執行結果條件判斷決策邏輯語句你已經成年了你還未成年語句單行表達式及格不及格情況邏輯表達式類似於使用的語句可以用於根據不同的值執行不同的程式邏輯星期一星期二星期三星期四星期五週末比的更勝一籌表達式還可以用於檢查範圍類型和其他條件迴圈迴圈執行結果迴圈執行結果迴圈可以運用集合與函數簡化語法代碼操作執行結果智慧轉型很聰明當我們使用關鍵字檢查一個變數是否為特定類型後會自動將該變數轉型為該類型在這裡自動將轉型為類型而則要手動轉型在這裡我們需要手動將轉型為類型空安全空安全是中一個非常重要的特性它可以幫助我們避免許多空指針異常從陣列中清除空值如果你想從可為空的或陣列中消除值你可以使用函數這個函數將返回一個新的集合其中不包含值輸出輸出空合併及運算符可以在變數為時提供一個默認值如果變數為則運算符將返回其右側的表達式作為結果否則返回變數本身輸出輸出安全調用符處理可為空的變數時我們需要使用安全調用運算符來訪問它的屬性或呼叫它的方法這樣可以避免空指針異常輸出通常會連同標準函數一起使用沒有輸出非空斷言可以在確定變數不為的情況下強制執行操作使用運算符需要謹慎使用因為它可能引發空指針異常只有在你確定變數不為的情況下才應該使用非空斷言運算符否則建議使用安全調用運算符來處理可為空的變數以避免空指針異常的風險委託指物件將一個請求委派給另一個物件來處理將其讀取和寫入操作委託給其他對象例如現在我想要一個新的支援的函數如果直接把其繼承就有失原意因為我只想要支援函數結果把都帶過來了要解決這個問題可以用介面現在這個就只可以用函數了亦可以用關鍵字委託哪一個去處理有些情況下我們可能不希望立即刪除被棄用的屬性因為有一些舊有的程式碼可能還在使用這個屬性為了向後兼容性我們可以將存取委託給新的屬性這樣舊有的程式碼仍然可以使用這個屬性同時建議開發者在新的程式碼中使用替代方案輸出委託屬性屬性這個委託屬性用於惰性初始化它只有在第一次訪問屬性時才會計算其值以後的訪問將直接返回已計算的值初始化執行執行即使第二次執行都不會再出現初始化執行結果初始化執行執行屬性這個委託屬性用於觀察屬性的變化它接收一個初始值和一個回調函數當屬性的值發生變化時將調用回調函數初始值結果執行結果結果初始值結果屬性這個委託屬性用於在設置屬性值之前進行驗證它接收一個初始值和一個驗證回調函數當設置屬性的新值時將調用驗證回調函數以確定是否接受該值如果驗證回調函數返回則不接受該值並保持原始值設置新值將通過驗證設置新值將被驗證拒絕執行結果部分與比較語法程式碼這裏會記錄一些變化特別顯著不同的語法比對參照或者會另開新文章集中說比對這裏先暫時記錄一下單例對象',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024 年 01 月 11 日 11 時 24 分 41 秒',
+  postMainColor: '#cd84f1',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/codethemes/code-dark-new.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><style type="text/css">
+.CodeMirror-lines,.line,.code-output,.code,.token {
+    font-size: 16px;
+    line-height: 22px;
+}
+</style><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://i.ibb.co/zRvn96K/personal-icon.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">item1</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="item1name"><img class="back-menu-item-icon" src="/img/favicon.ico" alt="item1name"/><span class="back-menu-item-text">item1name</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">item2</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="item2name"><img class="back-menu-item-icon" src="https://image.anheyu.com/favicon.ico" alt="item2name"/><span class="back-menu-item-text">item2name</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">🐳 BlueWhaleYT</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 彙整頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分類頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 標籤頁</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 工具</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="https://bluewhaleyt.github.io/monaco-text-compare"><i class="anzhiyufont anzhiyu-icon-file-lines faa-tada" style="font-size: 0.9em;"></i><span> 文本比較編輯器</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索🔍" accesskey="s"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span> 搜尋</span></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新評論</span></div><div class="aside-list"><span>正在載入中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Android/" style="font-size: 1.05rem;">Android<sup>11</sup></a><a href="/tags/Bash/" style="font-size: 1.05rem;">Bash<sup>6</sup></a><a href="/tags/C/" style="font-size: 1.05rem;">C++<sup>1</sup></a><a href="/tags/CSS/" style="font-size: 1.05rem;">CSS<sup>2</sup></a><a href="/tags/EJS/" style="font-size: 1.05rem;">EJS<sup>1</sup></a><a href="/tags/Express/" style="font-size: 1.05rem;">Express<sup>2</sup></a><a href="/tags/HTML/" style="font-size: 1.05rem;">HTML<sup>3</sup></a><a href="/tags/JSON/" style="font-size: 1.05rem;">JSON<sup>1</sup></a><a href="/tags/JSX/" style="font-size: 1.05rem;">JSX<sup>1</sup></a><a href="/tags/Java/" style="font-size: 1.05rem;">Java<sup>5</sup></a><a href="/tags/JavaScript/" style="font-size: 1.05rem;">JavaScript<sup>3</sup></a><a href="/tags/Kotlin/" style="font-size: 1.05rem;">Kotlin<sup>10</sup></a><a href="/tags/Lua/" style="font-size: 1.05rem;">Lua<sup>1</sup></a><a href="/tags/Markdown/" style="font-size: 1.05rem;">Markdown<sup>1</sup></a><a href="/tags/NDK/" style="font-size: 1.05rem;">NDK<sup>1</sup></a><a href="/tags/Node-js/" style="font-size: 1.05rem;">Node.js<sup>4</sup></a><a href="/tags/Python/" style="font-size: 1.05rem;">Python<sup>1</sup></a><a href="/tags/Roblox/" style="font-size: 1.05rem;">Roblox<sup>1</sup></a><a href="/tags/TypeScript/" style="font-size: 1.05rem;">TypeScript<sup>1</sup></a><a href="/tags/YAML/" style="font-size: 1.05rem;">YAML<sup>2</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>歸檔</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/12/"><span class="card-archive-list-date">十二月 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/06/"><span class="card-archive-list-date">六月 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/05/"><span class="card-archive-list-date">五月 2020</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%A9%B3%E7%B4%B0%E7%AD%86%E8%A8%98/" itemprop="url">詳細筆記</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80%E7%AD%86%E8%A8%98/" itemprop="url">程式語言筆記</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Kotlin/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Kotlin</span></a><a class="article-meta__tags" href="/tags/Java/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Java</span></a></span></div></div><h1 class="post-title" itemprop="name headline">Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2023-05-06T06:49:09.000Z" title="發表於 2023 年 05 月 06 日 14 時 49 分 09 秒">2023 年 05 月 06 日</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-01-11T03:24:41.567Z" title="更新於 2024 年 01 月 11 日 11 時 24 分 41 秒">2024 年 01 月 11 日</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字數總計:</span><span class="word-count" title="文章字数">8k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">閱讀時長:</span><span>31分鐘</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator"></span><span class="post-meta-commentcount"><i class="anzhiyufont anzhiyu-icon-comments post-meta-icon"></i><span class="post-meta-label">評論數:</span><a href="/post/dev-kotlin-notes.html#post-comment"><span class="waline-comment-count" data-path="/post/dev-kotlin-notes.html"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></a></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://i.imgur.com/60yM46l.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://bluewhaleyt.github.io/post/dev-kotlin-notes.html"><header><a class="post-meta-categories" href="/categories/%E8%A9%B3%E7%B4%B0%E7%AD%86%E8%A8%98/" itemprop="url">詳細筆記</a><a class="post-meta-categories" href="/categories/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80%E7%AD%86%E8%A8%98/" itemprop="url">程式語言筆記</a><a href="/tags/Kotlin/" tabindex="-1" itemprop="url">Kotlin</a><a href="/tags/Java/" tabindex="-1" itemprop="url">Java</a><h1 id="CrawlerTitle" itemprop="name headline">Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">BlueWhaleYT</span><time itemprop="dateCreated datePublished" datetime="2023-05-06T06:49:09.000Z" title="發表於 2023 年 05 月 06 日 14 時 49 分 09 秒">2023 年 05 月 06 日</time><time itemprop="dateCreated datePublished" datetime="2024-01-11T03:24:41.567Z" title="更新於 2024 年 01 月 11 日 11 時 24 分 41 秒">2024 年 01 月 11 日</time></header><div class="note info simple" data-content="Kotlin"></div>
+
+<p>Kotlin 是一個近年來相當熱門的程式語言之一，就連 Google 都對它萬分愛戴，Kotlin 是一個<strong>現代式的高階程式語言</strong>，主要是提供了<strong>許多減少程式碼的語法糖</strong> (Syntactic sugar) 以及<strong>解決許多 Java 的弊病</strong>，所以 Kotlin 亦都是一個取代 Java 語言的高效程式語言。</p>
+<p>Kotlin 的應用範疇十分廣泛，主要是因為它能夠<strong>跨平台</strong>，所以它不但可以<strong>應用於 Android 開發</strong>及 <strong>Jetpack Compose 跨平台的開發</strong>，亦可以使用 Kotlin&#x2F;JS 進行 <strong>JavaScript 的編程</strong>，從而編寫前端網頁。</p>
+<p>如果你不是想學習 Kotlin，純粹想看 Java 及 Kotlin 對照，可跳到這裏：</p>
+<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="/post/dev-kotlin-notes.html#%E9%83%A8%E5%88%86-Kotlin-%E8%88%87-Java-%E6%AF%94%E8%BC%83%E8%AA%9E%E6%B3%95%E7%A8%8B%E5%BC%8F%E7%A2%BC">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">Java 及 Kotlin 對照</div>
+            <div class="tag-link-sitename"> </div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>
+
+<hr>
+<h1 id="好端端的，為什麼要轉寫-Kotlin？"><a href="#好端端的，為什麼要轉寫-Kotlin？" class="headerlink" title="好端端的，為什麼要轉寫 Kotlin？"></a>好端端的，為什麼要轉寫 Kotlin？</h1><p>因為。。。<strong>JAVA 不爭氣，我都沒辦法！</strong></p>
+<p>其實都挺無奈的，但這個是一個<strong>別無選擇的出路</strong>。在 Android 開發中，我<strong>看不到 Java 在 Android 的未來還有立足之地</strong>。</p>
+<ol>
+<li>Java 不爭氣，在最初時期是很風光的，但往後加入的大部分特性，<strong>Android 都不支援</strong>。</li>
+<li>已經被 Google 官方斷言，往後推出的 Android 開發特性都<strong>以 Kotlin 為首</strong>，有目共睹，Jetpack Compose 就是一個 Java 開發者哭暈的鐵證。Jetpack Compose 是完全使用 Kotlin 的編譯工具及語法寫成的框架，是<strong>沒有可能在 Java 使用到的</strong>。</li>
+<li>因為 Kotlin 真的可以<strong>減少代碼量</strong>，比方你寫一個單例對象 (Singleton)，在 Kotlin 寫一個 <code>object Singleton</code> 就完事了，Java 這個實現方式我都不想說了。</li>
+</ol>
+<hr>
+<h1 id="建立-Kotlin-項目"><a href="#建立-Kotlin-項目" class="headerlink" title="建立 Kotlin 項目"></a>建立 Kotlin 項目</h1><p>要編寫及執行 Kotlin 程式，我們鮮少會使用指令在命令行介面執行程式碼，而是會用 IDE (Integrated Development Environment 整合開發環境) 的編譯程式功能。這裏推薦使用 Fleet。</p>
+<p>首先你需要到 <a target="_blank" rel="noopener" href="https://www.jetbrains.com/idea/download/">JetBrains 官網</a> 下載並安裝 IntelliJ IDEA 軟件，我這裏用 Community Edition (CE)，如果你有錢可以買付費版 (Ultimate)，用來建立 Kotlin 項目。</p>
+<p>安裝完之後，按 New Project，選擇 Kotlin 語言，其他不用理會。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img10.png" alt="alt"></p>
+<p>然後可以關閉 IntelliJ IDEA 軟件，下載 <a target="_blank" rel="noopener" href="https://www.jetbrains.com/fleet/">Fleet</a> 用來編寫 Kotlin 程式碼（你喜歡的話都可以只用 IntelliJ IDEA 寫 Kotlin 程式碼）。然後打開剛新建的 Kotlin 項目。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img11.png" alt="alt"></p>
+<p>在 <code>kotlin</code> 資料夾新建一個 <code>main.kt</code>，按綠色箭頭便可執行程式碼：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img12.png" alt="alt"></p>
+<hr>
+<h1 id="程式的入口點"><a href="#程式的入口點" class="headerlink" title="程式的入口點"></a>程式的入口點</h1><p>跟一般的程式語言一樣，Kotlin 都需要一個入口點，要注意的是，我們在 Kotlin 是 <strong>不需要指明是使用 <code>Main.kt</code></strong> ，只要指明是使用 <code>main()</code> 入口函數便可：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img1.png" alt="img1"></p>
+<div class="note info simple"><p>Kotlin 的 <code>main.kt</code> 實際上是有類別的，它叫做 <code>MainKt</code>，因為 Kotlin 的編譯器<strong>歸根到底都是最後轉換到 Java</strong>。</p>
+</div>
+
+<h2 id="修改入口點或類別名稱"><a href="#修改入口點或類別名稱" class="headerlink" title="修改入口點或類別名稱"></a>修改入口點或類別名稱</h2><p>因為一開始預設是 <code>MainKt</code>，如果你要修改的，這就要用 <code>@file:JvmName()</code> 註解，這個註解會直接修改 JVM。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@file:JvmName</span>(<span class="string">&quot;Hello World Program&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img2.png" alt="img2"></p>
+<hr>
+<h1 id="輸入數值"><a href="#輸入數值" class="headerlink" title="輸入數值"></a>輸入數值</h1><h2 id="使用操控台輸入"><a href="#使用操控台輸入" class="headerlink" title="使用操控台輸入"></a>使用操控台輸入</h2><p>在 Kotlin，不用 Java 這樣麻煩用 <code>Scanner</code> 來輸入數值至操控台 (console)，可以直接用 <code>readln()</code> 方法。不過，編譯器會<strong>推薦用 <code>readLineOrNull()</code></strong> ，因為這個可以檢查空指針，內部實現代碼純粹是返回一個 <code>String?</code>：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">actual</span> <span class="function"><span class="keyword">fun</span> <span class="title">readlnOrNull</span><span class="params">()</span></span>: String? = readLine()</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p><code>actual</code> 是跨平台（不限於 Compose 跨平台）用的，因為 Kotlin 語法庫支援 JVM 及 JS 編譯。</p>
+</div>
+
+<ol>
+<li><p>基本使用</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string">&quot;Enter two numbers&quot;</span>)                <span class="comment">// 說明用戶輸入數值的目的</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;Enter a: &quot;</span>) </span><br><span class="line"><span class="keyword">val</span> a = readlnOrNull()                      <span class="comment">// 用戶所輸入的值再按 Enter，會賦值至 a</span></span><br><span class="line">print(<span class="string">&quot;Enter b: &quot;</span>)</span><br><span class="line"><span class="keyword">val</span> b = readlnOrNull()                      <span class="comment">// 用戶所輸入的值再按 Enter，會賦值至 b</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Result: a: <span class="variable">$a</span>, b: <span class="variable">$b</span>&quot;</span>)             <span class="comment">// 顯示結果</span></span><br></pre></td></tr></table></figure>
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Enter two numbers</span><br><span class="line">Enter a: 5  </span><br><span class="line">Enter b: 2</span><br><span class="line">Result: a: 5, b: 2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分割形式<br>例如想在單一輸入的時候，輸入多個數值，可以用 <code>split()</code> 裏面接受 <code>delimiters</code> 的 <code>vararg</code> 參數。</p>
+<div class="note info simple"><p>這裏寫的是 <code>&quot; &quot;</code>，代表以空格分割。</p>
+</div>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string">&quot;Enter two numbers&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> (a, b) = readln().split(<span class="string">&quot; &quot;</span>)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Result: a: <span class="variable">$a</span>, b: <span class="variable">$b</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Enter two numbers</span><br><span class="line">3 7</span><br><span class="line">Result: a: 3, b: 7</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="使用-GUI-視窗輸入"><a href="#使用-GUI-視窗輸入" class="headerlink" title="使用 GUI 視窗輸入"></a>使用 GUI 視窗輸入</h2><p>例如是用 Javax Swing 庫</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> num1 = JOptionPane.showInputDialog(<span class="string">&quot;Enter first integer&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> num2 = JOptionPane.showInputDialog(<span class="string">&quot;Enter second integer&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> result = num1.toInt() + num2.toInt()</span><br><span class="line">JOptionPane.showMessageDialog(<span class="literal">null</span>, <span class="string">&quot;sum: <span class="variable">$result</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="套件與匯入"><a href="#套件與匯入" class="headerlink" title="套件與匯入"></a>套件與匯入</h1><p>Kotlin 預設匯入了這些套件</p>
+<ul>
+<li>Kotlin: <code>kotlin.*</code>、<code>kotlin.annotation.*</code>、<code>kotlin.collections.*</code>、<code>kotlin.comparisons.*</code>、<code>kotlin.io.*</code>、<code>kotlin.ranges.*</code>、<code>kotlin.sequences.*</code>、<code>kotlin.text.*</code></li>
+<li>JVM: <code>java.lang.*</code>、<code>kotlin.jvm.*</code></li>
+<li>JavaScript: <code>kotlin.js.*</code></li>
+</ul>
+<div class="note danger simple"><p>Kotlin 不支援靜態匯入 (<code>import static</code>)，只用 <code>import</code> 便可以。</p>
+</div>
+
+<h2 id="套件類別命名衝突"><a href="#套件類別命名衝突" class="headerlink" title="套件類別命名衝突"></a>套件類別命名衝突</h2><p>Kotlin 不支援套件類別名稱重複，需要用 <code>as</code> 關鍵字重新定義。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> foo.a.Bar</span><br><span class="line"><span class="keyword">import</span> foo.b.Bar <span class="keyword">as</span> BBar</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="存取修飾子"><a href="#存取修飾子" class="headerlink" title="存取修飾子"></a>存取修飾子</h1><table>
+<thead>
+<tr>
+<th>修飾子</th>
+<th>Kotlin</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public</code></td>
+<td>所有類可存取 <strong>（預設）</strong></td>
+<td>所有類可存取</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td>當前類可存取</td>
+<td>當前類可存取</td>
+</tr>
+<tr>
+<td><code>protected</code></td>
+<td>當前類、子類可存取</td>
+<td>當前類、子類、同一套件路徑下的類可存取</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>無</td>
+<td>同一套件路徑下的類可存取 <strong>（預設）</strong></td>
+</tr>
+<tr>
+<td><code>internal</code></td>
+<td>同一模組中的類可存取</td>
+<td>無</td>
+</tr>
+</tbody></table>
+<h2 id="可繼承類"><a href="#可繼承類" class="headerlink" title="可繼承類"></a>可繼承類</h2><p>Kotlin 預設寫的 <code>Class</code> 是不能繼承 (inherit) 的，如果要讓其他 <code>Class</code> 可繼承這個 <code>Class</code>，就要加 <code>open</code> 關鍵字。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">ClassA</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ClassB</span> : <span class="type">ClassA</span>()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="對象與建構式"><a href="#對象與建構式" class="headerlink" title="對象與建構式"></a>對象與建構式</h1><h2 id="單例模式-Singleton"><a href="#單例模式-Singleton" class="headerlink" title="單例模式 (Singleton)"></a>單例模式 (Singleton)</h2><p>我們可以使用 <code>object</code> 關鍵字來定義 Singleton，可以在其他地方使用 <code>SingletonObject</code> 來訪問其屬性和方法。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> SingletonObject &#123;</span><br><span class="line">    <span class="comment">// 屬性和方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>Java 調用 Kotlin Singleton 需要加上 <code>INSTANCE</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SingletonObject.INSTANCE.xxx</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="伴生對象"><a href="#伴生對象" class="headerlink" title="伴生對象"></a>伴生對象</h2><p>我們可以使用 <code>companion object</code> 關鍵字在類內部定義一個伴生物件。伴生物件可以訪問類的私有成員，就像是該類的靜態成員一樣，但它不同於靜態成員，因為它可以訪問類的非靜態成員。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="comment">// 屬性和方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>Java 調用 Kotlin Companion object 需要加上 <code>Companion</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyClass.Companion.xxx</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="建構子建構"><a href="#建構子建構" class="headerlink" title="建構子建構"></a>建構子建構</h2><h3 id="主要建構子"><a href="#主要建構子" class="headerlink" title="主要建構子"></a>主要建構子</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span>(</span><br><span class="line">    <span class="keyword">val</span> str: String</span><br><span class="line">) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="次要-x2F-多個建構子"><a href="#次要-x2F-多個建構子" class="headerlink" title="次要 &#x2F; 多個建構子"></a>次要 &#x2F; 多個建構子</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> prop1 = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">var</span> prop2 = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">constructor</span>(prop1: String) &#123;</span><br><span class="line">        <span class="keyword">this</span>.prop1 = prop1</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">constructor</span>(prop2: <span class="built_in">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.prop2 = prop2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化程式"><a href="#初始化程式" class="headerlink" title="初始化程式"></a>初始化程式</h3><p>用 <code>init</code> 函數可以初始化建構子執行的程式。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        println(<span class="string">&quot;<span class="subst">$&#123;this.javaClass.name&#125;</span> loaded&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> myClass = MyClass()</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyClass loaded</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="運算符"><a href="#運算符" class="headerlink" title="運算符"></a>運算符</h1><h2 id="位元運算符"><a href="#位元運算符" class="headerlink" title="位元運算符"></a>位元運算符</h2><ol>
+<li>按位取反 <code>inv</code>：取反後的數字會變成原數字的補數<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> num = <span class="number">10</span></span><br><span class="line"><span class="keyword">val</span> result = num.inv()</span><br><span class="line">print(result)                       <span class="comment">// 輸出：-11</span></span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p><code>inv()</code> 函數會將數字的二進位表示中的每個位元取反，也就是 <code>0</code> 變成 <code>1</code>，<code>1</code> 變成 <code>0</code>。另外，這個操作還會將數字的正負號反轉。<br><code>10</code> 的二進位表示為 <code>00001010</code>。當我們對這個數字進行取反操作時，每個位元都會取反，得到的結果為 <code>11110101</code>。這個結果在二進位中也代表著數字 <code>-11</code>。</p>
+</div></li>
+<li>左移 <code>shl</code> (<code>&lt;&lt;</code>)：將數字的二進位表示向左移動指定的位數。左移操作會在右側填入 <code>0</code>，相當於將該數字乘以 <code>2</code> 的 <code>n</code> 次方，其中 <code>n</code> 是左移的位數。<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> number = <span class="number">5</span>                      <span class="comment">// 左移的數字是 5</span></span><br><span class="line"><span class="keyword">val</span> shift = <span class="number">2</span>                       <span class="comment">// 左移的位數是 2</span></span><br><span class="line"><span class="keyword">val</span> result = number shl shift</span><br><span class="line">println(result)                     <span class="comment">// 輸出：20 (將 5 左移 2 位相當於 5 * (2^2) )</span></span><br></pre></td></tr></table></figure></li>
+<li>右移 <code>shr</code> (<code>&gt;&gt;</code>)：將數字的二進位表示向右移動指定的位數。右移操作會在左側填入原數字的最高位元，相當於將該數字除以 <code>2</code> 的 <code>n</code> 次方，其中 <code>n</code> 是右移的位數。<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> number = <span class="number">20</span>                     <span class="comment">// 右移的數字是 20</span></span><br><span class="line"><span class="keyword">val</span> shift = <span class="number">2</span>                       <span class="comment">// 右移的位數是 2</span></span><br><span class="line"><span class="keyword">val</span> result = number shr shift</span><br><span class="line">println(result)                     <span class="comment">// 輸出：5 (將 20 右移 2 位相當於 20 / (2^2) )</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h1 id="變量及常量"><a href="#變量及常量" class="headerlink" title="變量及常量"></a>變量及常量</h1><p>我們可以使用變量和常量來存儲和管理數據。變量是可以改變其值的存儲位置，而常量則是一旦被賦值就無法更改的存儲位置。</p>
+<div class="note info simple"><p>賦值語句格式，萬變不離其宗</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> 變量名稱: 數據類型 = 初始值</span><br></pre></td></tr></table></figure></div>
+
+<ol>
+<li>宣告變量：使用關鍵字 <code>var</code> 來定義可變變量。<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age: <span class="built_in">Int</span> = <span class="number">15</span></span><br></pre></td></tr></table></figure></li>
+<li>宣告常量：使用關鍵字 <code>val</code> 來定義常量 (不可變變量)。<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> age: <span class="built_in">Int</span> = <span class="number">15</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="存取與變異"><a href="#存取與變異" class="headerlink" title="存取與變異"></a>存取與變異</h2><p>考慮到用 <code>var</code> 還是 <code>val</code>，還有一個考量就是 Getter &amp; Setter</p>
+<ul>
+<li><code>var</code>：<code>private</code> 變量，但賦有 <code>public</code> 的 <code>set()</code> 和 <code>get()</code> 屬性</li>
+<li><code>val</code>：<code>private</code> 變量，賦有 <code>public</code> 的 <code>get()</code> 屬性</li>
+</ul>
+<div class="note info simple"><p>一般而言，如果不肯定變量能不能被修改，就先用 <code>val</code>，當有修改的用途就改用 <code>var</code>。</p>
+</div>
+
+<p>此外，還有 <code>const</code> 關鍵字，看似與 <code>val</code> 能混為一談</p>
+<p><code>const</code> 與 Java 的 <code>static</code> 相若，一般情況下，用不用 <code>const</code> 是絕沒太大影響，重點是</p>
+<div class="note info simple"><ol>
+<li><code>const</code> 變量必須是頂層級別 (top-level) 或者 <code>object</code> 或 <code>companion object</code> 中的屬性</li>
+<li><code>val</code> 是在運行時計算；而 <code>const</code> 則是編譯時計算。</li>
+<li>預設的 <code>val</code> 是私有 (<code>private</code>) 變量，當加上了 <code>const</code> 變成 <code>const val</code> 就會成為公共 (<code>public</code>) 變量。</li>
+</ol>
+</div>
+
+<p>例子：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> hello = test()          <span class="comment">// 編譯成功</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> DATA = test()     <span class="comment">// 編譯錯誤</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> NAME = <span class="string">&quot;&quot;</span>         <span class="comment">// 編譯成功</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> = <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="函數"><a href="#函數" class="headerlink" title="函數"></a>函數</h1><p>函數是一個重要的程式結構，它可以接受輸入參數並返回一個結果。我們可以使用 <code>fun</code> 關鍵字來定義一個函數。</p>
+<div class="note info simple"><p>函數預設返回的類型為 <code>Unit</code>，即是 Java 的 <code>void</code> 類型。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">greet1</span><span class="params">()</span></span>: <span class="built_in">Unit</span> &#123;</span><br><span class="line">    print(<span class="string">&quot;Good morning&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">greet2</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;Good morning&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>greet1()</code> 和 <code>greet2()</code> 方法是一樣的，基本上 <code>Unit</code> 可以省略不寫。</p>
+</div>
+
+<h2 id="函數類型"><a href="#函數類型" class="headerlink" title="函數類型"></a>函數類型</h2><h3 id="單行表達式"><a href="#單行表達式" class="headerlink" title="單行表達式"></a>單行表達式</h3><p>如果函數<strong>只有一行程式碼</strong>，可以使用單行表達式函數的語法簡化函數的定義。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">multiply</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> = a * b</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><ol>
+<li><p>這裏的 <code>=</code> 等同於 <code>return</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">multiply</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a * b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>返回類型可省略</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">multiply</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span> = a * b</span><br></pre></td></tr></table></figure></li>
+</ol>
+</div>
+
+<h3 id="高階函數"><a href="#高階函數" class="headerlink" title="高階函數"></a>高階函數</h3><p>函數可以作為參數傳遞給其他函數，或者作為返回值返回。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">calculate</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>, operation: (<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> operation(a, b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p><code>calculate()</code> 接受 3 個參數，其中 <code>operation</code> 參數比較複雜，這個運用了高階函數，接受兩個參數然後再返回一個 <code>Int</code> 類型的結果，至於是怎樣的結果，就是視乎 <code>operation()</code> 高階函數實現的邏輯。</p>
+<p>假如我們用 <code>calculate()</code> 函數實現一個加法及乘法計算，需要一對 <code>{}</code> 區塊，區塊內需要傳入參數，就以 <code>x</code> 和 <code>y</code> 分別是對入 <code>operation(Int, Int)</code>，接著 <code>-&gt;</code> 後寫的代碼就是要實現的邏輯。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sum = calculate(<span class="number">3</span>, <span class="number">5</span>) &#123; x, y -&gt; x + y &#125;</span><br><span class="line"><span class="keyword">val</span> product = calculate(<span class="number">8</span>, <span class="number">3</span>) &#123; x, y -&gt; x * y &#125;</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;sum: <span class="variable">$sum</span>, product: <span class="variable">$product</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum: 8, product: 24</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="內聯函數"><a href="#內聯函數" class="headerlink" title="內聯函數"></a>內聯函數</h4><p><code>inline</code> 函數會在代碼編譯時，將被調用處代碼直接嵌入到調用處的函數中</p>
+<div class="note warning simple"><p>過度使用 <code>inline</code> 會使字節碼膨脹。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一般如果是這樣的程式碼，不會用 inline</span></span><br><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">hello</span><span class="params">()</span></span> = print(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果沒有用 inline 來定義 hello() 函數</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    hello()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果有用 inline 來定義 hello() 函數</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;Hello World&quot;</span>)    <span class="comment">// 直接把 hello() 函數的代碼嵌入下來</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>實際用途是用來減少創建額外對象及函數，從而減少資源消耗。亦都增加執行速度（順序執行代碼的速度會較調用函數的速度快）。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">hello</span><span class="params">(block: () -&gt; <span class="type">Unit</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    block()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 你寫的程式碼</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    hello &#123;</span><br><span class="line">        println(<span class="string">&quot;123&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 實際編譯後的程式碼</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    println(<span class="string">&quot;123&quot;</span>)          <span class="comment">// 把 hello() 函數區塊內的程式碼嵌入下來</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>為 <code>inline</code> 函數使用的參數設定</p>
+<p><code>noinline</code>：就是不內聯的意思</p>
+<p>如果我們嘗試寫</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">hello</span><span class="params">(block: () -&gt; <span class="type">Unit</span>)</span></span>: () -&gt; <span class="built_in">Unit</span> &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> block</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因為 <code>hello()</code> 函數被內聯了，如果嘗試傳回 <code>block</code>，會在編譯器拋出：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img6.png" alt="img6"></p>
+<p>所以這個時候就要用 <code>noinline</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">hello</span><span class="params">(<span class="keyword">noinline</span> block: () -&gt; <span class="type">Unit</span>)</span></span>: () -&gt; <span class="built_in">Unit</span> &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> block</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>crossinline</code>：強制內聯</p>
+<h4 id="infix-函數"><a href="#infix-函數" class="headerlink" title="infix 函數"></a><code>infix</code> 函數</h4><p>不需要用 <code>()</code> 的函數</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="function"><span class="keyword">fun</span> <span class="built_in">Int</span>.<span class="title">add</span><span class="params">(count: <span class="type">Int</span>)</span></span> = <span class="keyword">this</span> + count</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> result1 = <span class="number">5</span> add <span class="number">3</span></span><br><span class="line">println(<span class="string">&quot;Result: <span class="variable">$result1</span>&quot;</span>)     <span class="comment">// 輸出：8</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="operator-函數"><a href="#operator-函數" class="headerlink" title="operator 函數"></a><code>operator</code> 函數</h4><p>就是重載運算符的函數，例如 <code>1 + 1</code>，對應的函數是 <code>plus()</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> point = Point(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">val</span> b = a + point       <span class="comment">// 錯誤</span></span><br></pre></td></tr></table></figure>
+
+<p>假如，我們嘗試把不支援的型別與例如 <code>Int</code> 相加，會在編譯時拋出錯誤：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img5.png" alt="img5"></p>
+<p>要令到這個 <code>+</code> 運算符可以用其他類型 e.g. <code>Point</code> 進行加法，就要用 <code>operator fun</code>。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="built_in">Int</span>.<span class="title">plus</span><span class="params">(other: <span class="type">Point</span>)</span></span> = <span class="keyword">this</span> + other.x + other.y</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> point = Point(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">val</span> b = a + point</span><br><span class="line">print(<span class="string">&quot;b: <span class="variable">$b</span>&quot;</span>)      <span class="comment">// 輸出 b: 6</span></span><br></pre></td></tr></table></figure>
+
+<p>運算符函數表</p>
+<table>
+<thead>
+<tr>
+<th>運算符</th>
+<th>函數</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>+</code></td>
+<td><code>plus()</code></td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td><code>minus()</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td><code>times()</code></td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td><code>div()</code></td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td><code>mod()</code> &#x2F; <code>rem()</code></td>
+</tr>
+<tr>
+<td><code>++</code></td>
+<td><code>inc()</code></td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td><code>not()</code></td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td><code>compareTo() &gt; 0</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td><code>compareTo() &lt; 0</code></td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td><code>compareTo() &gt;= 0</code></td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td><code>compareTo &lt;= 0</code></td>
+</tr>
+<tr>
+<td><code>in</code></td>
+<td><code>contains()</code></td>
+</tr>
+</tbody></table>
+<h3 id="匿名函數"><a href="#匿名函數" class="headerlink" title="匿名函數"></a>匿名函數</h3><p>匿名函數可使用 <code>fun()</code> 定義，並作為值賦值給變數。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sum = <span class="function"><span class="title">fun</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span> = a + b</span><br><span class="line"><span class="keyword">val</span> result = sum(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;sum: <span class="variable">$result</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum: 10</span><br></pre></td></tr></table></figure>
+
+<h3 id="標準-x2F-作用域函數"><a href="#標準-x2F-作用域函數" class="headerlink" title="標準 &#x2F; 作用域函數"></a>標準 &#x2F; 作用域函數</h3><p>這些函數可以幫助我們<strong>簡化程式碼並提高可讀性</strong>，對代碼邏輯沒有任何意義，只是語法糖。用途很廣泛，而且看情況。</p>
+<table>
+<thead>
+<tr>
+<th>函數</th>
+<th>對象引用</th>
+<th>返回值</th>
+<th>是否擴展函數</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>let</code></td>
+<td><code>it</code></td>
+<td>Lambda 表達式</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td><code>this</code></td>
+<td>Lambda 表達式</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td>-</td>
+<td>Lambda 表達式</td>
+<td>不是，調用毋須 <code>Context</code></td>
+</tr>
+<tr>
+<td><code>with</code></td>
+<td><code>this</code></td>
+<td>Lambda 表達式</td>
+<td>不是，把 <code>Context</code> 當作參數</td>
+</tr>
+<tr>
+<td><code>apply</code></td>
+<td><code>this</code></td>
+<td><code>Context</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>also</code></td>
+<td><code>it</code></td>
+<td><code>Context</code></td>
+<td>是</td>
+</tr>
+</tbody></table>
+<div class="note info simple"><ul>
+<li><code>this</code>：當前引用的對象，例如 <code>this.text = ...</code> 可省略為 <code>text = ...</code>。</li>
+<li><code>it</code>：常用於 Lambda 表達式，作為<strong>顯式單個參數聲明</strong>的暫代名稱，只可以為單個參數的函數，才可用 <code>it</code>。</li>
+</ul>
+<p>如果暫不使用參數，可用 <code>_</code> 作為佔位，未使用的參數，不會進行處理。</p>
+</div>
+
+<h4 id="let-函數"><a href="#let-函數" class="headerlink" title="let 函數"></a><code>let</code> 函數</h4><ol>
+<li>對非空型別對象執行 Lambda 表達式<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="string">&quot;John&quot;</span></span><br><span class="line">name?.let &#123;</span><br><span class="line">    <span class="comment">// 在這裡可以使用非空的 name 變數</span></span><br><span class="line">    println(<span class="string">&quot;Hello, <span class="variable">$it</span>!&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>把表達式作為變量引入到局部作用域中<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> number = <span class="number">5</span></span><br><span class="line"><span class="keyword">val</span> doubled = number.let &#123; it * <span class="number">2</span> &#125;</span><br><span class="line">println(doubled)            <span class="comment">// 輸出：10</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="run-函數"><a href="#run-函數" class="headerlink" title="run 函數"></a><code>run</code> 函數</h4><p>跟 <code>apply</code> 函數用法相若，但 <code>run</code> 函數會傳回 Lambda 表達式，<code>apply</code> 函數沒有傳回值。而且<strong>可以為特定對象編寫邏輯</strong>，最後運算取得結果。</p>
+<ol>
+<li>擴展：對象配置並且計算結果<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> result = <span class="string">&quot;Hello, Kotlin&quot;</span>.run &#123;</span><br><span class="line">    println(<span class="keyword">this</span>)           <span class="comment">// 輸出：Hello, Kotlin</span></span><br><span class="line">    length</span><br><span class="line">&#125;</span><br><span class="line">println(result)             <span class="comment">// 輸出：13</span></span><br></pre></td></tr></table></figure></li>
+<li>非擴展：在需要表達式的地方執行語句<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> message = run &#123;</span><br><span class="line">    <span class="keyword">val</span> greeting = <span class="string">&quot;Hello&quot;</span></span><br><span class="line">    <span class="keyword">val</span> person = <span class="string">&quot;Alice&quot;</span></span><br><span class="line">    <span class="string">&quot;<span class="variable">$greeting</span>, <span class="variable">$person</span>!&quot;</span>   <span class="comment">// 返回的值一定要放最後</span></span><br><span class="line">&#125;</span><br><span class="line">println(message)            <span class="comment">// 輸出：Hello, Alice!</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="apply-函數"><a href="#apply-函數" class="headerlink" title="apply 函數"></a><code>apply</code> 函數</h4><p>可視為一種配置函數，傳入一個接收者，然後呼叫一系列函數來對接收者做設定。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: String? = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="built_in">Int</span>? = <span class="literal">null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> person = Person().apply &#123;</span><br><span class="line">    name = <span class="string">&quot;Alice&quot;</span></span><br><span class="line">    age = <span class="number">25</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="also-函數"><a href="#also-函數" class="headerlink" title="also 函數"></a><code>also</code> 函數</h4><p>附加效果，<code>also</code> 適合針對同一原始物件，透過副作用做事。當看到 <code>also</code> 的時候表示，同時還要針對該對象物件執行此動作。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = mutableListOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> doubledNumbers = numbers.also &#123;</span><br><span class="line">    it.forEachIndexed &#123; index, value -&gt;</span><br><span class="line">        it[index] = value * <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">println(doubledNumbers) <span class="comment">// 輸出：[2, 4, 6]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="with-函數"><a href="#with-函數" class="headerlink" title="with 函數"></a><code>with</code> 函數</h4><p>一個對象的一組函數調用，<code>with</code> 函數是 <code>run</code> 函數的變形：他們的功能與行為一樣，接收者是使用 <code>with</code> 的對象物件。</p>
+<div class="note warning simple"><p>但 <code>with</code> 的呼叫方式不同，使用 <code>with</code> 時，<strong>要求引數作為其第一個參數傳入</strong>，另外，若執行 <code>run</code> 的對象物件為 <code>null</code> ，則 <code>run</code> 區塊不會進入；反之， <code>with</code> 函數則是會進去操作。</p>
+</div>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Person</span>(<span class="keyword">val</span> name: String, <span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> person = Person(<span class="string">&quot;Alice&quot;</span>, <span class="number">25</span>)</span><br><span class="line">with(person) &#123;</span><br><span class="line">    println(<span class="string">&quot;Name: <span class="variable">$name</span>&quot;</span>)</span><br><span class="line">    println(<span class="string">&quot;Age: <span class="variable">$age</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="擴展函數"><a href="#擴展函數" class="headerlink" title="擴展函數"></a>擴展函數</h3><p>允許我們<strong>為現有的類型添加新的函數</strong>，而不需要修改原始類型的程式碼。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="built_in">Int</span>.<span class="title">isEven</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span> % <span class="number">2</span> == <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> number = <span class="number">5</span></span><br><span class="line">println(number.isEven())        <span class="comment">// 輸出：false</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>這裏的 <code>this</code> 是指 <code>fun Int</code> 的 <code>Int</code> 型別，這個 <code>Int</code> 是一個接收者 (receiver)。</p>
+<p>善用擴展函數可減少編寫 Utils 複用工具函數。</p>
+</div>
+
+<details class="folding-tag"><summary> 轉換為 Java 後的程式碼 </summary>
+              <div class="content">
+              <p>實際上有一個隱藏的類別會產生，根據檔案名稱如 <code>Extension.kt</code>，那就會在編譯過程生成 <code>ExtensionKt.class</code>，大概的 Java 程式碼就是：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExtensionKt</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isEven</span><span class="params">(receiver: Int)</span> &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>receiver</code> 會在編譯過程寫入作為參數</p>
+              </div>
+            </details>
+
+<h1 id="範圍"><a href="#範圍" class="headerlink" title="範圍"></a>範圍</h1><p>範圍 (Ranges) 是一個連續的數值區間，我們可以使用範圍來表示一系列連續的數字或字符。在 Kotlin 中，我們可以使用 <code>..</code> 運算符來創建一個範圍。範圍的起始值和結束值可以是整數、字符或其他可比較的型別。</p>
+<ol>
+<li><p>升序 (ascending)</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.4</span>) print(i)            <span class="comment">// 輸出 &quot;1234&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img3.png" alt="img3"></p>
+<p>如果啟用了嵌入提示 (Inlay Hint)，可以看到 <code>..</code> 有 <code>&lt;=</code> 的意思。</p>
+</div>
+</li>
+<li><p>降序 (descending)</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">4</span> downTo <span class="number">1</span>) print(i)      <span class="comment">// 輸出 &quot;4321&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note info simple"><p>而 <code>downTo</code> 則有 <code>&gt;=</code> 的意思。</p>
+</div>
+<div class="note danger simple"><p>降序不是這樣做：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">4.</span><span class="number">.1</span>) print(i)            <span class="comment">// 沒有輸出</span></span><br></pre></td></tr></table></figure>
+
+<p>編譯器會跟你說範圍是空的，因為 <code>4 &lt;= 1</code> 是異想天開的事。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img4.png" alt="img4"></p>
+</div>
+</li>
+<li><p>略過及調整步長 <code>step</code><br>例如是偶數</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">2.</span><span class="number">.10</span> step <span class="number">2</span>) print(i)    <span class="comment">// 輸出：246810</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直至 <code>until</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span> until <span class="number">10</span>) print(i)      <span class="comment">// 輸出：123456789 (不計算 10)</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="範圍函數"><a href="#範圍函數" class="headerlink" title="範圍函數"></a>範圍函數</h2><p>不一定只用在迴圈，亦可以以函數方式使用</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> descendingNumbers = <span class="number">5.</span>downTo(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">val</span> evenNumbers = (<span class="number">2.</span><span class="number">.10</span>).step(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Descending numbers:&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> (number <span class="keyword">in</span> descendingNumbers) &#123;</span><br><span class="line">    println(number)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Even numbers:&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> (number <span class="keyword">in</span> evenNumbers) &#123;</span><br><span class="line">    println(number)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Descending numbers:</span><br><span class="line">5</span><br><span class="line">4</span><br><span class="line">3</span><br><span class="line">2</span><br><span class="line">1</span><br><span class="line">Even numbers:</span><br><span class="line">2</span><br><span class="line">4</span><br><span class="line">6</span><br><span class="line">8</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="陣列"><a href="#陣列" class="headerlink" title="陣列"></a>陣列</h1><p>陣列 (又稱數組) 是一種常用的資料結構，它可以儲存一組相同類型的元素。</p>
+<h2 id="用-arrayOf-函數建立基本陣列"><a href="#用-arrayOf-函數建立基本陣列" class="headerlink" title="用 arrayOf() 函數建立基本陣列"></a>用 <code>arrayOf()</code> 函數建立基本陣列</h2><ol>
+<li>空陣列<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> empty = arrayOf&lt;String&gt;()</span><br></pre></td></tr></table></figure></li>
+<li>一般陣列<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = arrayOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="用-Array-建立不同陣列"><a href="#用-Array-建立不同陣列" class="headerlink" title="用 Array() 建立不同陣列"></a>用 <code>Array()</code> 建立不同陣列</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> names = Array(<span class="number">3</span>) &#123; <span class="string">&quot;&quot;</span> &#125;                          <span class="comment">// 預設是空陣列，設置了陣列大小為 3</span></span><br><span class="line">names[<span class="number">0</span>] = <span class="string">&quot;Alice&quot;</span></span><br><span class="line">names[<span class="number">1</span>] = <span class="string">&quot;Bob&quot;</span></span><br><span class="line">names[<span class="number">2</span>] = <span class="string">&quot;Carol&quot;</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Array of names: <span class="variable">$names</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;The first item of names: <span class="subst">$&#123;names[<span class="number">0</span>]&#125;</span>&quot;</span>)      <span class="comment">// 獲取 names 陣列首項元素</span></span><br><span class="line">println(<span class="string">&quot;The size of names array: <span class="subst">$&#123;names.size&#125;</span>&quot;</span>)    <span class="comment">// 獲取 names 陣列大小</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>陣列的索引從 <code>0</code> 開始，所以 <code>names[0]</code> 代表陣列中的第一個元素。</p>
+</div>
+
+<h3 id="二維陣列"><a href="#二維陣列" class="headerlink" title="二維陣列"></a>二維陣列</h3><p>例如一個 <code>2 x 2</code> 的二維陣列</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> matrix = Array(<span class="number">2</span>) &#123; IntArray(<span class="number">2</span>) &#125;</span><br><span class="line">matrix[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">matrix[<span class="number">0</span>][<span class="number">1</span>] = <span class="number">2</span></span><br><span class="line">matrix[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">3</span></span><br><span class="line">matrix[<span class="number">1</span>][<span class="number">1</span>] = <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> element = matrix[<span class="number">1</span>][<span class="number">0</span>]</span><br><span class="line">println(<span class="string">&quot;matrix[1][0] 的值為 <span class="variable">$element</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">matrix[1][0] 的值為 3</span><br></pre></td></tr></table></figure>
+
+<h3 id="三維陣列"><a href="#三維陣列" class="headerlink" title="三維陣列"></a>三維陣列</h3><p>例如一個 <code>2 x 3 x 4</code> 的三維陣列</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> cube = Array(<span class="number">2</span>) &#123; Array(<span class="number">3</span>) &#123; IntArray(<span class="number">4</span>) &#125; &#125;</span><br><span class="line">cube[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">cube[<span class="number">0</span>][<span class="number">1</span>][<span class="number">2</span>] = <span class="number">2</span></span><br><span class="line">cube[<span class="number">1</span>][<span class="number">2</span>][<span class="number">3</span>] = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> element = cube[<span class="number">0</span>][<span class="number">1</span>][<span class="number">2</span>]</span><br><span class="line">println(<span class="string">&quot;cube[0][1][2] 的值為 <span class="variable">$element</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>這個 <code>2 x 3 x 4</code> 是假想三維空間的 <code>x</code> 軸、<code>y</code> 軸及 <code>z</code> 軸測量指標，其中 <code>x</code> 軸有 2 個元素，<code>y</code> 軸有 3 個元素，<code>z</code> 軸有 4 個元素。</p>
+<p>以一個立方體來比喻的話，我們可以把 <code>x</code> 軸想像成立方體的寬度，<code>y</code> 軸想像成高度，<code>z</code> 軸想像成深度。而 <code>2 x 3 x 4</code> 的意思就是這個立方體有 2 個寬度、3 個高度和 4 個深度。</p>
+</div>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cube[0][1][2] 的值為 2</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><p>集合 (Collections) 是在程式開發中非常重要的一個主題，它們可以讓我們有效地儲存和操作多個元素。</p>
+<div class="note info simple"><p>集合與陣列一樣，索引由 <code>0</code> 開始，即是第一個元素。</p>
+</div>
+
+<h2 id="集合類型"><a href="#集合類型" class="headerlink" title="集合類型"></a>集合類型</h2><h3 id="有序集合-List-列表"><a href="#有序集合-List-列表" class="headerlink" title="有序集合 List (列表)"></a>有序集合 <code>List</code> (列表)</h3><p>是一個有序的集合，可以包含重複的元素。我們可以使用索引來訪問和修改列表中的元素。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)                             <span class="comment">// 定義不可變列表</span></span><br><span class="line"><span class="keyword">val</span> mutableNumbers = mutableListOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)               <span class="comment">// 定義可變列表</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;List of numbers: <span class="variable">$numbers</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;List of mutableNumbers: <span class="variable">$mutableNumbers</span>&quot;</span>)              <span class="comment">// 舊輸出</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;The first item of numbers: <span class="subst">$&#123;numbers[<span class="number">0</span>]&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">mutableNumbers.add(<span class="number">6</span>)                                           <span class="comment">// 為 mutableNumbers 新增一個元素為 6</span></span><br><span class="line">println(<span class="string">&quot;New number for mutableNumbers: <span class="subst">$&#123;mutableNumbers[<span class="number">5</span>]&#125;</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;List of mutableNumbers: <span class="variable">$mutableNumbers</span>&quot;</span>)              <span class="comment">// 新輸出</span></span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List of numbers: [1, 2, 3, 4, 5]</span><br><span class="line">List of mutableNumbers: [1, 2, 3, 4, 5]</span><br><span class="line">The first item of numbers: 1</span><br><span class="line">The newly added number for mutableNumbers: 6</span><br><span class="line">List of mutableNumbers: [1, 2, 3, 4, 5, 6]</span><br></pre></td></tr></table></figure>
+
+<h3 id="無序集合-Set-集合"><a href="#無序集合-Set-集合" class="headerlink" title="無序集合 Set (集合)"></a>無序集合 <code>Set</code> (集合)</h3><p>是一個不重複元素的集合，並且沒有特定的順序。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> fruits = setOf(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;orange&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> mutableFruits = mutableSetOf(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;orange&quot;</span>)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Set of fruits: <span class="variable">$fruits</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;Set of mutableFruits: <span class="variable">$mutableFruits</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set of fruits: [apple, banana, orange]</span><br><span class="line">Set of mutableFruits: [apple, banana, orange]</span><br></pre></td></tr></table></figure>
+
+<p>相反，如果用 <code>List</code>，則會連同重複元素輸出：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> fruits = listOf(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;orange&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> mutableFruits = mutableListOf(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;orange&quot;</span>)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;List of fruits: <span class="variable">$fruits</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;List of mutableFruits: <span class="variable">$mutableFruits</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List of fruits: [apple, banana, orange, orange]</span><br><span class="line">List of mutableFruits: [apple, banana, orange, orange]</span><br></pre></td></tr></table></figure>
+
+<h3 id="鍵值對集合-Map-映射"><a href="#鍵值對集合-Map-映射" class="headerlink" title="鍵值對集合 Map (映射)"></a>鍵值對集合 <code>Map</code> (映射)</h3><p>是一個鍵值對 (key-value) 的集合，每個元素都有一個唯一的鍵和對應的值。我們可以使用鍵來獲取相應的值。</p>
+<div class="note info simple"><p>用 <code>to</code> 關鍵字進行鍵值對，格式：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(鍵 <span class="number">1</span> to 值 <span class="number">1</span>, 鍵 <span class="number">2</span> to 值 <span class="number">2</span>, ...)</span><br></pre></td></tr></table></figure></div>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> person = mapOf(</span><br><span class="line">    <span class="string">&quot;name&quot;</span> to <span class="string">&quot;Steve&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span> to <span class="number">15</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">val</span> mutablePerson = mutableMapOf(</span><br><span class="line">    <span class="string">&quot;name&quot;</span> to <span class="string">&quot;Heidi&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span> to <span class="number">23</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Map of person: <span class="variable">$person</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;Map of mutablePerson: <span class="variable">$mutablePerson</span>&quot;</span>)     <span class="comment">// 舊輸出</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;The name of person: <span class="subst">$&#123;person[<span class="string">&quot;name&quot;</span>]&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">mutablePerson[<span class="string">&quot;gender&quot;</span>] = <span class="string">&quot;F&quot;</span>                       <span class="comment">// 為 mutablePerson 新增 gender 屬性，並設置為 &quot;F&quot; (女性)</span></span><br><span class="line">println(<span class="string">&quot;Map of mutablePerson: <span class="variable">$mutablePerson</span>&quot;</span>)     <span class="comment">// 新輸出</span></span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map of person: &#123;name=Steve, age=15&#125;</span><br><span class="line">Map of mutablePerson: &#123;name=Heidi, age=23&#125;</span><br><span class="line">The name of person: Steve</span><br><span class="line">Map of mutablePerson: &#123;name=Heidi, age=23, gender=F&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="集合函數操作"><a href="#集合函數操作" class="headerlink" title="集合函數操作"></a>集合函數操作</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numbers = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">val</span> evenNumbers = numbers.filter &#123; it % <span class="number">2</span> == <span class="number">0</span> &#125;            <span class="comment">// 篩選出偶數</span></span><br><span class="line"><span class="keyword">val</span> doubleNumbers = numbers.map &#123; it * <span class="number">2</span> &#125;                  <span class="comment">// 把每個數字都加倍</span></span><br><span class="line"><span class="keyword">val</span> sum = numbers.reduce &#123; acc, i -&gt; acc + i &#125;              <span class="comment">// 計算總和 (即 1 + 2 + 3 + 4 + 5)</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;evenNumbers: <span class="variable">$evenNumbers</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;doubleNumbers: <span class="variable">$doubleNumbers</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;sum: <span class="variable">$sum</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">evenNumbers: [2, 4]</span><br><span class="line">doubleNumbers: [2, 4, 6, 8, 10]</span><br><span class="line">sum: 15</span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><ul>
+<li><code>filter</code>：返回的是 <code>Boolean</code> 型別</li>
+<li><code>map</code>：對集合進行不同操作，沒有指定返回型別</li>
+<li><code>reduce</code>：累積函數，第一個參數 <code>acc</code> (accumulation) 是用來疊加的返回值，第二個參數 <code>i</code> 是本次循環中列表的值</li>
+<li><code>fold</code>：與 <code>reduce</code> 相似，但可設定初始值</li>
+</ul>
+</div>
+
+<hr>
+<h1 id="列舉"><a href="#列舉" class="headerlink" title="列舉"></a>列舉</h1><p>列舉是一組相關的常量的集合，它們可以幫助我們更好地組織和表示程式中的數據。在 Kotlin 中，我們可以使用 <code>enum class</code> 關鍵字來定義一個列舉類。</p>
+<ol>
+<li><p>基本列舉</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title class_">Direction</span> &#123;</span><br><span class="line">    NORTH, SOUTH, EAST, WEST</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> direction = Direction.NORTH</span><br><span class="line">println(direction)      <span class="comment">// 輸出：NORTH</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>列舉初始值：可以像一般建構式擁有屬性和方法。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title class_">Color</span>(<span class="keyword">val</span> rgb: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    RED(<span class="number">0xFF0000</span>),</span><br><span class="line">    GREEN(<span class="number">0x00FF00</span>),</span><br><span class="line">    BLUE(<span class="number">0x0000FF</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">printRgb</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;RGB value: <span class="variable">$rgb</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> color = Color.RED</span><br><span class="line">println(color.rgb)      <span class="comment">// 輸出：16711680</span></span><br><span class="line">color.printRgb()        <span class="comment">// 輸出：RGB value: 16711680</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h1 id="註解"><a href="#註解" class="headerlink" title="註解"></a>註解</h1><p>註解 (Annotations) 是一種用於在程式碼中添加元數據（metadata）的特殊標記。它們可以應用於類、函數、變數等元素上，並提供額外的資訊給編譯器、工具或其他程式碼分析工具。</p>
+<ol>
+<li><p>使用 Kotlin 內建註解</p>
+<table>
+<thead>
+<tr>
+<th>註解</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@JvmStatic</code></td>
+<td>用於將 Kotlin 中的伴生對象（companion object）中的函數或屬性轉換為 Java 中的靜態函數或靜態屬性。</td>
+</tr>
+<tr>
+<td><code>@JvmOverloads</code></td>
+<td>用於在 Kotlin 中生成重載函數的所有可能的組合。</td>
+</tr>
+<tr>
+<td><code>@Deprecated</code></td>
+<td>標記已被棄用的函數、類或屬性，並提供一個建議的替代方案。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>編寫自訂註解</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">MyAnnotation</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@MyAnnotation</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="meta">@MyAnnotation</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">myFunction</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// 函數內容</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="元資訊"><a href="#元資訊" class="headerlink" title="元資訊"></a>元資訊</h2><table>
+<thead>
+<tr>
+<th>元資訊</th>
+<th>用途</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Target</code></td>
+<td>用於指定註解可以應用的元素類型</td>
+<td>如 <code>@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)</code> 可以應用於類和函數上</td>
+</tr>
+<tr>
+<td><code>@Retension</code></td>
+<td>用於指定註解在編譯後的保留策略</td>
+<td>例如 <code>@Retention(AnnotationRetention.RUNTIME)</code> 表示該註解在運行時仍然可用</td>
+</tr>
+<tr>
+<td><code>@Repeatable</code></td>
+<td>用於指定註解是否可以重複應用於同一個元素。通常，一個元素只能擁有一個特定註解的實例</td>
+<td></td>
+</tr>
+<tr>
+<td><code>@MustBeDocumented</code></td>
+<td>用於指示該註解應該包含在生成的 API 文檔中</td>
+<td></td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>@Repeatable</code><br>通常，一個元素只能擁有一個特定註解的實例。但是，如果你將 <code>@Repeatable</code> 註解應用於註解定義上，則可以多次應用該註解於同一個元素。這需要使用一個容器註解來包裹重複的註解。<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repeatable</span></span><br><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">MyAnnotation</span>(<span class="keyword">val</span> name: String)</span><br><span class="line"></span><br><span class="line"><span class="meta">@MyAnnotation(<span class="string">&quot;A&quot;</span>)</span></span><br><span class="line"><span class="meta">@MyAnnotation(<span class="string">&quot;B&quot;</span>)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>例子</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(AnnotationTarget.CONSTRUCTOR, AnnotationTarget.LOCAL_VARIABLE)</span></span><br><span class="line"><span class="meta">@Retention(AnnotationRetention.SOURCE)</span></span><br><span class="line"><span class="meta">@MustBeDocumented</span></span><br><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">MyAnnotation</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> <span class="meta">@MyAnnotation</span> <span class="keyword">constructor</span>(<span class="keyword">val</span> count: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        println(<span class="string">&quot;Constructor annotated&quot;</span>)</span><br><span class="line">        println(<span class="string">&quot;Count is <span class="variable">$count</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> obj = MyClass(<span class="number">5</span>)</span><br><span class="line">    obj.display()</span><br><span class="line">    <span class="meta">@MyAnnotation</span> <span class="keyword">val</span> str = <span class="string">&quot;Hello&quot;</span> </span><br><span class="line">    println(<span class="string">&quot;Local parameter annotated&quot;</span>)</span><br><span class="line">    println(str)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Constructor annotated</span><br><span class="line">Count is 5</span><br><span class="line">Local parameter annotated</span><br><span class="line">Hello</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="條件判斷"><a href="#條件判斷" class="headerlink" title="條件判斷"></a>條件判斷</h1><h2 id="決策邏輯"><a href="#決策邏輯" class="headerlink" title="決策邏輯"></a>決策邏輯</h2><h3 id="if-語句"><a href="#if-語句" class="headerlink" title="if 語句"></a><code>if</code> 語句</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> age = <span class="number">18</span></span><br><span class="line"><span class="keyword">if</span> (age &gt;= <span class="number">18</span>) &#123;</span><br><span class="line">    println(<span class="string">&quot;你已經成年了&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    println(<span class="string">&quot;你還未成年&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="else-if-語句"><a href="#else-if-語句" class="headerlink" title="else if 語句"></a><code>else if</code> 語句</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> grade = <span class="number">75</span></span><br><span class="line"><span class="keyword">if</span> (grade &gt;= <span class="number">90</span>) &#123;</span><br><span class="line">    println(<span class="string">&quot;A&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (grade &gt;= <span class="number">80</span>) &#123;</span><br><span class="line">    println(<span class="string">&quot;B&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (grade &gt;= <span class="number">70</span>) &#123;</span><br><span class="line">    println(<span class="string">&quot;C&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    println(<span class="string">&quot;D&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="單行-if-表達式"><a href="#單行-if-表達式" class="headerlink" title="單行 if 表達式"></a>單行 <code>if</code> 表達式</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> score = <span class="number">80</span></span><br><span class="line"><span class="keyword">val</span> result = <span class="keyword">if</span> (score &gt;= <span class="number">60</span>) <span class="string">&quot;及格&quot;</span> <span class="keyword">else</span> <span class="string">&quot;不及格&quot;</span></span><br><span class="line">println(result)</span><br></pre></td></tr></table></figure>
+
+<h2 id="情況邏輯"><a href="#情況邏輯" class="headerlink" title="情況邏輯"></a>情況邏輯</h2><p><code>when</code> 表達式類似於 Java 使用的 <code>switch</code> 語句，可以用於根據不同的值執行不同的程式邏輯。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> dayOfWeek = <span class="number">3</span></span><br><span class="line"><span class="keyword">when</span> (dayOfWeek) &#123;</span><br><span class="line">    <span class="number">1</span> -&gt; println(<span class="string">&quot;星期一&quot;</span>)</span><br><span class="line">    <span class="number">2</span> -&gt; println(<span class="string">&quot;星期二&quot;</span>)</span><br><span class="line">    <span class="number">3</span> -&gt; println(<span class="string">&quot;星期三&quot;</span>)</span><br><span class="line">    <span class="number">4</span> -&gt; println(<span class="string">&quot;星期四&quot;</span>)</span><br><span class="line">    <span class="number">5</span> -&gt; println(<span class="string">&quot;星期五&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span> -&gt; println(<span class="string">&quot;週末&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>when</code> 比 Java 的 <code>switch</code> 更勝一籌，表達式還可以用於檢查範圍、類型和其他條件。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> names = listOf(<span class="string">&quot;John&quot;</span>, <span class="string">&quot;Sarah&quot;</span>, <span class="string">&quot;Tim&quot;</span>, <span class="string">&quot;Maggie&quot;</span>) </span><br><span class="line"><span class="keyword">when</span> (x) &#123;</span><br><span class="line">    <span class="keyword">in</span> names -&gt; print(<span class="string">&quot;I know that name!&quot;</span>)</span><br><span class="line">    !<span class="keyword">in</span> <span class="number">1.</span><span class="number">.10</span> -&gt; print(<span class="string">&quot;Argument was not in the range from 1 to 10&quot;</span>)</span><br><span class="line">    <span class="keyword">is</span> String -&gt; print(x.length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="迴圈"><a href="#迴圈" class="headerlink" title="迴圈"></a>迴圈</h1><h2 id="while-迴圈"><a href="#while-迴圈" class="headerlink" title="while 迴圈"></a><code>while</code> 迴圈</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> (i &lt; <span class="number">5</span>) &#123;</span><br><span class="line">    i++</span><br><span class="line">    println(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<h2 id="for-迴圈"><a href="#for-迴圈" class="headerlink" title="for 迴圈"></a><code>for</code> 迴圈</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.5</span>) println(i)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<h2 id="forEach-迴圈"><a href="#forEach-迴圈" class="headerlink" title="forEach 迴圈"></a><code>forEach</code> 迴圈</h2><p>可以運用集合 (Collections) 與<code>forEach</code> 函數簡化 <code>for</code> 語法代碼操作。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">list.forEach &#123;</span><br><span class="line">    println(it)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="智慧轉型"><a href="#智慧轉型" class="headerlink" title="智慧轉型"></a>智慧轉型</h1><p>Kotlin 很聰明，當我們使用 <code>is</code> 關鍵字檢查一個變數是否為特定類型後，Kotlin 會自動將該變數轉型為該類型。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printLength</span><span class="params">(obj: <span class="type">Any</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (obj <span class="keyword">is</span> String) &#123;</span><br><span class="line">        <span class="comment">// 在這裡，Kotlin 自動將 obj 轉型為 String 類型</span></span><br><span class="line">        println(obj.length)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 Java 則要手動轉型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">printLength</span><span class="params">(Object obj)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">        <span class="comment">// 在這裡，我們需要手動將 obj 轉型為 String 類型</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> (String) obj;</span><br><span class="line">        System.out.println(str.length());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="空安全"><a href="#空安全" class="headerlink" title="空安全"></a>空安全</h1><p>空安全是 Kotlin 中一個非常重要的特性，它可以幫助我們避免許多空指針異常（<code>NullPointerException</code>）。</p>
+<h2 id="從陣列中清除空值"><a href="#從陣列中清除空值" class="headerlink" title="從陣列中清除空值"></a>從陣列中清除空值</h2><p>如果你想從可為空的 <code>Iterable</code> 或陣列中消除 <code>null</code> 值，你可以使用 <code>filterNotNull()</code> 函數。這個函數將返回一個新的集合，其中不包含 <code>null</code> 值。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> listWithNulls: List&lt;<span class="built_in">Int</span>?&gt; = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="literal">null</span>, <span class="number">4</span>, <span class="literal">null</span>, <span class="number">6</span>)</span><br><span class="line"><span class="keyword">val</span> listWithoutNulls = listWithNulls.filterNotNull()</span><br><span class="line"></span><br><span class="line">println(listWithNulls)                  <span class="comment">// 輸出：[1, 2, null, 4, null, 6]</span></span><br><span class="line">println(listWithoutNulls)               <span class="comment">// 輸出：[1, 2, 4, 6]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="空合併及-Elvis-運算符"><a href="#空合併及-Elvis-運算符" class="headerlink" title="空合併及 Elvis 運算符 ?:"></a>空合併及 Elvis 運算符 <code>?:</code></h2><p>可以在變數為 <code>null</code> 時提供一個默認值。如果變數為 <code>null</code>，則 Elvis 運算符將返回其右側的表達式作為結果，否則返回變數本身。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="literal">null</span></span><br><span class="line"><span class="keyword">val</span> length1 = name?.length</span><br><span class="line"><span class="keyword">val</span> length2 = name?.length ?: <span class="string">&quot;0&quot;</span></span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Length 1: <span class="variable">$length1</span>&quot;</span>)           <span class="comment">// 輸出：null</span></span><br><span class="line">println(<span class="string">&quot;Length 2: <span class="variable">$length2</span>&quot;</span>)           <span class="comment">// 輸出：0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="安全調用符"><a href="#安全調用符" class="headerlink" title="安全調用符 ?."></a>安全調用符 <code>?.</code></h2><p>處理可為空的變數時，我們需要使用安全調用運算符（<code>?.</code>）來訪問它的屬性或呼叫它的方法。這樣可以避免空指針異常。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="literal">null</span></span><br><span class="line"><span class="keyword">val</span> length = name?.length</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Length: <span class="variable">$length</span>&quot;</span>)              <span class="comment">// 輸出：null</span></span><br></pre></td></tr></table></figure>
+
+<p>通常會連同 <code>let</code> 標準函數一起使用</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> name: String? = <span class="literal">null</span></span><br><span class="line">name?.let &#123;</span><br><span class="line">    println(<span class="string">&quot;Length: <span class="subst">$&#123;it.length&#125;</span>&quot;</span>)     <span class="comment">// 沒有輸出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="非空斷言"><a href="#非空斷言" class="headerlink" title="非空斷言 !!"></a>非空斷言 <code>!!</code></h2><p>可以在確定變數不為 <code>null</code> 的情況下強制執行操作。</p>
+<div class="note warning simple"><p>使用 <code>!!</code> 運算符需要謹慎使用，因為它可能引發空指針異常 (<code>KotlinNullPointerException</code>)。</p>
+<p>只有在你確定變數不為 <code>null</code> 的情況下才應該使用非空斷言運算符 <code>!!</code>。否則，建議使用安全調用運算符 <code>?.</code> 來處理可為空的變數，以避免空指針異常的風險。</p>
+</div>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img7.png" alt="img7"></p>
+<hr>
+<h1 id="委託"><a href="#委託" class="headerlink" title="委託"></a>委託</h1><p>指物件將一個請求委派給另一個物件來處理，將其讀取和寫入操作委託給其他對象。</p>
+<ol>
+<li><p>例如現在我想要一個新的 <code>OnlyHelloClass</code> 支援 <code>AllClass</code> 的 <code>sayHello()</code> 函數，如果直接把其繼承，就有失原意，因為我只想要支援 <code>sayHello()</code> 函數，結果把 <code>sayGoodbye()</code> 都帶過來了。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">AllClass</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayHello</span><span class="params">()</span></span> = println(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayGoodbye</span><span class="params">()</span></span> = println(<span class="string">&quot;Goodbye&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">OnlyHelloClass</span> : <span class="type">AllClass</span>()</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img8.png" alt="img8"><br>要解決這個問題，可以用介面（interface）</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">HelloDelegate</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayHello</span><span class="params">()</span></span> = AllClass().sayHello()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">OnlyHelloClass</span> : <span class="type">HelloDelegate</span></span><br></pre></td></tr></table></figure>
+<p>現在這個 <code>OnlyHelloClass</code> 就只可以用 <code>sayHello()</code> 函數了。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/dev-kotlin-notes/img9.png" alt="img9"><br>亦可以用 <code>by</code> 關鍵字委託哪一個 <code>Class</code> 去處理：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">HelloDelegate</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayHello</span><span class="params">()</span></span> = AllClass().sayHello()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">AllClass</span>: <span class="type">HelloDelegate</span> &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">sayHello</span><span class="params">()</span></span> = println(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">sayGoodbye</span><span class="params">()</span></span> = println(<span class="string">&quot;Goodbye&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">OnlyHelloClass</span>(<span class="keyword">private</span> <span class="keyword">val</span> delegate: HelloDelegate): HelloDelegate <span class="keyword">by</span> delegate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    OnlyHelloClass(AllClass()).sayHello()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>有些情況下，我們可能不希望立即刪除被棄用的屬性，因為有一些舊有的程式碼可能還在使用這個屬性。為了向後兼容性，我們可以將存取委託給新的屬性，這樣舊有的程式碼仍然可以使用這個屬性，同時建議開發者在新的程式碼中使用替代方案。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DelegateTest</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> newName = <span class="string">&quot;New Name&quot;</span></span><br><span class="line">    <span class="meta">@Deprecated(<span class="string">&quot;Use &#x27;newName&#x27; instead&quot;</span>, ReplaceWith(<span class="string">&quot;newName&quot;</span>))</span></span><br><span class="line">    <span class="keyword">var</span> oldName <span class="keyword">by</span> <span class="keyword">this</span>::newName</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> test = DelegateTest()</span><br><span class="line">test.oldName = <span class="string">&quot;Old Name&quot;</span></span><br><span class="line">println(test.newName)         <span class="comment">// 輸出：Old Name</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="委託屬性"><a href="#委託屬性" class="headerlink" title="委託屬性"></a>委託屬性</h2><h3 id="lazy-屬性"><a href="#lazy-屬性" class="headerlink" title="lazy 屬性"></a><code>lazy</code> 屬性</h3><p>這個委託屬性用於<strong>惰性初始化</strong>。它只有在第一次訪問屬性時才會計算其值，以後的訪問將直接返回已計算的值。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> result <span class="keyword">by</span> lazy &#123;</span><br><span class="line">    println(<span class="string">&quot;初始化&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">println(<span class="string">&quot;執行: <span class="variable">$result</span>&quot;</span>)</span><br><span class="line">println(<span class="string">&quot;執行: <span class="variable">$result</span>&quot;</span>)            <span class="comment">// 即使第二次執行，都不會再出現 &quot;初始化&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">初始化</span><br><span class="line">執行: kotlin.Unit</span><br><span class="line">執行: kotlin.Unit</span><br></pre></td></tr></table></figure>
+
+<h3 id="observable-屬性"><a href="#observable-屬性" class="headerlink" title="observable 屬性"></a><code>observable</code> 屬性</h3><p>這個委託屬性用於觀察屬性的變化。它接收一個初始值和一個回調函數，當屬性的值發生變化時，將調用回調函數。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ObservableTest</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name <span class="keyword">by</span> Delegates.observable(<span class="string">&quot;初始值&quot;</span>) &#123; property, oldValue, newValue -&gt;  </span><br><span class="line">        println(<span class="string">&quot;結果: <span class="variable">$oldValue</span> -&gt; <span class="variable">$newValue</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> observableTest = ObservableTest() </span><br><span class="line">observableTest.name = <span class="string">&quot;first&quot;</span></span><br><span class="line">observableTest.name = <span class="string">&quot;second&quot;</span></span><br><span class="line"></span><br><span class="line">print(observableTest)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">結果: 初始值 -&gt; first</span><br><span class="line">結果: first -&gt; second</span><br></pre></td></tr></table></figure>
+
+<h3 id="vetoable-屬性"><a href="#vetoable-屬性" class="headerlink" title="vetoable 屬性"></a><code>vetoable</code> 屬性</h3><p>這個委託屬性用於在設置屬性值之前進行驗證。它接收一個初始值和一個驗證回調函數，當設置屬性的新值時，將調用驗證回調函數以確定是否接受該值。如果驗證回調函數返回 <code>false</code>，則不接受該值並保持原始值。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> value <span class="keyword">by</span> Delegates.vetoable(<span class="number">0</span>) &#123; _, oldValue, newValue -&gt;</span><br><span class="line">    newValue &gt; oldValue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">value = <span class="number">5</span>           <span class="comment">// 設置新值，將通過驗證</span></span><br><span class="line">println(value)</span><br><span class="line"></span><br><span class="line">value = <span class="number">2</span>           <span class="comment">// 設置新值，將被驗證拒絕</span></span><br><span class="line">println(value)</span><br></pre></td></tr></table></figure>
+
+<p>執行結果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="部分-Kotlin-與-Java-比較語法程式碼"><a href="#部分-Kotlin-與-Java-比較語法程式碼" class="headerlink" title="部分 Kotlin 與 Java 比較語法程式碼"></a>部分 Kotlin 與 Java 比較語法程式碼</h1><p>這裏會記錄一些<strong>變化特別顯著、不同的語法</strong>比對參照。</p>
+<p>或者會另開新文章集中說比對，這裏先暫時記錄一下。</p>
+<h2 id="Getter-amp-Setter"><a href="#Getter-amp-Setter" class="headerlink" title="Getter &amp; Setter"></a>Getter &amp; Setter</h2><div class="tabs" id="code_comp_getter_setter"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_comp_getter_setter-1">Java</button><button type="button" class="tab " data-href="code_comp_getter_setter-2">Kotlin</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_comp_getter_setter-1"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAge</span><span class="params">(<span class="type">int</span> age)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getAge</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_comp_getter_setter-2"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: String = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h2 id="單例對象"><a href="#單例對象" class="headerlink" title="單例對象"></a>單例對象</h2><div class="tabs" id="code_comp_singleton"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code_comp_singleton-1">Java</button><button type="button" class="tab " data-href="code_comp_singleton-2">Kotlin</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code_comp_singleton-1"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">createInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="literal">null</span>) createInstance();</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code_comp_singleton-2"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> Singleton</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div></article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/personal-icon.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/personal-icon.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">BlueWhaleYT</div><div class="post-copyright__author_desc">絢麗薔薇之紗海</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://bluewhaleyt.github.io/post/dev-kotlin-notes.html">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://bluewhaleyt.github.io/post/dev-kotlin-notes.html')">Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://bluewhaleyt.github.io/post/dev-kotlin-notes.html"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://bluewhaleyt.github.io" target="_blank">🐳 BlueWhaleYT</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/Kotlin/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Kotlin<span class="tagsPageCount">10</span></a><a class="post-meta__box__tags" href="/tags/Java/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Java<span class="tagsPageCount">5</span></a></div></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/web-dev-hexo-blog-setup-notes.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/bSrgceo.png" onerror="onerror=null;src='https://i.imgur.com/X9zVUFU.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Hexo | 建立及寄存網誌 | VSCode 任務執行配置筆記</div></div></a></div><div class="next-post pull-right"><a href="/post/web-dev-nodejs-express-notes.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/7Ys7B1P.png" onerror="onerror=null;src='https://i.imgur.com/X9zVUFU.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Node.js | Express | 伺服器及後端建置 | 動態網頁編寫學習筆記</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> 評論</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)" style="display: none">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/personal-icon.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description">歡迎來到「BlueWhaleYT 個人網誌」。</div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">BlueWhaleYT</h1><div class="author-info__desc">絢麗薔薇之紗海</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/BlueWhaleYT" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content"> 設備: MacBook Pro Apple M2 <br> 常用軟件: VSCode / Fleet / Android Studio </div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A5%BD%E7%AB%AF%E7%AB%AF%E7%9A%84%EF%BC%8C%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E8%BD%89%E5%AF%AB-Kotlin%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">好端端的，為什麼要轉寫 Kotlin？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B-Kotlin-%E9%A0%85%E7%9B%AE"><span class="toc-number">2.</span> <span class="toc-text">建立 Kotlin 項目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A8%8B%E5%BC%8F%E7%9A%84%E5%85%A5%E5%8F%A3%E9%BB%9E"><span class="toc-number">3.</span> <span class="toc-text">程式的入口點</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%85%A5%E5%8F%A3%E9%BB%9E%E6%88%96%E9%A1%9E%E5%88%A5%E5%90%8D%E7%A8%B1"><span class="toc-number">3.1.</span> <span class="toc-text">修改入口點或類別名稱</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BC%B8%E5%85%A5%E6%95%B8%E5%80%BC"><span class="toc-number">4.</span> <span class="toc-text">輸入數值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%93%8D%E6%8E%A7%E5%8F%B0%E8%BC%B8%E5%85%A5"><span class="toc-number">4.1.</span> <span class="toc-text">使用操控台輸入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-GUI-%E8%A6%96%E7%AA%97%E8%BC%B8%E5%85%A5"><span class="toc-number">4.2.</span> <span class="toc-text">使用 GUI 視窗輸入</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A5%97%E4%BB%B6%E8%88%87%E5%8C%AF%E5%85%A5"><span class="toc-number">5.</span> <span class="toc-text">套件與匯入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A5%97%E4%BB%B6%E9%A1%9E%E5%88%A5%E5%91%BD%E5%90%8D%E8%A1%9D%E7%AA%81"><span class="toc-number">5.1.</span> <span class="toc-text">套件類別命名衝突</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%98%E5%8F%96%E4%BF%AE%E9%A3%BE%E5%AD%90"><span class="toc-number">6.</span> <span class="toc-text">存取修飾子</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E7%B9%BC%E6%89%BF%E9%A1%9E"><span class="toc-number">6.1.</span> <span class="toc-text">可繼承類</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8D%E8%B1%A1%E8%88%87%E5%BB%BA%E6%A7%8B%E5%BC%8F"><span class="toc-number">7.</span> <span class="toc-text">對象與建構式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%96%AE%E4%BE%8B%E6%A8%A1%E5%BC%8F-Singleton"><span class="toc-number">7.1.</span> <span class="toc-text">單例模式 (Singleton)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%B4%E7%94%9F%E5%B0%8D%E8%B1%A1"><span class="toc-number">7.2.</span> <span class="toc-text">伴生對象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E6%A7%8B%E5%AD%90%E5%BB%BA%E6%A7%8B"><span class="toc-number">7.3.</span> <span class="toc-text">建構子建構</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E5%BB%BA%E6%A7%8B%E5%AD%90"><span class="toc-number">7.3.1.</span> <span class="toc-text">主要建構子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AC%A1%E8%A6%81-x2F-%E5%A4%9A%E5%80%8B%E5%BB%BA%E6%A7%8B%E5%AD%90"><span class="toc-number">7.3.2.</span> <span class="toc-text">次要 &#x2F; 多個建構子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A8%8B%E5%BC%8F"><span class="toc-number">7.3.3.</span> <span class="toc-text">初始化程式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%8B%E7%AE%97%E7%AC%A6"><span class="toc-number">8.</span> <span class="toc-text">運算符</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8D%E5%85%83%E9%81%8B%E7%AE%97%E7%AC%A6"><span class="toc-number">8.1.</span> <span class="toc-text">位元運算符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%8A%E9%87%8F%E5%8F%8A%E5%B8%B8%E9%87%8F"><span class="toc-number">9.</span> <span class="toc-text">變量及常量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%8F%96%E8%88%87%E8%AE%8A%E7%95%B0"><span class="toc-number">9.1.</span> <span class="toc-text">存取與變異</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B8"><span class="toc-number">10.</span> <span class="toc-text">函數</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B8%E9%A1%9E%E5%9E%8B"><span class="toc-number">10.1.</span> <span class="toc-text">函數類型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%96%AE%E8%A1%8C%E8%A1%A8%E9%81%94%E5%BC%8F"><span class="toc-number">10.1.1.</span> <span class="toc-text">單行表達式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E9%9A%8E%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.2.</span> <span class="toc-text">高階函數</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A7%E8%81%AF%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.2.1.</span> <span class="toc-text">內聯函數</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#infix-%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.2.2.</span> <span class="toc-text">infix 函數</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#operator-%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.2.3.</span> <span class="toc-text">operator 函數</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.3.</span> <span class="toc-text">匿名函數</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%99%E6%BA%96-x2F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.4.</span> <span class="toc-text">標準 &#x2F; 作用域函數</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#let-%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.4.1.</span> <span class="toc-text">let 函數</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#run-%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.4.2.</span> <span class="toc-text">run 函數</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#apply-%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.4.3.</span> <span class="toc-text">apply 函數</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#also-%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.4.4.</span> <span class="toc-text">also 函數</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#with-%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.4.5.</span> <span class="toc-text">with 函數</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%B4%E5%B1%95%E5%87%BD%E6%95%B8"><span class="toc-number">10.1.5.</span> <span class="toc-text">擴展函數</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AF%84%E5%9C%8D"><span class="toc-number">11.</span> <span class="toc-text">範圍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AF%84%E5%9C%8D%E5%87%BD%E6%95%B8"><span class="toc-number">11.1.</span> <span class="toc-text">範圍函數</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%A3%E5%88%97"><span class="toc-number">12.</span> <span class="toc-text">陣列</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8-arrayOf-%E5%87%BD%E6%95%B8%E5%BB%BA%E7%AB%8B%E5%9F%BA%E6%9C%AC%E9%99%A3%E5%88%97"><span class="toc-number">12.1.</span> <span class="toc-text">用 arrayOf() 函數建立基本陣列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8-Array-%E5%BB%BA%E7%AB%8B%E4%B8%8D%E5%90%8C%E9%99%A3%E5%88%97"><span class="toc-number">12.2.</span> <span class="toc-text">用 Array() 建立不同陣列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E7%B6%AD%E9%99%A3%E5%88%97"><span class="toc-number">12.2.1.</span> <span class="toc-text">二維陣列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%B6%AD%E9%99%A3%E5%88%97"><span class="toc-number">12.2.2.</span> <span class="toc-text">三維陣列</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9B%86%E5%90%88"><span class="toc-number">13.</span> <span class="toc-text">集合</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E9%A1%9E%E5%9E%8B"><span class="toc-number">13.1.</span> <span class="toc-text">集合類型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88-List-%E5%88%97%E8%A1%A8"><span class="toc-number">13.1.1.</span> <span class="toc-text">有序集合 List (列表)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%84%A1%E5%BA%8F%E9%9B%86%E5%90%88-Set-%E9%9B%86%E5%90%88"><span class="toc-number">13.1.2.</span> <span class="toc-text">無序集合 Set (集合)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%8D%B5%E5%80%BC%E5%B0%8D%E9%9B%86%E5%90%88-Map-%E6%98%A0%E5%B0%84"><span class="toc-number">13.1.3.</span> <span class="toc-text">鍵值對集合 Map (映射)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E5%87%BD%E6%95%B8%E6%93%8D%E4%BD%9C"><span class="toc-number">13.2.</span> <span class="toc-text">集合函數操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%97%E8%88%89"><span class="toc-number">14.</span> <span class="toc-text">列舉</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A8%BB%E8%A7%A3"><span class="toc-number">15.</span> <span class="toc-text">註解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%83%E8%B3%87%E8%A8%8A"><span class="toc-number">15.1.</span> <span class="toc-text">元資訊</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A2%9D%E4%BB%B6%E5%88%A4%E6%96%B7"><span class="toc-number">16.</span> <span class="toc-text">條件判斷</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B1%BA%E7%AD%96%E9%82%8F%E8%BC%AF"><span class="toc-number">16.1.</span> <span class="toc-text">決策邏輯</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if-%E8%AA%9E%E5%8F%A5"><span class="toc-number">16.1.1.</span> <span class="toc-text">if 語句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#else-if-%E8%AA%9E%E5%8F%A5"><span class="toc-number">16.1.2.</span> <span class="toc-text">else if 語句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%96%AE%E8%A1%8C-if-%E8%A1%A8%E9%81%94%E5%BC%8F"><span class="toc-number">16.1.3.</span> <span class="toc-text">單行 if 表達式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%83%85%E6%B3%81%E9%82%8F%E8%BC%AF"><span class="toc-number">16.2.</span> <span class="toc-text">情況邏輯</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%B4%E5%9C%88"><span class="toc-number">17.</span> <span class="toc-text">迴圈</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#while-%E8%BF%B4%E5%9C%88"><span class="toc-number">17.1.</span> <span class="toc-text">while 迴圈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for-%E8%BF%B4%E5%9C%88"><span class="toc-number">17.2.</span> <span class="toc-text">for 迴圈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#forEach-%E8%BF%B4%E5%9C%88"><span class="toc-number">17.3.</span> <span class="toc-text">forEach 迴圈</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%99%BA%E6%85%A7%E8%BD%89%E5%9E%8B"><span class="toc-number">18.</span> <span class="toc-text">智慧轉型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A9%BA%E5%AE%89%E5%85%A8"><span class="toc-number">19.</span> <span class="toc-text">空安全</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%9E%E9%99%A3%E5%88%97%E4%B8%AD%E6%B8%85%E9%99%A4%E7%A9%BA%E5%80%BC"><span class="toc-number">19.1.</span> <span class="toc-text">從陣列中清除空值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E5%90%88%E4%BD%B5%E5%8F%8A-Elvis-%E9%81%8B%E7%AE%97%E7%AC%A6"><span class="toc-number">19.2.</span> <span class="toc-text">空合併及 Elvis 運算符 ?:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%AA%BF%E7%94%A8%E7%AC%A6"><span class="toc-number">19.3.</span> <span class="toc-text">安全調用符 ?.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E7%A9%BA%E6%96%B7%E8%A8%80"><span class="toc-number">19.4.</span> <span class="toc-text">非空斷言 !!</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A7%94%E8%A8%97"><span class="toc-number">20.</span> <span class="toc-text">委託</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A7%94%E8%A8%97%E5%B1%AC%E6%80%A7"><span class="toc-number">20.1.</span> <span class="toc-text">委託屬性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lazy-%E5%B1%AC%E6%80%A7"><span class="toc-number">20.1.1.</span> <span class="toc-text">lazy 屬性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#observable-%E5%B1%AC%E6%80%A7"><span class="toc-number">20.1.2.</span> <span class="toc-text">observable 屬性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vetoable-%E5%B1%AC%E6%80%A7"><span class="toc-number">20.1.3.</span> <span class="toc-text">vetoable 屬性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%83%A8%E5%88%86-Kotlin-%E8%88%87-Java-%E6%AF%94%E8%BC%83%E8%AA%9E%E6%B3%95%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="toc-number">21.</span> <span class="toc-text">部分 Kotlin 與 Java 比較語法程式碼</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Getter-amp-Setter"><span class="toc-number">21.1.</span> <span class="toc-text">Getter &amp; Setter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%96%AE%E4%BE%8B%E5%B0%8D%E8%B1%A1"><span class="toc-number">21.2.</span> <span class="toc-text">單例對象</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/react-dev-spa-notes.html" title="【React】JSX 語言 | SPA 單頁應用 | React 前端網頁開發學習筆記"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/CBrFp2g.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="【React】JSX 語言 | SPA 單頁應用 | React 前端網頁開發學習筆記"/></a><div class="content"><a class="title" href="/post/react-dev-spa-notes.html" title="【React】JSX 語言 | SPA 單頁應用 | React 前端網頁開發學習筆記">【React】JSX 語言 | SPA 單頁應用 | React 前端網頁開發學習筆記</a><time datetime="2024-01-08T11:15:19.000Z" title="發表於 2024 年 01 月 08 日 19 時 15 分 19 秒">2024 年 01 月 08 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/web-dev-express-restful-api-notes.html" title="Node.js | Express | JSON 數據庫 | 構建 RESTful API 學習筆記"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/oPLVYuN.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="Node.js | Express | JSON 數據庫 | 構建 RESTful API 學習筆記"/></a><div class="content"><a class="title" href="/post/web-dev-express-restful-api-notes.html" title="Node.js | Express | JSON 數據庫 | 構建 RESTful API 學習筆記">Node.js | Express | JSON 數據庫 | 構建 RESTful API 學習筆記</a><time datetime="2023-10-10T14:00:00.000Z" title="發表於 2023 年 10 月 10 日 22 時 00 分 00 秒">2023 年 10 月 10 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/web-dev-nodejs-express-notes.html" title="Node.js | Express | 伺服器及後端建置 | 動態網頁編寫學習筆記"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/7Ys7B1P.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="Node.js | Express | 伺服器及後端建置 | 動態網頁編寫學習筆記"/></a><div class="content"><a class="title" href="/post/web-dev-nodejs-express-notes.html" title="Node.js | Express | 伺服器及後端建置 | 動態網頁編寫學習筆記">Node.js | Express | 伺服器及後端建置 | 動態網頁編寫學習筆記</a><time datetime="2023-10-03T14:00:00.000Z" title="發表於 2023 年 10 月 03 日 22 時 00 分 00 秒">2023 年 10 月 03 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/dev-kotlin-notes.html" title="Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/60yM46l.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記"/></a><div class="content"><a class="title" href="/post/dev-kotlin-notes.html" title="Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記">Kotlin | 創建 Kotlin 項目及編寫 | 部分 Kotlin 及 Java 差異學習筆記</a><time datetime="2023-05-06T06:49:09.000Z" title="發表於 2023 年 05 月 06 日 14 時 49 分 09 秒">2023 年 05 月 06 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/web-dev-hexo-blog-setup-notes.html" title="Hexo | 建立及寄存網誌 | VSCode 任務執行配置筆記"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.imgur.com/bSrgceo.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="Hexo | 建立及寄存網誌 | VSCode 任務執行配置筆記"/></a><div class="content"><a class="title" href="/post/web-dev-hexo-blog-setup-notes.html" title="Hexo | 建立及寄存網誌 | VSCode 任務執行配置筆記">Hexo | 建立及寄存網誌 | VSCode 任務執行配置筆記</a><time datetime="2022-12-23T23:53:52.000Z" title="發表於 2022 年 12 月 24 日 07 時 53 分 52 秒">2022 年 12 月 24 日</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2024 By <a class="footer-bar-link" href="/" title="BlueWhaleYT" target="_blank">BlueWhaleYT</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" href="/null"></a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/" title="tag"><div class="headline">標籤</div><div class="length-num">20</div></a><a href="/categories/" title="category"><div class="headline">分類</div><div class="length-num">11</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="顯示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>顯示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">item1</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="item1name"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/img/favicon.ico" alt="item1name"/><span class="back-menu-item-text">item1name</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">item2</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="item2name"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="item2name"/><span class="back-menu-item-text">item2name</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 彙整頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分類頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 標籤頁</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 工具</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="https://bluewhaleyt.github.io/monaco-text-compare"><i class="anzhiyufont anzhiyu-icon-file-lines faa-tada" style="font-size: 0.9em;"></i><span> 文本比較編輯器</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Android/" style="font-size: 0.88rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Android<sup>11</sup></a><a href="/tags/Bash/" style="font-size: 0.88rem;">Bash<sup>6</sup></a><a href="/tags/C/" style="font-size: 0.88rem;">C++<sup>1</sup></a><a href="/tags/CSS/" style="font-size: 0.88rem;">CSS<sup>2</sup></a><a href="/tags/EJS/" style="font-size: 0.88rem;">EJS<sup>1</sup></a><a href="/tags/Express/" style="font-size: 0.88rem;">Express<sup>2</sup></a><a href="/tags/HTML/" style="font-size: 0.88rem;">HTML<sup>3</sup></a><a href="/tags/JSON/" style="font-size: 0.88rem;">JSON<sup>1</sup></a><a href="/tags/JSX/" style="font-size: 0.88rem;">JSX<sup>1</sup></a><a href="/tags/Java/" style="font-size: 0.88rem;">Java<sup>5</sup></a><a href="/tags/JavaScript/" style="font-size: 0.88rem;">JavaScript<sup>3</sup></a><a href="/tags/Kotlin/" style="font-size: 0.88rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Kotlin<sup>10</sup></a><a href="/tags/Lua/" style="font-size: 0.88rem;">Lua<sup>1</sup></a><a href="/tags/Markdown/" style="font-size: 0.88rem;">Markdown<sup>1</sup></a><a href="/tags/NDK/" style="font-size: 0.88rem;">NDK<sup>1</sup></a><a href="/tags/Node-js/" style="font-size: 0.88rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Node.js<sup>4</sup></a><a href="/tags/Python/" style="font-size: 0.88rem;">Python<sup>1</sup></a><a href="/tags/Roblox/" style="font-size: 0.88rem;">Roblox<sup>1</sup></a><a href="/tags/TypeScript/" style="font-size: 0.88rem;">TypeScript<sup>1</sup></a><a href="/tags/YAML/" style="font-size: 0.88rem;">YAML<sup>2</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="簡繁轉換">繁</button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><button class="search-close-button"><i class="anzhiyufont anzhiyu-icon-xmark"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script async src="/anzhiyu/random.js"></script><script src="https://cdn.cbd.int/algoliasearch@4.18.0/dist/algoliasearch-lite.umd.js"></script><script src="https://cdn.cbd.int/instantsearch.js@4.60.0/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><script>(() => {
+  const initWaline = () => {
+    const waline = Waline.init(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://personal-blog-waline.vercel.app',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: true,
+    }, null))
+  }
+
+  const loadWaline = async () => {
+    if (typeof Waline === 'object') initWaline()
+    else {
+      await getCSS('https://cdn.cbd.int/@waline/client@2.15.5/dist/waline.css')
+      await getScript('https://cdn.cbd.int/@waline/client@2.15.5/dist/waline.js')
+      initWaline()
+    }
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) anzhiyu.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script><input type="hidden" name="page-type" id="page-type" value="post"></div><script>window.addEventListener('load', () => {
+  const changeContent = content => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[圖片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[連結]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[程式碼]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${anzhiyu.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '沒有評論'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom && ($dom.innerHTML= result)
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = async () => {
+    try {
+      const res = await fetch('https://personal-blog-waline.vercel.app/api/comment?type=recent&count=6', { method: 'GET' })
+      const result = await res.json()
+      const walineArray = result.data.map(e => {
+        return {
+          'content': changeContent(e.comment),
+          'avatar': e.avatar,
+          'nick': e.nick,
+          'url': e.url + '#' + e.objectId,
+          'date': e.time || e.insertedAt
+        }
+      })
+      saveToLocal.set('waline-newest-comments', JSON.stringify(walineArray), 10/(60*24))
+      generateHtml(walineArray)
+    } catch (err) {
+      console.error(err)
+      const $dom = document.querySelector('#card-newest-comments .aside-list')
+      $dom.textContent= "無法獲取評論，請確認相關配置是否正確"
+    }
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('waline-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script src="/js/custom.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div><!-- hexo injector body_end start --><script src="https://unpkg.com/kotlin-playground@1" data-server data-version></script>
+<script>
+
+if(typeof ktpgOptions !== 'undefined'){
+    KotlinPlayground('.kotlin-code',ktpgOptions)
+}else{
+    KotlinPlayground('.kotlin-code')
+}
+window.addEventListener('pjax:complete', event => {
+    if(typeof ktpgOptions !== 'undefined'){
+        KotlinPlayground('.kotlin-code',ktpgOptions)
+    }else{
+        KotlinPlayground('.kotlin-code')
+    }
+});
+</script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
