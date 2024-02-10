@@ -1,262 +1,243 @@
-/* Fonts */
+/*
+    Main CSS Configuration
+*/
+
+/* Font imports */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono');
 @import url('https://fonts.cdnfonts.com/css/google-sans');
 
+/* Root variables */
 :root {
-    --anzhiyu-lighttext: var(--anzhiyu-main) /* Fix TOC "main_color" not working in dark mode */
+    /* Fix TOC "main_color" not working in dark mode */
+    --anzhiyu-lighttext: var(--anzhiyu-main)
 }
 
+/* Site */
 p,a,li,ol,ul {
     font-family: 'Product Sans', sans-serif !important;
     font-weight: 400 !important;
 }
-
 h1,h2,h3,h4,h5,h6 {
     font-family: 'Product Sans', sans-serif !important;
     font-weight: 600 !important;
 }
 
-/* Remove repeated header */
-#article-container header {
-    display: none !important;
-}
+/* Post */
 
-/* Adjust post Header cover / banner */
-@media (min-width:600px) {
-    #page-header.post-bg #post-top-cover {
-        filter: initial !important;
+    /* Header Banner and Cover */
+    @media (min-width:600px) {
+        #page-header.post-bg #post-top-cover {
+            filter: initial !important;
+            width: auto !important;
+            height: auto !important;
+            margin: auto !important;
+            transform: translateX(10px) !important;
+        }
+    }
+
+    /* Content Padding */
+    @media screen and (max-width: 768px) {
+        #post {
+            padding: 30px !important;
+        }
+    }
+
+    /* Remove "原創" tag */
+    #post-firstinfo .meta-firstline a.post-meta-original,
+    #post .post-copyright__original {
+        display: none !important;
+    }
+
+    /* Remove repeated header */
+    #article-container header {
+        display: none !important;
+    }
+
+    /* Inline code */
+    #article-container code {
+        background: var(--anzhiyu-secondbg) !important;
+        border: var(--style-border) !important;
+        color: var(--d-code-foreground) !important;
+    }
+    #article-container pre code {
+        background: transparent !important;
+        border: none !important;
+    }
+    
+    /* Code Block */
+    #article-container .highlight-tools .code-lang {
+        font-size: 12px !important;
+        text-transform: none !important;
+    }
+    #article-container .code-expand-btn.expand-done {
+        transform: initial !important;
+    }
+    #article-container .code-expand-btn .anzhiyu-icon-angle-double-down:before {
+        content: '\fe3e \00a0| 展開程式碼' !important;
+        color: var(--hl-color) !important;
+    }
+    #article-container .code-expand-btn.expand-done .anzhiyu-icon-angle-double-down:before {
+        content: '\fe3d \00a0| 收起程式碼' !important;
+        color: var(--hl-color) !important;
+    }
+    #article-container figure.highlight {
+        margin-top: 20px;
+    }
+
+    /* Bullet points */
+    #article-container ul>li:not(.tab)::before {
+        top: 0.98em !important;
         width: auto !important;
         height: auto !important;
-        margin: auto !important;
-        transform: translateX(10px) !important;
     }
-}
 
-/* Adjust post content padding */
-@media screen and (max-width: 768px) {
-    #post {
-        padding: 30px !important;
+    /* Image */
+    #post .img-alt::before {
+        content: "( 圖片描述：";
     }
-}
+    #post .img-alt::after {
+        content: " )";
+    }
+    #post .img-alt {
+        font-size: 1em;
+        font-style: italic;
+    }
 
-/* Remove "Original" badges and tags */
-#post-firstinfo .meta-firstline a.post-meta-original,
-#post .post-copyright__original {
-    display: none !important;
-}
+    /* Heading */
+    #post h1,
+    #post h2,
+    #post h3,
+    #post h4,
+    #post h5,
+    #post h6 {
+        background: rgb(from var(--anzhiyu-main) r g b / 0.07);
+        border: 0.1px solid rgb(from var(--anzhiyu-main) r g b / 0.7) !important;
+        border-radius: 0 10px 10px 10px;
+        margin: 2em 0 1em 0 !important;
+        padding: 0.3em 0.5em !important;
+    }
 
-/* Reset inline code background color */
-#article-container code {
-    background: var(--anzhiyu-secondbg) !important;
-    border: var(--style-border) !important;
-    color: var(--d-code-foreground) !important;
-}
-#article-container pre code {
-    background: transparent !important;
-    border: none !important;
-}
+    /* Heading Suffix */
+    /* #post h1::after,
+    #post h2::after,
+    #post h3::after,
+    #post h4::after,
+    #post h5::after,
+    #post h6::after {
+        font-style: italic;
+        font-size: 14px;
+        color: var(--anzhiyu-main);
+        display: contents;
+    }
+    #post h1::after { content: '\00a0 \00a0 H1'; }
+    #post h2::after { content: '\00a0 \00a0 H2'; }
+    #post h3::after { content: '\00a0 \00a0 H3'; }
+    #post h4::after { content: '\00a0 \00a0 H4'; }
+    #post h5::after { content: '\00a0 \00a0 H5'; }
+    #post h6::after { content: '\00a0 \00a0 H6'; } */
 
-/* Adjust code block label font size */
-#article-container .highlight-tools .code-lang {
-    font-size: 12px !important;
-    text-transform: none !important;
-}
+    #post h1::after,
+    #post h2::after,
+    #post h3:after,
+    #post h4::after,
+    #post h5::after,
+    #post h6::after {
+        position: absolute;
+        background: var(--anzhiyu-main);
+        color: #FFF;
+        left: -1px;
+        bottom: 100%;
+        border-radius: 10px 10px 0 0;
+        padding: 0.3em 1.6em;
+        font-size: .40em;
+        font-weight: 600;
+        font-family: "Font Awesome 5 Free", sans-serif;
+        content: '\f1dc';
+    }
 
-/* Fix code block text padding */
-#article-container pre[class*='language-'] *:first-child {
-    margin-left: 0px !important;
-}
+    /* Selector */
+    #blog-container ::selection {
+        background: var(--anzhiyu-main) !important;
+    }
 
-/* Fix collapse code block animation */
-#article-container .code-expand-btn.expand-done {
-    transform: initial !important;
-}
+    /* Highlight Pen */
+    #post strong {
+        /* border-radius: 2em; */
+        color: var(--font-color);
+        padding: 0px 5px;
+        /* margin: 0px 5px; */
+        font-weight: bold;
+    }
 
-/* Adjust expand and collapse icon text */
-#article-container .code-expand-btn .anzhiyu-icon-angle-double-down:before {
-    content: '\fe3e \00a0| 展開程式碼' !important;
-    color: var(--hl-color) !important;
-}
-#article-container .code-expand-btn.expand-done .anzhiyu-icon-angle-double-down:before {
-    content: '\fe3d \00a0| 收起程式碼' !important;
-    color: var(--hl-color) !important;
-}
+    /* Step Span */
+    .step {
+        font-weight: 900 !important;
+        font-style: normal;
+        font-size: 20px;
+        border-radius: 3px;
+        display: inline-block;
+        font-weight: bolder;
+        border-bottom: dotted 2px var(--anzhiyu-main);
+        color: var(--anzhiyu-main);
+        margin-right: 12px !important;
+        margin-bottom: 6px !important;
+    }
+    .step::before {
+        content: '\f753 \00a0 步驟';
+        font-family: 'Font Awesome 5 Free';
+        margin-right: 5px;
+    }
+    .step::after {
+        content: attr(data-step) '\00a0 : \00a0' attr(data-title);
+    }
 
-/* Adjust bullet points dot size */
-#article-container ul>li:not(.tab)::before {
-    top: 0.98em !important;
-    width: auto !important;
-    height: auto !important;
-}
+    /* Note */
+    #post .note {
+        border-top-color: var(--anzhiyu-card-border) !important;
+        border-bottom-color: var(--anzhiyu-card-border) !important;
+        border-right-color: var(--anzhiyu-card-border) !important;
+    }
+        /* Info*/
+        #post .note.info {
+            border-left-color: var(--anzhiyu-main) !important;
+        }
+        #post .note.info::before {
+            color: var(--anzhiyu-main) !important;
+        }
+        /* Warning */
+        #post .note.warning li::before {
+            border-color: var(--note-warning-border-light) !important;
+            background-color: var(--note-warning-border-light) !important;
+        }
+    
+        /* Danger */
+        #post .note.danger li::before {
+            border-color: var(--note-danger-border-light) !important;
+            background-color: var(--note-danger-border-light) !important;
+        }
+    
+    /* Horizontal divider */
+    #post hr,
+    /* #post #article-container h2 {
+        border-color: var(--anzhiyu-card-border) !important;
+        border-width: 2px !important;
+    } */
 
-/* Reset hyperlink texts font */
-#article-container a {
-    /* font-family: initial !important; */
-}
-
-/* Set notes border color */
-#post .note {
-    border-top-color: var(--anzhiyu-card-border) !important;
-    border-bottom-color: var(--anzhiyu-card-border) !important;
-    border-right-color: var(--anzhiyu-card-border) !important;
-}
-#post .note.info {
-    border-left-color: var(--anzhiyu-main) !important;
-}
-#post .note.info::before {
-    color: var(--anzhiyu-main) !important;
-}
-#post .note.warning {
-    border-left-color: #fa8231 !important;
-    background: #fa823122 !important;
-}
-#post .note.warning code:not(pre > code),
-#post .note.warning strong {
-    color: #fa8231 !important;
-}
-#post .note.warning::before {
-    color: #fa8231 !important;
-}
-#post .note.danger {
-    border-left-color: #eb3b5a !important;
-    background: #eb3b5a22 !important;
-}
-#post .note.danger::before {
-    color: #eb3b5a !important;
-    content: '\f06a';
-}
-#post .note.danger code:not(pre > code),
-#post .note.danger strong {
-    color: #eb3b5a !important;
-}
-
-/* Set dividers (hr and h2's divider) */
-#post hr,
-#post #article-container h2 {
-    border-color: var(--anzhiyu-card-border) !important;
-    border-width: 2px !important;
-}
-
-/* Remove items from right menu */
-#menu-searchBaidu,
-#menu-commenttext {
-    display: none !important;
-}
-
-/* Recent posts (index page) categories text */
-#recent-posts .article-categories-original,
-#recent-posts .newPost,
-#recent-posts .unvisited-post {
-    font-size: 12px !important;
-}
-
-/* Hide unvisited / unread posts badge */
-#recent-posts .unvisited-post {
-    display: none !important;
-}
-
-/* AI summary description */
-.post-ai-description .ai-btn-box {
-    display: none !important;
-}
-
-/* Post's images animation */
-#post img {
-    opacity: 1;
-    transition: opacity 3s;
-}
-#post img:hover {
-    border: 3px solid var(--anzhiyu-main);
-}
-
-/* Post image */
-#post img {
-    display: inline-block !important;
-}
-
-/* Post selector */
-#blog-container ::selection {
-    background: var(--anzhiyu-main) !important;
-}
-
-/* Post image alt */
-#post .img-alt::before {
-    content: "( 圖片描述：";
-}
-#post .img-alt::after {
-    content: " )";
-}
-#post .img-alt {
-    font-size: 1em;
-    font-style: italic;
-}
-
-/* Search */
-.search-keyword,  /* local search */
-#algolia-search .search-dialog .ais-Hits-list mark {
-    color: var(--anzhiyu-main) !important
-}
-
-/* Related post */
-.relatedPosts img {
-    opacity: 0.4 !important;
-}
+    /* Tabs */
+    #article-container .tabs>.nav-tabs {
+        justify-content: initial !important;
+    }
+    #article-container .tabs>.nav-tabs>.tab.active {
+        background: var(--anzhiyu-main) !important;
+        color: white !important;
+    }
 
 /* 即刻短文 */
 .bbTimeList * {
     pointer-events: none !important;
 }
-i.bber-logo, .bber-gotobb {
+
+i.bber-logo,
+.bber-gotobb {
     display: none !important;
-}
-
-/* Adjust google translate widget */
-.goog-logo-link,
-.skiptranslate span {
-    display: none !important;
-}
-.goog-te-gadget {
-    color: transparent !important;
-    font-size: 1px !important;
-}
-.goog-te-combo {
-    background: var(--anzhiyu-secondbg) !important;
-    color: var(--font-color) !important;
-    width: 100%;
-    height: 60px;
-    padding-left: 20px;
-    border-radius: 1em;
-}
-/* body > .skiptranslate {
-    display: none;
-} */
-
-/* Plugins */
-/* Adjust sticky badge */
-#recent-posts>.recent-post-item>.recent-post-info .sticky-warp {
-    background: #ff7242 !important;
-    padding: 0px 10px;
-    border-radius: 0.4em;
-}
-
-#recent-posts>.recent-post-item>.recent-post-info .sticky-warp .sticky {
-    color: white !important;
-}
-
-/* Run code HTML */
-.runcode_text {
-    display: none !important;
-}
-
-.runcode_button {
-    background: var(--anzhiyu-secondbg) !important;
-    padding: 10px 20px !important;
-    margin-right: 10px;
-    color: var(--anzhiyu-font-color) !important;
-    text-shadow: none !important;
-}
-
-/* Custom */
-.note[data-content]::after {
-    content: '這篇文章是在我一邊學習 ' attr(data-content) ' 一邊撰寫的筆記，筆記最初是很散亂的，但經過我的一番調整後，部分的筆記內容已被擴展。筆記內容不排除是有錯漏的，所以只供參考，如筆記內容有錯漏，請於下方的留言區告知有關錯處，當我知悉時，便會在有空時作修改。';
 }

@@ -1,0 +1,36 @@
+/*
+    Theme: Dark
+    CSS Configuration for Dark mode
+*/
+
+/* Post */
+
+    /* Highlight Pen */
+    [data-theme='dark'] #post strong,
+    [data-theme='dark'] #post strong code:not(pre > code) {
+        background: var(--highlight-pen-bg-dark) !important;
+    }
+    [data-theme='dark'] #post strong.neg {
+        background: var(--highlight-pen-neg-bg-dark) !important;
+    }
+
+    /* Note */
+        /* Info*/
+    
+        /* Warning */
+        [data-theme='dark'] #post .note.warning strong {
+            background: var(--note-warning-bg-alt-dark) !important;
+        }
+
+        /* Danger */
+        [data-theme='dark'] #post .note.danger strong {
+            background: var(--note-danger-bg-alt-dark) !important;
+        }
+
+    /* Pro and Cons Table */
+    [data-theme='dark'] #post .table-procons td:nth-child(1) strong {
+        background: var(--highlight-pen-pos-bg-dark) !important;
+    }
+    [data-theme='dark'] #post .table-procons td:nth-child(2) strong {
+        background: var(--highlight-pen-neg-bg-dark) !important;
+    }

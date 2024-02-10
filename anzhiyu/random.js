@@ -1,3 +1,3 @@
-var posts=["post/dev-kotlin-notes.html","post/dev-python-notes.html","post/react-dev-spa-notes.html","post/web-dev-build-and-host-website-notes.html","post/web-dev-express-restful-api-notes.html","post/web-dev-hexo-blog-setup-notes.html","post/web-dev-nodejs-express-notes.html"];function toRandomPost(){
+var posts=["post/android-firebase-setup-notes.html","post/jetpack-compose-firebase-auth-notes.html","post/jetpack-compose-firebase-cloud-firestore-notes.html","post/jetpack-compose-firebase-realtime-database-notes.html","post/jetpack-compose-photo-picker-for-android-13.html"];function toRandomPost(){
     pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);
   };

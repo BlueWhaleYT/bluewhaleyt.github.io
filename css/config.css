@@ -1,0 +1,23 @@
+:root {
+    --note-danger-icon: '\f06a';
+
+    /* Light */
+    --highlight-pen-bg-light: rgb(from var(--anzhiyu-main) r g b / 0.2);
+    --highlight-pen-pos-bg-light: #20bf6b22;
+    --highlight-pen-neg-bg-light: #eb3b5a22;
+    
+    --note-warning-bg-light: #fa823122;
+    --note-warning-bg-alt-light: #fa823133;
+    --note-warning-border-light: #fa8231;
+    --note-danger-bg-light: #eb3b5a22;
+    --note-danger-bg-alt-light: #eb3b5a33;
+    --note-danger-border-light: #eb3b5a;
+    
+    /* Dark */
+    --highlight-pen-bg-dark: rgb(from var(--anzhiyu-main) r g b / 0.4);
+    --highlight-pen-pos-bg-dark: #20bf6b44;
+    --highlight-pen-neg-bg-dark: #eb3b5a44;
+
+    --note-warning-bg-alt-dark: #fa823144;
+    --note-danger-bg-alt-dark: #eb3b5a44;
+}

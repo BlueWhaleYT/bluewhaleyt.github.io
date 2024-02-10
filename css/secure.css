@@ -1,0 +1,13 @@
+/*
+    Secure CSS Configuration
+*/
+
+/* Disable and Prevent right click on images/banners/covers */
+.topGroup .todayCard .todayCard-cover,
+#page-header.post-bg #post-top-cover #post-top-bg,
+#pagination .prev-post img,
+#pagination .next-post img,
+.relatedPosts-list > div img,
+#aside-content .aside-list>.aside-list-item:hover .thumbnail>img {
+    pointer-events: none !important;
+}

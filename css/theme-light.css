@@ -1,0 +1,55 @@
+/*
+    Theme: Light
+    CSS Configuration for Light mode
+*/
+
+/* Post */
+
+    /* Highlight Pen */
+    #post strong,
+    #post strong code:not(pre > code) {
+        background: var(--highlight-pen-bg-light) !important;
+    }
+    #post strong.neg {
+        background: var(--highlight-pen-neg-bg-light) !important;
+    }
+
+    /* Note */
+        /* Info*/
+
+        /* Warning */
+        #post .note.warning {
+            border-left-color: var(--note-warning-border-light) !important;
+            background: var(--note-warning-bg-light) !important;
+        }
+
+        #post .note.warning::before {
+            color: var(--note-warning-border-light) !important;
+        }
+
+        #post .note.warning code:not(pre > code),
+        #post .note.warning strong {
+            background: var(--note-warning-bg-alt-light) !important;
+        }
+
+        /* Danger */
+        #post .note.danger {
+            border-left-color: var(--note-danger-border-light) !important;
+            background: var(--note-danger-bg-light) !important;
+        }
+        #post .note.danger::before {
+            color: var(--note-danger-border-light) !important;
+            content: var(--note-danger-icon);
+        }
+        #post .note.danger code:not(pre > code),
+        #post .note.danger strong {
+            background: var(--note-danger-bg-alt-light) !important;
+        }
+
+    /* Pro and Cons Table */
+    #post .table-procons td:nth-child(1) strong {
+        background: var(--highlight-pen-pos-bg-light) !important;
+    }
+    #post .table-procons td:nth-child(2) strong {
+        background: var(--highlight-pen-neg-bg-light) !important;
+    }
