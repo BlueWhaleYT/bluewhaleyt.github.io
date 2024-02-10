@@ -457,7 +457,7 @@
 <p>遷移至 Cloud Firestore 後，你可以使用以下功能，並留意以下細項：</p>
 <ul>
 <li>增加了集合 (Collection) 概念。資料庫的根 (Root) 為多個集合，每個集合可裝載多個文件 (Document)，每個文件實體中也可包含集合。</li>
-<li>支援了更多資料型別，比如：<code>object</code>, <code>array</code>, <code>geopoint</code>, <code>reference</code>。其中 <code>reference</code> 可指定到特定節點的文件實體。</li>
+<li>支援了更多資料型別，比如：<code>object</code>、<code>array</code>、<code>geopoint</code>、<code>reference</code>。其中 <code>reference</code> 可指定到特定節點的文件實體。</li>
 <li>可自定義索引 (index)，支援 multi-key index。可以簡易做到混合 (compound) 的排序 (sorting) 和條件過濾 (filtering)。</li>
 </ul>
 <hr>
