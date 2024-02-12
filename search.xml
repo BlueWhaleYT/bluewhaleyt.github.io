@@ -19,20 +19,20 @@
         <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
     </div>
     </a></div></li>
-<li>即時資料庫 (Realtime Database)：Firebase Realtime Database 是一個 NoSQL 的<strong>非關聯式資料的雲端數據庫</strong>，它提供了一個實時同步的方式來存儲和同步應用中的數據。開發者可以使用 Firebase Realtime Database 來創建基於事件驅動的應用程序，並實現實時的數據更新。它支持離線緩存，可以在斷網環境下繼續工作，並在網絡連接恢復時自動同步數據。<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="/post/jetpack-compose-firebase-auth-notes">
+<li>即時資料庫 (Realtime Database)：Firebase Realtime Database 是一個 NoSQL 的<strong>非關聯式資料的雲端數據庫</strong>，它提供了一個實時同步的方式來存儲和同步應用中的數據。開發者可以使用 Firebase Realtime Database 來創建基於事件驅動的應用程序，並實現實時的數據更新。它支持離線緩存，可以在斷網環境下繼續工作，並在網絡連接恢復時自動同步數據。</li>
+<li>雲端存儲庫 (Cloud Firestore)：Firebase Cloud Firestore 是一個靈活且可擴展的 NoSQL 文件數據庫，亦是一個 Firebase Realtime Database 的繼代工具。它提供了一個可靠的方式來存儲和同步大規模的結構化數據。Cloud Firestore 支持實時更新，可以在多個平台上保持數據的同步。它還提供了<strong>強大的查詢功能，可以輕鬆地檢索和過濾數據</strong>。<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes">
     <div class="tag-link-tips">引用站外地址</div>
     <div class="tag-link-bottom">
         <div class="tag-link-left" style>
           <i class="anzhiyufont anzhiyu-icon-link" style></i>
         </div>
         <div class="tag-link-right">
-            <div class="tag-link-title">即時資料庫</div>
-            <div class="tag-link-sitename"> 看文章瞭解如何使用 Firebase 即時資料庫</div>
+            <div class="tag-link-title">即時資料庫及雲端存儲庫</div>
+            <div class="tag-link-sitename"> 看文章瞭解如何使用 Realtime Database 及 Cloud Firestore</div>
         </div>
         <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
     </div>
     </a></div></li>
-<li>雲端存儲 (Cloud Firestore)：Firebase Cloud Firestore 是一個靈活且可擴展的 NoSQL 文件數據庫，亦是一個 Firebase Realtime Database 的繼代工具。它提供了一個可靠的方式來存儲和同步大規模的結構化數據。Cloud Firestore 支持實時更新，可以在多個平台上保持數據的同步。它還提供了<strong>強大的查詢功能，可以輕鬆地檢索和過濾數據</strong>。</li>
 <li>資料分析 (Analytics)：Firebase Analytics 是一個用於應用程式分析的工具。它<strong>可以收集用戶互動和行為數據，並提供有關應用的洞察和指標</strong>。開發者可以使用 Firebase Analytics 來了解用戶的使用情況、用戶行為和應用性能等。它還提供了自定義事件和用戶屬性，以便開發者更好地了解和分析用戶行為。</li>
 <li>推播通知 (Cloud Messaging)：Firebase Cloud Messaging (FCM) 是一個強大的推送通知服務。它可以將消息推送到 Android、iOS 和 Web 應用中的用戶。開發者可以使用 FCM 來<strong>向用戶發送即時通知、提醒和促銷訊息</strong>。FCM 還提供了<strong>高度可靠的消息傳遞和自定義的目標設定功能</strong>，可以根據用戶的屬性和行為來定向推送消息。</li>
 </ul>
@@ -146,8 +146,83 @@
         <category>Firebase</category>
       </categories>
       <tags>
+        <tag>Android</tag>
         <tag>Kotlin</tag>
         <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Android】Keystore 密鑰庫建立 | 密鑰安全及防止洩漏 | 發佈模式運行程序</title>
+    <url>/post/android-keystore-and-release-mode-notes.html</url>
+    <content><![CDATA[<p>密鑰庫 (Keystore) 是一個<strong>存儲密鑰和證書的安全文件</strong>，Keystore 被用於對應用程式進行簽名，以確保應用程式的完整性和安全性。它包含了一個私鑰和與之相對應的公鑰。</p>
+<p>不同構建模式下的密鑰庫：</p>
+<ul>
+<li>調試模式：在開發階段，我們通常會使用<strong>調試密鑰庫</strong> (Debug Keystore)，它是由 <strong>Android SDK 自動生成的</strong>，並且不需要我們主動管理。Debug Keystore 用於在開發期間對應用程式進行簽名，方便我們在<strong>測試和調試應用程式時使用</strong>。</li>
+<li>發佈模式：我們需要<strong>自建新的密鑰庫</strong>作為發佈密鑰庫 (Release Keystore)，對應用程式進行簽名及驗證。</li>
+</ul>
+<div class="note info simple"><p>當我們要<strong>將應用程式發布到 Google Play 商店或其他渠道</strong>時，我們需要使用發佈密鑰庫，它是<strong>由開發者自己生成的</strong>，並且需要妥善保管。它將用於對應用程式<strong>進行正式簽名</strong>，以確保應用程式的安全性和真實性。</p>
+</div>
+
+<hr>
+<h1 id="構建及簽署應用程式"><a href="#構建及簽署應用程式" class="headerlink" title="構建及簽署應用程式"></a>構建及簽署應用程式</h1><p>要進行發佈版本，最重要的就是要為應用程式簽署，開啟 Android Studio，並上方選單列的 <code>Build</code> 找 <code>Generate Signed Bundle / APK</code> 完成以下程序。</p>
+<p><span class="step" data-step="1" data-title="選用應用程式封裝模式"></span></p>
+<p>它會詢問你使用 Android App Bundle (AAB) 或是 APK 進行封裝，這裏選擇 APK。</p>
+<p><img src="/post/android-keystore-and-release-mode-notes/img1.png" alt="選擇 APK 選項"></p>
+<p><span class="step" data-step="2" data-title="新建密鑰庫"></span></p>
+<p>如果你之前已經有建立了密鑰庫，那麼，你就按 <code>Choose existing...</code> 選擇曾經已建立的密鑰庫，不然就按 <code>Create new...</code> 新建密鑰庫。</p>
+<div class="note info simple"><p>在導入已建立的密鑰庫，你需要輸入該密鑰庫所設定的密碼。</p>
+</div>
+
+<p><img src="/post/android-keystore-and-release-mode-notes/img2.png" alt="新增或導入密鑰庫"></p>
+<p><span class="step" data-step="3" data-title="完成建立密鑰庫的設定"></span></p>
+<p>建立一個密鑰庫需要填妥表格，包括以下項目</p>
+<p><img src="/post/android-keystore-and-release-mode-notes/img3.png" alt="建立密鑰庫的設定"></p>
+<ul>
+<li><code>Key store path</code>: Keystore 檔案 (副檔名為 <code>.keystore</code>) 存放位置，通常如果是獨立只為獨有應用程式用的 Keystore，這個檔案路徑可以存放到專案的根目錄位置 e.g. <code>AndroidStudioProjects/MyApp/myapp_release.keystore</code></li>
+<li><code>Password</code>: 設置 Keystore 的密碼</li>
+</ul>
+<p>而 <code>Key</code> 有幾項需要注意：</p>
+<ul>
+<li><code>Alias</code>: Key 的名稱，可以用 <code>key</code> 為前綴 e.g. <code>keyMyApp</code>，不規定。</li>
+<li><code>Password</code>: 設置 Key 的密碼，如沒有太大問題，這裏可以都使用 Keystore 密碼</li>
+<li><code>Validity</code>: 以年數作計算，預設是 <code>25</code>，就是 Key 的有效期為 25 年</li>
+</ul>
+<p>而 <code>Certificate</code> 細項中：</p>
+<ul>
+<li><code>First and Last Name</code>: 用戶名稱</li>
+</ul>
+<p>其餘的按需要就填。</p>
+<p>例如，現在我完成了密鑰庫的基本設定，如下所示：</p>
+<p><img src="/post/android-keystore-and-release-mode-notes/img4.png" alt="完成密鑰庫的基本設定"></p>
+<p><span class="step" data-step="4" data-title="選用密鑰庫應用的構建模式"></span></p>
+<p>這裏會問密鑰庫應用到 <code>debug</code> 或是 <code>release</code>，選擇 <code>release</code>。</p>
+<p><img src="/post/android-keystore-and-release-mode-notes/img5.png" alt="選用密鑰庫應用的構建模式"></p>
+<p><span class="step" data-step="5" data-title="在 Gradle 設置發佈模式及密鑰庫組態"></span></p>
+<p>在 <code>app</code> 模塊的 <code>build.gradle.kts</code> 加入代碼：</p>
+<div class="tabs" id="code-signingconfig"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-signingconfig-1">Kotlin DSL</button><button type="button" class="tab " data-href="code-signingconfig-2">Groovy DSL</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-signingconfig-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">signingConfigs &#123;</span><br><span class="line">    create(<span class="string">&quot;release&quot;</span>) &#123;</span><br><span class="line">        keyAlias = <span class="string">&quot;XXX&quot;</span></span><br><span class="line">        keyPassword = <span class="string">&quot;XXX&quot;</span>         <span class="comment">// Key 密碼</span></span><br><span class="line">        storeFile = file(<span class="string">&quot;XXX&quot;</span>)</span><br><span class="line">        storePassword = <span class="string">&quot;XXX&quot;</span>       <span class="comment">// Keystore 密碼</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">buildTypes &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        signingConfig = signingConfigs.getByName(<span class="string">&quot;release&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code-signingconfig-2"><figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">signingConfigs &#123;</span><br><span class="line">   release &#123;</span><br><span class="line">       keyAlias <span class="string">&quot;XXX&quot;</span></span><br><span class="line">       keyPassword <span class="string">&quot;XXX&quot;</span>            <span class="comment">// Key 密碼</span></span><br><span class="line">       storeFile <span class="keyword">file</span>(<span class="string">&quot;XXX&quot;</span>)</span><br><span class="line">       storePassword <span class="string">&quot;XXX&quot;</span>          <span class="comment">// Keystore 密碼</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">buildTypes &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        signingConfig signingConfigs.release</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<div class="note info simple"><p><code>storeFile</code> 是 Keystore 檔案存放路徑，例如：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">storeFile = file(<span class="string">&quot;/Users/bluewhaleyt/AndroidStudioProjects/MyApp/myapp_release.keystore&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<div class="note danger simple"><p>由於 Keystore 是私密的敏感資料，例如所設定的密碼不應公開，你可以在 <code>~/.gradle/gradle.properties</code> 檔案內把 Keystore 設定存入在內：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RELEASE_KEY_ALIAS=XXX</span><br><span class="line">RELEASE_KEY_PASSWORD=XXX</span><br><span class="line">RELEASE_STORE_FILE_PATH=XXX</span><br><span class="line">RELEASE_STORE_PASSWORD=XXX</span><br></pre></td></tr></table></figure>
+
+<p>然後在 <code>build.gradle.kts</code> 使用 <code>gradle.properties</code> 內的 Keystore 設定</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">keyAlias RELEASE_KEY_ALIAS</span><br><span class="line">keyPassword RELEASE_KEY_PASSWORD</span><br><span class="line">storeFile file(RELEASE_STORE_FILE_PATH)</span><br><span class="line">storePassword RELEASE_STORE_PASSWORD</span><br></pre></td></tr></table></figure></div>
+
+<p><span class="step" data-step="6" data-title="為應用程式改用發佈模式構建"></span></p>
+<p>把專案 <code>app</code> 的 <code>Build Variant</code> 更改為 <code>release</code> 版本。</p>
+<div class="note info simple"><p>一旦改 <code>app</code> 的 <code>Build Variant</code> (構建模式)，其他的模塊都會用該構建模式，即一併使用 <code>release</code> 模式。</p>
+</div>
+
+<p><img src="/post/android-keystore-and-release-mode-notes/img6.png" alt="修改應用程式的建構模式"></p>
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Kotlin</tag>
       </tags>
   </entry>
   <entry>
@@ -378,6 +453,7 @@
         <category>Firebase</category>
       </categories>
       <tags>
+        <tag>Android</tag>
         <tag>Kotlin</tag>
         <tag>Java</tag>
       </tags>
@@ -463,7 +539,7 @@
 <div class="note info simple"><p>小摘錄：</p>
 <ul>
 <li>Realtime Database：這裏推薦選擇美國 (us-central1)。</li>
-<li>Cloud Firestore 支援的地區更廣泛，不需要特別有推薦。</li>
+<li>Cloud Firestore：支援的地區更廣泛，不需要特別有推薦。</li>
 </ul>
 </div>
 
@@ -508,7 +584,7 @@
 <h1 id="資料的增刪查改"><a href="#資料的增刪查改" class="headerlink" title="資料的增刪查改"></a>資料的增刪查改</h1><p>接下來，我們將會瞭解到如何使用 Realtime Database 或 Cloud Firestore 為資料進行增刪查改的程序。</p>
 <p>先簡單釐清資料庫結構及筆記的資料結構，例如，如果新增並儲存了三筆筆記，資料結構長這樣的：</p>
 <div class="tabs" id="code-data-structure"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-data-structure-1">Realtime Database</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-data-structure-1"><p>在 Realtime Database，它採用了 JSON 結構樹顯示資料，因此，我們大概想像的結果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">資料庫</span><br><span class="line">└── notes (筆記根位置)</span><br><span class="line">    ├── 1 (筆記的 ID)</span><br><span class="line">    │   ├── title: Note 1</span><br><span class="line">    │   └── content: Hello World 1</span><br><span class="line">    ├── 2 (筆記的 ID)</span><br><span class="line">    │   ├── title: Note 2</span><br><span class="line">    │   └── content: Hello World 2</span><br><span class="line">    └── 3 (筆記的 ID)</span><br><span class="line">        ├── title: Note 3</span><br><span class="line">        └── content: Hello World 3</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">資料庫</span><br><span class="line">└── notes (筆記根位置)</span><br><span class="line">    ├── 1 (筆記的 ID)</span><br><span class="line">    │   ├── title: Note 1</span><br><span class="line">    │   └── content: Content 1</span><br><span class="line">    ├── 2 (筆記的 ID)</span><br><span class="line">    │   ├── title: Note 2</span><br><span class="line">    │   └── content: Content 2</span><br><span class="line">    └── 3 (筆記的 ID)</span><br><span class="line">        ├── title: Note 3</span><br><span class="line">        └── content: Content 3</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
 
 <p>為了方便編寫程式碼，以下是簡化程式碼的常用變量及常量：</p>
 <div class="tabs" id="code-common-variables"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-common-variables-1">Realtime Database</button><button type="button" class="tab " data-href="code-common-variables-2">Cloud Firestore</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-common-variables-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> rdbDatabase: FirebaseDatabase = Firebase.database</span><br><span class="line"><span class="keyword">val</span> rdbReference: DatabaseReference = Firebase.database.reference</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code-common-variables-2"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> fdbDatabase: FirebaseFirestore = Firebase.firestore</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
@@ -551,7 +627,7 @@
 
 <p><span class="step" data-step="2" data-title="在獲取資料時更新列表"></span></p>
 <p>在獲取資料成功部分的程式碼中，加入以下程式碼：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">list.clear()</span><br><span class="line"><span class="keyword">for</span> (childSnapshot <span class="keyword">in</span> snapshot.children) &#123;</span><br><span class="line">    <span class="keyword">val</span> id = childSnapshot.key                        <span class="comment">// 獲取子節點的 ID</span></span><br><span class="line">    <span class="keyword">val</span> <span class="keyword">data</span> = childSnapshot.getValue(typeIndicator)  <span class="comment">// 獲取子節點的資料組</span></span><br><span class="line">    list.add(Pair(id, <span class="keyword">data</span>))                          <span class="comment">// 將 ID 和資料組成一個 Pair 並加入列表</span></span><br><span class="line">    <span class="comment">// 其他程式碼..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="tabs" id="code-list-data"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-list-data-1">Realtime Database</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-list-data-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">list.clear()</span><br><span class="line"><span class="keyword">for</span> (childSnapshot <span class="keyword">in</span> snapshot.children) &#123;</span><br><span class="line">    <span class="keyword">val</span> id = childSnapshot.key                        <span class="comment">// 獲取子節點的 ID</span></span><br><span class="line">    <span class="keyword">val</span> <span class="keyword">data</span> = childSnapshot.getValue(typeIndicator)  <span class="comment">// 獲取子節點的資料組</span></span><br><span class="line">    list.add(Pair(id, <span class="keyword">data</span>))                          <span class="comment">// 將 ID 和資料組成一個 Pair 並加入列表</span></span><br><span class="line">    <span class="comment">// 其他程式碼..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
 
 <p><span class="step" data-step="3" data-title="完成 LazyColumn 程序"></span></p>
 <p>這裏傳出的 <code>data</code> 參數屬於 <code>Pair</code> 型別，當你要獲取資料組，你需要使用 <code>data?.second</code> 獲取。</p>
@@ -561,6 +637,7 @@
         <category>Firebase</category>
       </categories>
       <tags>
+        <tag>Android</tag>
         <tag>Kotlin</tag>
       </tags>
   </entry>
@@ -755,6 +832,7 @@
         <category>Jetpack Compose</category>
       </categories>
       <tags>
+        <tag>Android</tag>
         <tag>Kotlin</tag>
       </tags>
   </entry>
