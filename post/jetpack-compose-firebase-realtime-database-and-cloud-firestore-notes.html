@@ -1,0 +1,588 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合 | 🐳 BlueWhaleYT</title><meta name="keywords" content="Kotlin"><meta name="author" content="BlueWhaleYT"><meta name="copyright" content="BlueWhaleYT"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合"><meta name="application-name" content="【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合"><meta property="og:url" content="https://bluewhaleyt.github.io/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes.html"><meta property="og:site_name" content="🐳 BlueWhaleYT"><meta property="og:description" content="Firebase 提供了兩種資料庫建構，每一個資料庫建構的特性都不同：  Realtime Database 即時資料庫：是一個較為初階級的資料庫，透過使用 JSON 樹結構方式儲存及顯示資料，並且即時更新資料的變化。 Cloud Firestore 雲端存儲庫：是一個媲美 Realtime Dat"><meta property="og:locale" content="zh-TW"><meta property="og:image" content="https://bluewhaleyt.github.io/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes/thumbnail.png"><meta property="article:author" content="BlueWhaleYT"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://bluewhaleyt.github.io/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes/thumbnail.png"><meta name="description" content="Firebase 提供了兩種資料庫建構，每一個資料庫建構的特性都不同：  Realtime Database 即時資料庫：是一個較為初階級的資料庫，透過使用 JSON 樹結構方式儲存及顯示資料，並且即時更新資料的變化。 Cloud Firestore 雲端存儲庫：是一個媲美 Realtime Dat"><link rel="shortcut icon" href="https://i.ibb.co/zRvn96K/personal-icon.jpg"><link rel="canonical" href="https://bluewhaleyt.github.io/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: undefined,
+  diytitle: undefined,
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"你好","list":[{"greeting":"凌晨時分了，怎麼還在這裏呢？","startTime":0,"endTime":5},{"greeting":"早安！新的一天又開始了！","startTime":6,"endTime":10},{"greeting":"午安！吃飽了嗎？","startTime":11,"endTime":13},{"greeting":"下午好！加油，再堅持一下！","startTime":14,"endTime":17},{"greeting":"晚上好！晚餐吃得好嗎？","startTime":18,"endTime":21},{"greeting":"夜深了，該休息了！晚安！","startTime":22,"endTime":24}]},
+  twikooEnvId: 'https://personal-blog-comment-chi.vercel.app/',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: {"mode":"both","api":"https://img2color-go.vercel.app/api?img=","cover_change":true},
+  authorStatus: {"skills":null},
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查詢的內容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: BlueWhaleYT","link":"連結: ","source":"來源: 🐳 BlueWhaleYT","info":"著作權歸作者所有。商業轉載請聯絡作者獲得授權，非商業轉載請註明出處。","copySuccess":"複製成功，複製和轉載請標注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切換為繁體","cht_to_chs":"你已切換為簡體","day_to_night":"你已切換為深色模式","night_to_day":"你已切換為淺色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: '🐳 BlueWhaleYT',
+  title: '【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合',
+  postAI: '',
+  pageFillDescription: '初始化資料庫, 預備要儲存的資料組, 資料的增刪查改, 新增資料, 刪除資料, 修改資料, 讀取資料, 遍歷資料提供了兩種資料庫建構每一個資料庫建構的特性都不同即時資料庫是一個較為初階級的資料庫透過使用樹結構方式儲存及顯示資料並且即時更新資料的變化雲端存儲庫是一個媲美更強大的資料庫提供更多查詢功能利用集合及欄位儲存及顯示資料從而掌握資料的關聯性雖然大部分的開發者都紛紛遷移到使用但是至今並沒提及有關退役的消息因此大家可以根據情況選用合適的資料庫建構未創建專案的請先看這篇文章引用站外地址專案配置看這篇文章瞭解如何配置專案使用目的基本查詢同步資料高級查詢排序和事務資料結構簡單的樹文檔整理為集合資料庫用量經常發生更改的幾或更少的資料大小為數百到且讀取頻率比更改頻率高得多的資料可用性需求保證正常運行時間至少達到的極高正常運行時間保證資料庫實例數一個或許多一個在無法連接的設備上執行查詢的頻率極少或從不頻繁極少或從不遷移至後你可以使用以下功能並留意以下細項增加了集合概念資料庫的根為多個集合每個集合可裝載多個文件每個文件實體中也可包含集合支援了更多資料型別比如其中可指定到特定節點的文件實體可自定義索引亦支援多鍵索引可以簡易做到混合的排序和條件過濾初始化資料庫首先你需要匯入資料庫建構功能模組請按情況選用適用的資料庫然後請到主控台啟用資料庫建構並且建立資料庫根據你所位於的地區選擇較為合適的地區作為資料庫存放的位置小摘錄這裏推薦選擇美國支援的地區更廣泛不需要特別有推薦我們需要設定安全性規則安全性規則是一個用來保護資料庫的機制限制存取權限先暫時選擇任一模式然後更新安全性規則在使用定義保護規則時需要使用語言進行編製在使用定義保護規則時需要使用安全規則語言即是語言進行編製其中是聲明規則版本預設是是聲明該資料庫內所有文件都受到以下的許可權當你正式使用資料庫時你需要編寫更嚴格的安全性規則把讀取及寫入權限長期設置為相當危險以上安全性規則僅作測試用途預備要儲存的資料組接下來為了方便往後編寫程式碼我高度建議你編寫數據類作為要儲存的資料組我們會建立一個數據類把用戶可提供的資料以一個數據類包裝起來該資料組包含可用資料見下方由用戶自行提供的資料筆記的標題設有一個輸入框供用戶設置標題筆記的內文設有一個輸入框供用戶撰寫內容由系統自動生成的資料建立筆記的作者這個取決於所登入的帳戶從而獲取其顯示名稱建立筆記的作者的帳號同上獲取其數據類狀態容器因此我們會就以上情況把可用資料編製成資料組當你要讀取資料庫的資料你需要宣告一個空建構式否則會報錯所以建議一開始就把它事先寫好提提你空建構式需要滿足參數數量有多少個是取決於這個數據類的屬性有預設值除外數量這個是用於獲取目前筆記的狀態其中的函數把及的狀態清空我們會需要用到這個狀態獲取筆記的重要資料資料的增刪查改接下來我們將會瞭解到如何使用或為資料進行增刪查改的程序先簡單釐清資料庫結構及筆記的資料結構例如如果新增並儲存了三筆筆記資料結構長這樣的在它採用了結構樹顯示資料因此我們大概想像的結果如下資料庫筆記根位置筆記的筆記的筆記的為了方便編寫程式碼以下是簡化程式碼的常用變量及常量筆記根位置若在使用身份驗證請在進行增刪查改程序前加上區塊增刪查改程式碼新增資料現在我們會編寫新增及儲存資料的程式碼要注意的是我們需要附加一個用於辨識筆記的獨一無二的我們可以使用程式碼獲取隨機的作為獨一無二的如果不附上獨一無二的筆記的資料無法被正確辨識其資料或會被取代我們會透過然後使用從參照進行追蹤最後一個就是最終儲存的位置完成後你可以在檢視剛新增的資料完成後你可以在檢視剛新增的資料刪除資料既然可以新增資料那麼必須要有刪除資料的功能才有完整的體驗在這個範例我們會利用筆記的來刪除該資料與新增資料相似但這次的最終參照位置是取決於所提供的筆記修改資料有時候用戶可能會在筆記上撰寫了錯誤的資訊總不能把它移除再寫因此這個編輯功能相當重要亦是用於提升用戶體驗元素之一例如用戶想編輯該筆記的內容實際方案如下同樣追蹤參照這回的最終參照位置是取決於所編輯的資料值如並在提供新的值讀取資料我們可以使用兩種方式讀取資料庫內的資料一次性讀取從資料庫中讀取一次資料讀取後資料不會被自動更新持續性讀取在資料庫設置監聽器當資料有更新及有變化時就會觸發監聽器從而追蹤到資料的更新使應用程式介面都能即時更新資訊因為是一個數據類在及的我們需要使用宣告泛型數據源宣告範例如下一次性讀取持續性讀取使用變量來讀取資料讀取資料時發生錯誤使用變量來讀取資料讀取資料時發生錯誤因為是一個數據類在及的我們需要使用把資料組宣告為一個列表然後再使用函數獲取每一項資料一次性讀取持續性讀取使用參數來讀取資料讀取資料時發生錯誤讀取資料時發生錯誤使用參數來讀取資料遍歷資料你或許會想使用遍歷並顯示所有筆記的資料以下是參考方案在獲取資料成功部分的程式碼中加入以下程式碼獲取子節點的獲取子節點的資料組將和資料組成一個並加入列表其他程式碼這裏傳出的參數屬於型別當你要獲取資料組你需要使用獲取其他程式碼',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024 年 02 月 12 日 12 時 49 分 02 秒',
+  postMainColor: '#6c5ce7',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/config.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/secure.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/theme-light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/theme-dark.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/codethemes/code-dark-new.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><style type="text/css">
+.CodeMirror-lines,.line,.code-output,.code,.token {
+    font-size: 16px;
+    line-height: 22px;
+}
+</style><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://i.ibb.co/zRvn96K/personal-icon.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">item1</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="item1name"><img class="back-menu-item-icon" src="/img/favicon.ico" alt="item1name"/><span class="back-menu-item-text">item1name</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">item2</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="item2name"><img class="back-menu-item-icon" src="https://image.anheyu.com/favicon.ico" alt="item2name"/><span class="back-menu-item-text">item2name</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">🐳 BlueWhaleYT</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 彙整頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分類頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 標籤頁</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 工具</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="https://bluewhaleyt.github.io/monaco-text-compare"><i class="anzhiyufont anzhiyu-icon-file-lines faa-tada" style="font-size: 0.9em;"></i><span> 文本比較編輯器</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索🔍" accesskey="s"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span> 搜尋</span></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新評論</span></div><div class="aside-list"><span>正在載入中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Bash/" style="font-size: 1.05rem;">Bash<sup>1</sup></a><a href="/tags/Java/" style="font-size: 1.05rem;">Java<sup>1</sup></a><a href="/tags/Kotlin/" style="font-size: 1.05rem;">Kotlin<sup>5</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>歸檔</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/02/"><span class="card-archive-list-date">二月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/Jetpack-Compose/" itemprop="url">Jetpack Compose</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/Firebase/" itemprop="url">Firebase</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Kotlin/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Kotlin</span></a></span></div></div><h1 class="post-title" itemprop="name headline">【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-02-09T10:16:26.000Z" title="發表於 2024 年 02 月 09 日 18 時 16 分 26 秒">2024 年 02 月 09 日</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-02-12T04:49:02.427Z" title="更新於 2024 年 02 月 12 日 12 時 49 分 02 秒">2024 年 02 月 12 日</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字數總計:</span><span class="word-count" title="文章字数">2.6k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">閱讀時長:</span><span>9分鐘</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator"></span><span class="post-meta-commentcount"><i class="anzhiyufont anzhiyu-icon-comments post-meta-icon"></i><span class="post-meta-label">評論數:</span><a href="/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes.html#post-comment"><span class="waline-comment-count" data-path="/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes.html"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></a></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes/thumbnail.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://bluewhaleyt.github.io/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes.html"><header><a class="post-meta-categories" href="/categories/Jetpack-Compose/" itemprop="url">Jetpack Compose</a><a class="post-meta-categories" href="/categories/Firebase/" itemprop="url">Firebase</a><a href="/tags/Kotlin/" tabindex="-1" itemprop="url">Kotlin</a><h1 id="CrawlerTitle" itemprop="name headline">【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">BlueWhaleYT</span><time itemprop="dateCreated datePublished" datetime="2024-02-09T10:16:26.000Z" title="發表於 2024 年 02 月 09 日 18 時 16 分 26 秒">2024 年 02 月 09 日</time><time itemprop="dateCreated datePublished" datetime="2024-02-12T04:49:02.427Z" title="更新於 2024 年 02 月 12 日 12 時 49 分 02 秒">2024 年 02 月 12 日</time></header><p>Firebase 提供了兩種資料庫建構，每一個資料庫建構的特性都不同：</p>
+<ul>
+<li>Realtime Database 即時資料庫：是一個較為初階級的資料庫，透過使用 <strong>JSON 樹結構方式</strong>儲存及顯示資料，並且<strong>即時更新資料的變化</strong>。</li>
+<li>Cloud Firestore 雲端存儲庫：是一個媲美 Realtime Database 更強大的資料庫，提供<strong>更多查詢功能</strong>，利用集合及欄位儲存及顯示資料，從而掌握資料的關聯性。</li>
+</ul>
+<p>雖然，大部分的開發者都紛紛遷移到使用 Cloud Firestore，但是 Google 至今並沒提及有關 Realtime Database 退役的消息，因此，大家可以根據情況，選用合適的資料庫建構。</p>
+<p>未創建 Firebase 專案的請先看這篇文章：</p>
+<div calss="anzhiyu-tag-link"><a class="tag-Link" target="_blank" href="/post/android-firebase-setup-notes">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style>
+          <i class="anzhiyufont anzhiyu-icon-link" style></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">Firebase 專案配置</div>
+            <div class="tag-link-sitename"> 看這篇文章瞭解如何配置 Firebase 專案</div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>
+
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Realtime Database</th>
+<th align="center">Cloud Firestore Database</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">使用目的</td>
+<td align="center">基本查詢同步資料</td>
+<td align="center">高級查詢、排序和事務</td>
+</tr>
+<tr>
+<td align="center">資料結構</td>
+<td align="center">簡單的 JSON 樹</td>
+<td align="center">文檔整理為集合</td>
+</tr>
+<tr>
+<td align="center">資料庫用量</td>
+<td align="center">經常發生更改的幾 GB 或更少的資料</td>
+<td align="center">大小為數百 GB 到 TB，且讀取頻率比更改頻率高得多的資料</td>
+</tr>
+<tr>
+<td align="center">可用性需求</td>
+<td align="center">保證正常運行時間至少達到 99.95%</td>
+<td align="center">99.999% 的極高正常運行時間保證</td>
+</tr>
+<tr>
+<td align="center">資料庫實例數</td>
+<td align="center">一個或許多</td>
+<td align="center">一個</td>
+</tr>
+<tr>
+<td align="center">在無法連接的設備上執行查詢的頻率</td>
+<td align="center">極少或從不</td>
+<td align="center">頻繁、極少或從不</td>
+</tr>
+</tbody></table>
+<p>遷移至 Cloud Firestore 後，你可以使用以下功能，並留意以下細項：</p>
+<ul>
+<li>增加了集合 (Collection) 概念。資料庫的根 (Root) 為多個集合，每個集合可裝載多個文件 (Document)，每個文件實體中也可包含集合。</li>
+<li>支援了更多資料型別，比如：<code>object</code>、<code>array</code>、<code>geopoint</code>、<code>reference</code>。其中 <code>reference</code> 可指定到特定節點的文件實體。</li>
+<li>可自定義索引 (index)，亦支援多鍵索引。可以簡易做到混合 (compound) 的排序 (sorting) 和條件過濾 (filtering)。</li>
+</ul>
+<hr>
+<h1 id="初始化資料庫"><a href="#初始化資料庫" class="headerlink" title="初始化資料庫"></a>初始化資料庫</h1><p><span class="step" data-step="1" data-title="匯入函式庫"></span></p>
+<p>首先，你需要匯入資料庫建構功能模組，請按情況選用適用的資料庫。</p>
+<div class="tabs" id="code-import-database-lib"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-import-database-lib-1">Realtime Database</button><button type="button" class="tab " data-href="code-import-database-lib-2">Cloud Firestore</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-import-database-lib-1"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation(<span class="string">&quot;com.google.firebase:firebase-database&quot;</span>)</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code-import-database-lib-2"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation(<span class="string">&quot;com.google.firebase:firebase-firestore&quot;</span>)</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<p><span class="step" data-step="2" data-title="啟用並建立資料庫"></span></p>
+<p>然後，請到 Firebase 主控台啟用資料庫建構，並且建立資料庫。</p>
+<p><span class="step" data-step="3" data-title="選擇資料庫存放位置"></span></p>
+<p>根據你所位於的地區，選擇較為合適的地區作為資料庫存放的位置。</p>
+<div class="note info simple"><p>小摘錄：</p>
+<ul>
+<li>Realtime Database：這裏推薦選擇美國 (us-central1)。</li>
+<li>Cloud Firestore 支援的地區更廣泛，不需要特別有推薦。</li>
+</ul>
+</div>
+
+<p><span class="step" data-step="4" data-title="設定安全性規則"></span></p>
+<p>我們需要設定安全性規則，安全性規則是一個用來保護資料庫的機制，限制存取權限。</p>
+<p>先暫時選擇任一模式，然後更新安全性規則。</p>
+<div class="tabs" id="code-secure-rules"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-secure-rules-1">Realtime Database</button><button type="button" class="tab " data-href="code-secure-rules-2">Cloud Firestore</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-secure-rules-1"><p>在使用 Realtime Database 定義保護規則時，需要使用 JSON 語言進行編製。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;rules&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;.write&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;.read&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code-secure-rules-2"><p>在使用 Cloud Firestore 定義保護規則時，需要使用安全規則語言，即是 CEL (Common Expression Language) 語言進行編製，其中：</p>
+<ul>
+<li><code>rules_version</code>：是聲明規則版本，預設是 <code>2</code></li>
+<li><code>match /databases/{database}/documents</code>：是聲明該資料庫內所有文件都受到以下的許可權<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rules_version = &#x27;2&#x27;;</span><br><span class="line"></span><br><span class="line">service cloud.firestore &#123;</span><br><span class="line">  match /databases/&#123;database&#125;/documents &#123;</span><br><span class="line">    match /&#123;document=**&#125; &#123;</span><br><span class="line">      allow read, write: if true;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<div class="note danger simple"><p>當你正式使用資料庫時，你需要編寫更嚴格的安全性規則，把讀取 (<code>read</code>) 及寫入 (<code>write</code>) 權限長期設置為 <code>true</code> 相當危險，<strong>以上安全性規則僅作測試用途！</strong></p>
+</div>
+
+<hr>
+<h1 id="預備要儲存的資料組"><a href="#預備要儲存的資料組" class="headerlink" title="預備要儲存的資料組"></a>預備要儲存的資料組</h1><p>接下來，為了方便往後編寫程式碼，我<strong>高度建議你編寫數據類作為要儲存的資料組</strong>。</p>
+<p><span class="step" data-step="1" data-title="建立數據類"></span></p>
+<p>我們會建立一個數據類，把用戶可提供的資料以一個數據類包裝起來。該資料組包含可用資料見下方。</p>
+<p>由用戶自行提供的資料：</p>
+<ul>
+<li>筆記的標題：設有一個輸入框，供用戶設置標題</li>
+<li>筆記的內文：設有一個輸入框，供用戶撰寫內容</li>
+</ul>
+<p>由系統自動生成的資料：</p>
+<ul>
+<li>建立筆記的作者：這個取決於所登入的帳戶，從而獲取其顯示名稱</li>
+<li>建立筆記的作者的帳號 UID：同上，獲取其 UID</li>
+</ul>
+<div class="tabs" id="code-note"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-note-1">數據類</button><button type="button" class="tab " data-href="code-note-2">狀態容器</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-note-1"><p>因此，我們會就以上情況，把可用資料編製成資料組。</p>
+<div class="note danger simple"><p>當你要讀取資料庫的資料，你需要<strong>宣告一個空建構式</strong>，否則會報錯，所以建議一開始就把它事先寫好。<br>提提你：空建構式需要滿足參數數量 (有多少個 <code>null</code>)，是取決於這個數據類的屬性 (有預設值除外) 數量。</p>
+</div>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Note</span>(</span><br><span class="line">    <span class="keyword">val</span> author: String?,</span><br><span class="line">    <span class="keyword">val</span> authorUid: String?,</span><br><span class="line">    <span class="keyword">val</span> title: String?,</span><br><span class="line">    <span class="keyword">val</span> content: String?</span><br><span class="line">) &#123;</span><br><span class="line">    <span class="keyword">constructor</span>() : <span class="keyword">this</span>(<span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code-note-2"><p>這個是用於獲取目前筆記的狀態，其中的 <code>clear()</code> 函數把 <code>title</code> 及 <code>content</code> 的狀態清空。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">NoteState</span>(</span><br><span class="line">    <span class="keyword">val</span> id: MutableState&lt;String&gt;? = mutableStateOf(<span class="string">&quot;&quot;</span>),</span><br><span class="line">    <span class="keyword">val</span> title: MutableState&lt;String&gt;? = mutableStateOf(<span class="string">&quot;&quot;</span>),</span><br><span class="line">    <span class="keyword">val</span> content: MutableState&lt;String&gt;? = mutableStateOf(<span class="string">&quot;&quot;</span>),</span><br><span class="line">) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">clear</span><span class="params">()</span></span> &#123;</span><br><span class="line">        title?.value = <span class="string">&quot;&quot;</span></span><br><span class="line">        content?.value = <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<p><span class="step" data-step="2" data-title="宣告 NoteState 狀態"></span></p>
+<p>我們會需要用到這個 <code>NoteState</code> 狀態獲取筆記的重要資料。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> state = remember &#123; NoteState() &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="資料的增刪查改"><a href="#資料的增刪查改" class="headerlink" title="資料的增刪查改"></a>資料的增刪查改</h1><p>接下來，我們將會瞭解到如何使用 Realtime Database 或 Cloud Firestore 為資料進行增刪查改的程序。</p>
+<p>先簡單釐清資料庫結構及筆記的資料結構，例如，如果新增並儲存了三筆筆記，資料結構長這樣的：</p>
+<div class="tabs" id="code-data-structure"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-data-structure-1">Realtime Database</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-data-structure-1"><p>在 Realtime Database，它採用了 JSON 結構樹顯示資料，因此，我們大概想像的結果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">資料庫</span><br><span class="line">└── notes (筆記根位置)</span><br><span class="line">    ├── 1 (筆記的 ID)</span><br><span class="line">    │   ├── title: Note 1</span><br><span class="line">    │   └── content: Hello World 1</span><br><span class="line">    ├── 2 (筆記的 ID)</span><br><span class="line">    │   ├── title: Note 2</span><br><span class="line">    │   └── content: Hello World 2</span><br><span class="line">    └── 3 (筆記的 ID)</span><br><span class="line">        ├── title: Note 3</span><br><span class="line">        └── content: Hello World 3</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<p>為了方便編寫程式碼，以下是簡化程式碼的常用變量及常量：</p>
+<div class="tabs" id="code-common-variables"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-common-variables-1">Realtime Database</button><button type="button" class="tab " data-href="code-common-variables-2">Cloud Firestore</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-common-variables-1"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdbDatabase: FirebaseDatabase = Firebase.database</span><br><span class="line"><span class="keyword">val</span> rdbReference: DatabaseReference = Firebase.database.reference</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code-common-variables-2"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> fdbDatabase: FirebaseFirestore = Firebase.firestore</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> authUser: FirebaseUser? = Firebase.auth.currentUser</span><br><span class="line"></span><br><span class="line"><span class="comment">// 筆記根位置</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> ROOT_PATH = <span class="string">&quot;notes&quot;</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info simple"><p>若在使用身份驗證，請在進行增刪查改程序前，加上 <code>authUser?.run</code> 區塊。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">authUser?.run &#123;</span><br><span class="line">  <span class="comment">// 增刪查改程式碼..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="新增資料"><a href="#新增資料" class="headerlink" title="新增資料"></a>新增資料</h2><p>現在，我們會編寫新增及儲存資料的程式碼，要注意的是我們需要<strong>附加一個用於辨識筆記的獨一無二的 ID</strong>，我們可以使用 <code>UUID.randomUUID()</code> 程式碼獲取隨機的 UUID 作為獨一無二的 ID。<strong>如果不附上獨一無二的 ID，筆記的資料無法被正確辨識，其資料或會被取代！</strong></p>
+<div class="tabs" id="code-save-data"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-save-data-1">Realtime Database</button><button type="button" class="tab " data-href="code-save-data-2">Cloud Firestore</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-save-data-1"><p>我們會透過 <code>DatabaseReference</code>，然後使用 <code>child()</code> 從參照進行追蹤，<strong>最後一個 <code>child()</code> 就是最終儲存的位置</strong>。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rdbReference</span><br><span class="line">    .child(ROOT_PATH)</span><br><span class="line">    .child(UUID.randomUUID().toString())</span><br><span class="line">    .setValue(value)</span><br></pre></td></tr></table></figure>
+
+<p>完成後，你可以在 Realtime Database 檢視剛新增的資料。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes/img1.png" alt="Realtime Database 資料庫"></p></div><div class="tab-item-content" id="code-save-data-2"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fdbDatabase</span><br><span class="line">    .collection(ROOT_PATH)</span><br><span class="line">    .document()</span><br><span class="line">    .<span class="keyword">set</span>(value)</span><br></pre></td></tr></table></figure>
+<p>完成後，你可以在 Cloud Firestore 檢視剛新增的資料。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes/img2.png" alt="Cloud Firestore 資料庫"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h2 id="刪除資料"><a href="#刪除資料" class="headerlink" title="刪除資料"></a>刪除資料</h2><p>既然可以新增資料，那麼必須要有刪除資料的功能，才有完整的體驗。在這個範例，我們會利用筆記的 ID 來刪除該資料。</p>
+<div class="tabs" id="code-delete-data"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-delete-data-1">Realtime Database</button><button type="button" class="tab " data-href="code-delete-data-2">Cloud Firestore</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-delete-data-1"><p>與新增資料相似，但<strong>這次的 <code>child()</code> 最終參照位置是取決於所提供的筆記 ID</strong>。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rdbReference</span><br><span class="line">    .child(ROOT_PATH)</span><br><span class="line">    .child(id)</span><br><span class="line">    .removeValue()</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code-delete-data-2"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fdbDatabase</span><br><span class="line">    .collection(ROOT_PATH)</span><br><span class="line">    .document(id)</span><br><span class="line">    .delete()</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h2 id="修改資料"><a href="#修改資料" class="headerlink" title="修改資料"></a>修改資料</h2><p>有時候，用戶可能會在筆記上撰寫了錯誤的資訊，總不能把它移除再寫，因此這個編輯功能相當重要，亦是用於提升用戶體驗元素之一。</p>
+<p>例如，用戶想編輯該筆記的內容，實際方案如下：</p>
+<div class="tabs" id="code-edit-data"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-edit-data-1">Realtime Database</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-edit-data-1"><p>同樣追蹤參照，<strong>這回的 <code>child()</code> 最終參照位置是取決於所編輯的資料值</strong>，如 <code>content</code>，並在 <code>setValue()</code> 提供新的值。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rdbReference</span><br><span class="line">    .child(ROOT_PATH)</span><br><span class="line">    .child(id)</span><br><span class="line">    .child(content)</span><br><span class="line">    .setValue(newValue)</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h2 id="讀取資料"><a href="#讀取資料" class="headerlink" title="讀取資料"></a>讀取資料</h2><p>我們可以使用兩種方式讀取資料庫內的資料：</p>
+<ul>
+<li>一次性讀取：從資料庫中<strong>讀取一次資料</strong>，讀取後資料<strong>不會被自動更新</strong>。</li>
+<li>持續性讀取：在資料庫<strong>設置監聽器</strong>，當資料有更新及有變化時，就會觸發監聽器，從而<strong>追蹤到資料的更新</strong>，使應用程式介面都能即時更新資訊。</li>
+</ul>
+<div class="tabs" id="code-read-data"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-read-data-1">Realtime Database</button><button type="button" class="tab " data-href="code-read-data-2">Cloud Firestore</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-read-data-1"><p>因為 <code>Note</code> 是一個數據類 <code>data class</code>，在 Kotlin 及 Java 的 Getter Setter，我們需要使用 <code>GenericTypeIndicator</code> 宣告泛型數據源。宣告範例如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> typeIndicator = <span class="keyword">object</span> : GenericTypeIndicator&lt;Note&gt;() &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="tabs" id="code-rdb-read-data"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-rdb-read-data-1">一次性讀取</button><button type="button" class="tab " data-href="code-rdb-read-data-2">持續性讀取</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-rdb-read-data-1"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rdbReference</span><br><span class="line">    .child(ROOT_PATH)</span><br><span class="line">    .<span class="keyword">get</span>().apply &#123;</span><br><span class="line">        addOnSuccessListener &#123; snapshot -&gt;</span><br><span class="line">            <span class="keyword">val</span> <span class="keyword">data</span> = snapshot.getValue(typeIndicator)</span><br><span class="line">            <span class="comment">// 使用 data 變量來讀取資料</span></span><br><span class="line">        &#125;</span><br><span class="line">        addOnFailureListener &#123; error -&gt;</span><br><span class="line">            <span class="comment">// 讀取資料時發生錯誤</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code-rdb-read-data-2"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rdbReference</span><br><span class="line">    .child(ROOT_PATH)</span><br><span class="line">    .addValueEventListener(<span class="keyword">object</span> : ValueEventListener &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDataChange</span><span class="params">(snapshot: <span class="type">DataSnapshot</span>)</span></span> &#123;</span><br><span class="line">            <span class="keyword">val</span> <span class="keyword">data</span> = snapshot.getValue(typeIndicator)</span><br><span class="line">            <span class="comment">// 使用 data 變量來讀取資料</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCancelled</span><span class="params">(error: <span class="type">DatabaseError</span>)</span></span> &#123;</span><br><span class="line">            <span class="comment">// 讀取資料時發生錯誤</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div></div><div class="tab-item-content" id="code-read-data-2"><p>因為 <code>Note</code> 是一個數據類 <code>data class</code>，在 Kotlin 及 Java 的 Getter Setter，我們需要使用 <code>toObjects()</code> 把資料組宣告為一個列表，然後再使用 <code>forEach</code> 函數獲取每一項資料。</p>
+<div class="tabs" id="code-fdb-read-data"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="code-fdb-read-data-1">一次性讀取</button><button type="button" class="tab " data-href="code-fdb-read-data-2">持續性讀取</button></ul><div class="tab-contents"><div class="tab-item-content active" id="code-fdb-read-data-1"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fdbDatabase</span><br><span class="line">    .collection(ROOT_PATH)</span><br><span class="line">    .<span class="keyword">get</span>().apply &#123;</span><br><span class="line">        addOnSuccessListener &#123; snapshot -&gt;</span><br><span class="line">            <span class="keyword">val</span> list = snapshot?.toObjects(Note::<span class="keyword">class</span>.java)</span><br><span class="line">            list?.forEach &#123; <span class="keyword">data</span> -&gt;</span><br><span class="line">                <span class="comment">// 使用 data 參數來讀取資料</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        addOnFailureListener &#123; error -&gt;</span><br><span class="line">            <span class="comment">// 讀取資料時發生錯誤</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="code-fdb-read-data-2"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fdbDatabase</span><br><span class="line">    .collection(ROOT_PATH)</span><br><span class="line">    .addSnapshotListener &#123; snapshot, error -&gt;</span><br><span class="line">        <span class="keyword">if</span> (error != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 讀取資料時發生錯誤</span></span><br><span class="line">            <span class="keyword">return</span><span class="symbol">@addSnapshotListener</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">val</span> list = snapshot?.toObjects(Note::<span class="keyword">class</span>.java)</span><br><span class="line">        list?.forEach &#123; <span class="keyword">data</span> -&gt;</span><br><span class="line">            <span class="comment">// 使用 data 參數來讀取資料</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div>
+
+<h3 id="遍歷資料"><a href="#遍歷資料" class="headerlink" title="遍歷資料"></a>遍歷資料</h3><p>你或許會想使用 <code>LazyColumn</code> 遍歷並顯示所有筆記的資料，以下是參考方案：</p>
+<p><span class="step" data-step="1" data-title="宣告一個可變列表"></span></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list: SnapshotStateList&lt;Pair&lt;String?, Note?&gt;?&gt; = mutableStateListOf()</span><br></pre></td></tr></table></figure>
+
+<p><span class="step" data-step="2" data-title="在獲取資料時更新列表"></span></p>
+<p>在獲取資料成功部分的程式碼中，加入以下程式碼：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">list.clear()</span><br><span class="line"><span class="keyword">for</span> (childSnapshot <span class="keyword">in</span> snapshot.children) &#123;</span><br><span class="line">    <span class="keyword">val</span> id = childSnapshot.key                        <span class="comment">// 獲取子節點的 ID</span></span><br><span class="line">    <span class="keyword">val</span> <span class="keyword">data</span> = childSnapshot.getValue(typeIndicator)  <span class="comment">// 獲取子節點的資料組</span></span><br><span class="line">    list.add(Pair(id, <span class="keyword">data</span>))                          <span class="comment">// 將 ID 和資料組成一個 Pair 並加入列表</span></span><br><span class="line">    <span class="comment">// 其他程式碼..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><span class="step" data-step="3" data-title="完成 LazyColumn 程序"></span></p>
+<p>這裏傳出的 <code>data</code> 參數屬於 <code>Pair</code> 型別，當你要獲取資料組，你需要使用 <code>data?.second</code> 獲取。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LazyColumn &#123;</span><br><span class="line">  itemsIndexed(list) &#123; index, <span class="keyword">data</span> -&gt;</span><br><span class="line">    <span class="keyword">val</span> id = <span class="keyword">data</span>?.first.toString()</span><br><span class="line">    <span class="keyword">val</span> note = <span class="keyword">data</span>?.second</span><br><span class="line">    <span class="comment">// 其他程式碼..</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/personal-icon.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/personal-icon.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">BlueWhaleYT</div><div class="post-copyright__author_desc">絢麗薔薇之紗海</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://bluewhaleyt.github.io/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes.html">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://bluewhaleyt.github.io/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes.html')">【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://bluewhaleyt.github.io/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes.html"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://bluewhaleyt.github.io" target="_blank">🐳 BlueWhaleYT</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/Kotlin/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Kotlin<span class="tagsPageCount">5</span></a></div></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/post/jetpack-compose-firebase-auth-notes.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/jetpack-compose-firebase-auth-notes/thumbnail.png" onerror="onerror=null;src='https://i.imgur.com/X9zVUFU.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【Jetpack Compose】Firebase Authentication 帳號註冊及身份驗證 | 多平台第三方登入</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/post/android-firebase-setup-notes.html" title="【Android】Firebase 專案初建及配置"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/android-firebase-setup-notes/thumbnail.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024 年 02 月 04 日</div><div class="title">【Android】Firebase 專案初建及配置</div></div></a></div><div><a href="/post/jetpack-compose-firebase-auth-notes.html" title="【Jetpack Compose】Firebase Authentication 帳號註冊及身份驗證 | 多平台第三方登入"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/jetpack-compose-firebase-auth-notes/thumbnail.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024 年 02 月 06 日</div><div class="title">【Jetpack Compose】Firebase Authentication 帳號註冊及身份驗證 | 多平台第三方登入</div></div></a></div><div><a href="/post/jetpack-compose-photo-picker-for-android-13.html" title="【Jetpack Compose】Android 13 相片挑選工具 API | 舊型裝置向後相容處理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/jetpack-compose-photo-picker-for-android-13/thumbnail.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024 年 01 月 30 日</div><div class="title">【Jetpack Compose】Android 13 相片挑選工具 API | 舊型裝置向後相容處理</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> 評論</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)" style="display: none">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://i.ibb.co/zRvn96K/personal-icon.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description">歡迎來到「BlueWhaleYT 個人網誌」。</div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">BlueWhaleYT</h1><div class="author-info__desc">絢麗薔薇之紗海</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/BlueWhaleYT" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content"> 設備: MacBook Pro Apple M2 <br> 常用軟件: VSCode / Fleet / Android Studio </div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E8%B3%87%E6%96%99%E5%BA%AB"><span class="toc-number">1.</span> <span class="toc-text">初始化資料庫</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A0%90%E5%82%99%E8%A6%81%E5%84%B2%E5%AD%98%E7%9A%84%E8%B3%87%E6%96%99%E7%B5%84"><span class="toc-number">2.</span> <span class="toc-text">預備要儲存的資料組</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E7%9A%84%E5%A2%9E%E5%88%AA%E6%9F%A5%E6%94%B9"><span class="toc-number">3.</span> <span class="toc-text">資料的增刪查改</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E8%B3%87%E6%96%99"><span class="toc-number">3.1.</span> <span class="toc-text">新增資料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%AA%E9%99%A4%E8%B3%87%E6%96%99"><span class="toc-number">3.2.</span> <span class="toc-text">刪除資料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%B3%87%E6%96%99"><span class="toc-number">3.3.</span> <span class="toc-text">修改資料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%80%E5%8F%96%E8%B3%87%E6%96%99"><span class="toc-number">3.4.</span> <span class="toc-text">讀取資料</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E6%AD%B7%E8%B3%87%E6%96%99"><span class="toc-number">3.4.1.</span> <span class="toc-text">遍歷資料</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes.html" title="【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes/thumbnail.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合"/></a><div class="content"><a class="title" href="/post/jetpack-compose-firebase-realtime-database-and-cloud-firestore-notes.html" title="【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合">【Jetpack Compose】Firebase Realtime Database 及 Firebase Cloud Firestore 初階級與企業級的資料庫整合</a><time datetime="2024-02-09T10:16:26.000Z" title="發表於 2024 年 02 月 09 日 18 時 16 分 26 秒">2024 年 02 月 09 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/jetpack-compose-firebase-auth-notes.html" title="【Jetpack Compose】Firebase Authentication 帳號註冊及身份驗證 | 多平台第三方登入"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/jetpack-compose-firebase-auth-notes/thumbnail.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="【Jetpack Compose】Firebase Authentication 帳號註冊及身份驗證 | 多平台第三方登入"/></a><div class="content"><a class="title" href="/post/jetpack-compose-firebase-auth-notes.html" title="【Jetpack Compose】Firebase Authentication 帳號註冊及身份驗證 | 多平台第三方登入">【Jetpack Compose】Firebase Authentication 帳號註冊及身份驗證 | 多平台第三方登入</a><time datetime="2024-02-06T07:16:12.000Z" title="發表於 2024 年 02 月 06 日 15 時 16 分 12 秒">2024 年 02 月 06 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/android-firebase-setup-notes.html" title="【Android】Firebase 專案初建及配置"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/android-firebase-setup-notes/thumbnail.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="【Android】Firebase 專案初建及配置"/></a><div class="content"><a class="title" href="/post/android-firebase-setup-notes.html" title="【Android】Firebase 專案初建及配置">【Android】Firebase 專案初建及配置</a><time datetime="2024-02-04T07:57:38.000Z" title="發表於 2024 年 02 月 04 日 15 時 57 分 38 秒">2024 年 02 月 04 日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/jetpack-compose-photo-picker-for-android-13.html" title="【Jetpack Compose】Android 13 相片挑選工具 API | 舊型裝置向後相容處理"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/post/jetpack-compose-photo-picker-for-android-13/thumbnail.png" onerror="this.onerror=null;this.src='https://i.imgur.com/X9zVUFU.png'" alt="【Jetpack Compose】Android 13 相片挑選工具 API | 舊型裝置向後相容處理"/></a><div class="content"><a class="title" href="/post/jetpack-compose-photo-picker-for-android-13.html" title="【Jetpack Compose】Android 13 相片挑選工具 API | 舊型裝置向後相容處理">【Jetpack Compose】Android 13 相片挑選工具 API | 舊型裝置向後相容處理</a><time datetime="2024-01-30T13:11:08.000Z" title="發表於 2024 年 01 月 30 日 21 時 11 分 08 秒">2024 年 01 月 30 日</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2024 By <a class="footer-bar-link" href="/" title="BlueWhaleYT" target="_blank">BlueWhaleYT</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" href="/null"></a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/" title="tag"><div class="headline">標籤</div><div class="length-num">3</div></a><a href="/categories/" title="category"><div class="headline">分類</div><div class="length-num">3</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="顯示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>顯示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">item1</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="item1name"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="/img/favicon.ico" alt="item1name"/><span class="back-menu-item-text">item1name</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">item2</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="item2name"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://i.imgur.com/X9zVUFU.png&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="item2name"/><span class="back-menu-item-text">item2name</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 彙整頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分類頁</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 標籤頁</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 工具</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="https://bluewhaleyt.github.io/monaco-text-compare"><i class="anzhiyufont anzhiyu-icon-file-lines faa-tada" style="font-size: 0.9em;"></i><span> 文本比較編輯器</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Bash/" style="font-size: 0.88rem;">Bash<sup>1</sup></a><a href="/tags/Java/" style="font-size: 0.88rem;">Java<sup>1</sup></a><a href="/tags/Kotlin/" style="font-size: 0.88rem; font-weight: 500; color: var(--anzhiyu-lighttext)">Kotlin<sup>5</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="簡繁轉換">繁</button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><span id="loading-status"></span><button class="search-close-button"><i class="anzhiyufont anzhiyu-icon-xmark"></i></button></nav><div class="is-center" id="loading-database"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-pulse-icon"></i><span>  資料庫載入中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜尋文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script async src="/anzhiyu/random.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const initWaline = () => {
+    const waline = Waline.init(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://personal-blog-waline.vercel.app',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: true,
+    }, null))
+  }
+
+  const loadWaline = async () => {
+    if (typeof Waline === 'object') initWaline()
+    else {
+      await getCSS('https://cdn.cbd.int/@waline/client@2.15.5/dist/waline.css')
+      await getScript('https://cdn.cbd.int/@waline/client@2.15.5/dist/waline.js')
+      initWaline()
+    }
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) anzhiyu.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script><input type="hidden" name="page-type" id="page-type" value="post"></div><script>window.addEventListener('load', () => {
+  const changeContent = content => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[圖片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[連結]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[程式碼]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${anzhiyu.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '沒有評論'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom && ($dom.innerHTML= result)
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = async () => {
+    try {
+      const res = await fetch('https://personal-blog-waline.vercel.app/api/comment?type=recent&count=6', { method: 'GET' })
+      const result = await res.json()
+      const walineArray = result.data.map(e => {
+        return {
+          'content': changeContent(e.comment),
+          'avatar': e.avatar,
+          'nick': e.nick,
+          'url': e.url + '#' + e.objectId,
+          'date': e.time || e.insertedAt
+        }
+      })
+      saveToLocal.set('waline-newest-comments', JSON.stringify(walineArray), 10/(60*24))
+      generateHtml(walineArray)
+    } catch (err) {
+      console.error(err)
+      const $dom = document.querySelector('#card-newest-comments .aside-list')
+      $dom.textContent= "無法獲取評論，請確認相關配置是否正確"
+    }
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('waline-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script src="/js/custom.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div><!-- hexo injector body_end start --><script src="https://unpkg.com/kotlin-playground@1" data-server data-version></script>
+<script>
+
+if(typeof ktpgOptions !== 'undefined'){
+    KotlinPlayground('.kotlin-code',ktpgOptions)
+}else{
+    KotlinPlayground('.kotlin-code')
+}
+window.addEventListener('pjax:complete', event => {
+    if(typeof ktpgOptions !== 'undefined'){
+        KotlinPlayground('.kotlin-code',ktpgOptions)
+    }else{
+        KotlinPlayground('.kotlin-code')
+    }
+});
+</script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
