@@ -232,6 +232,13 @@ h1,h2,h3,h4,h5,h6 {
         color: white !important;
     }
 
+    /* Table */
+    #post .table-wrap {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
 /* 即刻短文 */
 .bbTimeList * {
     pointer-events: none !important;
