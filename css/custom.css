@@ -58,6 +58,7 @@ h1,h2,h3,h4,h5,h6 {
         background: var(--anzhiyu-secondbg) !important;
         border: var(--style-border) !important;
         color: var(--d-code-foreground) !important;
+        padding: 0rem 0.4rem !important;
     }
     #article-container pre code {
         background: transparent !important;
@@ -68,6 +69,9 @@ h1,h2,h3,h4,h5,h6 {
     #article-container .highlight-tools .code-lang {
         font-size: 12px !important;
         text-transform: none !important;
+    }
+    #article-container .highlight-tools .code-lang::first-letter {
+        text-transform: uppercase !important;
     }
     #article-container .code-expand-btn.expand-done {
         transform: initial !important;
@@ -156,8 +160,9 @@ h1,h2,h3,h4,h5,h6 {
     }
 
     /* Selector */
+    #page-header ::selection,
     #blog-container ::selection {
-        background: var(--anzhiyu-main) !important;
+        background: rgb(from var(--anzhiyu-main) r g b / 0.6) !important;
     }
 
     /* Highlight Pen */
