@@ -1,12 +1,12 @@
 @font-face {
     font-family: 'MQingHua HK XBold';
-    src: url('../fonts/MQingHua\ HK\ Xbold.ttf');
+    src: url('../../fonts/MQingHua\ HK\ Xbold.ttf');
     font-weight: bold;
 }
 
 @font-face {
     font-family: 'MQingHua HK Light';
-    src: url('../fonts/MQingHua\ HK\ Light.ttf');
+    src: url('../../fonts/MQingHua\ HK\ Light.ttf');
 }
 
 @font-face {
