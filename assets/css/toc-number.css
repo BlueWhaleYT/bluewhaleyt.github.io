@@ -1,0 +1,12 @@
+/* .toc-number:not(#toc-content .toc-number) */
+#article-container .toc-number,
+#aside-content .toc .toc-item.active .toc-link.active .toc-number {
+    background: var(--efu-main);
+    color: var(--efu-background);
+    padding: 4px 15px;
+    border-radius: 5em 10em 10em 5em;
+    margin-right: 10px;
+    margin-top: -5px;
+    font-size: 0.8rem;
+    font-family: "Days One", sans-serif !important;
+}

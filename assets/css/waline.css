@@ -1,0 +1,46 @@
+[data-waline] * {
+    font-family: var(--text-font) !important;
+}
+
+.wl-content p {
+    color: var(--efu-fontcolor) !important;
+}
+
+.wl-content pre {
+    background: var(--efu-hl-bg) !important;
+    border: var(--style-border) !important;
+}
+
+.wl-content pre * {
+    border: none !important;
+    font-family: var(--code-font) !important;
+}
+
+.wl-btn.primary {
+    background: var(--efu-main) !important;
+    border-color: var(--efu-main) !important;
+}
+
+[data-waline] a {
+    color: var(--efu-main) !important;
+}
+
+.wl-sort li.active {
+    background: var(--efu-main);
+    color: var(--efu-background) !important;
+    padding: .5em 1em;
+    border-radius: .5rem;
+}
+
+.wl-card button[type="button"] {
+    background: var(--efu-secondbg);
+    padding: .5em;
+    border-radius: .5rem;
+    margin-left: 10px;
+    transition: all .3s ease;
+}
+
+.wl-card button[type="button"]:hover {
+    background: var(--efu-main);
+    color: var(--efu-background) !important;
+}

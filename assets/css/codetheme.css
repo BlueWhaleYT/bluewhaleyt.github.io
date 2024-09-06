@@ -1,0 +1,89 @@
+[data-theme='light']:root {
+    --red: #e53935;
+    --orange: #f76d47;
+    --yellow: #f6a434;
+    --green: #91b859;
+    --cyan: #39ADB5;
+    --light-blue: #39adb5;
+    --blue: #6182b8;
+    --purple: #7c4dff;
+    --grey: #AABFC9;
+    --black: #272727;
+    --error: #e53935;
+    --background: #fafafa;
+    --foreground: #90a4ae;
+}
+
+[data-theme='dark']:root {
+    --red: #f07178;
+    --orange: #f78c6c;
+    --yellow: #ffcb6b;
+    --green: #c3e88d;
+    --cyan: #80cbc4;
+    --light-blue: #89ddff;
+    --blue: #82aaff;
+    --purple: #c792ea;
+    --grey: #969896;
+    --white: #eeffff;
+    --error: #ff5370;
+    --background: #212121;
+    --foreground: #B0BEC5;
+}
+
+figure.highlight .code span.line,
+.wl-content pre * {
+    color: var(--foreground) !important;
+}
+
+figure.highlight .comment,
+figure.highlight .meta,
+figure.highlight .meta .keyword,
+.token.comment {
+    color: rgb(from var(--grey) r g b / 0.7) !important;
+}
+
+figure.highlight .name,
+figure.highlight .selector-tag {
+    color: var(--red) !important;
+}
+
+figure.highlight .tag,
+figure.highlight .language-css .attribute {
+    color: var(--cyan) !important;
+}
+
+figure.highlight .keyword,
+figure.highlight .attr,
+figure.highlight .selector-pseudo,
+.token.key.atrule {
+    color: var(--purple) !important;
+}
+
+figure.highlight .string {
+    color: var(--green) !important;
+}
+
+figure.highlight .number,
+figure.highlight .selector-class,
+figure.highlight .property,
+figure.highlight .literal {
+    color: var(--orange) !important;
+}
+
+figure.highlight .built_in,
+figure.highlight .title.function_ {
+    color: var(--blue) !important;
+}
+
+figure.highlight .punctuation,
+.token.punctuation {
+    color: var(--light-blue) !important;
+}
+
+figure.highlight .variable.language_ {
+    color: var(--yellow) !important;
+}
+
+figure.highlight .params {
+    color: var(--error) !important;
+}

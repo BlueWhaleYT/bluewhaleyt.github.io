@@ -1,0 +1,17 @@
+.colorpreview {
+    display: inline-block;
+}
+
+.colorpreview .color-box {
+    border: 2px solid var(--efu-fontcolor);
+    border-radius: 4px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-bottom: 2px;
+}
+
+.colorpreview .color-label {
+    font-family: var(--code-font);
+}

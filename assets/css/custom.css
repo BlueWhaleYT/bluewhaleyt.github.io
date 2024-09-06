@@ -1,0 +1,295 @@
+@font-face {
+    font-family: 'MQingHua HK XBold';
+    src: url('../fonts/MQingHua\ HK\ Xbold.ttf');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'MQingHua HK Light';
+    src: url('../fonts/MQingHua\ HK\ Light.ttf');
+}
+
+@font-face {
+    font-family: 'Font Awesome 6 Free';
+    src: initial;
+    font-weight: 900;
+}
+
+:root {
+    --title-font: 'Epilogue', 'MQingHua HK XBold', sans-serif;
+    --text-font: 'Epilogue', 'MQingHua HK Light', sans-serif;
+    --code-font: 'JetBrains Mono', monospace;
+    --icon-font: 'Font Awesome 6 Free';
+}
+
+a,
+p,
+span,
+li,
+ul,
+ol,
+table,
+/* div[class^="post-"],
+div[class^="aside-"],
+div[class^="author-"],
+div[class^="toc-"] { */
+div[class*="-"] {
+    font-family: var(--text-font);
+}
+
+pre,
+code,
+pre span {
+    font-family: var(--code-font);
+}
+
+body {
+    -webkit-user-select: initial !important;
+    user-select: initial !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong,
+.article-title {
+    font-family: var(--title-font) !important;
+}
+
+b,
+strong {
+    color: var(--efu-fontcolor) !important;
+}
+
+code {
+    background: var(--efu-secondbg) !important;
+    color: var(--efu-secondtext) !important;
+    border: 2px solid var(--efu-hltools-bg) !important;
+    /* padding: 0 0.15rem !important; */
+}
+
+#article-container p {
+    /* display: inline !important; */
+}
+
+#article-container a {
+    background: transparent !important;
+    border-bottom: 2px dotted var(--efu-main) !important;
+    color: var(--efu-main) !important;
+}
+
+/* #article-container a:not(a.fancybox, a.tag-Link):after {
+    content: '\f08e';
+    font-family: 'Font Awesome 6 Free';
+    display: inline-block;
+    margin: 0 5px;
+    color: rgb(from var(--efu-fontcolor) r g b / 0.35);
+    font-size: 10px;
+} */
+
+/* #article-container a:hover::after {
+    color: var(--efu-main) !important;
+} */
+
+#article-container img:not(.post_bg) {
+    border: var(--style-border-always);
+    border-width: 8px !important;
+    border-radius: 0px !important;
+    transition: all 0.3 ease;
+    margin: 0 !important;
+    max-width: initial !important;
+    width: 100% !important;
+}
+
+[data-theme="light"] #article-container img:not(.post_bg) {
+    border-color: var(--efu-hltools-bg);
+}
+
+[data-theme="dark"] #article-container img:not(.post_bg) {
+    border-color: var(--efu-secondbg);
+}
+
+#article-container img:not(.post_bg):hover {
+    border-color: var(--efu-main);
+}
+
+#article-container ul>li:not(.tab):before {
+    background: transparent;
+    border-color: var(--efu-main) !important;
+}
+
+#article-container ol>li:not(.tab):before {
+    background: var(--efu-main) !important;
+}
+
+#article-container.post-content h1 {
+    padding-right: 0 !important;
+}
+
+#article-container.post-content h2 {
+    border: none !important;
+}
+
+#article-container.post-content h5,
+#article-container.post-content h6 {
+    font-size: 1.1rem !important;
+}
+
+#article-container.post-content h1::before {
+    content: '';
+    display: block;
+    width: 100%;
+    border-top: 2px dashed rgb(from var(--efu-secondtext) r g b / 0.35);
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+#article-container.post-content h1::after {
+    content: '\f0c4';
+    color: rgb(from var(--efu-secondtext) r g b / 0.35);
+    font-family: var(--icon-font);
+    position: absolute;
+    z-index: 1;
+    display: block;
+    top: 0;
+    margin-top: 0.9em;
+    margin-left: 6em;
+    font-size: 20px;
+}
+
+#article-container.post-content :is(h2, h3, h4, h5, h6)::before {
+    content: '';
+    display: block;
+    width: 100%;
+    margin-top: 2em;
+}
+
+#article-container figure.highlight .highlight-tools {
+    position: initial;
+    background: transparent !important;
+}
+
+#article-container figure.highlight {
+    /* margin-top: 20px; */
+    margin: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#article-container figure.highlight table {
+    overflow-y: auto;
+}
+
+#article-container figure.highlight figcaption {
+    text-align: center;
+    margin-top: -30px !important;
+}
+
+#article-container figure.highlight .code-expand-btn {
+    /* position: relative; */
+    background: transparent !important;
+    bottom: initial !important;
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
+    border: none;
+}
+
+#article-container figure.highlight .highlight-tools .code-lang {
+    font-size: 16px;
+    /* text-transform: uppercase; */
+}
+
+#article-container figure.highlight .highlight-tools i {
+    padding: 0.4rem 0.3rem;
+}
+
+#article-container figure.highlight .code-expand-btn i {
+    /* animation: none !important; */
+    /* color: rgb(from var(--efu-fontcolor) r g b / 0.35); */
+}
+
+#article-container .code-expand-btn i:before {
+    content: '滾動或點擊以檢視更多程式碼' !important;
+    color: var(--hl-color) !important;
+    font-size: 16px;
+}
+
+#article-container table td, table th {
+    white-space: pre;
+}
+
+#article-container .tabs .nav-tabs {
+    justify-content: left !important;
+}
+
+#article-container .tabs>.nav-tabs>.tab.active button {
+    background: var(--efu-main) !important;
+    border: none !important;
+    color: var(--efu-background) !important;
+}
+
+#article-container .tabs>.nav-tabs>.tab button:hover {
+    border-color: var(--efu-main) !important;
+}
+
+/* .post #post-info #post-firstinfo .meta-firstline .post-meta-original {
+    display: none !important;
+} */
+
+#aside-content #card-toc .toc-content .toc-link.active,
+#aside-content .toc .toc-item.active .toc-link.active .toc-text {
+    background: var(--efu-secondbg);
+    color: var(--efu-main) !important;
+    font-family: var(--title-font) !important;
+}
+
+#aside-content #card-toc .toc-content .toc-link:not(.active) span,
+#aside-content .toc .toc-item.active .toc-link.active .toc-text {
+    white-space: nowrap !important;
+}
+
+#aside-content #card-toc .toc-content {
+    overflow-y: initial !important;
+}
+
+[data-theme=dark] #aside-content .toc .toc-item .toc-link .toc-text {
+    color: var(--efu-secondtext) !important;
+}
+
+#aside-content .item-headline {
+    padding: 8px 0;
+}
+
+#post .post-tools-right .tag_share .post-meta__tag-list .post-meta__tags .tagsPageCount,
+#tag-page-tags .tagsPageCount {
+    background: var(--efu-secondbg);
+    color: var(--efu-secondtext);
+}
+
+.snackbar-container {
+    background: var(--efu-main) !important;
+}
+
+.social-share .icon-qrcode {
+    color: var(--efu-secondtext) !important;
+    border-color: var(--efu-secondtext) !important;
+}
+
+.search-dialog #search-results .search-result-item .search-result-title:hover {
+    color: var(--efu-main);
+}
+
+@media screen and (min-width: 1300px) {
+    .recent-post-item>.recent-post-info .recent-post-info-top .article-title {
+        font-size: 1rem !important;
+    }
+}
+
+/* div[id^="monaco-editor-"] span {
+    font-family: var(--code-font) !important;
+    font-size: 16px !important;
+} */

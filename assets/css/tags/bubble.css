@@ -1,0 +1,54 @@
+.bubble-content {
+    display: inline;
+    color: var(--efu-fontcolor);
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    text-shadow: var(--bubble-text-shadow);
+    cursor: help;
+    font-family: var(--text-font);
+    font-size: 18px;
+}
+
+.bubble-content::after {
+    content: '\f05a';
+    font-family: 'Font Awesome 6 Free';
+    display: inline-block;
+    margin: 0 5px;
+    color: rgb(from var(--efu-fontcolor) r g b / 0.35);
+    font-size: 14px;
+}
+
+.bubble-content:hover {
+    transition: all 0.2s ease-in-out;
+    background: transparent !important;
+    border-bottom: 2px dotted var(--efu-main) !important;
+    color: var(--efu-main) !important;
+}
+
+.bubble-content:hover+.bubble-notation .bubble-item,
+.bubble-notation:hover .bubble-item {
+    transform: translate(-40px, 10px) rotateX(0deg);
+    transition: all 0.5s ease-in-out;
+    opacity: 1;
+}
+
+.bubble-notation {
+    display: inline-block;
+}
+
+.bubble-item {
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    z-index: 99;
+    position: absolute;
+    transform: translate(-40px, 10px) rotateX(90deg);
+    width: auto;
+    height: auto;
+    max-width: 50vw;
+    max-height: 50vh;
+    overflow-y: scroll;
+    padding: 30px 20px 20px 20px;
+    /* clip-path: polygon(5px 10px, 20px 10px, 30px 0, 40px 10px, calc(100% - 5px) 10px, 100% 15px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px), 0 15px, 5px 10px); */
+    border: var(--style-border);
+    background: var(--efu-hl-bg);
+}

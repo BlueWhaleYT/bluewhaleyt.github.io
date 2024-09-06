@@ -1,0 +1,118 @@
+:root {
+    --alert-note: var(--efu-main);
+    --alert-info: #4b7bec;
+    --alert-warning: #fd9644;
+    --alert-danger: #fc5c65;
+    --alert-success: #26de81;
+    --alert-question: #a55eea;
+} 
+
+.alertbox {
+    position: relative;
+    padding: 20px 20px 20px 32px;
+    margin: 20px 0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.alertbox::before {
+    position: absolute;
+    width: 41px;
+    height: 41px;
+    top: -13px;
+    left: -22px;
+    display: block;
+    border-radius: 50%;
+    content: "";
+    background: var(--efu-background) !important;
+}
+
+.alertbox::after {
+    position: absolute;
+    display: block;
+    top: -5px;
+    left: -16px;
+    font-size: 28px !important;
+    font: var(--fa-font-solid);
+    transition: all 0.3s ease;
+}
+
+.alertbox * {
+    margin: 0 !important;
+}
+
+li>.alertbox {
+    margin: 12px;
+}
+
+li>.alertbox::before {
+    top: -17px;
+}
+
+.alertbox.alertbox-note {
+    border-left: 4px var(--alert-note) solid;
+    background: rgb(from var(--alert-note) r g b / 0.1);
+}
+
+.alertbox.alertbox-info {
+    border-left: 4px var(--alert-info) solid;
+    background: rgb(from var(--alert-info) r g b / 0.1);
+}
+
+.alertbox.alertbox-warning {
+    border-left: 4px var(--alert-warning) solid;
+    background: rgb(from var(--alert-warning) r g b / 0.1);
+}
+
+.alertbox.alertbox-danger {
+    border-left: 4px var(--alert-danger) solid;
+    background: rgb(from var(--alert-danger) r g b / 0.1);
+}
+
+.alertbox.alertbox-success {
+    border-left: 4px var(--alert-success) solid;
+    background: rgb(from var(--alert-success) r g b / 0.1);
+}
+
+.alertbox.alertbox-question {
+    border-left: 4px var(--alert-question) solid;
+    background: rgb(from var(--alert-question) r g b / 0.1);
+}
+
+.alertbox.alertbox-note::after {
+    color: var(--alert-note);
+    content: "\f481";
+}
+
+.alertbox.alertbox-info::after {
+    color: var(--alert-info);
+    content: "\f05a";
+}
+
+.alertbox.alertbox-warning::after {
+    color: var(--alert-warning);
+    content: "\f06a";
+}
+
+.alertbox.alertbox-danger::after {
+    color: var(--alert-danger);
+    content: "\f06a";
+}
+
+.alertbox.alertbox-success::after {
+    color: var(--alert-success);
+    content: "\f058";
+}
+
+.alertbox.alertbox-question::after {
+    color: var(--alert-question);
+    content: "\f059";
+}
+
+.alertbox.alertbox-warning *:not(p, code) {
+    color: var(--alert-warning) !important;
+}
+
+.alertbox.alertbox-danger *:not(p, code) {
+    color: var(--alert-danger) !important;
+}
