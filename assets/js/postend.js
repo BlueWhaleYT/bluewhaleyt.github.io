@@ -3,6 +3,7 @@ export function postend() {
     const links = document.querySelectorAll('#article-container.post-content a');
     const postend = document.createElement('div');
     postend.classList.add('postend');
+    postend.innerHTML = '<br><br><br>';
 
     links.forEach(link => {
         const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i;
