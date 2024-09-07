@@ -31,6 +31,7 @@
 }
 
 figure.highlight .code span.line,
+figure.highlight .params,
 .wl-content pre * {
     color: var(--foreground) !important;
 }
@@ -71,7 +72,7 @@ figure.highlight .literal {
 }
 
 figure.highlight .built_in,
-figure.highlight .title.function_ {
+figure.highlight .title {
     color: var(--blue) !important;
 }
 
@@ -84,6 +85,6 @@ figure.highlight .variable.language_ {
     color: var(--yellow) !important;
 }
 
-figure.highlight .params {
+/* figure.highlight .params {
     color: var(--error) !important;
-}
+} */

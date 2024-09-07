@@ -31,15 +31,12 @@ export function tocNumber() {
         elements.forEach(element => {
             const level = isList ?
                 (Array.from(element.classList).find(cls => cls.startsWith('toc-level-')) ? parseInt(Array.from(element.classList).find(cls => cls.startsWith('toc-level-')).split('-')[2]) : 1) :
-                parseInt(element.tagName.charAt(1)); // 獲取層級
+                parseInt(element.tagName.charAt(1));
 
-            // 更新計數器
             counter[level - 1] = (counter[level - 1] || 0) + 1;
 
-            // 調用回調函數
             callback(element, level, counter);
 
-            // 重置下級計數器
             for (let i = level; i < counter.length; i++) {
                 counter[i] = 0;
             }

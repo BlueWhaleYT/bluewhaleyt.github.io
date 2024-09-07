@@ -1,11 +1,9 @@
-[data-theme="light"]:root {
-    --theme-tomato: #ff6348;
-    --theme-indigo: #5352ed;
-    --theme-light-blue: #1e90ff;
+[data-theme="light"]:root { /* 500 */
+    --theme-light-blue: #0098FF;
+    --theme-magenta: #fC115F;
 }
 
-[data-theme="dark"]:root {
-    --theme-tomato: #f66f57;
-    --theme-indigo: #8080f5;
-    --theme-light-blue: #50a1f1;
+[data-theme="dark"]:root { /* 400 */
+    --theme-light-blue: #3FBCFF;
+    --theme-magenta: #FD4C75;
 }

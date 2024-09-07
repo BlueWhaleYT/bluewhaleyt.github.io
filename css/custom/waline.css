@@ -44,3 +44,25 @@
     background: var(--efu-main);
     color: var(--efu-background) !important;
 }
+
+.wl-panel,
+.wl-editor,
+.wl-editor:hover {
+    background: var(--efu-secondbg) !important;
+}
+
+.wl-editor {
+    resize: none !important;
+}
+
+.wl-editor::placeholder {
+    color: var(--efu-secondtext) !important;
+}
+
+.wl-footer {
+    background: rgb(from var(--efu-main) r g b / 0.05);;
+    margin: 0 !important;
+    padding: .5em .75em;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+}

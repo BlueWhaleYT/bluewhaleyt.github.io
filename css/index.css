@@ -8682,10 +8682,10 @@ div#banners .bannerText {
   }
 }
 [data-theme=dark] {
-  --efu-theme: #ffc848;
-  --efu-theme-op: rgba(255,200,72,0.137);
-  --efu-theme-op-deep: rgba(255,200,72,0.867);
-  --efu-theme-none: rgba(255,200,72,0);
+  --efu-theme: #6690ff;
+  --efu-theme-op: rgba(102,144,255,0.137);
+  --efu-theme-op-deep: rgba(102,144,255,0.867);
+  --efu-theme-none: rgba(102,144,255,0);
   --efu-blue: #0084ff;
   --efu-red: #ff3842;
   --efu-pink: #d44040;
@@ -8727,11 +8727,11 @@ div#banners .bannerText {
   --efu-hltools-bg: #454a50;
 }
 [data-theme=light] {
-  --efu-theme: #425aef;
-  --efu-theme-op: rgba(66,90,239,0.137);
-  --efu-theme-op-deep: rgba(66,90,239,0.867);
+  --efu-theme: #36f;
+  --efu-theme-op: rgba(51,102,255,0.137);
+  --efu-theme-op-deep: rgba(51,102,255,0.867);
   --efu-theme-op-light: rgba(66,89,239,0.051);
-  --efu-theme-none: rgba(66,90,239,0);
+  --efu-theme-none: rgba(51,102,255,0);
   --efu-blue: #425aef;
   --efu-red: #f04a63;
   --efu-pink: #ff7c7c;
