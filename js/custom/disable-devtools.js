@@ -1,6 +1,10 @@
 export function disableDevTools() {
-    // Disable right-click
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    // Disable right-click only for desktop
+    if (!isMobile) {
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
 
     function ctrlShiftKey(e, keyCode) {
         return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);

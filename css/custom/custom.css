@@ -224,6 +224,9 @@ code {
 
 #article-container .tabs .nav-tabs {
     justify-content: left !important;
+    white-space: nowrap;
+    overflow-y: scroll;
+    flex-wrap: nowrap;
 }
 
 #article-container .tabs>.nav-tabs>.tab.active button {
@@ -254,6 +257,10 @@ code {
 
 #aside-content #card-toc .toc-content {
     overflow-y: initial !important;
+}
+
+#aside-content .card-widget.card-info .card-info-bg-top {
+    background: var(--efu-main);
 }
 
 [data-theme=dark] #aside-content .toc .toc-item .toc-link .toc-text {

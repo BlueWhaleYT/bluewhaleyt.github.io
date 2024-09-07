@@ -1,9 +1,12 @@
+const contentStart = `<br><br><br>`;
+const contentEnd = ``;
+
 export function postend() {
     const articleContainer = document.querySelector('#article-container');
     const links = document.querySelectorAll('#article-container.post-content a');
     const postend = document.createElement('div');
     postend.classList.add('postend');
-    postend.innerHTML = '<br><br><br>';
+    postend.innerHTML = `<p>${contentStart}</p>`;
 
     links.forEach(link => {
         const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i;
@@ -22,6 +25,8 @@ export function postend() {
             articleContainer.appendChild(postend);
         }
     });
+
+    postend.innerHTML += `<p>${contentEnd}</p>`;
 }
 
 function createLinkCard(link, siteTitle, siteDescription, icon) {

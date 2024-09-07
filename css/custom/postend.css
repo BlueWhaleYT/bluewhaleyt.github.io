@@ -68,5 +68,5 @@
 
 #article-container .tag-Link .tag-link-bottom i {
     margin-left: auto;
-    margin-right: 24px;
+    color: var(--efu-fontcolor);
 }
