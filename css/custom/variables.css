@@ -1,9 +1,13 @@
 [data-theme="light"]:root { /* 500 */
     --theme-light-blue: #0098FF;
+    --theme-blue: #3366FF;
     --theme-magenta: #fC115F;
+    --theme-orange: #FF5A19;
 }
 
 [data-theme="dark"]:root { /* 400 */
     --theme-light-blue: #3FBCFF;
+    --theme-blue: #6690FF;
     --theme-magenta: #FD4C75;
+    --theme-orange: #FF8F52;
 }

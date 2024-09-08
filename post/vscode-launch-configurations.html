@@ -1,0 +1,291 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>[VSCode 學習筆記] - 執行組態 | 🐳 BlueWhaleYT</title><noscript>開啟JavaScript才能訪問本站哦~</noscript><link rel="icon" href="https://i.ibb.co/zRvn96K/personal-icon.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=2.0.12"><!-- inject head--><link rel="canonical" href="http://bluewhaleyt.github.io/post/vscode-launch-configurations.html"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"><!-- aplayer--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"><!-- fancybox ui--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.36/fancybox/fancybox.min.css"><!-- katex--><!-- Open Graph--><meta name="description" content="在 VSCode 中，執行組態是用於配置調試環境的重要檔案。透過這個檔案，開發者可以設定如何啟動和調試應用程式，使得調試過程更加高效和靈活。在本文中，我們將介紹如何創建和使用執行組態。 執行組態是一個命名 launch.json 的檔案，它是 VSCode 調試配置的主要檔案，它包含了所有的調試設定"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="🐳 BlueWhaleYT"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="https://i.ibb.co/zRvn96K/personal-icon.jpg"><link rel="apple-touch-icon" href="https://i.ibb.co/zRvn96K/personal-icon.jpg" sizes="180x180"><script>console.log(' %c Solitude %c ' + '2.0.12' + ' %c https://github.com/everfu/hexo-theme-solitude',
+    'background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff',
+    'background:#ff9a9a ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff',
+    'background:unset ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff')
+</script><link rel="stylesheet" href="/css/custom/index.css" media="defer" onload="this.media='all'"><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+
+                if (name && keyObj[name]) return
+
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+            addEventListenerPjax: (ele, event, fn, option = false) => {
+              ele.addEventListener(event, fn, option)
+              utils.addGlobalFn('pjax', () => {
+                  ele.removeEventListener(event, fn, option)
+              })
+          },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":false,"path":"/search.xml"},
+    runtime: '2021-08-05 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.avif'
+    },
+    copyright: false,
+    highlight: {"limit":265,"expand":true,"copy":true,"syntax":"highlight.js"},
+    randomlink: false,
+    lang: {"theme":{"dark":"已切換至深色模式","light":"已切換至淺色模式"},"copy":{"success":"已成功複製內容至剪貼簿","error":"無法把內容複製至剪貼簿"},"backtop":"返回頂部","time":{"day":"天前","hour":"小時前","just":"剛剛","min":"分鐘前","month":"個月前"},"day":" 天","f12":"開發者模式已打開，請遵循GPL協定。","totalk":"無需刪除空行，直接輸入評論即可","search":{"empty":"找不到你查詢的內容：${query}","hit":"找到 ${hits} 條結果，用時 ${time} 毫秒","placeholder":"輸入關鍵詞快速查找","count":"共 <b>${count}<b> 條結果。"}},
+    aside: {
+        sayhello: {
+            morning: "✨ Good morning. It's a new day",
+            noon: "It's time for a midday break",
+            afternoon: "Tea time. 🍵",
+            night: "early bedtime",
+            goodnight: "Good night 😴",
+        },
+        sayhello2: ["You'll make it.","You're gonna make it.","Good luck, stranger."],
+        sayhello3: {
+            prefix: '好久不見，',
+            back: '歡迎再次回來，',
+        },
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: false,
+    lightbox: 'fancybox',
+    post_ai: false,
+    right_menu: {"mode":{"dark":"深色模式","light":"淺色模式"},"img_error":"此圖片無法複製與下載"},
+    lure: false,
+    expire: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: true,
+    ai_text: false,
+    color: 'var(--theme-light-blue)',
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="🐳 BlueWhaleYT" type="application/atom+xml">
+</head><body id="body"><!-- universe--><!-- background img--><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img nolazyload" src="https://i.ibb.co/zRvn96K/personal-icon.jpg" alt="loading image"></div></div><script>const preloader = {
+    isLoaded: false,
+    endLoading: () => {
+        if (!preloader.isLoaded) {
+            document.getElementById('loading-box').classList.add('loaded');
+            preloader.isLoaded = true;
+            preloader.togglePaceDone();
+        }
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+        preloader.isLoaded = false;
+        preloader.togglePaceDone();
+    },
+    togglePaceDone: () => {
+        document.getElementById('body').className = preloader.isLoaded ? 'pace-done' : '';
+    }
+}
+
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});
+
+setTimeout(() => {
+    preloader.endLoading();
+}, 5000);</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude fa-solid fa-xmark"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">標籤</div><div class="author-content-item-title">尋找感興趣的領域</div></div><div class="card-tag-cloud"><a href="/tags/VSCode/">VSCode<sup>2</sup></a><a href="/tags/IntelliSense/">IntelliSense<sup>2</sup></a><a href="/tags/JSON/">JSON<sup>2</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/"><span class="card-archive-list-date">2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="晝夜切換"><i class="solitude fa-solid fa-circle-half-stroke"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="側邊欄顯示控制"><i class="solitude fas fa-arrows-left-right-to-line"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分類</div><div class="length-num">1</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">標籤</div><div class="length-num">3</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude fa-solid fa-circle-half-stroke"></i><span>顯示模式</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives"><i class="solitude  fas fa-archive"></i><span>彙整</span></a></li><li><a class="site-page child" href="/categories"><i class="solitude  fas fa-clone"></i><span>分類</span></a></li><li><a class="site-page child" href="/tags"><i class="solitude  fas fa-tags"></i><span>標籤</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>工具</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/html-editor"><i class="solitude  fab fa-html5"></i><span>HTML 編輯器</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>關於</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about"><i class="solitude  fas fa-user"></i><span>關於</span></a></li><li><a class="site-page child" href="/message"><i class="solitude  fas fa-comment"></i><span>留言板</span></a></li><li><a class="site-page child" href="/essay"><i class="solitude  fas fa-heartbeat"></i><span>即時動態</span></a></li></ul></div></div><span class="sidebar-menu-item-title">標籤</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/VSCode/">VSCode<sup>2</sup></a><a href="/tags/IntelliSense/">IntelliSense<sup>2</sup></a><a href="/tags/JSON/">JSON<sup>2</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="返回網誌首頁"><span class="title">🐳 BlueWhaleYT</span><i class="solitude fa-solid fa-home"></i></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">[VSCode 學習筆記] - 執行組態</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives"><i class="solitude  fas fa-archive"></i><span>彙整</span></a></li><li><a class="site-page child" href="/categories"><i class="solitude  fas fa-clone"></i><span>分類</span></a></li><li><a class="site-page child" href="/tags"><i class="solitude  fas fa-tags"></i><span>標籤</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>工具</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/html-editor"><i class="solitude  fab fa-html5"></i><span>HTML 編輯器</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>關於</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about"><i class="solitude  fas fa-user"></i><span>關於</span></a></li><li><a class="site-page child" href="/message"><i class="solitude  fas fa-comment"></i><span>留言板</span></a></li><li><a class="site-page child" href="/essay"><i class="solitude  fas fa-heartbeat"></i><span>即時動態</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button"><a class="site-page" href="/" onclick="sco.switchDarkMode()" title=""><i class="solitude fas fa-circle-half-stroke"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜尋"><i class="solitude fa-solid fa-magnifying-glass"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="主控台" href="javascript:void(0);"><label><i class="left"></i><i class="center"></i><i class="right"></i></label></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude fa-solid fa-arrow-up"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude fa-solid fa-bars"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="/img/default.avif" alt="[VSCode 學習筆記] - 執行組態"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="該文章為原創文章，注意版權協議">原創</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/">學習筆記</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/VSCode/"><span class="tags-name tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>VSCode</span></a><a class="post-meta__tags" href="/tags/IntelliSense/"><span class="tags-name tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>IntelliSense</span></a><a class="post-meta__tags" href="/tags/JSON/"><span class="tags-name tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>JSON</span></a></div></div></div></div><h1 class="post-title">[VSCode 學習筆記] - 執行組態</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="發布於 2024-01-08 10:24:46"><i class="post-meta-icon solitude fa-solid fa-calendar-days"></i><time datetime="2024-01-08T02:24:46.000Z">2024-01-08T02:24:46.000Z</time></span><span class="post-meta-date" title="最後更新於 2024-09-08 10:38:48"><i class="post-meta-icon solitude fa-solid fa-arrow-rotate-right"></i><time datetime="2024-09-08T02:38:48.198Z">2024-09-08T02:38:48.198Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon solitude fa-solid fa-file-word" title="文章字數"></i><span class="word-count">1.1k</span><span class="post-meta-separator"></span><i class="post-meta-icon solitude fa-solid fa-clock" title="閱讀耗時"></i><span>4 min</span></span><span class="post-meta-commentcount" title="評論數" onclick="sco.scrollTo('post-comment')"><i class="solitude fa-solid fa-comment"></i><a href="/post/vscode-launch-configurations.html#post-comment"><span class="waline-comment-count"><i class="solitude fa-solid fa-spinner"></i></span></a></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在 VSCode 中，執行組態是用於配置調試環境的重要檔案。透過這個檔案，開發者可以設定<strong>如何啟動和調試應用程式</strong>，使得調試過程更加高效和靈活。在本文中，我們將介紹如何創建和使用執行組態。</p>
+<p>執行組態是一個命名 <code>launch.json</code> 的檔案，它是 VSCode 調試配置的主要檔案，它包含了所有的調試設定，包括要調試的程式、執行的參數、工作目錄等。使用這個檔案，開發者可以輕鬆定義不同的調試環境，並根據需要進行切換。</p>
+<h1 id="創建執行組態"><a href="#創建執行組態" class="headerlink" title="創建執行組態"></a>創建執行組態</h1><p>開啟 VSCode，於左側選單列中選取「執行與偵錯」，然後再按「建立 launch.json 檔案」。</p>
+<p><img src="/post/vscode-launch-configurations/img1.png" alt="建立 launch.json 檔案"></p>
+<p>它會要求你選用哪一個偵錯工具，請依照你的項目需求而決定，在本文中，我們會使用 Node.js 作為範例。</p>
+<p><img src="/post/vscode-launch-configurations/img2.png" alt="選用偵錯工具"></p>
+<p>然後它會自動開啟了 <code>launch.json</code> 檔案，你可以在右下角點擊「新增組態」來新增內建通用的組態項。</p>
+<p><img src="/post/vscode-launch-configurations/img3.png" alt="新增內建組態項"></p>
+<p>它會在自動補全選單中顯示可用的組態項，這裏你可見它內建一些 Node.js 的組態項：</p>
+<p><img src="/post/vscode-launch-configurations/img4.png" alt="在自動補全選單中選用組態項"></p>
+<h1 id="編寫執行組態"><a href="#編寫執行組態" class="headerlink" title="編寫執行組態"></a>編寫執行組態</h1><p>現在試試編寫一個簡單的組態項，這個組態項會先啟動終端機，並新增新的會話，然後在當前會話中執行初始化 NPM 的指令。</p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"version"</span><span class="punctuation">:</span> <span class="string">"0.2.0"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"configurations"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"node-terminal"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Initialize NPM"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"npm init -y"</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<div class="alertbox alertbox-info"><p>如果你想創建全域的執行組態，你需要在 <code>settings.json</code> 檔案中編寫組態項。</p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">"launch"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"version"</span><span class="punctuation">:</span> <span class="string">"0.2.0"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"configurations"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure></div>
+
+<p>一旦新增了組態項，你可以在「執行與偵錯」控制板中的下拉式選單，找出剛才所建立的組態項，當你想執行當前下拉式選單選擇的組態項，你可以按旁邊的「▷」按鈕執行。</p>
+<p><img src="/post/vscode-launch-configurations/img5.png" alt="在「執行與偵錯」控制板中找出組態項"></p>
+<h2 id="設置輸入元素"><a href="#設置輸入元素" class="headerlink" title="設置輸入元素"></a>設置輸入元素</h2><p>在組態 <code>configurations</code> 區域外，可新增 <code>inputs</code> 區域，這個區域用於設置輸入元素，然後可透過 <code>${input:id}</code> 語法來擷取該值。</p>
+<h3 id="輸入文字"><a href="#輸入文字" class="headerlink" title="輸入文字"></a>輸入文字</h3><p>例如，當要編寫一個安裝 NPM 套件的組態項時，我們需要提供一個輸入框讓用戶輸入套件名稱，從而能夠成功安裝，這時候就需要使用 <code>promptString</code> 類型元素，這類型用於輸入文字。</p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"version"</span><span class="punctuation">:</span> <span class="string">"0.2.0"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"inputs"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"id"</span><span class="punctuation">:</span> <span class="string">"packageName"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"promptString"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"description"</span><span class="punctuation">:</span> <span class="string">"Enter the package name"</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"configurations"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Install NPM package"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"node-terminal"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"npm i ${input:packageName}"</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/post/vscode-launch-configurations/img6.png" alt="輸入套件名稱"></p>
+<h3 id="加入選項"><a href="#加入選項" class="headerlink" title="加入選項"></a>加入選項</h3><p>有時候，當我們需要用戶選擇某些選項，例如繼續以安裝 NPM 套件為例，我們可以新增選項，決定要以生產模式還是開發模式來安裝，我們會用 <code>pickString</code> 類型元素。</p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"version"</span><span class="punctuation">:</span> <span class="string">"0.2.0"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"inputs"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"id"</span><span class="punctuation">:</span> <span class="string">"packageType"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"pickString"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"description"</span><span class="punctuation">:</span> <span class="string">"Choose the package type"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"options"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"--save"</span><span class="punctuation">,</span> </span><br><span class="line">        <span class="string">"--save-dev"</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"configurations"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Install NPM package"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"node-terminal"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"npm i ${input:packageName} ${input:packageType}"</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/post/vscode-launch-configurations/img7.png" alt="選擇套件安裝類型"></p>
+<h2 id="設置複合組態"><a href="#設置複合組態" class="headerlink" title="設置複合組態"></a>設置複合組態</h2><p>我們可以在 <code>compounds</code> 區域內設置現有組態，這個複合組態會<strong>一併執行多個組態項</strong>。例如，我們可以利用這個功能初始化一個 React 項目。</p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"version"</span><span class="punctuation">:</span> <span class="string">"0.2.0"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"configurations"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Initialize NPM"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"node-terminal"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"npm init -y"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"presentation"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"hidden"</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">      <span class="punctuation">}</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Install React"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"node-terminal"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"npm i react react-dom"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"presentation"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"hidden"</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">      <span class="punctuation">}</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Create React App"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"node-terminal"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"npx create-react-app my-app"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"presentation"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"hidden"</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">      <span class="punctuation">}</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"compounds"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Initialize and Create React App"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"configurations"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"Initialize NPM"</span><span class="punctuation">,</span> </span><br><span class="line">        <span class="string">"Install React"</span><span class="punctuation">,</span> </span><br><span class="line">        <span class="string">"Create React App"</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<div class="alertbox alertbox-note"><p>你可以為組態項內的 <code>presentation</code> 加入 <code>hidden</code> 屬性，來設置該組態項隱藏與否，這會影響到下拉式選單的顯示。</p>
+</div>
+
+<p><img src="/post/vscode-launch-configurations/img8.gif" alt="一鍵創建 React 項目"></p>
+<h2 id="考慮不同操作系統"><a href="#考慮不同操作系統" class="headerlink" title="考慮不同操作系統"></a>考慮不同操作系統</h2><p>需知道操作系統有許多種，如 Windows、Linux 及 macOS 等，而許多時候，安裝套件的指令碼也是不同的，因為有些操作系統倚賴套件管理器，如果這個<strong>組態檔案不是只給自己使用的話，那你需要考慮不同操作系統</strong>的情況。</p>
+<p>例如安裝 Node.js，撇除使用預安裝程序下，不同操作系統透過指令碼安裝都不同，如下：</p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Install Node.js"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"node-terminal"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"windows"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">    <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"choco install nodejs"</span></span><br><span class="line">  <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"linux"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">    <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"sudo apt-get install nodejs"</span></span><br><span class="line">  <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"osx"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">    <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"brew install nodejs"</span></span><br><span class="line">  <span class="punctuation">}</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure></article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="https://i.ibb.co/zRvn96K/personal-icon.jpg"></a><div class="post-copyright__author_name">🐳 BlueWhaleYT</div><div class="post-copyright__author_desc">程式薔薇の領域</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="social-share"><a class="social-share-ico icon-twitter" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fbluewhaleyt.github.io%2Fpost%2Fvscode-launch-configurations.html&amp;text=%5BVSCode%20%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98%5D%20-%20%E5%9F%B7%E8%A1%8C%E7%B5%84%E6%85%8B" title="分享到Twitter"><i class="solitude fab fa-twitter"></i></a><a class="social-share-ico icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fbluewhaleyt.github.io%2Fpost%2Fvscode-launch-configurations.html" title="分享到Facebook"><i class="solitude fab fa-facebook"></i></a><a class="social-share-ico icon-telegram" target="_blank" rel="noopener" href="https://t.me/share/url?url=http%3A%2F%2Fbluewhaleyt.github.io%2Fpost%2Fvscode-launch-configurations.html&amp;text=%5BVSCode%20%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98%5D%20-%20%E5%9F%B7%E8%A1%8C%E7%B5%84%E6%85%8B" title="分享到Telegram"><i class="solitude fab fa-telegram"></i></a><a class="social-share-ico icon-whatsapp" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?text=%5BVSCode%20%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98%5D%20-%20%E5%9F%B7%E8%A1%8C%E7%B5%84%E6%85%8B http%3A%2F%2Fbluewhaleyt.github.io%2Fpost%2Fvscode-launch-configurations.html" title="分享到WhatsApp"><i class="solitude fab fa-whatsapp"></i></a><div class="social-share-ico icon-link" onclick="utils.copy(&quot;http://bluewhaleyt.github.io/post/vscode-launch-configurations.html&quot;)" title="複製文章鏈結"><i class="solitude fas fa-link"></i></div><div class="social-share-ico icon-qrcode" title="使用手機掃描二維碼閱讀這篇文章"><i class="solitude fas fa-qrcode"></i><div class="share-main"><div class="share-main-all"><div id="qrcode"></div><div class="reward-dec">使用手機掃描二維碼閱讀這篇文章</div></div></div><script pjax>typeof QRCode === 'function' && new QRCode(document.getElementById("qrcode"), 'http://bluewhaleyt.github.io/post/vscode-launch-configurations.html');
+window.addEventListener('DOMContentLoaded', () => {
+    new QRCode(document.getElementById("qrcode"), 'http://bluewhaleyt.github.io/post/vscode-launch-configurations.html');
+});
+</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原創文章，採用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>協議，完整轉載請註明來自<a href="/">🐳 BlueWhaleYT</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/VSCode/"><span class="tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>VSCode<span class="tagsPageCount">2</span></span></a><a class="post-meta__tags" href="/tags/IntelliSense/"><span class="tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>IntelliSense<span class="tagsPageCount">2</span></span></a><a class="post-meta__tags" href="/tags/JSON/"><span class="tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>JSON<span class="tagsPageCount">2</span></span></a></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="next-post pull-full"><a href="/post/vscode-snippets.html"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">[VSCode 學習筆記] - 程式碼片段</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="solitude fa-solid fa-star"></i><span>喜歡這篇文章的人也看了</span><div class="relatedPosts-link"><a onclick="event.preventDefault(); toRandomPost();" href="javascript:void(0);" rel="external nofollow" data-pjax-state="">隨便逛逛</a></div></div><div class="relatedPosts-list"><div><a href="/post/vscode-snippets.html" title="[VSCode 學習筆記] - 程式碼片段"><img class="cover" src="/img/default.avif" alt="cover"><div class="content is-center"><div class="title">[VSCode 學習筆記] - 程式碼片段</div></div></a></div></div></div><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="solitude fa-solid fa-comment"></i><span> 評論</span><span class="count"> (<span class="waline-comment-count"><i class="solitude fa-solid fa-spinner"></i></span>)</span></div></div><div class="comment-wrap"><div id="waline-wrap"></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-bg-top"><div class="is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div></div><a class="card-info-avatar" href="/about/" title="頭像"><div class="avatar-img"><img src="https://i.ibb.co/zRvn96K/personal-icon.jpg" alt="頭像"></div></a><div class="card-info__desc_group"><div class="author-info__name">BlueWhaleYT</div><div class="author-info__desc">程式薔薇の領域</div><div class="card-info__data is-center"><a href="/archives/" title="累計文章數:2"><div class="length-num">2</div><div class="headline">文章</div></a><a href="/tags/" title="標籤總數:3"><div class="length-num">3</div><div class="headline">標籤</div></a><a href="/categories/" title="分類總數:1"><div class="length-num">1</div><div class="headline">分類</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT" title="Github"><i class="solitude  fab fa-github"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://codepen.io/bluewhaleyt" title="Codepen"><i class="solitude  fab fa-codepen"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude fa-solid fa-bars"></i><span>文章目錄</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%B5%E5%BB%BA%E5%9F%B7%E8%A1%8C%E7%B5%84%E6%85%8B"><span class="toc-text">創建執行組態</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B7%A8%E5%AF%AB%E5%9F%B7%E8%A1%8C%E7%B5%84%E6%85%8B"><span class="toc-text">編寫執行組態</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A8%AD%E7%BD%AE%E8%BC%B8%E5%85%A5%E5%85%83%E7%B4%A0"><span class="toc-text">設置輸入元素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BC%B8%E5%85%A5%E6%96%87%E5%AD%97"><span class="toc-text">輸入文字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E5%85%A5%E9%81%B8%E9%A0%85"><span class="toc-text">加入選項</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A8%AD%E7%BD%AE%E8%A4%87%E5%90%88%E7%B5%84%E6%85%8B"><span class="toc-text">設置複合組態</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%80%83%E6%85%AE%E4%B8%8D%E5%90%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B1"><span class="toc-text">考慮不同操作系統</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude fa-solid fa-map"></i><span>最近發佈</span></div><div class="aside-list"><a class="aside-list-item" href="/post/vscode-launch-configurations.html" title="[VSCode 學習筆記] - 執行組態"><div class="thumbnail"><img alt="[VSCode 學習筆記] - 執行組態" src="/img/default.avif"></div><div class="content"><span class="title" href="/post/vscode-launch-configurations.html" title="[VSCode 學習筆記] - 執行組態">[VSCode 學習筆記] - 執行組態</span><span class="article-recent_post_categories" href="/post/vscode-launch-configurations.html">學習筆記</span></div></a><a class="aside-list-item" href="/post/vscode-snippets.html" title="[VSCode 學習筆記] - 程式碼片段"><div class="thumbnail"><img alt="[VSCode 學習筆記] - 程式碼片段" src="/img/default.avif"></div><div class="content"><span class="title" href="/post/vscode-snippets.html" title="[VSCode 學習筆記] - 程式碼片段">[VSCode 學習筆記] - 程式碼片段</span><span class="article-recent_post_categories" href="/post/vscode-snippets.html">學習筆記</span></div></a></div></div></div></div></main><footer id="footer"><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com/BlueWhaleYT" title="Github"><i class="solitude  fab fa-github"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://codepen.io/bluewhaleyt" title="Codepen"><i class="solitude  fab fa-codepen"></i></a><div class="nolazyload footer_mini_logo" id="footer_mini_logo" title="返回頂部" onclick="sco.toTop()"><img src alt="返回頂部"></div></div><div id="st-footer"><div class="footer-group"><h3 class="footer-title">頁面</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="彙整">彙整</a><a class="footer-item" href="/categories/" title="分類">分類</a><a class="footer-item" href="/tags/" title="標籤">標籤</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2021 - 2024 By&nbsp;<a class="footer-bar-link" href="/">BlueWhaleYT</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" href="/atom.xml" alt="RSS">RSS</a><a class="footer-bar-link" href="/sitemap.xml" alt="網站地圖">網站地圖</a><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/everfu/hexo-theme-solitude" alt="主題">主題</a></div></div></div></footer></div><!-- right_menu--><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="solitude fa-solid fa-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="solitude fa-solid fa-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="solitude fa-solid fa-arrow-rotate-right"></i></div><div class="rightMenu-item" id="menu-top"><i class="solitude fa-solid fa-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="solitude fa-solid fa-clone"></i><span>複製選中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="solitude fa-solid fa-clipboard"></i><span>貼上文本</span></div><div class="rightMenu-item" id="menu-commenttext"><i class="solitude fa-solid fa-comment-medical"></i><span>引用到評論</span></div><div class="rightMenu-item" id="menu-newwindow"><i class="solitude fa-regular fa-window-maximize"></i><span>新窗口打開</span></div><div class="rightMenu-item" id="menu-copylink"><i class="solitude fa-solid fa-link"></i><span>複製鍵接</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="solitude fa-solid fa-clone"></i><span>複製此圖片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="solitude fa-solid fa-cloud-arrow-down"></i><span>下載此圖片</span></div><div class="rightMenu-item" id="menu-search"><i class="solitude fa-solid fa-magnifying-glass"></i><span>站內搜索</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><div class="rightMenu-item" onclick="sco.switchHideAside()||rm.hideRightMenu()"><i class="solitude fas fa-mattress-pillow"></i><span>側邊欄</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><div class="rightMenu-item" id="menu-darkmode" onclick="sco.switchDarkMode()"><i class="solitude fa-solid fa-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></div></div></div><div id="rightmenu-mask"></div><!-- inject body--><div><script src="/js/utils.js?v=2.0.12"></script><script src="/js/main.js?v=2.0.12"></script><script src="/js/third_party/waterfall.min.js?v=2.0.12"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.36/fancybox/fancybox.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.4.0/color-thief.min.js"></script><script src="/js/covercolor/local.js?v=2.0.12"></script><script src="/js/right_menu.js?v=2.0.12"></script><script src="/js/custom/index.js" type="module" defer></script><div class="js-pjax"><script>(() => {
+    let walineInitFunction = window.walineFn || null
+
+    function initWaline(initFn) {
+        const walineOptions = {
+            el: '#waline-wrap',
+            serverURL: 'https://hexo-blog-waline.vercel.app',
+            pageview: true,
+            dark: 'html[data-theme="dark"]',
+            path: window.location.pathname,
+            comment: true,
+            ...null
+        }
+        const walineInstance = initFn(walineOptions)
+        utils.addGlobalFn('pjax', () => walineInstance.destroy(), 'destroyWaline')
+        GLOBAL_CONFIG.lightbox && utils.lightbox(document.querySelectorAll('#comment .wl-content img:not(.wl-emoji)'))
+        sco.owoBig({
+            body: '.wl-emoji-popup',
+            item: '.wl-tab-wrapper button'
+        })
+    }
+
+    async function loadWaline() {
+        if (walineInitFunction) initWaline(walineInitFunction)
+        else {
+            await utils.getCSS('https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.0/waline.min.css')
+            const {init} = await import('https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.0/waline.min.js')
+            walineInitFunction = init || Waline.init
+            initWaline(walineInitFunction)
+            window.walineFn = walineInitFunction
+        }
+        false && barrageWaline()
+    }
+
+    if (true || false) {
+        if (false) utils.loadComment(document.getElementById('waline-wrap'), loadWaline)
+        else loadWaline()
+    } else window.loadTwoComment = loadWaline
+})()
+</script><script>mermaid.run();</script></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><button class="search-close-button"><i class="solitude fa-solid fa-xmark"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="輸入關鍵詞快速查找"></div><div id="search-results"><div id="search-hits"></div></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/search/local.js?v=2.0.12"></script><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["post/vscode-launch-configurations.html","post/vscode-snippets.html"];function toRandomPost(){ pjax.loadUrl(GLOBAL_CONFIG.root+posts[Math.floor(Math.random()*posts.length)]); }</script>

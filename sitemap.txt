@@ -1,7 +1,9 @@
+http://bluewhaleyt.github.io/post/vscode-launch-configurations.html
+http://bluewhaleyt.github.io/about/index.html
+http://bluewhaleyt.github.io/essay/index.html
+http://bluewhaleyt.github.io/message/index.html
 http://bluewhaleyt.github.io/post/vscode-snippets.html
 http://bluewhaleyt.github.io/html-editor/index.html
-http://bluewhaleyt.github.io/essay/index.html
-http://bluewhaleyt.github.io/about/index.html
 http://bluewhaleyt.github.io/
 http://bluewhaleyt.github.io/tags/VSCode/
 http://bluewhaleyt.github.io/tags/IntelliSense/
